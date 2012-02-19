@@ -124,6 +124,7 @@ def spider(url_list):
     spider_runner = GSpider(spider, workers_count=1, debug=debug)
     spider_runner.start()
 
+    global QUESTION_ID_SET
     QUESTION_ID_SET = tuple(QUESTION_ID_SET)
     with open("question_id.py","w") as question:
         question.write("QUESTION_ID_SET = ")

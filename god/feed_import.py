@@ -33,7 +33,7 @@ def _dumps_feed(feed):
         tag_id_list = filter(bool,feed.tag_id_list.split(' '))
         tag_id_list = list(
             zip(
-                [ i.name for i in Zsite.mc_get_list(tag_id_list) ], 
+                [ i.name for i in Zsite.mc_get_list(tag_id_list) if i is not None], 
                 tag_id_list
             )
         )
@@ -62,9 +62,10 @@ class FeedImportShow(Base):
         sync = self.get_argument('sync', None)
         author_rm = self.get_argument('author_rm', None)
         tag_id_list = self.get_argument('tag_id_list', '')
+        cid = self.get_argument('cid',None)
 
         current_user_id = self.current_user_id
-        feed_review(id,  title, txt, tag_id_list,current_user_id, author_rm, sync)
+        feed_review(id,  cid, title, txt, tag_id_list,current_user_id, author_rm, sync)
 
         self.get()
 

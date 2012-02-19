@@ -86,7 +86,7 @@ def htm2txt(htm):
                     s = soup2txt_recursion(i)
                     ss = s.rstrip()
 
-                    href = i.get('href')
+                    href = i.get('href') or ''
                     if href not in ss:
                         li.append(ss)
                         if href and href.startswith('http') and href != ss:

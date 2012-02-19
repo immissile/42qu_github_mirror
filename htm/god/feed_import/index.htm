@@ -3,6 +3,7 @@
 from yajl import dumps
 from cgi import escape
 from model.douban import is_rt_by_title
+from model.rec_read import REDIS_REC_CID_TUPLE
 %>
 <%def name="htm_head()">
 ${css.god_feed_import|n}
@@ -17,6 +18,16 @@ ${result|n}
     <input id="title" name="title" type="text" value="${title}" >
     <textarea id="txt" name="txt">{{html txt}}</textarea>
 
+    </%text>
+<div class="redis_cid c">
+    % for id,name in REDIS_REC_CID_TUPLE:
+    <span>
+        <input type="radio" name="cid"  value="${id}" id="cid${id}"><label for="cid${id}">${name}</label><br>
+    </span>
+    % endfor
+</div>
+
+<%text>
 <div>
     <label for="tag_id_list">标签</label>
     <input id="tag_id_list" name="tag_id_list" type="text" value="${tag_id_list}" >

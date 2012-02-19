@@ -21,6 +21,18 @@ $(function(){
         $.postJSON('/feed_import/rm',post_data ,refresh_data);
         auto_height();
     });
+
+    $("#okbtn").click(function(){
+            if($("input:radio:checked").val()){
+            var post_data = $("#editform").serialize();
+            $("#editwrapper").html($("#render_txt").tmpl(data));
+            $.postJSON('/feed_import/next',post_data ,refresh_data);
+                auto_height();
+            }else{
+            alert("请选择类型");
+            }
+    });
+
     auto_height();
     autocomplete_tag("#tag_id_list", data.tag_id_list)
 });

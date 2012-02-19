@@ -26,7 +26,7 @@ class Fetch(object):
         self._pos = 0
         self.sleep = sleep
         self.cache_valid = cache_valid
-    
+
     @property
     def headers(self):
         _headers = self._headers
@@ -41,12 +41,12 @@ class Fetch(object):
         if type(url) is dict:
             _url = url['url']
             if 'data' in url:
-                key = "%s?%s"%(_url, url['data'])
+                key = '%s?%s'%(_url, url['data'])
             url = _url
         return key, url
 
     def cache_get(self, url):
-        key,url = self._key(url)
+        key, url = self._key(url)
 
         cache_dir = path.join(
             self.cache, urlparse.urlparse(url).hostname

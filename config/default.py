@@ -53,6 +53,8 @@ def prepare(o):
 #        10001637, #陶紫旺
     ))
 
+    o.ZSITE_DOUBAN_ID = 10216239
+
     o.SITE_DOMAIN = '42qu.test'
     o.SITE_NAME = '42区'
     o.PORT = 6666
@@ -179,7 +181,7 @@ def finish(o):
     o.RPC_URL = '//RPC.%s' % o.SITE_DOMAIN
     o.RPC_HTTP = 'http:%s' % o.RPC_URL
 
-    o.DUMPLICATE_DB_PREFIX = '%s/%s.dumplicate.%%s.kch'%(o.FILE_PATH , o.SITE_DOMAIN)
+    o.DUMPLICATE_DB_PREFIX = '%s/dumplicate.%s.%%s.kch'%(o.ZDATA_PATH , o.SITE_DOMAIN)
     o.SENDER_NAME = o.SITE_DOMAIN
 
     HTM_PATH = join(_env.PREFIX, 'htm')
@@ -218,6 +220,14 @@ def finish(o):
             'tables': DB_GOOGLE_TABLE,
         },
     }
+
+    if o.DEBUG:
+        import logging
+        logging.basicConfig(
+            level=logging.DEBUG,
+            format='%(message)s\n',
+            datefmt='%H:%M:%S',
+        )
     return o
 
 def load(self, *args):

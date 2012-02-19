@@ -204,65 +204,20 @@ def zsite_name_id_dict(id_set):
 #                  )
 
 if __name__ == '__main__':
+    pass
     #zsite_name_rm(10017321)
     #print zsite_user_verify_count()
+#    from zweb.orm import ormiter
+#    from model.ico import  pic_url, ico_save, picopen
+#    from os.path import exists
+#    from model.cid import CID_TAG
+#    from collections import defaultdict
     from zweb.orm import ormiter
     from model.ico import  pic_url, ico_save, picopen
     from os.path import exists
     from model.cid import CID_TAG
     from collections import defaultdict
 
-    s = """
-10224683
-10227234
-10220747  
-10229490
-10222872 
-10234207
-10228073
-10225013
-10222872
-10224219 
-10230580  
-10222518 
-10227189 
-10234107
-10223262
-10228974
-10221372
-10227947
-10225206
-10226001
-10225740
-10226740
-10232009
-10229765
-10231270
-10226740
-10229670
-10226642
-10224979
-10229349
-10227178
-10221667
-10229154
-10232474
-10228073
-10224287
-10220983
-10233271
-10226102
-10227020
-10221762
-10224057
-10229783
-10221965""".strip()
-
-    s = map(int,s.split("\n"))
-
-    print s
-    for i in s:
-        Zsite.where(id=i).delete()
 
     #id = 10224057
   #  id = 10232186 
@@ -274,168 +229,40 @@ if __name__ == '__main__':
 #    s = """10228391 Django / 框架 -->> Django
 #10229276 Express / 框架 -->> Express
 #
-#10221720 索尼爱立信 / Sony Ericsson -->> x
-#10229578 索爱 / Sony Ericsson -->> 索尼爱立信 / Sony Ericsson / 索爱
 #
-#10226590 拉拉 / lesbian -->> 拉拉 / 蕾丝边 / lesbian 
-#10233537 Lesbian -->> x
+#    s = map(int,s.split("\n"))
 #
-#10232779 LEGO -->> x
-#10233139 乐高 / LEGO -->> 
-#
-#10223165 新蛋网 / Newegg -->> 新蛋 / Newegg 
-#10232928 Newegg -->> x
-#
-#10231103 Android / 操作系统 -->> Android / 安卓
-#10234061 iQQ / 操作系统 -->> iQQ
-#
-#10221959 康泰纳仕 / Conde Nast -->> 
-#10228320 Conde Nast -->> x
-#
-#10222435 Eric Schmidt -->> x
-#10231156 埃里克·施密特 / Eric Schmidt -->> 
-#
-#10221528 工商管理硕士 / MBA -->> 
-#10230864 MBA -->> x
-#
-#10222458 GIS / 地理信息系统 -->> 
-#10232868 GIS -->> x
-#
-#10221952 愤怒的小鸟 / Angry Birds -->> 
-#10231718 Angry Birds -->> x
-#
-#10222432 中国国际数码互动娱乐产品及技术应用展览会 / ChinaJoy -->> 
-#10226839 Chinajoy -->> x
-#
-#10222562 音乐播放器 / 硬件 -->> 音乐播放器
-#10224057 产品设计 / 硬件 -->> 产品设计 / Product Design
-#
-#10222186 mfc sdk  c/c++ -->> mfc / sdk
-#10227358 C / C++ -->> C & C++
-#10230686 C++ -->> x
-#
-#10221390 三国志  -->> 
-#10223964 三国志 / 史书 -->> x
-#
-#10224219 Color  -->> Color / 颜色
-#10228494 Color -->> x
-#
-#10232103 Nikon -->> x
-#10233608 尼康 / Nikon -->> 
-#
-#10223150 MOTO Defy  / ME525/MB525 -->> MOTO Defy / 摩托罗拉 Defy
-#10223288 ME525 -->> x
-#
-#10220771 Java 虚拟机 / JVM -->> 
-#10224387 Java 虚拟机 -->> x
-#
-#10228073 本格 / 推理小说流派 -->> 本格 / 新本格 / 推理小说 / 侦探小说
-#10231417 新本格 / 推理小说流派 -->> x
-#
-#10224601 App Store -->> x
-#10232016 软件商店 / App Store -->> 
-#
-#10221852 键盘 / 计算机 -->> 键盘
-#10227476 键盘 / 乐器 -->> x
-#
-#10220920 亚马逊软件商店 / Android -->> 亚马逊软件商店 / Android软件商店 / Android App Store
-#10231103 Android / 操作系统 -->> Android / 安卓
-#
-#10222979 How To -->> x
-#10224695 如何 / How To -->> 
-#
-#10224063 Fancy -->> Fancy
-#10228451 Fancy / 网站 -->> x
-#
-#10227757 苹果 / 水果 -->> x
-#
-#10223867 Jonathan Ive -->> x
-#10232890 乔纳森·艾弗 / Jonathan Ive -->> 
-#
-#10227476 键盘 / 乐器 -->> 键盘 / keyboard
-#10231052 笛 / 乐器 -->> 笛 / 笛子
-#
-#10225548 魔兽世界 / World of Warcraft / WOW -->> 
-#10233973 WOW -->> x
-#
-#10227124 谷歌公司 / Google -->> 谷歌 / Google
-#10233600 Google -->> x
-#
-#10223039 Readability -->> x
-#10231499 可读性 / Readability -->> 
-#
-#10225244 互联网数据中心 / IDC -->> 
-#10231479 IDC -->> x
-#
-#10220913 CFD -->> x
-#10233487 计算流体力学 / CFD -->> 
-#
-#10228703 扎客 / Zaker -->> 
-#10233753 Zaker -->> x
-#
-#10228451 Fancy / 网站 -->> Fancy
-#10231910 下厨房 / 网站 -->> 下厨房
-#
-#10221035 优衣库 / UNIQLO -->> 
-#10229280 Uniqlo -->> x
-#
-#10227358 C / C++ -->> C & C++
-#10234409 C  -->> x
-#
-#10225242 VJIA / V+ -->> x
-#10232002 V+ / 凡客诚品旗下 -->> 凡客诚品 &VJIA
-#
-#10225384 宜家家居 / IKEA -->> x
-#10228882 宜家 / IKEA -->> 宜家 / IKEA
-#
-#10222562 音乐播放器 / 硬件 -->> x
-#10226329 音乐播放器  -->> 
-#
-#10221168 联邦快递 / FedEx -->> 
-#10222735 FedEx -->> x
-#
-#10230261 Java  -->> 
-#10231395 Swing / Java -->> Swing
-#
-#10229286 高清 / HD -->> 
-#10231825 HD -->> x"""
-#
-#    s = s.split('\n')
+#    print s
 #    for i in s:
-#        if not i.strip():
-#            continue
-#        i, x = i.split('-->>')
-#        id = i.split(' ')[0]
-#        if x.endswith(' x'):
-#            Zsite.where(id=id).delete()
-#        elif not x.strip():
-#            continue
-#        else:
-#            x = x.strip()
-#            z = Zsite.mc_get(id)
-#            z.name = x
-#            z.save()
+#        Zsite.where(id=i).delete()
+#
+#    #id = 10224057
+#  #  id = 10232186 
+#  #  o = Zsite.mc_get(id)
+#
+#  #  print o.name
+#
 #    raise
-
-    #小写
-    #别名
-    #/
-    name_map = defaultdict(list)
-    count = 0
-    for zsite in ormiter(Zsite, 'cid=%s'%CID_TAG):
-        name = zsite.name.replace(' I/O', 'IO').replace('TCP/IP', 'TCP-IP')
-        zsite.save()
-        name_s = map(str.lower, map(str.strip, name.split('/')))
-
-        id = zsite.id
-        for i in name_s:
-            name_map[i].append(id)
-
-    for k, v in name_map.iteritems():
-        if len(v) > 1:
-            for i in Zsite.mc_get_list(v):
-                print i.id , i.name , '-->> '
-            print ''
+#
+#    #小写
+#    #别名
+#    #/
+#    name_map = defaultdict(list)
+#    count = 0
+#    for zsite in ormiter(Zsite, 'cid=%s'%CID_TAG):
+#        name = zsite.name.replace(' I/O', 'IO').replace('TCP/IP', 'TCP-IP')
+#        zsite.save()
+#        name_s = map(str.lower, map(str.strip, name.split('/')))
+#
+#        id = zsite.id
+#        for i in name_s:
+#            name_map[i].append(id)
+#
+#    for k, v in name_map.iteritems():
+#        if len(v) > 1:
+#            for i in Zsite.mc_get_list(v):
+#                print i.id , i.name , '-->> '
+#            print ''
 
   #  print name_map["产品设计"]
   #  print name_map["产品设计"]
