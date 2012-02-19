@@ -15,7 +15,8 @@ from model.url_short import url_short_id
 from model.douban import DoubanUser, douban_feed_to_review_iter, douban_user_by_feed_id , title_normal
 from model.site_sync import site_sync_new
 from model.po_by_tag import zsite_tag_po_new_by_name, po_tag_id_list_new
-
+from zkit.htm2txt import htm2txt, unescape
+from time import sleep
 
 import_feed_duplicator = Duplicator(DUMPLICATE_DB_PREFIX%'import_feed')
 
@@ -32,8 +33,11 @@ def feed_import_by_douban_feed():
         )
 
 def feed_import_new(zsite_id, rid, title, txt, url,  rank):
+    title = unescape(title)
     txt = format_txt(htm2txt(txt))
 
+    print zsite_id, rid, title
+    sleep(0.1)
     if import_feed_duplicator.txt_is_duplicate(txt):
         return
 
@@ -127,3 +131,8 @@ def main():
 
 if __name__ == '__main__':
     main()
+    #from zweb.orm import ormiter
+    #for i in ormiter(FeedImport):
+    #    i.title = unescape(i.title)
+    #    print i.id
+    #    i.save()
