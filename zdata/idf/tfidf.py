@@ -85,17 +85,23 @@ def tag_id_list_rank_by_txt(txt):
 
 
 if __name__ == '__main__':
-    from glob import glob
-    filelist = glob("/home/guohaochuan/42qu-data/tfidf/test/articles/*.txt")
-    for i in filelist:
-        with open(i) as f:
-            txt = f.read()
-            txt += "\n\n"+i.rsplit("/")[-1][:-4]
-            print txt
-            for k, v in tag_id_list_rank_by_txt(txt)[:7]:
-                print k, v,
-                for i in ID2NAME[k]:
-                    print i,
-                print ""
-            print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+    from model.feed_import import FeedImport
+    from zkit.orm import ormiter
+
+    for i in ormiter(FeedImport):
+        print i.title
+
+#    from glob import glob
+#    filelist = glob("/home/guohaochuan/42qu-data/tfidf/test/articles/*.txt")
+#    for i in filelist:
+#        with open(i) as f:
+#            txt = f.read()
+#            txt += "\n\n"+i.rsplit("/")[-1][:-4]
+#            print txt
+#            for k, v in tag_id_list_rank_by_txt(txt)[:7]:
+#                print k, v,
+#                for i in ID2NAME[k]:
+#                    print i,
+#                print ""
+#            print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 
