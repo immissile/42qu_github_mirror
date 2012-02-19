@@ -86,10 +86,20 @@ def tag_id_list_rank_by_txt(txt):
 
 if __name__ == '__main__':
     from model.feed_import import FeedImport
-    from zkit.orm import ormiter
+    from zweb.orm import ormiter
 
     for i in ormiter(FeedImport):
-        print i.title
+        txt = "%s\n%s"%(
+            i.title,
+            i.txt
+        )
+        for k, v in tag_id_list_rank_by_txt(txt)[:7]:
+            print k, v,
+            for i in ID2NAME[k]:
+                print i,
+            print ""
+        print txt
+        print ">>>"*7
 
 #    from glob import glob
 #    filelist = glob("/home/guohaochuan/42qu-data/tfidf/test/articles/*.txt")
