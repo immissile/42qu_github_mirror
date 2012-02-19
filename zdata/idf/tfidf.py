@@ -99,7 +99,7 @@ if __name__ == '__main__':
         i.state = FEED_IMPORT_STATE_INIT
         i.save()
 
-        print i.id, i.title, i.link
+        print i.id, i.title, i.url
         for k, v in tag_id_list:
             print k, v,
             for j in ID2NAME[k]:
