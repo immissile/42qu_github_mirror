@@ -87,8 +87,8 @@ def tag_id_list_rank_by_txt(txt):
 if __name__ == '__main__':
     from model.feed_import import FeedImport, FEED_IMPORT_STATE_INIT, FEED_IMPORT_STATE_WITHOUT_TAG
     from zweb.orm import ormiter
-
-    for i in ormiter(FeedImport, "cid=%s"%FEED_IMPORT_STATE_WITHOUT_TAG):
+#, "cid=%s"%FEED_IMPORT_STATE_WITHOUT_TAG
+    for i in ormiter(FeedImport):
         txt = "%s\n%s"%(
             i.title,
             i.txt
@@ -99,7 +99,7 @@ if __name__ == '__main__':
         i.state = FEED_IMPORT_STATE_INIT
         i.save()
 
-        print i.title
+        print i.id, i.title, i.link
         for k, v in tag_id_list:
             print k, v,
             for j in ID2NAME[k]:
