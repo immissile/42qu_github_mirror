@@ -49,5 +49,5 @@ if __name__ == '__main__':
     
     limit = 50
     offset = 0
-    print id_by_tag_admin(1, 1)
+    print id_by_tag_admin(10230364L, 0)
     print tag_id_name_count_list_by_tag_admin(limit, offset)
