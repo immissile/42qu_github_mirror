@@ -11,7 +11,7 @@ ${css.god_feed_import|n}
 
 <script id="render_txt" type="text/x-jquery-tmpl">
 <%text>
-    <form id="editform" rel="${id}">
+    <form id="editform">
     <input id="title" name="title" type="text" value="${title}" >
     <textarea id="txt" name="txt">{{html txt}}</textarea>
 
@@ -42,7 +42,7 @@ ${css.god_feed_import|n}
     <label for="author_rm">删除作者</label>
     <a href="${url}" target="_blank">原文链接</a>
 </div>
-    <input id="" name="id" style="display:none" value="${id}" type="text" >
+<input name="id" type="hidden" value="${id}" type="text" id="feed_id">
 </form>
 </%text>
 </script>

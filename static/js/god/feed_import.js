@@ -19,14 +19,17 @@ function load_tag(id){
 
 
     $("#nobtn").click(function(){
-        var post_data = $("#editform").serialize();
-        $.postJSON('/feed_import/rm',post_data ,refresh_data);
+        $.postJSON(
+            prefix+'/rm/'+$("#feed_id").val(),
+            refresh_data
+        );
     });
 
+    
     $("#okbtn").click(function(){
             if($("input:radio:checked").val()){
                 var post_data = $("#editform").serialize();
-                $.postJSON('/feed_import/1',post_data ,refresh_data);
+                $.postJSON(prefix+'/next',post_data ,refresh_data);
             }else{
                 alert("请选择类型");
             }
