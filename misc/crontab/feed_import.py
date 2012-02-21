@@ -14,7 +14,7 @@ from model.txt_img_fetch import txt_img_fetch
 from model.url_short import url_short_id
 from model.douban import DoubanUser, douban_feed_to_review_iter, douban_user_by_feed_id , title_normal
 from model.site_sync import site_sync_new
-from model.po_by_tag import zsite_tag_po_new_by_name, po_tag_id_list_new
+from model.po_by_tag import po_tag_id_list_new
 from zkit.htm2txt import htm2txt, unescape
 from time import sleep
 from zkit.fanjian import utf8_ftoj
