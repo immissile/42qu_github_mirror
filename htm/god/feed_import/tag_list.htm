@@ -1,0 +1,14 @@
+<%inherit file="/god/_base.htm" />
+
+<%def name="htm_head()">
+</%def>
+
+%for id, name, count in tag_id_name_count_list:
+<div>
+
+<a target="_blank" href="/feed_import/${id}">${name}</a>
+${count}
+</div>
+%endfor
+
+${page|n}
