@@ -36,5 +36,5 @@ def tag_list_count_by_tag_admin(limit, offset):
 if __name__ == '__main__':
     pass
 
-    print tag_list_count_by_tag_admin(100, 0)
+    print tag_list_count_by_tag_admin(10, 0)
 
