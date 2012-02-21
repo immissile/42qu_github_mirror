@@ -42,6 +42,8 @@ function load_tag(id){
         data=r
         if(data){
             $.getJSON(prefix+'/1', refresh_data) 
+        }else{
+            alert("没有内容了")
         }
     })
 
