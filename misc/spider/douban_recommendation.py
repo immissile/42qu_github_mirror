@@ -96,6 +96,8 @@ def main():
             if DoubanFetched.get(id):
                 continue
             yield douban_recommendation, URL_REC%id, 1
+            f = DoubanFetched.get_or_create(id=id)
+            f.save()
 
     spider(url_list())
 
