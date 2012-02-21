@@ -9,7 +9,7 @@ from model.site_po import feed_po_list_by_zsite_id, po_cid_count_by_zsite_id, PA
 from zkit.page import page_limit_offset
 from model.zsite_fav import zsite_fav_get_and_touch
 from model.rec_read import po_json_by_rec_read
-from model.po_by_tag import po_by_tag,zsite_tag_po_count
+from model.po_by_tag import po_by_tag, zsite_tag_po_count
 
 def render_zsite_site(self, n=1, page_template='/-%s'):
     zsite_id = self.zsite_id
@@ -36,9 +36,9 @@ class Feed(LoginBase):
         current_user_id = self.current_user_id
 
 #        from model.po_by_tag import po_by_tag
- 
+
         self.render(
-            rec_item_list = po_json_by_rec_read( current_user_id)
+            rec_item_list=po_json_by_rec_read( current_user_id)
         )
 
 
@@ -67,7 +67,7 @@ class Index(ZsiteBase):
                     user_id=current_user_id
             )
         elif zsite.cid == CID_TAG:
-            render_tag_site(self,n)
+            render_tag_site(self, n)
         else:
             self.render( motto=motto.get(zsite_id) )
 
@@ -78,20 +78,20 @@ class Link(LoginBase):
         self.redirect(link_by_id(id))
 
 
-def render_tag_site(self,n=1,template='/ctrl/zsite/index/tag.htm'):
+def render_tag_site(self, n=1, template='/ctrl/zsite/index/tag.htm'):
     zsite = self.zsite
     zsite_id = zsite.id
     total = zsite_tag_po_count(zsite_id)
     page, limit, offset = page_limit_offset(
-        "/-%s", total, n, limit = 15
+        '/-%s', total, n, limit=15
     )
     current_user_id = self.current_user_id
     item_list = po_by_tag(zsite_id, current_user_id, limit, offset )
     self.render(
         template,
-        page  = str(page),
-        total = total,
-        item_list = item_list,
+        page=str(page),
+        total=total,
+        item_list=item_list,
     )
 
 
