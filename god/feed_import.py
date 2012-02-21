@@ -14,6 +14,13 @@ from tornado.escape import json_encode
 from yajl import dumps
 from model.zsite import Zsite
 
+
+@urlmap('/feed_import/tag_list')
+class Index(Base):
+    def get(self):
+        o = FeedImport.get(state = FEED_IMPORT_STATE_INIT)
+        self.render(result=_dumps_feed(o))
+
 @urlmap('/feed_import')
 class Index(Base):
     def get(self):
