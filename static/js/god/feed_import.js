@@ -35,7 +35,6 @@ function load_tag(id){
             }
     });
 
-    auto_height();
 
     $.getJSON(prefix+'/0',function(r){
         data=r
