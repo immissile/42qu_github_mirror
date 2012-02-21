@@ -136,3 +136,4 @@ if __name__ == '__main__':
     #    i.title = unescape(i.title)
     #    print i.id
     #    i.save()
+    # tag_admin_new(po_id, tag_id_list, rank)
