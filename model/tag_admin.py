@@ -12,7 +12,7 @@ def tag_admin_new(id, tag_id_list, rank):
         if not redis.zrank(key, id):
             p = redis.pipeline()
             p.zadd(key, id, rank)
-            p.zincrby(REDIS_TAG_ADMIN, 1, id)
+            p.zincrby(REDIS_TAG_ADMIN, id, 1)
             p.execute()
 
 
@@ -23,17 +23,18 @@ def tag_admin_rm(id, tag_id_list):
         if redis.zrank(key, id):
             p = redis.pipeline()
             p.zrem(key, id)
-            p.zincrby(REDIS_TAG_ADMIN, -1, id)
+            p.zincrby(REDIS_TAG_ADMIN, id, -1)
             p.execute()
 
 def tag_list_count_by_tag_admin(limit, offset):
     id_count = redis.zrevrange(REDIS_TAG_ADMIN, offset, offset+limit-1, True, int)
+    return id_count
 
 #def po_list_by_tag_admin(tag_id, limit, offset):
 #    pass
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     pass
 
-
+    print tag_list_count_by_tag_admin(100, 0)
 
