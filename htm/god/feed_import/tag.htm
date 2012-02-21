@@ -24,6 +24,16 @@ ${css.god_feed_import|n}
     <textarea id="txt" name="txt">{{html txt}}</textarea>
 
     </%text>
+
+<div class="check">
+    <input id="sync" name="sync" type="checkbox" >
+    <label for="sync">同步</label>
+
+    <input id="author_rm" name="author_rm" type="checkbox">
+    <label for="author_rm">删除作者</label>
+</div>
+
+
 <div class="redis_cid c">
     % for id,name in REDIS_REC_CID_TUPLE:
     <span>
@@ -34,7 +44,7 @@ ${css.god_feed_import|n}
 
 <%text>
 <div>
-    <label for="tag_id_list">标签</label>
+    <label for="tag_id_list" class="ul_label">标签</label>
     <input id="tag_id_list" name="tag_id_list" type="text" value="${tag_id_list}" >
 </div>
 
@@ -42,13 +52,6 @@ ${css.god_feed_import|n}
    <%text>
 
 
-<div class="check">
-    <input id="sync" name="sync" type="checkbox" >
-    <label for="sync">同步</label>
-
-    <input id="author_rm" name="author_rm" type="checkbox">
-    <label for="author_rm">删除作者</label>
-</div>
 <input name="id" type="hidden" value="${id}" type="text" id="feed_id">
 </form>
 </%text>

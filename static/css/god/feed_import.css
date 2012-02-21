@@ -5,7 +5,8 @@
     width:90%;
 }
 .redis_cid{
-    width:60%;
+    width:90%;
+    margin-left:122px;
 }
 .redis_cid span{
     float:left;
@@ -19,7 +20,9 @@
 }
 .check{
     font-size:16px;
-    margin-top:14px
+    margin-top:14px;
+    float:left;
+    margin-bottom:14px;
 }
 .check label{
     margin-right:32px
@@ -27,7 +30,6 @@
 #txt
 {
     width:90%;
-    height:500px;
     padding:3px 7px;
     line-height:16px;
 }
@@ -37,8 +39,16 @@
 }
 #nobtn{
     float:right;
-    margin-right:10%
+    margin-right:10%;
+    margin-top:18px;
 }
 .btnbar{
 padding-bottom:256px;
 } 
+ul.token-input-list{
+    display:inline-block;
+}
+.ul_label{
+vertical-align:13px;
+margin-right:10px;
+}

@@ -48,3 +48,8 @@ function load_tag(id){
     })
 
 }
+
+$(function(){
+    alert(0)
+    $('#txt').css('height',($(window).height()-240) + 'px')
+})
