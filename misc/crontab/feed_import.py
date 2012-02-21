@@ -38,7 +38,7 @@ def feed_import_new(zsite_id, rid, title, txt, url,  rank):
 
     if import_feed_duplicator.txt_is_duplicate(txt):
         return
-    #print zsite_id, rid, title
+    print zsite_id, rid, title
     #sleep(0.1)
 
     new_feed = FeedImport(
@@ -136,3 +136,4 @@ if __name__ == '__main__':
     #    i.title = unescape(i.title)
     #    print i.id
     #    i.save()
+    # tag_admin_new(po_id, tag_id_list, rank)

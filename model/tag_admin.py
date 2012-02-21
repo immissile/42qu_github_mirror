@@ -1,38 +1,49 @@
 #coding:utf-8
 from _db import redis
+from model.zsite import Zsite
+from operator import itemgetter
 
-REDIS_TAG_ADMIN = "TagAdmin"
-REDIS_TAG_ADMIN_PO_ID = "TagAdmin:%s"
+REDIS_TAG_ADMIN = 'TagAdmin'
+REDIS_TAG_ADMIN_TAG_ID = 'TagAdmin:%s'
 
-def tag_admin_new(po_id, tag_id_list, rank):
-    po_id = str(po_id)
+
+def tag_admin_new(id, tag_id_list, rank):
+    id = str(id)
     for tag_id in tag_id_list:
-        key = REDIS_TAG_ADMIN_PO_ID%tag_id
-        if not redis.zcard(key, po_id):
+        key = REDIS_TAG_ADMIN_TAG_ID%tag_id
+        if not redis.zrank(key, id):
             p = redis.pipeline()
-            p.zadd(key, po_id, rank)
-            p.zincrby(REDIS_TAG_ADMIN, 1, po_id) 
+            p.zadd(key, id, rank)
+            p.zincrby(REDIS_TAG_ADMIN, tag_id, 1)
             p.execute()
 
 
-def tag_admin_rm(po_id, tag_id_list):
-    po_id = str(po_id)
+def tag_admin_rm(id, tag_id_list):
+    id = str(id)
     for tag_id in tag_id_list:
-        key = REDIS_TAG_ADMIN_PO_ID%tag_id
-        if redis.zcard(key, po_id):
+        key = REDIS_TAG_ADMIN_TAG_ID%tag_id
+        if redis.zrank(key, id):
             p = redis.pipeline()
-            p.zrem(key, po_id)
-            p.zincrby(REDIS_TAG_ADMIN, -1, po_id) 
+            p.zrem(key, id)
+            p.zincrby(REDIS_TAG_ADMIN, tag_id, -1)
             p.execute()
 
-def tag_list_count_by_tag_admin(limit, offset):
+def tag_id_name_count_list_by_tag_admin(limit, offset):
     id_count = redis.zrevrange(REDIS_TAG_ADMIN, offset, offset+limit-1, True, int)
+    zsite_list = Zsite.mc_get_list(map(itemgetter(0), id_count))
+    r = []
+    for i,count in zip(zsite_list, map(itemgetter(1),id_count)):
+        r.append((i.id, i.name, count)) 
 
-def po_list_by_tag_admin(tag_id, limit, offset):
+    return r, redis.zcard(REDIS_TAG_ADMIN)
+
+
+#def po_list_by_tag_admin(tag_id, limit, offset):
+#    pass
+
+if __name__ == '__main__':
     pass
-
-if __name__ == "__main__":
-    pass
-
-
-
+    
+    limit = 50
+    offset = 0
+    print tag_id_name_count_list_by_tag_admin(limit, offset)

@@ -33,7 +33,7 @@ if __name__ == '__main__':
         lname = i.name.strip().lower() 
         id = i.id
         rank = ID2RANK.get(id, 0)
-        print id
+        #print id
         for name in ID2NAME.get(id,()):
             if name.lower() not in lname:
                 print i.name, name
