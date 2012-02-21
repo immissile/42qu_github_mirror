@@ -4,12 +4,12 @@ from _db import redis
 REDIS_TAG_ADMIN = "TagAdmin"
 REDIS_TAG_ADMIN_TAG_ID = "TagAdmin:%s"
 
+
 def tag_admin_new(id, tag_id_list, rank):
     id = str(id)
     for tag_id in tag_id_list:
-        print tag_id
         key = REDIS_TAG_ADMIN_TAG_ID%tag_id
-        if not redis.zcard(key, id):
+        if not redis.zrank(key, id):
             p = redis.pipeline()
             p.zadd(key, id, rank)
             p.zincrby(REDIS_TAG_ADMIN, 1, id)
@@ -20,7 +20,7 @@ def tag_admin_rm(id, tag_id_list):
     id = str(id)
     for tag_id in tag_id_list:
         key = REDIS_TAG_ADMIN_TAG_ID%tag_id
-        if redis.zcard(key, id):
+        if redis.zrank(key, id):
             p = redis.pipeline()
             p.zrem(key, id)
             p.zincrby(REDIS_TAG_ADMIN, -1, id)
