@@ -85,27 +85,7 @@ def tag_id_list_rank_by_txt(txt):
 
 
 if __name__ == '__main__':
-    from model.feed_import import FeedImport, FEED_IMPORT_STATE_INIT, FEED_IMPORT_STATE_WITHOUT_TAG
-    from zweb.orm import ormiter
-
-    for i in ormiter(FeedImport, "state=%s"%FEED_IMPORT_STATE_WITHOUT_TAG):
-        txt = "%s\n%s"%(
-            i.title,
-            i.txt
-        )
-        tag_id_list = tag_id_list_rank_by_txt(txt)[:7]
-
-        i.tag_id_list = " ".join(map(str,tag_id_list))
-        i.state = FEED_IMPORT_STATE_INIT
-        i.save()
-
-        print i.id, i.title, i.url
-        for k, v in tag_id_list:
-            print k, v,
-            for j in ID2NAME[k]:
-                print j,
-            print ""
-        print ">>>"*7
+    pass
 
 #    from glob import glob
 #    filelist = glob("/home/guohaochuan/42qu-data/tfidf/test/articles/*.txt")
