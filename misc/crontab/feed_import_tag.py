@@ -7,6 +7,7 @@ from model.feed_import import FeedImport, FEED_IMPORT_STATE_INIT, FEED_IMPORT_ST
 from zweb.orm import ormiter
 from model.tag_admin import tag_admin_new
 from zdata.idf.tfidf import tag_id_rank_list_by_txt
+from operator import itemgetter
 
 @single_process
 def main():
@@ -17,7 +18,7 @@ def main():
         )
 
         tag_id_rank_list = tag_id_rank_list_by_txt(txt)[:7]
-        tag_id_list = [i[0] for i in tag_id_rank_list]
+        tag_id_list = map(tag_id_rank_list, itemgetter(0))
         tag_admin_new(i.id, tag_id_list, i.rank)
 
         i.tag_id_list = " ".join(map(str,tag_id_list))
