@@ -52,8 +52,8 @@ def feed_import_rm(id, current_user_id):
         part_time_job_new(PRIVILEGE_FEED_IMPORT, id, current_user_id)
         feed_state_set(id, FEED_IMPORT_STATE_RM)
         tag_admin_rm(
-id, 
-tag_id_list.split(" ")
+            id, 
+            feed.tag_id_list.split(" ")
         )
 
 def feed_state_set(id, state):
