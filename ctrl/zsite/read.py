@@ -5,7 +5,7 @@ from ctrl._urlmap.zsite import urlmap
 from model.cid import CID_SITE
 from model.zsite_fav import zsite_fav_get_and_touch
 from ctrl.zsite.index import render_zsite_site
-from model.po_by_tag import po_by_tag,zsite_tag_po_count
+#from model.po_by_tag import po_by_tag
 
 @urlmap('/read')
 @urlmap('/read-(\d+)')

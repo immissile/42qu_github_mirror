@@ -28,31 +28,35 @@ class TagAlias(McModel):
 
 mc_po_id_list_by_tag_id = McLimitA('PoIdListByTagId.%s', 512)
 mc_tag_id_list_by_po_id = McCacheA('TagIdListByPoId.%s')
+zsite_tag_po_count = McNum(
+    lambda tag_id: PoZsiteTag.where(zsite_id=tag_id).count(),
+    'ZsiteTagPoCount:%s'
+)
 
 REDIS_ALIAS = 'TagAlias:%s'
 REDIS_ALIAS_NAME2ID = 'AliasName2Id'
 
-REDIS_FEED_SECTION = 'SEC_CID:%s:%s'
-REDIS_FEED_PO_ID2CID = 'SEC_PO2CID'
-REDIS_FEED_PO_VIEWED_COUNT = 'SEC_PoCnt'
+REDIS_TAG_CID = 'TagCid:%s:%s'
+REDIS_TAG_CID_COUNT = 'TagCid=%s'
+REDIS_PO_ID2TAG_CID = 'PoId2TagCid'
 
 class PoZsiteTag(Model):
     pass
 
-def section_list_by_tag_id_cid(tag_id, cid):
-    key = REDIS_FEED_SECTION%(str(tag_id), str(cid))
-    id_list = redis.zrevrange(key, 0, -1, True)
-    return id_list
+#def section_list_by_tag_id_cid(tag_id, cid):
+#    key = REDIS_TAG_CID%(tag_id, cid)
+#    id_list = redis.zrevrange(key, 0, -1, True)
+#    return id_list
 
-def section_rank_refresh(po):
-    cid = redis.hget(REDIS_FEED_PO_ID2CID, po.id)
-    if cid:
-        for tag_id in tag_id_list_by_po_id(po_id=po.id):
-            viewd_count = int(redis.hget(REDIS_FEED_PO_VIEWED_COUNT, po.id))
-            ups = fav_user_count_by_po_id(po.id)*5 + po.reply_count*3 + viewd_count
-            key = REDIS_FEED_SECTION%(str(tag_id), str(cid))
-            new_rank = hot(ups, 0, po.create_time )
-            redis.zadd(key, po.id, new_rank)
+#def section_rank_refresh(po):
+#    cid = redis.hget(REDIS_PO_ID2CID, po.id)
+#    if cid:
+#        for tag_id in tag_id_list_by_po_id(po_id=po.id):
+#            viewd_count = int(redis.hget(REDIS_PO_VIEW_COUNT, po.id))
+#            ups = fav_user_count_by_po_id(po.id)*5 + po.reply_count*3 + viewd_count
+#            key = REDIS_TAG_CID%(tag_id, cid)
+#            new_rank = hot(ups, 0, po.create_time )
+#            redis.zadd(key, po.id, new_rank)
 
 
 def zsite_tag_po_new(zsite_id, po, cid, rank=1):
@@ -72,20 +76,27 @@ def zsite_tag_po_new(zsite_id, po, cid, rank=1):
             user_rank.save()
 
     mc_flush(zsite_id, po_id)
-    
+    cid = int(cid)
+ 
     if cid in REDIS_REC_CID_DICT:
+
+        p = redis.pipeline()
+
         #将分数放到相应的ranged set里面
-        key = REDIS_FEED_SECTION%(str(tag_id), str(cid))
-        redis.zadd(key, po.id, hot(1, 0, po.create_time))
+        key = REDIS_TAG_CID%(zsite_id, cid)
+        p.zadd(key, po_id, hot(1, 0, po.create_time))
+
+        key = REDIS_TAG_CID_COUNT%zsite_id
+        p.hincrby(key, cid, 1)
+
         #将po放在相应的po_id=>cid中
-        redis.hset(REDIS_FEED_PO_ID2CID, po.id, cid)
+        p.hset(REDIS_PO_ID2CID, po_id, cid)
+        p.execute()
 
     return tag_po
 
-zsite_tag_po_count = McNum(
-    lambda tag_id: PoZsiteTag.where(zsite_id=tag_id).count(),
-    'ZsiteTagPoCount:%s'
-)
+
+
 
 def mc_flush(zsite_id, po_id):
     mc_flush_by_zsite_id(zsite_id)
@@ -216,11 +227,13 @@ def tag_author_list(zsite_id):
 def tag_rm_by_po(po):
     po_id = po.id
     user_id = po.user_id
-    _tag_rm_by_user_id_list(user_id, tag_id_list_by_po_id(po_id))
+    _tag_rm_by_user_id_list(po, user_id, tag_id_list_by_po_id(po_id))
     mc_flush_by_po_id(po_id)
 
-def _tag_rm_by_user_id_list(user_id, id_list):
+def _tag_rm_by_user_id_list(po, user_id, id_list):
+
     for tag_id in id_list:
+
         PoZsiteTag.where(zsite_id=tag_id).delete()
         mc_flush_by_zsite_id(tag_id)
 
@@ -228,6 +241,21 @@ def _tag_rm_by_user_id_list(user_id, id_list):
         if not user_rank and user_rank.rank:
             user_rank.rank -= 1
             user_rank.save()
+
+    po_id = po.id
+    cid = redis.hget(REDIS_PO_ID2CID, po_id)
+
+    if cid:    
+        p = redis.pipeline()
+
+        for tag_id in id_list:
+            #将分数放到相应的ranged set里面
+            key = REDIS_TAG_CID%(tag_id, cid)
+            p.zrem(key, po_id)
+
+            key = REDIS_TAG_CID_COUNT%tag_id
+            p.hincrby(key, cid, -1)
+        p.execute()
 
 @mc_tag_id_list_by_po_id('{po_id}')
 def tag_id_list_by_po_id(po_id):
@@ -260,47 +288,15 @@ def po_tag_id_list_new(po, tag_id_list, cid=0):
     to_rm = old_tag_id_list - new_tag_id_list
 
     user_id = po.user_id
-    _tag_rm_by_user_id_list(user_id, to_rm)
+    _tag_rm_by_user_id_list(po, user_id, to_rm)
 
     for tag_id in to_add:
         zsite_tag_po_new(tag_id, po, cid)
 
 
 
-#tag_rm_by_po_id(po.id)
-
-#tag_id_list = tag_id_list.split(',')
-#for tag in tag_id_list:
-#    zsite_tag_po_new_by_name(tag, po, 100)
-
-#tag_id_list = feed.tag_id_list.split(' '
-#rec_read_new(po.id, tag_id_list)
 
 
 
 if __name__ == '__main__':
     pass
-    #print tag_list_by_po_id(69217)
-    #print po_by_tag(1, 0)
-
-    #from model.po import Po,CID_NOTE
-    #for i in Po.where(cid=CID_NOTE).order_by("id desc")[:20]:
-    #    po_tag_id_list_new(i, [137110])
-    ##from model.po import Po, CID_NOTE
-    ##for i in Po.where(cid=CID_NOTE).order_by('id desc')[:20]:
-    ##    po_tag_id_list_new(i, [137110])
-    #'''
-    #tag_id 10228122 cid 2 po_id 10236870
-    #'''
-    ##print tag_list_by_po_id(10236870)
-    ##print section_list_by_tag_id_cid(10228122,2)
-    #from model.fav import fav_add
-    #from po_pos import po_pos_mark
-    #user_id = 10000393
-    #po = Po.get(10236870)
-    ###fav_add(user_id, 10236870)
-    #po_pos_mark(po=po, user_id=user_id)
-    ##po.reply_new(Zsite.mc_get(user_id),'test')
-    #section_rank_refresh(po)
-    #print section_list_by_tag_id_cid(10228122, 2)
-
