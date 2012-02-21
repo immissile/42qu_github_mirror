@@ -95,7 +95,8 @@ def feed_review(id,  cid, title, txt, tag_id_list, current_user_id, author_rm=Fa
 
 if __name__ == '__main__':
     pass
- 
+    #FeedImport.where("state!=%s"%FEED_IMPORT_STATE_WITHOUT_TAG).update(state=FEED_IMPORT_STATE_WITHOUT_TAG)
+
     #feed_import_by_douban_feed()
     #print FeedImport.where(state = FEED_IMPORT_STATE_INIT)
     #feed2po_new()
