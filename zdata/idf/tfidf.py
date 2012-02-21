@@ -34,7 +34,7 @@ db_tag_bayes = DB()
 db_tag_bayes.open(join(ZDATA_PATH,"data/bayes.kch"), DB.OREADER)
 
 
-def tag_id_list_rank_by_txt(txt):
+def tag_id_rank_list_by_txt(txt):
     txt = txt.lower()
     tag_id_list_rank = defaultdict(int)
     for word, rank in tf_idf_seg_txt(txt):
@@ -94,7 +94,7 @@ if __name__ == '__main__':
 #            txt = f.read()
 #            txt += "\n\n"+i.rsplit("/")[-1][:-4]
 #            print txt
-#            for k, v in tag_id_list_rank_by_txt(txt)[:7]:
+#            for k, v in tag_id_rank_list_by_txt(txt)[:7]:
 #                print k, v,
 #                for i in ID2NAME[k]:
 #                    print i,

@@ -7,6 +7,7 @@ REDIS_TAG_ADMIN_TAG_ID = "TagAdmin:%s"
 def tag_admin_new(id, tag_id_list, rank):
     id = str(id)
     for tag_id in tag_id_list:
+        print tag_id
         key = REDIS_TAG_ADMIN_TAG_ID%tag_id
         if not redis.zcard(key, id):
             p = redis.pipeline()

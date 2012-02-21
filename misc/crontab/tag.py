@@ -6,7 +6,7 @@ from zkit.single_process import single_process
 from model.feed_import import FeedImport, FEED_IMPORT_STATE_INIT, FEED_IMPORT_STATE_WITHOUT_TAG
 from zweb.orm import ormiter
 from model.tag_admin import tag_admin_new
-from zdata.idf.tfidf import tag_id_list_rank_by_txt
+from zdata.idf.tfidf import tag_id_rank_list_by_txt
 
 @single_process
 def main():
@@ -16,7 +16,8 @@ def main():
             i.txt
         )
 
-        tag_id_list = tag_id_list_rank_by_txt(txt)[:7]
+        tag_id_rank_list = tag_id_rank_list_by_txt(txt)[:7]
+        tag_id_list = [i[0] for i in tag_id_rank_list]
         tag_admin_new(i.id, tag_id_list, i.rank)
 
         i.tag_id_list = " ".join(map(str,tag_id_list))
@@ -24,7 +25,7 @@ def main():
         i.save()
 
         print i.id, i.title, i.url
-        for k, v in tag_id_list:
+        for k, v in tag_id_rank_list:
             print k, v,
             for j in ID2NAME[k]:
                 print j,
