@@ -1,5 +1,5 @@
 function load_tag(id){ 
-    var data, txt=$("#txt"),prefix='/feed_import/'+id;
+    var data, prefix='/feed_import/'+id;
 
     function refresh_data(r)
     {
@@ -7,10 +7,12 @@ function load_tag(id){
             alert("没有内容了")
         }
         if(data){
+            $("#editwrapper").html($("#render_txt").tmpl(data));
             $("#author_rm").attr('checked',data.author_rm);
             autocomplete_tag("#tag_id_list", data.tag_id_list)
-            $("#editwrapper").html($("#render_txt").tmpl(data));
-            txt.height(txt[0].scrollHeight);
+            //var txt=$("#txt")
+//            txt.height(txt[0].scrollHeight);
+
             window.scrollTo(0, 0);
         }
         data = r;

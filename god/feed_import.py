@@ -4,13 +4,13 @@
 from _handler import Base
 from _urlmap import urlmap
 from model.site_sync import site_sync_rm, site_sync_new
-from model.feed_import import FeedImport,  feed_review , feed_import_rm, FEED_IMPORT_STATE_INIT
+from model.feed_import import FeedImport, feed_review , feed_import_rm, FEED_IMPORT_STATE_INIT
 from model.po_by_tag import po_tag_new_by_autocompelte
-from model.douban import is_rt_by_title 
+from model.douban import is_rt_by_title
 from model.po_by_tag import tag_list_by_po_id
 from zkit.page import page_limit_offset
 from model.po import Po, po_rm
-from tornado.escape import json_encode 
+from tornado.escape import json_encode
 from yajl import dumps
 from model.zsite import Zsite
 from zkit.page import limit_offset, Page
@@ -36,14 +36,14 @@ class TagList(Base):
         ))
 
         self.render(
-            tag_id_name_count_list = tag_id_name_count_list,
-            page = page 
-        ) 
+            tag_id_name_count_list=tag_id_name_count_list,
+            page=page
+        )
 
-@urlmap("/feed_import/(\d+)")
+@urlmap('/feed_import/(\d+)')
 class Tag(Base):
     def get(self, id):
-        self.render(id=id) 
+        self.render(tag_id=id)
 
 def _tag_feed_next(tag_id, offset):
     feed_id = id_by_tag_admin(tag_id, offset)
@@ -51,10 +51,10 @@ def _tag_feed_next(tag_id, offset):
     if feed_id:
         feed = FeedImport.get(feed_id)
         author_rm = is_rt_by_title(feed.title)
-        tag_id_list = filter(bool,feed.tag_id_list.split(' '))
+        tag_id_list = filter(bool, feed.tag_id_list.split(' '))
         tag_id_list = list(
             zip(
-                [ i.name for i in Zsite.mc_get_list(tag_id_list) if i is not None], 
+                [ i.name for i in Zsite.mc_get_list(tag_id_list) if i is not None],
                 tag_id_list
             )
         )
@@ -68,10 +68,10 @@ def _tag_feed_next(tag_id, offset):
             'url':feed.url
         }
     else:
-        r = "0"
-    return r 
+        r = '0'
+    return r
 
-@urlmap("/feed_import/(\d+)/(\d+)")
+@urlmap('/feed_import/(\d+)/(\d+)')
 class FeedImportJson(Base):
     def get(self, tag_id, offset):
         self.finish(_tag_feed_next(tag_id, offset))
@@ -83,14 +83,14 @@ class FeedImportJson(Base):
         sync = self.get_argument('sync', None)
         author_rm = self.get_argument('author_rm', None)
         tag_id_list = self.get_argument('tag_id_list', '')
-        cid = self.get_argument('cid',None)
+        cid = self.get_argument('cid', None)
 
         current_user_id = self.current_user_id
-        feed_review(id,  cid, title, txt, tag_id_list,current_user_id, author_rm, sync)
-       
-        self.get(tag_id, offset) 
+        feed_review(id, cid, title, txt, tag_id_list, current_user_id, author_rm, sync)
 
-@urlmap("/feed_import/(\d+)/rm/(\d+)")
+        self.get(tag_id, offset)
+
+@urlmap('/feed_import/(\d+)/rm/(\d+)')
 class FeedImportRmJson(Base):
     def post(self, tag_id, id):
         current_user_id = self.current_user_id
@@ -183,4 +183,4 @@ class FeedImportRmJson(Base):
 #
 #        self.redirect('/feed_import/list/%s'%old_cid)
 #
-            
+

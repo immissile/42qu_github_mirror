@@ -39,10 +39,16 @@ def tag_id_name_count_list_by_tag_admin(limit, offset):
 
 
 def id_by_tag_admin(tag_id,  offset):
-    return redis.zrevrange(
+    r = redis.zrevrange(
         REDIS_TAG_ADMIN_TAG_ID%tag_id,
         offset,offset
     )
+    if r:
+        id = r[0]
+    else:
+        id = 0
+
+    return id
 
 if __name__ == '__main__':
     pass
