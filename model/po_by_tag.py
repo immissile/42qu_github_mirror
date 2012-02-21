@@ -54,15 +54,8 @@ def section_rank_refresh(po):
             new_rank = hot(ups, 0, po.create_time )
             redis.zadd(key, po.id, new_rank)
 
-def section_append_new(po, cid, tag_id):
-    if cid in REDIS_REC_CID_DICT:
-        #将分数放到相应的ranged set里面
-        key = REDIS_FEED_SECTION%(str(tag_id), str(cid))
-        redis.zadd(key, po.id, hot(1, 0, po.create_time))
-        #将po放在相应的po_id=>cid中
-        redis.hset(REDIS_FEED_PO_ID2CID, po.id, cid)
 
-def zsite_tag_po_new(zsite_id, po, rank=1):
+def zsite_tag_po_new(zsite_id, po, cid, rank=1):
     po_id = po.id
 
     tag_po = PoZsiteTag.get_or_create(po_id=po_id, cid=po.cid, zsite_id=zsite_id)
@@ -79,6 +72,13 @@ def zsite_tag_po_new(zsite_id, po, rank=1):
             user_rank.save()
 
     mc_flush(zsite_id, po_id)
+    
+    if cid in REDIS_REC_CID_DICT:
+        #将分数放到相应的ranged set里面
+        key = REDIS_FEED_SECTION%(str(tag_id), str(cid))
+        redis.zadd(key, po.id, hot(1, 0, po.create_time))
+        #将po放在相应的po_id=>cid中
+        redis.hset(REDIS_FEED_PO_ID2CID, po.id, cid)
 
     return tag_po
 
@@ -213,11 +213,6 @@ def tag_author_list(zsite_id):
     zsite_list = filter(lambda x:x, zsite_author_list(zsite_id))
     return zsite_json(zsite_id, zsite_list)
 
-def zsite_tag_po_new_by_name(tag_name, po, rank):
-    tag_name = tag_name.strip()
-    tag = tag_by_str(tag_name)
-    return zsite_tag_po_new(tag.id, po, rank)
-
 def tag_rm_by_po(po):
     po_id = po.id
     user_id = po.user_id
@@ -268,8 +263,7 @@ def po_tag_id_list_new(po, tag_id_list, cid=0):
     _tag_rm_by_user_id_list(user_id, to_rm)
 
     for tag_id in to_add:
-        zsite_tag_po_new(tag_id, po)
-        section_append_new(cid=cid, po=po, tag_id=tag_id)
+        zsite_tag_po_new(tag_id, po, cid)
 
 
 
