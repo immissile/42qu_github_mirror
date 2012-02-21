@@ -4,7 +4,14 @@ from yajl import dumps
 from cgi import escape
 from model.douban import is_rt_by_title
 from model.rec_read import REDIS_REC_CID_TUPLE
+from model.zsite import Zsite
 %>
+<%def name="htm_title()">
+<%
+zsite = Zsite.mc_get(tag_id)
+%>
+${zsite.name}
+</%def>
 <%def name="htm_head()">
 ${css.god_feed_import|n}
 </%def>
