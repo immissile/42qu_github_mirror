@@ -17,6 +17,7 @@ from model.site_sync import site_sync_new
 from model.po_by_tag import zsite_tag_po_new_by_name, po_tag_id_list_new
 from zkit.htm2txt import htm2txt, unescape
 from time import sleep
+from zkit.fanjian import utf8_ftoj
 
 import_feed_duplicator = Duplicator(DUMPLICATE_DB_PREFIX%'import_feed')
 
@@ -33,12 +34,12 @@ def feed_import_by_douban_feed():
         )
 
 def feed_import_new(zsite_id, rid, title, txt, url,  rank):
-    title = unescape(title)
-    txt = format_txt(htm2txt(txt))
+    title = utf8_ftoj(unescape(title))
+    txt = utf8_ftoj(format_txt(htm2txt(txt)))
 
     if import_feed_duplicator.txt_is_duplicate(txt):
         return
-    print zsite_id, rid, title
+    #print zsite_id, rid, title
     #sleep(0.1)
 
     new_feed = FeedImport(
