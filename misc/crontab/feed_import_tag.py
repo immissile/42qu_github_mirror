@@ -6,7 +6,7 @@ from zkit.single_process import single_process
 from model.feed_import import FeedImport, FEED_IMPORT_STATE_INIT, FEED_IMPORT_STATE_WITHOUT_TAG
 from zweb.orm import ormiter
 from model.tag_admin import tag_admin_new
-from zdata.idf.tfidf import tag_id_rank_list_by_txt
+from zdata.idf.tfidf import tag_id_rank_list_by_txt, ID2NAME
 from operator import itemgetter
 
 @single_process
