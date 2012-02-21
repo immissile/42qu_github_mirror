@@ -20,6 +20,7 @@ ${css.god_feed_import|n}
 <%text>
     <form id="editform">
     <input id="title" name="title" type="text" value="${title}" >
+    <a href="${url}" target="_blank">原文链接</a>
     <textarea id="txt" name="txt">{{html txt}}</textarea>
 
     </%text>
@@ -47,7 +48,6 @@ ${css.god_feed_import|n}
 
     <input id="author_rm" name="author_rm" type="checkbox">
     <label for="author_rm">删除作者</label>
-    <a href="${url}" target="_blank">原文链接</a>
 </div>
 <input name="id" type="hidden" value="${id}" type="text" id="feed_id">
 </form>
