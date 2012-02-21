@@ -22,7 +22,6 @@ FEED_IMPORT_STATE_POED = 70
 
 
 
-
 class PoMeta(McModel):
     pass
 
