@@ -16,9 +16,18 @@ from zsite_json import zsite_json
 from zkit.algorithm.unique import unique
 #from zkit.pprint import pprint
 from zkit.fanjian import utf8_ftoj
-from rec_read import REDIS_REC_CID_DICT
 from fav import fav_user_count_by_po_id
 from zrank.sorts import hot
+from operator import itemgetter
+REDIS_REC_CID_TUPLE = (
+    (1, "问题 / 讨论"),
+    (2, "新闻 / 快讯"),
+    (3, "评论 / 观点"),
+    (4, "访谈 / 人物"),
+    (5, "资料 / 知识"),
+    (6, "灌水 / 闲聊"),
+)
+REDIS_REC_CID_DICT = dict(REDIS_REC_CID_TUPLE)
 
 class TagAlias(McModel):
     #id, tag_id, name
@@ -77,7 +86,7 @@ def zsite_tag_po_new(zsite_id, po, cid, rank=1):
 
     mc_flush(zsite_id, po_id)
     cid = int(cid)
- 
+
     if cid in REDIS_REC_CID_DICT:
 
         p = redis.pipeline()
@@ -90,7 +99,7 @@ def zsite_tag_po_new(zsite_id, po, cid, rank=1):
         p.hincrby(key, cid, 1)
 
         #将po放在相应的po_id=>cid中
-        p.hset(REDIS_PO_ID2CID, po_id, cid)
+        p.hset(REDIS_PO_ID2TAG_CID, po_id, cid)
         p.execute()
 
     return tag_po
@@ -130,7 +139,7 @@ def tag_new(name):
     found = Zsite.get(name=name, cid=CID_TAG)
     if not found:
         found = zsite_new(name, CID_TAG)
-    
+
     id = found.id
 
     #1. 更新autocompelete
@@ -139,8 +148,8 @@ def tag_new(name):
     #2. 更新别名库
 
     for i in map(utf8_ftoj, map(str.strip, name.split('/'))):
-        _tag_alias_new(i)
-         
+        _tag_alias_new(id, i)
+
     return id
 
 def _tag_alias_new(id, name):
@@ -161,7 +170,7 @@ def tag_alias_new(id, name, rank=1):
     low = name.lower()
     oid = redis.hget(REDIS_ALIAS_NAME2ID, low)
     if oid:
-        return 
+        return
 
     tag_alias = TagAlias.get_or_create(name=name)
 #    if not id:
@@ -243,9 +252,9 @@ def _tag_rm_by_user_id_list(po, user_id, id_list):
             user_rank.save()
 
     po_id = po.id
-    cid = redis.hget(REDIS_PO_ID2CID, po_id)
+    cid = redis.hget(REDIS_PO_ID2TAG_CID, po_id)
 
-    if cid:    
+    if cid:
         p = redis.pipeline()
 
         for tag_id in id_list:
@@ -271,9 +280,10 @@ def tag_list_by_po_id(po_id):
 
 def po_tag_new_by_autocompelte(po, tag_list, cid=0):
     tag_id_list = []
-    for i in tag_id_list:
+    for i in tag_list:
         if i.startswith('-'):
             for id in tag_by_str(i[1:]):
+                #print id
                 tag_id_list.append(id)
         else:
             tag_id_list.append(i)
@@ -294,9 +304,19 @@ def po_tag_id_list_new(po, tag_id_list, cid=0):
         zsite_tag_po_new(tag_id, po, cid)
 
 
-
-
+def tag_cid_count(tag_id):
+    count_dict = redis.hgetall(REDIS_TAG_CID_COUNT%10232177)
+    r = []
+    for k,v in count_dict.iteritems():
+        r.append((int(k),int(v)))
+    r.sort(key=itemgetter(0))
+    return r
 
 
 if __name__ == '__main__':
     pass
+    from model.po import Po
+    po = Po.where()[1]
+    print po
+    po_tag_new_by_autocompelte(po, ['-张沈鹏'], 1)
+    print tag_cid_count(10232177) 
