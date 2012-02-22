@@ -4,7 +4,8 @@ from time import time, mktime, strptime, strftime, timezone
 import datetime
 import  re
 
-ONE_DAY = 3600 * 24
+ONE_HOUR = 3600
+ONE_DAY = ONE_HOUR * 24
 ONE_DAY_MINUTE = 60*24
 TIMEZONE_OFFSET = mktime((1970, 1, 1, 0, 0, 0, 0, 0, 0))
 DATE_BEGIN = datetime.date(1970, 1, 1)

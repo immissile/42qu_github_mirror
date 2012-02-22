@@ -10,7 +10,7 @@ from model.cid import CID_TAG
 from math import log
 from time import time
 from mq import mq_client
-from model.days import ONE_DAY
+from model.days import ONE_DAY, ONE_HOUR
 from random import random
 
 __metaclass__ = type
@@ -72,11 +72,14 @@ def rec_read_by_user_id_tag_id(user_id, tag_id):
     po_id = 0
     from_new = False
     now = time_new_offset()
+    key_to_rec = REDIS_REC_USER_TAG_TO_REC%tag_id
+    key_readed = REDIS_REC_USER_TAG_READED%tag_id
+    exists_key_to_rec = redis.exists(key_to_rec)
+    cache_key_to_rec = False
 
     for i in xrange(7):
         #如果有可以推荐的缓存 , 读取缓存
-        key_to_rec = REDIS_REC_USER_TAG_TO_REC%tag_id
-        if redis.exists(key_to_rec):
+        if exists_key_to_rec:
             po_id_list = redis.zrevrange(key_to_rec, 0, 0)
             if po_id_list:
                 po_id = po_id_list[0]
@@ -87,16 +90,23 @@ def rec_read_by_user_id_tag_id(user_id, tag_id):
             key_tag_new =  REDIS_REC_TAG_NEW%tag_id
             po_id = redis.srandmember(key_tag_new)
             if po_id:
-                from_new = True
-                #if 主题下最近读过的文章的时间戳 < 1个小时 , 推荐新文章 
+                last = redis.zrevrange(key_readed, 0 , 0 , True)
+                if last and (last[1] - now) < ONE_HOUR:
+                    cache_key_to_rec = True
+                else:
+                    from_new = True
             else:
-                #如果没有可以推荐的缓存, 生成缓存, 缓存有效期1天
-                #推荐文章
-                # = None
-                pass
+                cache_key_to_rec = True
+
+
+        if cache_key_to_rec:
+            #生成缓存 有效期1天 推荐文章
+            pass
+            #TODO!!!!!!!!
+            exists_key_to_rec = True
  
         if po_id:
-            redis.zadd(REDIS_REC_USER_TAG_READED%tag_id, po_id, now)
+            redis.zadd(key_readed, po_id, now)
             if redis.zrank(REDIS_REC_USER_LOG%user_id, po_id) is not None:
                 po_id = 0 
         
