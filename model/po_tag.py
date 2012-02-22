@@ -19,7 +19,7 @@ from zkit.fanjian import utf8_ftoj
 from fav import fav_user_count_by_po_id
 from zrank.sorts import hot
 from operator import itemgetter
-from rec_read import rec_read_new, rec_read_user_topic_score_incr, REDIS_REC_PO_SCORE 
+from rec_read import rec_read_new, rec_read_user_topic_score_incr, REDIS_REC_PO_SCORE, REDIS_REC_TAG_NEW, REDIS_REC_TAG_OLD 
 
 REDIS_REC_CID_TUPLE = (
     (1, '新闻 / 快讯'),
@@ -274,6 +274,10 @@ def _tag_rm_by_user_id_list(po, user_id, id_list):
 
             key = REDIS_TAG_CID_COUNT%tag_id
             p.hincrby(key, cid, -1)
+
+            for i in (REDIS_REC_TAG_NEW, REDIS_REC_TAG_OLD):
+                key = i%tag_id
+                p.zrem(key, po_id)
         p.execute()
 
 @mc_tag_id_list_by_po_id('{po_id}')

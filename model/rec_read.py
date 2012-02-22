@@ -17,16 +17,18 @@ __metaclass__ = type
 
 REDIS_REC_USER_TAG = 'Rec@%s'                 #用户 - 主题 - 分数 zset
 REDIS_REC_USER_TAG_CAN_REC = 'Rec?%s'         #用户 - 可以推荐的主题 - 分数 string 
-REDIS_REC_TAG_USER_IS_EMPTY = 'Rec~%s'        #主题 - 已经读完了的用户 set
-REDIS_REC_TAG = 'RecTag'                      #所有热门主题 用于没有推荐主题的时候随机推荐
-REDIS_REC_TAG_ID_SCORE = 'RecTagIdScore'      #所有热门主题 id score的缓存 
-REDIS_REC_USER_LOG = 'Rec+%s'                 #用exist判断文章是否已经读过 zset
 REDIS_REC_USER_TAG_READED = 'Rec(%s'          #用户 - 主题 - 已经读过的文章
 REDIS_REC_USER_TAG_TO_REC = 'Rec)%s'          #用户 - 主题 - 可以推荐的文章的缓存
+REDIS_REC_TAG_USER_IS_EMPTY = 'Rec~%s'        #主题 - 已经读完了的用户 set
+
+REDIS_REC_USER_LOG = 'Rec+%s'                 #用exist判断文章是否已经读过 zset
+
+REDIS_REC_TAG = 'RecTag'                      #所有热门主题 用于没有推荐主题的时候随机推荐
+REDIS_REC_TAG_ID_SCORE = 'RecTagIdScore'      #所有热门主题 id score的缓存 
 REDIS_REC_TAG_NEW = 'Rec/%s'                  #话题下的新内容
 REDIS_REC_TAG_OLD = 'Rec&%s'                  #话题下的老内容
 REDIS_REC_PO_SCORE = 'RecPoScore'             #话题的积分 hset
-REDIS_REC_PO_TIMES = 'Rec>%s'                  #老话题的被推荐次数 
+REDIS_REC_PO_TIMES = 'RecTimes'                  #老话题的被推荐次数 
 REDIS_REC_LAST_TIME = 'RecLastTime'            #上次推荐话题的时间
 
 REDIS_REC_USER_TAG_LIMIT = 512
@@ -45,23 +47,29 @@ def rec_read_user_topic_score_incr(user_id, tag_id, score=1):
 
 def rec_read_new(po_id, tag_id):
     mq_rec_topic_has_new(tag_id)
-    redis.zadd(REDIS_REC_TAG_NEW%tag_id, po_id, 1)
+    times = redis.hget(REDIS_REC_PO_TIMES)
+    if times >= REDIS_REC_PO_SHOW_TIMES:
+        score = redis.hget(REDIS_REC_PO_SCORE, po_id) or 0
+        redis.zadd(REDIS_REC_TAG_OLD%tag_id, po_id, float(score)/times)
+    else:
+        redis.zadd(REDIS_REC_TAG_NEW%tag_id, po_id, times)
 
 #@mq_client
 def mq_rec_topic_has_new(tag_id):
     rec_topic_has_new(tag_id)
 
 
-def _po_rec_times_incr(po_id):
+def _po_rec_times_incr(po_id, tag_id):
     redis.hincrby(REDIS_REC_PO_TIMES, po_id, 1)
     k = random()
     if k < 0.01:
-        po_rec_score 
-
+        score = redis.hget(REDIS_REC_PO_SCORE, po_id) or 0
+        rank = float(score) / redis.hget(REDIS_REC_PO_TIMES, po_id) 
+        redis.zadd(REDIS_REC_USER_TAG%tag_id, po_id,rank)
 
 def rec_read_by_user_id_tag_id(user_id, tag_id):
     po_id = 0
-
+    by_new = True
     now = time_new_offset()
 
 
@@ -74,6 +82,20 @@ def rec_read_by_user_id_tag_id(user_id, tag_id):
     #else 推荐新文章 , 增加展示次数 
 
 
+    if redis.zrank(key_log, po_id) is not None:
+        pass
+
+    if po_id:
+        if by_new:
+            key = REDIS_REC_TAG_NEW%tag_id
+            redis.zincrby(key, po_id, 1)
+            if redis.zscore(key, po_id) > REDIS_REC_PO_SHOW_TIMES:
+                p = redis.pipeline()
+                p.zrem(key, po_id)
+                #p.zset()
+                p.execute() 
+        else:
+            _po_rec_times_incr(po_id, tag_id)
     return po_id
 
 def po_json_by_rec_read(user_id, limit=8):
@@ -213,6 +235,7 @@ def rec_read(user_id, limit):
     limit = rec_limit_by_time(user_id, limit)
     result = []
     if limit > 0:
+        key_log = REDIS_REC_USER_LOG%user_id
         picker = RecTagPicker(user_id)
         for i in xrange(limit):
 
@@ -227,17 +250,16 @@ def rec_read(user_id, limit):
 
             result.append(po_id)
 
-    if result:
-        now = time_new_offset()
-        key_log = REDIS_REC_USER_LOG%user_id
-        t = []
-        offset = 0
-        for i in result:
-            t.append(i)
-            t.append(offset+now)
-            offset += 0.01
+        if result:
+            now = time_new_offset()
+            t = []
+            offset = 0
+            for i in result:
+                t.append(i)
+                t.append(offset+now)
+                offset += 0.01
 
-        redis.zadd(key_log, *t)
+            redis.zadd(key_log, *t)
 
     return result
 
