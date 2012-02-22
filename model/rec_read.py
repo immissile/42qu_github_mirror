@@ -84,12 +84,11 @@ def rec_read_by_user_id_tag_id(user_id, tag_id):
             else:
                 break
         else:
-            #如果 没有新文章 or now - 主题下最近读过的文章的时间戳 < 1个小时 
-
             key_tag_new =  REDIS_REC_TAG_NEW%tag_id
             po_id = redis.srandmember(key_tag_new)
             if po_id:
                 from_new = True
+                #if 主题下最近读过的文章的时间戳 < 1个小时 , 推荐新文章 
             else:
                 #如果没有可以推荐的缓存, 生成缓存, 缓存有效期1天
                 #推荐文章
