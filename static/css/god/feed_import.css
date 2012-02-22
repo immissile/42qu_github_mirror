@@ -16,7 +16,7 @@
 #title{
     padding:7px;
     width:82%;
-    margin:14px 20px 14px 0;
+    margin:14px 0 14px 23px;
 }
 .check{
     font-size:16px;
@@ -51,4 +51,25 @@ ul.token-input-list{
 .ul_label{
 vertical-align:13px;
 margin-right:10px;
+}
+
+#okbtn,#nobtn{
+display:inline-block;
+margin-left:7px;
+padding:6px 26px;
+border:1px solid #ccc;
+background:-moz-linear-gradient(center top , #FCFCFF, #F6F6FF) repeat;
+box-shadow:0 1px 0 #FFFFFF inset, 0 1px 0 rgba(150, 150, 255, 0.1);
+color:#333 !important;
+text-shadow:0 1px 0 #FFF;
+font-size:14px;
+background:#fff\9;
+filter:progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff',EndColorStr='#f3f3f3');
+background-image:-webkit-gradient(linear,0 0,0 100%,from(#fff),to(#f3f3f3));
+}
+#nobtn{
+padding:3px 14px;
+}
+#okbtn:active,#nobtn:active{
+box-shadow:0 1px 2px rgba(0, 0, 0, 0.3) inset;
 }

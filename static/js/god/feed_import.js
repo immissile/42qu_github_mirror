@@ -14,6 +14,8 @@ function load_tag(id){
 //            txt.height(txt[0].scrollHeight);
 
             window.scrollTo(0, 0);
+            $('#txt').css('height',($(window).height()-240) + 'px')
+
         }
         data = r;
     }
@@ -49,7 +51,4 @@ function load_tag(id){
 
 }
 
-$(function(){
-    alert(0)
-    $('#txt').css('height',($(window).height()-240) + 'px')
-})
+

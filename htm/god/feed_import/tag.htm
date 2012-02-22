@@ -19,8 +19,8 @@ ${css.god_feed_import|n}
 <script id="render_txt" type="text/x-jquery-tmpl">
 <%text>
     <form id="editform">
-    <input id="title" name="title" type="text" value="${title}" >
     <a href="${url}" target="_blank">原文链接</a>
+    <input id="title" name="title" type="text" value="${title}" >
     <textarea id="txt" name="txt">{{html txt}}</textarea>
 
     </%text>
@@ -59,8 +59,8 @@ ${css.god_feed_import|n}
 
 <div id="editwrapper"></div>
 <div class="btnbar">
-<button id="okbtn">确认</button>
-<button id="nobtn">跳过</button>
+<a id="okbtn" href="javascript:void(0)">确认</a>
+<a id="nobtn" href="javascript:void(0)">跳过</a>
 </div>
 <script src="${js.god_feed_import|n}"></script>
 
