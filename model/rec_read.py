@@ -49,8 +49,7 @@ def rec_read_new(po_id, tag_id):
     mq_rec_topic_has_new(tag_id)
     times = redis.hget(REDIS_REC_PO_TIMES)
     if times >= REDIS_REC_PO_SHOW_TIMES:
-        score = redis.hget(REDIS_REC_PO_SCORE, po_id) or 0
-        redis.zadd(REDIS_REC_TAG_OLD%tag_id, po_id, float(score)/times)
+        _user_tag_old_rank(po_id, tag_id, times)
     else:
         redis.zadd(REDIS_REC_TAG_NEW%tag_id, po_id, times)
 
@@ -63,9 +62,16 @@ def _po_rec_times_incr(po_id, tag_id):
     redis.hincrby(REDIS_REC_PO_TIMES, po_id, 1)
     k = random()
     if k < 0.01:
-        score = redis.hget(REDIS_REC_PO_SCORE, po_id) or 0
-        rank = float(score) / redis.hget(REDIS_REC_PO_TIMES, po_id) 
-        redis.zadd(REDIS_REC_USER_TAG%tag_id, po_id,rank)
+        _user_tag_old_rank(po_id, tag_id)
+
+def _user_tag_old_rank(po_id, tag_id, times=None):
+    if times is None:
+        times = redis.hget(REDIS_REC_PO_TIMES, po_id)
+
+    score = redis.hget(REDIS_REC_PO_SCORE, po_id) or 0
+    rank = float(score) / times
+    redis.zadd(REDIS_REC_TAG_OLD%tag_id, po_id, rank)
+
 
 def rec_read_by_user_id_tag_id(user_id, tag_id):
     po_id = 0
@@ -90,10 +96,8 @@ def rec_read_by_user_id_tag_id(user_id, tag_id):
             key = REDIS_REC_TAG_NEW%tag_id
             redis.zincrby(key, po_id, 1)
             if redis.zscore(key, po_id) > REDIS_REC_PO_SHOW_TIMES:
-                p = redis.pipeline()
-                p.zrem(key, po_id)
-                #p.zset()
-                p.execute() 
+                redis.zrem(key, po_id)
+                _user_tag_old_rank(po_id, tag_id, REDIS_REC_PO_SHOW_TIMES+1)
         else:
             _po_rec_times_incr(po_id, tag_id)
     return po_id
