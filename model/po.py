@@ -261,8 +261,14 @@ class Po(McModel, ReplyMixin):
             mc_feed_tuple.delete(id)
             from po_pos import po_pos_state_buzz
             from buzz_reply import  mq_buzz_po_reply_new
-            po_pos_state_buzz(user_id, self)
+
+            if not po_pos_state_buzz(user_id, self):
+                from model.po_tag import po_score_incr
+                po_score_incr(self, user_id, 2)
+
             mq_buzz_po_reply_new(user_id, reply_id, id, self.user_id)
+
+
         return reply_id
 
 

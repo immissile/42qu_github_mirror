@@ -85,15 +85,18 @@ def po_pos_state_buzz(user_id, po):
     po_id = po.id
     if not po_pos_state(user_id, po_id, STATE_BUZZ):
         po_pos_set(user_id, po)
+        return False
+    return True 
 
 def po_pos_state_mute(user_id, po_id):
     po_pos_state(user_id, po_id, STATE_MUTE)
 
 def po_pos_state(user_id, po_id, state):
     pos, state_old = po_pos_get(user_id, po_id)
-    if pos >= 0 and state_old != state:
-        PoPos.raw_sql('update po_pos set state=%s where user_id=%s and po_id=%s', state, user_id, po_id)
-        mc_po_pos.delete('%s_%s' % (user_id, po_id))
+    if pos >= 0:
+        if state_old != state:
+            PoPos.raw_sql('update po_pos set state=%s where user_id=%s and po_id=%s', state, user_id, po_id)
+            mc_po_pos.delete('%s_%s' % (user_id, po_id))
         return True
 
 if __name__ == '__main__':
