@@ -19,6 +19,8 @@ from zkit.fanjian import utf8_ftoj
 from fav import fav_user_count_by_po_id
 from zrank.sorts import hot
 from operator import itemgetter
+from rec_read import rec_read_new
+
 REDIS_REC_CID_TUPLE = (
     (1, '新闻 / 快讯'),
     (2, '评论 / 观点'),
@@ -87,6 +89,7 @@ def zsite_tag_po_new(zsite_id, po, cid, rank=1):
     mc_flush(zsite_id, po_id)
     cid = int(cid)
 
+    rec_read_new(po_id, zsite_id)
     if cid in REDIS_REC_CID_DICT:
 
         p = redis.pipeline()
