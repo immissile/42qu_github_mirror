@@ -19,7 +19,7 @@ from zkit.fanjian import utf8_ftoj
 from fav import fav_user_count_by_po_id
 from zrank.sorts import hot
 from operator import itemgetter
-from rec_read import rec_read_new
+from rec_read import rec_read_new, rec_read_user_topic_score_incr
 
 REDIS_REC_CID_TUPLE = (
     (1, '新闻 / 快讯'),
@@ -53,6 +53,11 @@ REDIS_PO_ID2TAG_CID = 'PoId2TagCid'
 
 class PoZsiteTag(Model):
     pass
+
+
+def po_score_incr(po, user_id, score=1):
+    pass
+    rec_read_user_topic_score_incr(user_id, tag_id, score)
 
 #def section_list_by_tag_id_cid(tag_id, cid):
 #    key = REDIS_TAG_CID%(tag_id, cid)

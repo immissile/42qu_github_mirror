@@ -1,6 +1,5 @@
 #coding:utf-8
 from _db import McCache, redis
-from time import time
 from model.po_json import po_json
 from model.days import time_new_offset
 from zkit.algorithm.wrandom import wsample2
@@ -9,75 +8,178 @@ from array import array
 from model.zsite_list import zsite_list, ZsiteList
 from model.cid import CID_TAG
 from math import log
-
+from time import time
+from mq import mq_client
+from model.days import ONE_DAY 
 
 __metaclass__ = type
 
-def dumps_id_rank(id_rank):
-    r = array('I')
-    r.fromlist(lineiter(id_rank))
-    return r.tostring()
+REDIS_REC_USER_TAG = 'Rec@%s'                 #用户 - 主题 - 分数 zset
+REDIS_REC_USER_TAG_CAN_REC = 'Rec?%s'         #用户 - 可以推荐的主题 - 分数 string 
+REDIS_REC_TAG_USER_IS_EMPTY = 'Rec~%s'        #主题 - 已经读完了的用户 set
+REDIS_REC_TAG = 'RecTag'                      #所有热门主题 用于没有推荐主题的时候随机推荐
+REDIS_REC_TAG_ID_SCORE = 'RecTagIdScore'      #所有热门主题 id score的缓存 
+REDIS_REC_USER_LOG = 'Rec+%s'                 #用exist判断文章是否已经读过 zset
+REDIS_REC_USER_TAG_READED = 'Rec(%s'          #用户 - 主题 - 已经读过的文章
+REDIS_REC_USER_TAG_TO_REC = 'Rec)%s'          #用户 - 主题 - 可以推荐的文章的缓存
+REDIS_REC_TAG_NEW = 'Rec/%s'                  #话题下的新内容
+REDIS_REC_TAG_OLD = 'Rec&%s'                  #话题下的老内容
+REDIS_REC_PO_SCORE = 'Rec<%s'                  #话题的积分
+REDIS_REC_PO_TIMES = 'Rec>%s'                  #老话题的被推荐次数
+REDIS_REC_LAST_TIME = 'RecLastTime'            #上次推荐话题的时间
 
-def loads_id_rank(id_rank):
-    r = array('I')
-    r.fromstring(id_rank)
-    return list(chunkiter(r, 2))
+REDIS_REC_USER_TAG_LIMIT = 512
+
+def rec_read_user_topic_score_incr(user_id, tag_id, score=1):
+    key = REDIS_REC_USER_TAG%user_id
+    redis.zincrby(key, tag_id, score)
+    redis.zincrby(REDIS_REC_TAG, tag_id, score)
+
+    #zrank <  REDIS_REC_USER_TAG_LIMIT的时候 , 并且不再读完的redis时候 , 进入主题推荐 
+    if redis.zrevrank(key, tag_id) < REDIS_REC_USER_TAG_LIMIT :
+        if not redis.sismember(REDIS_REC_TAG_USER_IS_EMPTY%tag_id, user_id):
+            _rec_topic_new_by_user_id_topic_id_score(user_id, tag_id)
+ 
 
 
-def tag_rank_by_user_id(user_id):
-    c = ZsiteList.raw_sql('select id, rank from zsite_list where cid=%s and owner_id=%s order by rank desc limit 512', CID_TAG, user_id)
-    return c.fetchall()
-
-
-REDIS_REC_LOG = 'Rec-%s'
-REDIS_REC_USER_TOPIC = 'Rec@%s'
-REC_TOPIC_DEFAULT = tag_rank_by_user_id(0) #TODO
-REC_TOPIC_DEFAULT = [(i[0], 1 ) for i in REC_TOPIC_DEFAULT]
-REC_TOPIC_DEFAULT_DUMPS = dumps_id_rank(REC_TOPIC_DEFAULT)
-
-def rec_read_new(po_id, tag_id_list):
+def rec_read_topic(user_id):
     pass
 
-#TODO
-def rec_read_by_topic(user_id, topic_id):
-    return
+def po_json_by_rec_read(user_id, limit=8):
+    id_list = rec_read_more(user_id, limit)
+    return po_json(user_id , id_list, 47)
 
-class RecTopicPicker:
-    def __init__(self, user_id):
-        key = REDIS_REC_USER_TOPIC%user_id
+def rec_read_more(user_id, limit):
+    if rec_read(user_id, limit):
+        return rec_read_log_by_user_id(user_id, limit, 0)
+    return []
 
-        result = redis.get(key)
+def rec_read_log_by_user_id(user_id, limit, offset):
+    key = REDIS_REC_USER_LOG%user_id
+    return redis.zrevrange(key, offset, offset+limit-1)
 
-        if result is None:
-            result = REC_TOPIC_DEFAULT
-            redis.set(key, REC_TOPIC_DEFAULT_DUMPS)
+def rec_limit_by_time(user_id, limit):
+    now = int(time())
+    last = redis.hget(REDIS_REC_LAST_TIME, user_id) or 0
+    times = int((now - int(last) + 59)//60)
+    return min(times, limit)
+
+def rec_read(user_id, limit):
+    limit = rec_limit_by_time(user_id, limit)
+    result = []
+
+    return result
+
+def dumps_id_score(id_score):
+    r = array('I')
+    r.fromlist(lineiter(id_score))
+    return r.tostring()
+
+def loads_id_score(id_score):
+    r = array('I')
+    r.fromstring(id_score)
+    return list(chunkiter(r, 2))
+
+def rec_read_new(po_id, tag_id):
+    mq_rec_topic_has_new(tag_id)
+    #TODO
+
+#@mq_client
+def mq_rec_topic_has_new(tag_id):
+    rec_topic_has_new(tag_id)
+
+def rec_topic_has_new(tag_id):
+    user_id_list = redis.smembers(REDIS_REC_TAG_USER_IS_EMPTY%tag_id) 
+    for user_id in user_id_list:
+        key = REDIS_REC_USER_TAG%user_id
+
+        rank = redis.zrevrank(key, tag_id)
+        if rank is not None and rank < REDIS_REC_USER_TAG_LIMIT:
+            _rec_topic_new_by_user_id_topic_id_score(user_id, tag_id)
+
+def _rec_topic_new_by_user_id_topic_id_score(user_id, tag_id):
+    score = redis.zscore(REDIS_REC_USER_TAG%user_id, tag_id)
+    if score:
+        id_score_list =  id_score_list_by_user_id(user_id) or []
+        id_score_list.append((
+            int(tag_id), int(score)
+        )) 
+        id_score_list_new(user_id, id_score_list)
+
+def id_score_list_by_hot():
+    result = redis.get(REDIS_REC_TAG_ID_SCORE)
+    if result is None:
+        result =  redis.zrevrange(REDIS_REC_TAG, 0, REDIS_REC_USER_TAG_LIMIT-1, True)
+        result = result.items()
+        redis.setex(REDIS_REC_TAG_ID_SCORE,dumps_id_score(result),ONE_DAY)
+    else:
+        result = loads_id_score(result)
+    return result
+
+def id_score_list_by_user_id(user_id):
+    key = REDIS_REC_USER_TAG_CAN_REC%user_id
+
+    result = redis.get(key)
+
+    if result is None:
+        key_tag = REDIS_REC_USER_TAG%user_id
+        if redis.exists(key_tag): #第一次初始化
+            r = redis.zrevrange(key_tag, 0, REDIS_REC_USER_TAG_LIMIT-1, True)
+            result = r.items() 
+            id_score_list_new(user_id, result)
         else:
-            result = loads_id_rank(result)
+            result = None
+    else:
+        result = loads_id_score(result)
 
-        self._topic_id_rank_list = result
-        self._key = key
-        self._choice_set()
+    return result
 
-    def delete(self, topic_id):
-        #print topic_id
+
+def id_score_list_new(user_id, id_score_list):
+    key = REDIS_REC_USER_TAG_CAN_REC%user_id
+    redis.set(key, dumps_id_score(id_score_list))
+
+
+class RecTagPicker:
+    def __init__(self, user_id):
+        self._tag_id_score_list = id_score_list_by_user_id(user_id) 
+        self._init_sample()
+        self.user_id = user_id
+
+    def delete(self, tag_id):
+        #print tag_id
+        _tag_id_score_list = self._tag_id_score_list
+
+        if _tag_id_score_list is None:
+            return
+
         r = []
-        for i in self._topic_id_rank_list:
-            if i[0] == topic_id:
+        for i in _tag_id_score_list:
+            if i[0] == tag_id:
                 continue
             r.append(i)
 
-        self._topic_id_rank_list = r
-        redis.set(self._key, dumps_id_rank(r))
-        self._choice_set()
+        self._tag_id_score_list = r
+        user_id = self.user_id  
 
-    def _choice_set(self):
-        _topic_id_rank_list = self._topic_id_rank_list
-        if _topic_id_rank_list:
-            self._choice = wsample2(_topic_id_rank_list)
+        id_score_list_new(user_id, r)
+
+        redis.sadd(REDIS_REC_TAG_USER_IS_EMPTY%tag_id, user_id)
+
+        self._init_sample()
+
+    def _init_sample(self):
+        _tag_id_score_list = self._tag_id_score_list
+
+        if _tag_id_score_list is None:
+            _tag_id_score_list = id_score_list_by_hot()
+
+        if _tag_id_score_list:
+            self._choice = wsample2(_tag_id_score_list)
         else:
             self._choice = None
 
-    def choice(self):
+    def __call__(self):
         _choice = self._choice
 
         if _choice is None:
@@ -85,66 +187,73 @@ class RecTopicPicker:
 
         return _choice()[0]
 
-def rec_read(user_id, limit):
-    now = time_new_offset()
 
-    if limit < 0:
-        limit = 0
+#def tag_rank_by_user_id(user_id):
+#    c = ZsiteList.raw_sql('select id, rank from zsite_list where cid=%s and owner_id=%s order by rank desc limit 512', CID_TAG, user_id)
+#    return c.fetchall()
+#
+#
+#REDIS_REC_LOG = 'Rec-%s'
+#REDIS_REC_USER_TAG = 'Rec@%s'
+#REC_TAG_DEFAULT = tag_rank_by_user_id(0) #TODO
+#REC_TAG_DEFAULT = [(i[0], 1 ) for i in REC_TAG_DEFAULT]
+#REC_TAG_DEFAULT_DUMPS = dumps_id_score(REC_TAG_DEFAULT)
+#
+#
+##TODO
+#def rec_read_by_topic(user_id, tag_id):
+#    return
+#
+#
+#def rec_read(user_id, limit):
+#    now = time_new_offset()
+#
+#    if limit < 0:
+#        limit = 0
+#
+#    t = []
+#    count = 0
+#    offset = 0
+#
+#    rec_topic_choice = RecTagPicker(user_id)
+#
+#    while count < limit:
+#
+#        tag_id = rec_topic_choice.choice()
+#        if not tag_id:
+#            break
+#
+#        po_id = rec_read_by_topic(user_id, tag_id)
+#        if not po_id:
+#            #print "delete", tag_id
+#            rec_topic_choice.delete(tag_id)
+#            continue
+#
+#        t.append(po_id)
+#        t.append(now+offset)
+#
+#        offset += 0.01
+#        count += 1
+#
+#    if count:
+#        key_log = REDIS_REC_LOG%user_id
+#        redis.zadd(key_log, *t)
+#
+#    return count
+#
+#
+#
 
-    t = []
-    count = 0
-    offset = 0
-
-    rec_topic_choice = RecTopicPicker(user_id)
-
-    while count < limit:
-
-        topic_id = rec_topic_choice.choice()
-        if not topic_id:
-            break
-
-        po_id = rec_read_by_topic(user_id, topic_id)
-        if not po_id:
-            #print "delete", topic_id
-            rec_topic_choice.delete(topic_id)
-            continue
-
-        t.append(po_id)
-        t.append(now+offset)
-
-        offset += 0.01
-        count += 1
-
-    if count:
-        key_log = REDIS_REC_LOG%user_id
-        redis.zadd(key_log, *t)
-
-    return count
-
-def rec_read_log_by_user_id(user_id, limit, offset):
-    key = REDIS_REC_LOG%user_id
-    return  redis.zrevrange(key, offset, offset+limit-1)
-
-
-def rec_read_more(user_id, limit):
-    if rec_read(user_id, limit):
-        return rec_read_log_by_user_id(user_id, limit)
-    return []
-
-def po_json_by_rec_read(user_id, limit=8):
-    id_list = []
-    #id_list = rec_read_more(user_id, limit)
-    return po_json(user_id , id_list, 47)
 
 if __name__ == '__main__':
     pass
 
     user_id = 1000000
-    rec_topic_choice = RecTopicPicker(user_id)
+    rec_topic_choice = RecTagPicker(user_id)
     for i in xrange(10):
         print rec_topic_choice.choice()
 
-    #key = REDIS_REC_USER_TOPIC%user_id
-    #redis.delete(key)
-    #print rec_read_more(user_id, 7)
+#key = REDIS_REC_USER_TAG%user_id
+#redis.delete(key)
+#print rec_read_more(user_id, 7)
 

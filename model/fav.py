@@ -44,8 +44,9 @@ def fav_add(user_id, po_id):
         mc_flush_by_user_id(user_id, cid)
         mc_flush_by_po_id(po_id)
         po_pos_set(user_id, po)
-        from po_tag import section_rank_refresh
-        section_rank_refresh(po)
+
+        from po_tag import po_score_incr
+        po_score_incr(po, user_id, 7)
 
 def fav_rm(user_id, po_id):
     cid = fav_cid(user_id, po_id)
