@@ -25,7 +25,7 @@ REDIS_REC_USER_LOG = 'Rec+%s'                 #用exist判断文章是否已经�
 
 REDIS_REC_TAG = 'RecTag'                      #所有热门主题 用于没有推荐主题的时候随机推荐
 REDIS_REC_TAG_ID_SCORE = 'RecTagIdScore'      #所有热门主题 id score的缓存 
-REDIS_REC_TAG_NEW = 'Rec/%s'                  #话题下的新内容
+REDIS_REC_TAG_NEW = 'Rec/%s'                  #话题下的新内容 set
 REDIS_REC_TAG_OLD = 'Rec&%s'                  #话题下的老内容
 REDIS_REC_PO_SCORE = 'RecPoScore'             #话题的积分 hset
 REDIS_REC_PO_TIMES = 'RecTimes'                  #老话题的被推荐次数 
@@ -51,18 +51,13 @@ def rec_read_new(po_id, tag_id):
     if times >= REDIS_REC_PO_SHOW_TIMES:
         _user_tag_old_rank(po_id, tag_id, times)
     else:
-        redis.zadd(REDIS_REC_TAG_NEW%tag_id, po_id, times)
+        redis.sadd(REDIS_REC_TAG_NEW%tag_id, po_id)
 
 #@mq_client
 def mq_rec_topic_has_new(tag_id):
     rec_topic_has_new(tag_id)
 
 
-def _po_rec_times_incr(po_id, tag_id):
-    redis.hincrby(REDIS_REC_PO_TIMES, po_id, 1)
-    k = random()
-    if k < 0.01:
-        _user_tag_old_rank(po_id, tag_id)
 
 def _user_tag_old_rank(po_id, tag_id, times=None):
     if times is None:
@@ -75,31 +70,54 @@ def _user_tag_old_rank(po_id, tag_id, times=None):
 
 def rec_read_by_user_id_tag_id(user_id, tag_id):
     po_id = 0
-    by_new = True
+    from_new = False
     now = time_new_offset()
 
+    for i in xrange(7):
+        #如果有可以推荐的缓存 , 读取缓存
+        key_to_rec = REDIS_REC_USER_TAG_TO_REC%tag_id
+        if redis.exists(key_to_rec):
+            po_id_list = redis.zrevrange(key_to_rec, 0, 0)
+            if po_id_list:
+                po_id = po_id_list[0]
+                redis.zrem(key_to_rec, po_id)
+            else:
+                break
+        else:
+            #如果 没有新文章 or now - 主题下最近读过的文章的时间戳 < 1个小时 
 
-    #如果有可以推荐的缓存 , 读取缓存
-        #增加展示次数, 有1/100的概率更新分数
-
-    #如果 没有新文章 or now - 主题下最近读过的文章的时间戳 < 1个小时 
-        #如果没有可以推荐的缓存, 生成缓存, 缓存有效期1天
-
-    #else 推荐新文章 , 增加展示次数 
-
-
-    if redis.zrank(key_log, po_id) is not None:
-        pass
+            key_tag_new =  REDIS_REC_TAG_NEW%tag_id
+            po_id = redis.srandmember(key_tag_new)
+            if po_id:
+                from_new = True
+            else:
+                #如果没有可以推荐的缓存, 生成缓存, 缓存有效期1天
+                #推荐文章
+                # = None
+                pass
+ 
+        if po_id:
+            redis.zadd(REDIS_REC_USER_TAG_READED%tag_id, po_id, now)
+            if redis.zrank(REDIS_REC_USER_LOG%user_id, po_id) is not None:
+                po_id = 0 
+        
+        if po_id:
+            break
 
     if po_id:
-        if by_new:
-            key = REDIS_REC_TAG_NEW%tag_id
-            redis.zincrby(key, po_id, 1)
-            if redis.zscore(key, po_id) > REDIS_REC_PO_SHOW_TIMES:
-                redis.zrem(key, po_id)
-                _user_tag_old_rank(po_id, tag_id, REDIS_REC_PO_SHOW_TIMES+1)
+        redis.hincrby(REDIS_REC_PO_TIMES, po_id, 1)
+
+        if from_new:
+            if redis.hget(REDIS_REC_PO_TIMES, po_id) >= REDIS_REC_PO_SHOW_TIMES:
+                redis.srem(key_tag_new, po_id)
+                _user_tag_old_rank(po_id, tag_id)
+            else:
+                redis.zincrby(key, po_id, 1)
         else:
-            _po_rec_times_incr(po_id, tag_id)
+            k = random()
+            if k < 0.01:
+                _user_tag_old_rank(po_id, tag_id)
+
     return po_id
 
 def po_json_by_rec_read(user_id, limit=8):
@@ -237,7 +255,7 @@ class RecTagPicker:
 
 def rec_read(user_id, limit):
     limit = rec_limit_by_time(user_id, limit)
-    result = []
+    result = set()
     if limit > 0:
         key_log = REDIS_REC_USER_LOG%user_id
         picker = RecTagPicker(user_id)
@@ -252,8 +270,8 @@ def rec_read(user_id, limit):
                 picker.delete(tag_id)
                 continue
 
-            result.append(po_id)
-
+            result.add(po_id)
+            
         if result:
             now = time_new_offset()
             t = []
