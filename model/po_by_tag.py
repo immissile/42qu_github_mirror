@@ -20,12 +20,12 @@ from fav import fav_user_count_by_po_id
 from zrank.sorts import hot
 from operator import itemgetter
 REDIS_REC_CID_TUPLE = (
-    (1, "问题 / 讨论"),
-    (2, "新闻 / 快讯"),
-    (3, "评论 / 观点"),
-    (4, "访谈 / 人物"),
-    (5, "资料 / 知识"),
-    (6, "灌水 / 闲聊"),
+    (1, '新闻 / 快讯'),
+    (2, '评论 / 观点'),
+    (3, '问题 / 讨论'),
+    (4, '访谈 / 人物'),
+    (5, '资料 / 知识'),
+    (6, '灌水 / 闲聊'),
 )
 REDIS_REC_CID_DICT = dict(REDIS_REC_CID_TUPLE)
 
@@ -305,13 +305,16 @@ def po_tag_id_list_new(po, tag_id_list, cid=0):
 
 
 def tag_cid_count(tag_id):
-    count_dict = redis.hgetall(REDIS_TAG_CID_COUNT%10232177)
+    count_dict = redis.hgetall(REDIS_TAG_CID_COUNT%tag_id)
     r = []
-    for k,v in count_dict.iteritems():
-        r.append((int(k),int(v)))
+    for k, v in count_dict.iteritems():
+        r.append((int(k), int(v)))
     r.sort(key=itemgetter(0))
     return r
 
+def po_by_tag_id_cid(tag_id, cid, limit, offset):
+    id_list = redis.zrange( REDIS_TAG_CID%(tag_id, cid), offset, limit+offset-1 )
+    return Po.mc_get_list(id_list)
 
 if __name__ == '__main__':
     pass
@@ -319,4 +322,6 @@ if __name__ == '__main__':
     po = Po.where()[1]
     print po
     po_tag_new_by_autocompelte(po, ['-张沈鹏'], 1)
-    print tag_cid_count(10232177) 
+    print tag_cid_count(10232177)
+
+    print po_by_tag_id_cid(10232177, 1, 1, 0)
