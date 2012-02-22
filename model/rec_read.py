@@ -51,8 +51,10 @@ def mq_rec_topic_has_new(tag_id):
     rec_topic_has_new(tag_id)
 
 def rec_read_by_user_id_tag_id(user_id, tag_id):
-    return
-
+    po_id = 0
+    #如果不再最新的里面 , 那就增加展示次数
+        #如果展示次数%100 == 0 , 那么更新分数
+    return po_id
 
 def po_json_by_rec_read(user_id, limit=8):
     id_list = rec_read_more(user_id, limit)
