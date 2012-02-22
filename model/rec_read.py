@@ -24,8 +24,8 @@ REDIS_REC_USER_TAG_READED = 'Rec(%s'          #用户 - 主题 - 已经读过的
 REDIS_REC_USER_TAG_TO_REC = 'Rec)%s'          #用户 - 主题 - 可以推荐的文章的缓存
 REDIS_REC_TAG_NEW = 'Rec/%s'                  #话题下的新内容
 REDIS_REC_TAG_OLD = 'Rec&%s'                  #话题下的老内容
-REDIS_REC_PO_SCORE = 'Rec<%s'                  #话题的积分
-REDIS_REC_PO_TIMES = 'Rec>%s'                  #老话题的被推荐次数
+REDIS_REC_PO_SCORE = 'RecPoScore'             #话题的积分 hset
+REDIS_REC_PO_TIMES = 'Rec>%s'                  #老话题的被推荐次数 
 REDIS_REC_LAST_TIME = 'RecLastTime'            #上次推荐话题的时间
 
 REDIS_REC_USER_TAG_LIMIT = 512
@@ -35,7 +35,8 @@ def rec_read_user_topic_score_incr(user_id, tag_id, score=1):
     redis.zincrby(key, tag_id, score)
     redis.zincrby(REDIS_REC_TAG, tag_id, score)
 
-    #zrank <  REDIS_REC_USER_TAG_LIMIT的时候 , 并且不再读完的redis时候 , 进入主题推荐 
+    # zrank <  REDIS_REC_USER_TAG_LIMIT的时候 
+    # 并且不再读完的redis时候 , 进入主题推荐 
     if redis.zrevrank(key, tag_id) < REDIS_REC_USER_TAG_LIMIT :
         if not redis.sismember(REDIS_REC_TAG_USER_IS_EMPTY%tag_id, user_id):
             _rec_topic_new_by_user_id_topic_id_score(user_id, tag_id)

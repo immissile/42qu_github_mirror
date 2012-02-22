@@ -19,7 +19,7 @@ from zkit.fanjian import utf8_ftoj
 from fav import fav_user_count_by_po_id
 from zrank.sorts import hot
 from operator import itemgetter
-from rec_read import rec_read_new, rec_read_user_topic_score_incr
+from rec_read import rec_read_new, rec_read_user_topic_score_incr, REDIS_REC_PO_SCORE 
 
 REDIS_REC_CID_TUPLE = (
     (1, '新闻 / 快讯'),
@@ -56,8 +56,18 @@ class PoZsiteTag(Model):
 
 
 def po_score_incr(po, user_id, score=1):
-    pass
-    rec_read_user_topic_score_incr(user_id, tag_id, score)
+    po_id = po.id
+    cid = redis.hget(REDIS_PO_ID2CID, po_id)
+    tag_id_list = tag_id_list_by_po_id(po_id=po_id)
+    if tag_id_list:
+        redis.hincrby(REDIS_REC_PO_SCORE, po_id, score) 
+        for tag_id in tag_id_list:
+            rec_read_user_topic_score_incr(user_id, tag_id, score)
+            if cid:
+                score = int(redis.hget(REDIS_REC_PO_SCORE, po_id)) 
+                key = REDIS_TAG_CID%(tag_id, cid)
+                new_rank = hot(score, 0, po.create_time)
+                redis.zadd(key, po_id, new_rank)
 
 #def section_list_by_tag_id_cid(tag_id, cid):
 #    key = REDIS_TAG_CID%(tag_id, cid)
@@ -65,14 +75,6 @@ def po_score_incr(po, user_id, score=1):
 #    return id_list
 
 #def section_rank_refresh(po):
-#    cid = redis.hget(REDIS_PO_ID2CID, po.id)
-#    if cid:
-#        for tag_id in tag_id_list_by_po_id(po_id=po.id):
-#            viewd_count = int(redis.hget(REDIS_PO_VIEW_COUNT, po.id))
-#            ups = fav_user_count_by_po_id(po.id)*5 + po.reply_count*3 + viewd_count
-#            key = REDIS_TAG_CID%(tag_id, cid)
-#            new_rank = hot(ups, 0, po.create_time )
-#            redis.zadd(key, po.id, new_rank)
 
 
 def zsite_tag_po_new(zsite_id, po, cid, rank=1):
