@@ -11,6 +11,7 @@ from math import log
 from time import time
 from mq import mq_client
 from model.days import ONE_DAY
+from random import random
 
 __metaclass__ = type
 
@@ -50,10 +51,29 @@ def rec_read_new(po_id, tag_id):
 def mq_rec_topic_has_new(tag_id):
     rec_topic_has_new(tag_id)
 
+
+def _po_rec_times_incr(po_id):
+    redis.hincrby(REDIS_REC_PO_TIMES, po_id, 1)
+    k = random()
+    if k < 0.01:
+        po_rec_score 
+
+
 def rec_read_by_user_id_tag_id(user_id, tag_id):
     po_id = 0
-    #如果不再最新的里面 , 那就增加展示次数
-        #如果展示次数%100 == 0 , 那么更新分数
+
+    now = time_new_offset()
+
+
+    #如果有可以推荐的缓存 , 读取缓存
+        #增加展示次数, 有1/100的概率更新分数
+
+    #如果 没有新文章 or now - 主题下最近读过的文章的时间戳 < 1个小时 
+        #如果没有可以推荐的缓存, 生成缓存, 缓存有效期1天
+
+    #else 推荐新文章 , 增加展示次数 
+
+
     return po_id
 
 def po_json_by_rec_read(user_id, limit=8):
@@ -199,12 +219,12 @@ def rec_read(user_id, limit):
             tag_id = picker()
             if not tag_id:
                 break
- 
+
             po_id = rec_read_by_user_id_tag_id(user_id, tag_id)
             if not po_id:
                 picker.delete(tag_id)
                 continue
-        
+
             result.append(po_id)
 
     if result:
