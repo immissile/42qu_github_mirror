@@ -225,7 +225,7 @@ def po_id_list_by_tag_id(tag_id, limit, offset=0):
     po_list = PoZsiteTag.where(zsite_id=tag_id).order_by('rank desc').col_list(limit, offset, col='po_id')
     return po_list
 
-def po_by_tag(tag_id, user_id, limit=25, offset=0):
+def po_tag(tag_id, user_id, limit=25, offset=0):
     id_list = po_id_list_by_tag_id(tag_id, limit, offset)
     return po_json(user_id, id_list, 36)
 
@@ -312,7 +312,7 @@ def tag_cid_count(tag_id):
     r.sort(key=itemgetter(0))
     return r
 
-def po_by_tag_id_cid(tag_id, cid, limit, offset):
+def po_tag_id_cid(tag_id, cid, limit, offset):
     id_list = redis.zrange( REDIS_TAG_CID%(tag_id, cid), offset, limit+offset-1 )
     return Po.mc_get_list(id_list)
 
@@ -324,4 +324,4 @@ if __name__ == '__main__':
     po_tag_new_by_autocompelte(po, ['-张沈鹏'], 1)
     print tag_cid_count(10232177)
 
-    print po_by_tag_id_cid(10232177, 1, 1, 0)
+    print po_tag_id_cid(10232177, 1, 1, 0)

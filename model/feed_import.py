@@ -5,12 +5,11 @@ import _env
 from _db import Model, McModel, redis
 from po import po_note_new
 from kv import Kv
-from rec_read import  rec_read_new 
 from part_time_job import part_time_job_new
 from config.privilege import PRIVILEGE_FEED_IMPORT
 from zrank.sorts import hot
 from model.tag_admin import tag_admin_rm
-from po_by_tag import REDIS_REC_CID_DICT
+from po_tag import REDIS_REC_CID_DICT
 
 FEED_IMPORT_STATE_RM = 0
 FEED_IMPORT_STATE_WITHOUT_TAG = 10

@@ -59,7 +59,7 @@ def _po_pos(user_id, po, state, sql):
     pos_old, _ = po_pos_get(user_id, po_id)
     print pos_old
     if pos_old == -1:
-        from po_by_tag import REDIS_FEED_PO_VIEWED_COUNT, section_rank_refresh
+        from po_tag import REDIS_FEED_PO_VIEWED_COUNT, section_rank_refresh
         redis.hincrby(REDIS_FEED_PO_VIEWED_COUNT, po.id, 1)
         section_rank_refresh(po)
     if pos > pos_old:

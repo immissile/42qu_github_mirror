@@ -9,7 +9,7 @@ from model.site_po import feed_po_list_by_zsite_id, po_cid_count_by_zsite_id, PA
 from zkit.page import page_limit_offset
 from model.zsite_fav import zsite_fav_get_and_touch
 from model.rec_read import po_json_by_rec_read
-#from model.po_by_tag import po_by_tag
+#from model.po_tag import po_tag
 
 def render_zsite_site(self, n=1, page_template='/-%s'):
     zsite_id = self.zsite_id
@@ -35,7 +35,7 @@ class Feed(LoginBase):
     def get(self):
         current_user_id = self.current_user_id
 
-#        from model.po_by_tag import po_by_tag
+#        from model.po_tag import po_tag
 
         self.render(
             rec_item_list=po_json_by_rec_read( current_user_id)
@@ -87,7 +87,7 @@ def render_tag_site(self, n=1, template='/ctrl/zsite/index/tag.htm'):
 #        '/-%s', total, n, limit=15
 #    )
 #    current_user_id = self.current_user_id
-#    item_list = po_by_tag(zsite_id, current_user_id, limit, offset )
+#    item_list = po_tag(zsite_id, current_user_id, limit, offset )
 #    self.render(
 #        template,
 #        page=str(page),

@@ -38,7 +38,7 @@ class ReplyMixin(object):
 
     def reply_new(self, user, txt, state=STATE_ACTIVE, create_time=None):
         from zsite import user_can_reply
-        from po_by_tag import section_rank_refresh
+        from po_tag import section_rank_refresh
         user_id = user.id
         cid = self.cid
         if cid not in (CID_SITE, CID_COM):
