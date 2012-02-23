@@ -1,6 +1,17 @@
 <%inherit file="_base.htm" />
 <%!
 from yajl import dumps
+from model.feed_import import FEED_IMPORT_STATE_REVIEWED, FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR, FEED_IMPORT_STATE_REVIEWED_SYNC, FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC , FEED_IMPORT_STATE_POED, FEED_IMPORT_STATE_RM 
+
+STATE2CN = {
+    FEED_IMPORT_STATE_RM : "忽略",  
+    FEED_IMPORT_STATE_REVIEWED:"通过", 
+    FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR:"删除作者", 
+    FEED_IMPORT_STATE_REVIEWED_SYNC:"同步", 
+    FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC:"删除作者并同步" ,
+    FEED_IMPORT_STATE_POED:"已生成" 
+}
+
 %>
 %for i in feed_list:
 <%
@@ -8,11 +19,18 @@ admin = i.admin
 %>
 <div>
 <a href="${admin.link}" target="_blank">${admin.name}</a>
-${i.tag_id_list}
-%for tag in i.tag_list:
+    %for tag in i.tag_list:
 ${tag.id} ${tag.name}
+    %endfor
+
+%if i.state < FEED_IMPORT_STATE_POED:
+    <a href="/feed_import/edit/${i.id}" target="_blank">${i.title}</a>
+%else:
+    ${i.title}
 %endif
-${i.title}
+
+${STATE2CN.get(i.state,"???")}
+
 </div>
 %endfor
 
