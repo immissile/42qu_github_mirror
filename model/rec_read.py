@@ -253,13 +253,10 @@ class RecTagPicker:
     def _init_sample(self):
         _tag_id_score_list = self._tag_id_score_list
 
-        if _tag_id_score_list is None:
+        if not _tag_id_score_list:
             _tag_id_score_list = id_score_list_by_hot()
 
-        if _tag_id_score_list:
-            self._choice = wsample2(_tag_id_score_list)
-        else:
-            self._choice = None
+        self._choice = wsample2(_tag_id_score_list)
 
     def __call__(self):
         _choice = self._choice
