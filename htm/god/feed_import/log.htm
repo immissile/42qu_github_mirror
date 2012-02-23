@@ -1,0 +1,19 @@
+<%inherit file="_base.htm" />
+<%!
+from yajl import dumps
+%>
+%for i in feed_list:
+<%
+admin = i.admin
+%>
+<div>
+<a href="${admin.link}" target="_blank">${admin.name}</a>
+${i.tag_id_list}
+%for tag in i.tag_list:
+${tag.id} ${tag.name}
+%endif
+${i.title}
+</div>
+%endfor
+
+${page|n}

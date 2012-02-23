@@ -1,4 +1,4 @@
-<%inherit file="/god/_base.htm" />
+<%inherit file="_base.htm" />
 <%!
 from yajl import dumps
 from cgi import escape
@@ -6,11 +6,6 @@ from model.douban import is_rt_by_title
 from model.po_tag import REDIS_REC_CID_TUPLE
 from model.zsite import Zsite
 %>
-<%def name="col2()">
-<a class="cola" href="/feed_import">标签列表</a>
-<p class="coltitle">其它</p>
-<a class="cola" href="/">返回后台</a>
-</%def>
 
 <%def name="htm_title()">
 <%

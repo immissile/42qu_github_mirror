@@ -4,7 +4,7 @@
 from _handler import Base
 from _urlmap import urlmap
 from model.site_sync import site_sync_rm, site_sync_new
-from model.feed_import import FeedImport, feed_review , feed_import_rm, FEED_IMPORT_STATE_INIT
+from model.feed_import import FeedImport, feed_review , feed_import_rm, FEED_IMPORT_STATE_INIT, feed_import_list_count_by_part_time_job
 from model.po_tag import po_tag_new_by_autocompelte
 from model.douban import is_rt_by_title
 from model.po_tag import tag_list_by_po_id
@@ -15,6 +15,24 @@ from yajl import dumps
 from model.zsite import Zsite
 from zkit.page import limit_offset, Page
 from model.tag_admin import tag_id_name_count_list_by_tag_admin , id_by_tag_admin
+
+@urlmap('/feed_import/log')
+@urlmap('/feed_import/log-(\d+)')
+class Log(Base):
+    def get(self, n=1):
+        page_limit = 25
+        now, list_limit, offset = limit_offset(
+            n,
+            page_limit
+        )
+        feed_list, count = feed_import_list_count_by_part_time_job(list_limit, offset)
+        page = str(Page(
+            '/feed_import/log-%s',
+            count,
+            now,
+            page_limit
+        ))
+        self.render(page=page, feed_list=feed_list)
 
 @urlmap('/feed_import')
 @urlmap('/feed_import-(\d+)')
