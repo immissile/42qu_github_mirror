@@ -40,7 +40,7 @@ def rec_read_user_topic_score_incr(user_id, tag_id, score=1):
     redis.zincrby(REDIS_REC_TAG, tag_id, score)
 
     # zrank <  REDIS_REC_USER_TAG_LIMIT的时候 
-    # 并且不在读完的redis时候 , 进入主题推荐 
+    # 并且不在读完的redis时候 , 进入候选的推荐主题
     if redis.zrevrank(key, tag_id) < REDIS_REC_USER_TAG_LIMIT :
         if not redis.sismember(REDIS_REC_TAG_USER_IS_EMPTY%tag_id, user_id):
             _rec_topic_new_by_user_id_topic_id_score(user_id, tag_id)
@@ -56,7 +56,6 @@ def rec_read_new(po_id, tag_id):
 #@mq_client
 def mq_rec_topic_has_new(tag_id):
     rec_topic_has_new(tag_id)
-
 
 
 def _user_tag_old_rank(po_id, tag_id, times=None):
@@ -154,7 +153,7 @@ def rec_limit_by_time(user_id, limit):
 
 def dumps_id_score(id_score):
     r = array('I')
-    r.fromlist(lineiter(id_score))
+    r.fromlist(map(int, lineiter(id_score)))
     return r.tostring()
 
 def loads_id_score(id_score):
@@ -186,7 +185,7 @@ def id_score_list_by_hot():
     result = redis.get(REDIS_REC_TAG_ID_SCORE)
     if result is None:
         result = redis.zrevrange(REDIS_REC_TAG, 0, REDIS_REC_USER_TAG_LIMIT-1, True)
-        result = result.items()
+        result = [map(int, i) for i in result]
         redis.setex(REDIS_REC_TAG_ID_SCORE, dumps_id_score(result), ONE_DAY)
     else:
         result = loads_id_score(result)
@@ -200,8 +199,7 @@ def id_score_list_by_user_id(user_id):
     if result is None:
         key_tag = REDIS_REC_USER_TAG%user_id
         if redis.exists(key_tag): #第一次初始化
-            r = redis.zrevrange(key_tag, 0, REDIS_REC_USER_TAG_LIMIT-1, True)
-            result = r.items()
+            result = redis.zrevrange(key_tag, 0, REDIS_REC_USER_TAG_LIMIT-1, True)
             id_score_list_new(user_id, result)
         else:
             result = None
@@ -240,7 +238,8 @@ class RecTagPicker:
 
         id_score_list_new(user_id, r)
 
-        redis.sadd(REDIS_REC_TAG_USER_IS_EMPTY%tag_id, user_id)
+        if tag_id:
+            redis.sadd(REDIS_REC_TAG_USER_IS_EMPTY%tag_id, user_id)
 
         self._init_sample()
 
@@ -301,10 +300,9 @@ def rec_read(user_id, limit):
 if __name__ == '__main__':
     pass
 
-    #user_id = 1000000
-    #rec_topic_choice = RecTagPicker(user_id)
-    #for i in xrange(10):
-    #    print rec_topic_choice.choice()
+#rec_topic_choice = RecTagPicker(user_id)
+#for i in xrange(10):
+#    print rec_topic_choice.choice()
 
 #key = REDIS_REC_USER_TAG%user_id
 #redis.delete(key)
