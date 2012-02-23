@@ -25,7 +25,7 @@ import_feed_duplicator = Duplicator(DUMPLICATE_DB_PREFIX%'import_feed')
 def feed_import_by_douban_feed():
     from model.douban import douban_feed_to_review_iter, DoubanUser
     for i in douban_feed_to_review_iter():
-
+        #print i.id
         txt = i.htm.replace(
             '豆友', '网友'
         ).replace('豆油', '私信').replace('豆邮', '私信')
@@ -80,6 +80,7 @@ def feed_new(feed):
     feed_user = user_by_feed_id_zsite_id(feed.rid, feed.zsite_id)
     user_id = zsite_id_by_douban_user_id(feed_user)
 
+
     zsite_id = feed.zsite_id
 
     is_without_author = (
@@ -124,12 +125,11 @@ def feed_new(feed):
         cid = feed.cid
 
         po_tag_id_list_new(po, feed.tag_id_list.split(' '), cid)
-        print po.link
 
 @single_process
 def main():
     feed2po_new()
-    feed_import_by_douban_feed()
+    #feed_import_by_douban_feed()
 
 
 if __name__ == '__main__':

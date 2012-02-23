@@ -57,7 +57,7 @@ def _po_pos(user_id, po, state, sql):
     pos = po.reply_id_last
     po_id = po.id
     pos_old, _ = po_pos_get(user_id, po_id)
-    print pos_old
+    #print pos_old
     if pos_old == -1:
         from po_tag import po_score_incr 
         po_score_incr(po, user_id, 1)
