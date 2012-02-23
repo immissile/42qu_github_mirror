@@ -6,6 +6,7 @@
 }
 .redis_cid{
     margin-right:32px;
+    margin-top:8px;
 }
 .redis_cid span{
     float:left;
@@ -23,7 +24,7 @@
     float:left;
     margin-bottom:14px;
     border:1px dotted #ccc;
-    padding:7px;
+    padding:6px;
 }
 .label_sync{
     margin-right:32px
