@@ -90,7 +90,7 @@ def rec_read_by_user_id_tag_id(user_id, tag_id):
             po_id = redis.srandmember(key_tag_new)
             if po_id:
                 last = redis.zrevrange(key_readed, 0 , 0 , True)
-                if last and (last[1] - now) < ONE_HOUR:
+                if last and (last[0][1] - now) < ONE_HOUR:
                     cache_key_to_rec = True
                 else:
                     from_new = True
