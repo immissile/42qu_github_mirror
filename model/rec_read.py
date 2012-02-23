@@ -47,7 +47,7 @@ def rec_read_user_topic_score_incr(user_id, tag_id, score=1):
 
 def rec_read_new(po_id, tag_id):
     mq_rec_topic_has_new(tag_id)
-    times = redis.hget(REDIS_REC_PO_TIMES)
+    times = redis.hget(REDIS_REC_PO_TIMES, po_id)
     if times >= REDIS_REC_PO_SHOW_TIMES:
         _user_tag_old_rank(po_id, tag_id, times)
     else:
