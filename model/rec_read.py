@@ -301,10 +301,10 @@ def rec_read(user_id, limit):
 if __name__ == '__main__':
     pass
 
-    user_id = 1000000
-    rec_topic_choice = RecTagPicker(user_id)
-    for i in xrange(10):
-        print rec_topic_choice.choice()
+    #user_id = 1000000
+    #rec_topic_choice = RecTagPicker(user_id)
+    #for i in xrange(10):
+    #    print rec_topic_choice.choice()
 
 #key = REDIS_REC_USER_TAG%user_id
 #redis.delete(key)
