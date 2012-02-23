@@ -21,19 +21,21 @@ function load_tag(id){
     }
 
 
-
     $("#nobtn").live('click',function(){
         $.postJSON(
             prefix+'/rm/'+$("#feed_id").val(),
             refresh_data
         );
+        $("#editform").remove()
     });
 
     
     $("#okbtn").live('click',function(){
             if($("input:radio:checked").val()){
+                
                 var post_data = $("#editform").serialize();
                 $.postJSON(prefix+'/1',post_data ,refresh_data);
+                $("#editform").remove()
             }else{
                 alert("请选择类型");
             }
