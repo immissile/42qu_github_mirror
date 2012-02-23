@@ -292,16 +292,19 @@ def tag_list_by_po_id(po_id):
     zsite_id_list = tag_id_list_by_po_id(po_id)
     return Zsite.mc_get_list(zsite_id_list)
 
-def po_tag_new_by_autocompelte(po, tag_list, cid=0):
+def tag_id_list_by_str_list(tag_list):
     tag_id_list = []
     for i in tag_list:
         if i.startswith('-'):
             for id in tag_by_str(i[1:]):
-                #print id
                 tag_id_list.append(id)
         else:
             tag_id_list.append(i)
-    return po_tag_id_list_new(po, unique(tag_id_list), cid)
+    return unique(map(int,tag_id_list))
+
+
+def po_tag_new_by_autocompelte(po, tag_list, cid=0):
+    return po_tag_id_list_new(po, tag_id_list_by_str_list(tag_list), cid)
 
 def po_tag_id_list_new(po, tag_id_list, cid=0):
     po_id = po.id

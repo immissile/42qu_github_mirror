@@ -100,7 +100,7 @@ class FeedImportJson(Base):
         txt = self.get_argument('txt', None)
         sync = self.get_argument('sync', None)
         author_rm = self.get_argument('author_rm', None)
-        tag_id_list = self.get_argument('tag_id_list', '')
+        tag_id_list = self.get_arguments('tag_id_list',[])
         cid = self.get_argument('cid', None)
 
         current_user_id = self.current_user_id
