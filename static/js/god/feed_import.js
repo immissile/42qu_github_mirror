@@ -39,13 +39,17 @@ function load_tag(id){
             }
     });
 
-
+    $.fancybox.showActivity()
     $.getJSON(prefix+'/0',function(r){
         data=r
         if(data){
-            $.getJSON(prefix+'/1', refresh_data) 
+            $.getJSON(prefix+'/1', function(r){
+                refresh_data(r);
+                $.fancybox.closeActivity();
+            }) 
         }else{
             alert("没有内容了")
+            $.fancybox.closeActivity();
         }
     })
 
