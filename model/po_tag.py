@@ -23,7 +23,7 @@ from rec_read import rec_read_new, rec_read_user_topic_score_incr, REDIS_REC_PO_
 
 REDIS_REC_CID_TUPLE = (
     (1, '新闻 / 快讯'),
-    (2, '评论 / 观点'),
+    (2, '思考 / 观点'),
     (3, '问题 / 讨论'),
     (4, '访谈 / 人物'),
     (5, '资料 / 知识'),
