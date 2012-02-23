@@ -18,7 +18,7 @@ function load_tag(id){
 //            txt.height(txt[0].scrollHeight);
 
             window.scrollTo(0, 0);
-            $('#txt').css('height',($(window).height()-240) + 'px')
+            $('#txt').css('height',($(window).height()-210) + 'px')
 
         }
         data = r;

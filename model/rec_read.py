@@ -31,6 +31,8 @@ REDIS_REC_PO_SCORE = 'RecPoScore'             #话题的积分 hset
 REDIS_REC_PO_TIMES = 'RecTimes'                  #老话题的被推荐次数 
 REDIS_REC_LAST_TIME = 'RecLastTime'            #上次推荐话题的时间
 
+mc_rec_is_empty = McCache("Rec!%s")
+
 REDIS_REC_USER_TAG_LIMIT = 512
 REDIS_REC_PO_SHOW_TIMES = 10
 
@@ -47,7 +49,7 @@ def rec_read_user_topic_score_incr(user_id, tag_id, score=1):
 
 def rec_read_new(po_id, tag_id):
     mq_rec_topic_has_new(tag_id)
-    times = redis.hget(REDIS_REC_PO_TIMES)
+    times = redis.hget(REDIS_REC_PO_TIMES, po_id)
     if times >= REDIS_REC_PO_SHOW_TIMES:
         _user_tag_old_rank(po_id, tag_id, times)
     else:
@@ -63,7 +65,7 @@ def _user_tag_old_rank(po_id, tag_id, times=None):
         times = redis.hget(REDIS_REC_PO_TIMES, po_id)
 
     score = redis.hget(REDIS_REC_PO_SCORE, po_id) or 0
-    rank = float(score) / times
+    rank = float(score) / int(times)
     redis.zadd(REDIS_REC_TAG_OLD%tag_id, po_id, rank)
 
 
@@ -90,7 +92,7 @@ def rec_read_by_user_id_tag_id(user_id, tag_id):
             po_id = redis.srandmember(key_tag_new)
             if po_id:
                 last = redis.zrevrange(key_readed, 0 , 0 , True)
-                if last and (last[1] - now) < ONE_HOUR:
+                if last and (last[0][1] - now) < ONE_HOUR:
                     cache_key_to_rec = True
                 else:
                     from_new = True
@@ -136,8 +138,13 @@ def po_json_by_rec_read(user_id, limit=8):
     return po_json(user_id , id_list, 47)
 
 def rec_read_more(user_id, limit):
+    if mc_rec_is_empty.get(user_id) is not None:
+        return []
+
     if rec_read(user_id, limit):
         return rec_read_log_by_user_id(user_id, limit, 0)
+
+    mc_rec_is_empty.set(user_id, "", 600)
     return []
 
 def rec_read_log_by_user_id(user_id, limit, offset):
@@ -246,13 +253,10 @@ class RecTagPicker:
     def _init_sample(self):
         _tag_id_score_list = self._tag_id_score_list
 
-        if _tag_id_score_list is None:
+        if not _tag_id_score_list:
             _tag_id_score_list = id_score_list_by_hot()
 
-        if _tag_id_score_list:
-            self._choice = wsample2(_tag_id_score_list)
-        else:
-            self._choice = None
+        self._choice = wsample2(_tag_id_score_list)
 
     def __call__(self):
         _choice = self._choice
@@ -299,7 +303,11 @@ def rec_read(user_id, limit):
 
 if __name__ == '__main__':
     pass
-
+    from model.zsite import Zsite
+    for i in Zsite.mc_get_list( redis.zrange(REDIS_REC_TAG,0,-1) ):
+        print i.name
+    user_id = 10000000
+    print po_json_by_rec_read(user_id, 7)
 #rec_topic_choice = RecTagPicker(user_id)
 #for i in xrange(10):
 #    print rec_topic_choice.choice()

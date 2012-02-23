@@ -1,4 +1,4 @@
-<%inherit file="/god/_base.htm" />
+<%inherit file="_base.htm" />
 <%!
 from yajl import dumps
 from cgi import escape
@@ -6,11 +6,6 @@ from model.douban import is_rt_by_title
 from model.po_tag import REDIS_REC_CID_TUPLE
 from model.zsite import Zsite
 %>
-<%def name="col2()">
-<a class="cola" href="/feed_import">标签列表</a>
-<p class="coltitle">其它</p>
-<a class="cola" href="/">返回后台</a>
-</%def>
 
 <%def name="htm_title()">
 <%
@@ -30,7 +25,7 @@ ${css.god_feed_import|n}
     <a id="nobtn" href="javascript:void(0)">跳过</a>
 <div>
     <label for="tag_id_list" class="ul_label">标签</label>
-    <input id="tag_id_list" name="tag_id_list" type="text" value="${tag_id_list}" >
+    <input id="tag_id_list" type="text" value="${tag_id_list}" >
 </div>
     <textarea id="txt" name="txt">{{html txt}}</textarea>
 

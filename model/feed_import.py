@@ -5,11 +5,13 @@ import _env
 from _db import Model, McModel, redis
 from po import po_note_new
 from kv import Kv
-from part_time_job import part_time_job_new
-from config.privilege import PRIVILEGE_FEED_IMPORT
+from part_time_job import part_time_job_new, PART_TIME_JOB_CID_FEED_IMPORT, id_list_by_part_time_job_cid, part_time_job_count_by_cid
 from zrank.sorts import hot
 from model.tag_admin import tag_admin_rm
-from po_tag import REDIS_REC_CID_DICT
+from po_tag import REDIS_REC_CID_DICT, tag_id_list_by_str_list
+from operator import itemgetter
+from model.zsite import Zsite
+from config import ZSITE_DOUBAN_ID
 
 FEED_IMPORT_STATE_RM = 0
 FEED_IMPORT_STATE_WITHOUT_TAG = 10
@@ -18,15 +20,34 @@ FEED_IMPORT_STATE_REVIEWED = 30
 FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR = 40
 FEED_IMPORT_STATE_REVIEWED_SYNC = 50
 FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC = 60
-FEED_IMPORT_STATE_POED = 70 
+FEED_IMPORT_STATE_POED = 70
 
+def feed_import_list_count_by_part_time_job(limit , offset):
+    cid = PART_TIME_JOB_CID_FEED_IMPORT
+    id_list = id_list_by_part_time_job_cid(cid, limit, offset)
+    feed_list = map(FeedImport.get, map(itemgetter(0), id_list))
+    user_list = Zsite.mc_get_list(map(itemgetter(1), id_list))
+    for i, u, t in zip(feed_list, user_list, map(itemgetter(2), id_list)):
+        i.admin = u
+        i.time = t
+
+    return feed_list, part_time_job_count_by_cid(cid)
 
 
 class PoMeta(McModel):
     pass
 
 class FeedImport(Model):
-    pass
+    @property
+    def tag_list(self):
+        tag_id_list = self.tag_id_list
+        if tag_id_list:
+            tag_id_list = map(int, tag_id_list.split(' '))
+            tag_list = Zsite.mc_get_list(tag_id_list)
+        else:
+            tag_list = []
+        return tag_list
+
 
 class PoMetaUser(McModel):
     @property
@@ -49,11 +70,11 @@ def feed_next():
 def feed_import_rm(id, current_user_id):
     feed = FeedImport.get(id)
     if feed:
-        part_time_job_new(PRIVILEGE_FEED_IMPORT, id, current_user_id)
+        part_time_job_new(PART_TIME_JOB_CID_FEED_IMPORT, id, current_user_id)
         feed_state_set(id, FEED_IMPORT_STATE_RM)
         tag_admin_rm(
-            id, 
-            feed.tag_id_list.split(" ")
+            id,
+            feed.tag_id_list.split(' ')
         )
 
 def feed_state_set(id, state):
@@ -74,44 +95,49 @@ def zsite_id_by_douban_user_id(douban_user):
 
 
 
-def feed_review(id,  cid, title, txt, tag_id_list, current_user_id, author_rm=False, sync=False):
+def feed_review(id, cid, title, txt, tag_id_list, current_user_id, author_rm=False, sync=False):
     feed = FeedImport.get(id)
-    if feed and feed.state==FEED_IMPORT_STATE_INIT :
-        if author_rm:
-            if sync:
-                feed.state = FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC
+    if feed:
+        tag_admin_rm(id, feed.tag_id_list.split(' '))
+
+        if feed.state == FEED_IMPORT_STATE_INIT:
+            if author_rm:
+                if sync:
+                    feed.state = FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC
+                else:
+                    feed.state = FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR
             else:
-                feed.state = FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR
-        else:
-            if sync:
-                feed.state = FEED_IMPORT_STATE_REVIEWED_SYNC
-            else:
-                feed.state = FEED_IMPORT_STATE_REVIEWED
+                if sync:
+                    feed.state = FEED_IMPORT_STATE_REVIEWED_SYNC
+                else:
+                    feed.state = FEED_IMPORT_STATE_REVIEWED
 
-        feed.cid = int(cid)
-        feed.title = title
-        feed.txt = txt
-       
-        tag_id_list = feed.tag_id_list 
-        tag_admin_rm( id, tag_id_list.split(" "))
+            feed.cid = int(cid)
+            feed.title = title
+            feed.txt = txt
 
-        feed.tag_id_list = tag_id_list
-        
-        part_time_job_new(PRIVILEGE_FEED_IMPORT, feed.id, current_user_id)
 
-        feed.save()
+            feed.tag_id_list = ' '.join(map(str, tag_id_list_by_str_list(tag_id_list)))
+
+            feed.save()
+            part_time_job_new(PART_TIME_JOB_CID_FEED_IMPORT, feed.id, current_user_id)
+
 
 
 if __name__ == '__main__':
     pass
-    #FeedImport.where("state!=%s"%FEED_IMPORT_STATE_WITHOUT_TAG).update(state=FEED_IMPORT_STATE_WITHOUT_TAG)
-    from zkit.fanjian import utf8_ftoj
-    from zweb.orm import ormiter
-    for i in ormiter(FeedImport,"state>%s"%FEED_IMPORT_STATE_INIT):
-        title = i.title
-        print i.id, i.state
-        if i.id == 1984:
-            i.state = FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR
-            i.save()
-        print title
-
+    #for i in FeedImport.where("state>%s"%FEED_IMPORT_STATE_INIT):
+    #    i.state=FEED_IMPORT_STATE_WITHOUT_TAG
+    #    i.save()
+#    from zkit.fanjian import utf8_ftoj
+#    from zweb.orm import ormiter
+#    for i in ormiter(FeedImport,"state>%s"%FEED_IMPORT_STATE_INIT):
+#        title = i.title
+#        print i.id, i.state
+##        if i.id == 1984:
+##            i.state = FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR
+##            i.save()
+#        print title
+    #limit = 30
+    #offset = 0
+    #print feed_import_list_count_by_part_time_job(limit , offset)

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import _env
-from model.feed_import import  zsite_id_by_douban_user_id, FeedImport, FEED_IMPORT_STATE_WITHOUT_TAG, FEED_IMPORT_STATE_INIT, FEED_IMPORT_STATE_POED, FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC, FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR, FEED_IMPORT_STATE_REVIEWED_SYNC
+from model.feed_import import  zsite_id_by_douban_user_id, FeedImport, FEED_IMPORT_STATE_WITHOUT_TAG, FEED_IMPORT_STATE_INIT, FEED_IMPORT_STATE_POED, FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC, FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR, FEED_IMPORT_STATE_REVIEWED_SYNC, PoMetaUser, PoMeta
 from config import ZSITE_DOUBAN_ID
 from model.duplicate import Duplicator
 from model.zsite import Zsite
@@ -15,6 +15,7 @@ from model.url_short import url_short_id
 from model.douban import DoubanUser, douban_feed_to_review_iter, douban_user_by_feed_id , title_normal
 from model.site_sync import site_sync_new
 from model.po_tag import po_tag_id_list_new
+from model.po import po_note_new
 from zkit.htm2txt import htm2txt, unescape
 from time import sleep
 from zkit.fanjian import utf8_ftoj
@@ -24,7 +25,7 @@ import_feed_duplicator = Duplicator(DUMPLICATE_DB_PREFIX%'import_feed')
 def feed_import_by_douban_feed():
     from model.douban import douban_feed_to_review_iter, DoubanUser
     for i in douban_feed_to_review_iter():
-
+        #print i.id
         txt = i.htm.replace(
             '豆友', '网友'
         ).replace('豆油', '私信').replace('豆邮', '私信')
@@ -79,6 +80,7 @@ def feed_new(feed):
     feed_user = user_by_feed_id_zsite_id(feed.rid, feed.zsite_id)
     user_id = zsite_id_by_douban_user_id(feed_user)
 
+
     zsite_id = feed.zsite_id
 
     is_without_author = (
@@ -123,6 +125,7 @@ def feed_new(feed):
         cid = feed.cid
 
         po_tag_id_list_new(po, feed.tag_id_list.split(' '), cid)
+        print po.link
 
 @single_process
 def main():
