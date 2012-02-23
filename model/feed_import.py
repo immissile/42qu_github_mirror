@@ -124,10 +124,9 @@ def feed_review(id, cid, title, txt, tag_id_list, current_user_id, author_rm=Fal
 
 if __name__ == '__main__':
     pass
-    for i in FeedImport.where("state>%s"%FEED_IMPORT_STATE_INIT):
-        print i.id
-        print i.tag_id_list
-    #.update(state=FEED_IMPORT_STATE_WITHOUT_TAG)
+    #for i in FeedImport.where("state>%s"%FEED_IMPORT_STATE_INIT):
+    #    i.state=FEED_IMPORT_STATE_WITHOUT_TAG
+    #    i.save()
 #    from zkit.fanjian import utf8_ftoj
 #    from zweb.orm import ormiter
 #    for i in ormiter(FeedImport,"state>%s"%FEED_IMPORT_STATE_INIT):
