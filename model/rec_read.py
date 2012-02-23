@@ -139,7 +139,7 @@ def po_json_by_rec_read(user_id, limit=8):
 
 def rec_read_more(user_id, limit):
     if mc_rec_is_empty.get(user_id) is not None:
-        return
+        return []
 
     if rec_read(user_id, limit):
         return rec_read_log_by_user_id(user_id, limit, 0)
