@@ -57,7 +57,7 @@ class PoZsiteTag(Model):
 
 def po_score_incr(po, user_id, score=1):
     po_id = po.id
-    cid = redis.hget(REDIS_PO_ID2CID, po_id)
+    cid = redis.hget(REDIS_PO_ID2TAG_CID, po_id)
     tag_id_list = tag_id_list_by_po_id(po_id=po_id)
     if tag_id_list:
         redis.hincrby(REDIS_REC_PO_SCORE, po_id, score) 
