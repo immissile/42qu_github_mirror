@@ -4,7 +4,7 @@
 from _db import redis
 from zkit.zitertools import lineiter
 from array import array
-from po_by_tag import tag_alias_by_id_query
+from po_tag import tag_alias_by_id_query
 
 REDIS_ZSET_CID = '%s`'
 REDIS_ID2NAME = 'ACId2Name:%s'

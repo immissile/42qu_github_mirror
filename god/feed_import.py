@@ -5,9 +5,9 @@ from _handler import Base
 from _urlmap import urlmap
 from model.site_sync import site_sync_rm, site_sync_new
 from model.feed_import import FeedImport, feed_review , feed_import_rm, FEED_IMPORT_STATE_INIT
-from model.po_by_tag import po_tag_new_by_autocompelte
+from model.po_tag import po_tag_new_by_autocompelte
 from model.douban import is_rt_by_title
-from model.po_by_tag import tag_list_by_po_id
+from model.po_tag import tag_list_by_po_id
 from zkit.page import page_limit_offset
 from model.po import Po, po_rm
 from tornado.escape import json_encode

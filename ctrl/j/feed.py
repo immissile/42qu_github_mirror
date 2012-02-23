@@ -18,7 +18,7 @@ from model.zsite import Zsite
 from model.po_video import CID_VIDEO, video_link_autoplay
 from model.event import Event
 from zkit.time_format import friendly_time
-from model.fav import fav_add, fav_rm
+from model.fav import fav_new, fav_rm
 from cgi import escape
 from ctrl.j.po import post_reply
 from model.zsite import zsite_name_id_dict
@@ -48,7 +48,7 @@ class SiteFeed(JLoginBase):
 class Fav(JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
-        fav_add(current_user_id, id)
+        fav_new(current_user_id, id)
         self.finish('{}')
 
 
