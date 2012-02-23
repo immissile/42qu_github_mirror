@@ -303,7 +303,7 @@ if __name__ == '__main__':
     for i in Zsite.mc_get_list( redis.zrange(REDIS_REC_TAG,0,-1) ):
         print i.name
     user_id = 10000000
-    print rec_read(user_id, 7)
+    print po_json_by_rec_read(user_id, 7)
 #rec_topic_choice = RecTagPicker(user_id)
 #for i in xrange(10):
 #    print rec_topic_choice.choice()

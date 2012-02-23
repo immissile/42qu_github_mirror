@@ -125,11 +125,12 @@ def feed_new(feed):
         cid = feed.cid
 
         po_tag_id_list_new(po, feed.tag_id_list.split(' '), cid)
+        #print po.link
 
 @single_process
 def main():
     feed2po_new()
-    #feed_import_by_douban_feed()
+    feed_import_by_douban_feed()
 
 
 if __name__ == '__main__':
