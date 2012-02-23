@@ -124,7 +124,10 @@ def feed_review(id, cid, title, txt, tag_id_list, current_user_id, author_rm=Fal
 
 if __name__ == '__main__':
     pass
-    #FeedImport.where("state!=%s"%FEED_IMPORT_STATE_WITHOUT_TAG).update(state=FEED_IMPORT_STATE_WITHOUT_TAG)
+    for i in FeedImport.where("state>%s"%FEED_IMPORT_STATE_INIT):
+        print i.id
+        print i.tag_id_list
+    #.update(state=FEED_IMPORT_STATE_WITHOUT_TAG)
 #    from zkit.fanjian import utf8_ftoj
 #    from zweb.orm import ormiter
 #    for i in ormiter(FeedImport,"state>%s"%FEED_IMPORT_STATE_INIT):
@@ -134,6 +137,6 @@ if __name__ == '__main__':
 ##            i.state = FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR
 ##            i.save()
 #        print title
-    limit = 30
-    offset = 0
-    print feed_import_list_count_by_part_time_job(limit , offset)
+    #limit = 30
+    #offset = 0
+    #print feed_import_list_count_by_part_time_job(limit , offset)
