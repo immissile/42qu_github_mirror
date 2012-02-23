@@ -18,7 +18,7 @@ __metaclass__ = type
 REDIS_REC_USER_TAG = 'Rec@%s'                 #用户 - 主题 - 分数 zset
 REDIS_REC_USER_TAG_CAN_REC = 'Rec?%s'         #用户 - 可以推荐的主题 - 分数 string 
 REDIS_REC_USER_TAG_READED = 'Rec(%s'          #用户 - 主题 - 已经读过的文章
-REDIS_REC_USER_TAG_TO_REC = 'Rec)%s'          #用户 - 主题 - 可以推荐的文章的缓存
+REDIS_REC_USER_PO_TO_REC = 'Rec)%s'           #用户 - 主题 - 可以推荐的文章的缓存
 REDIS_REC_TAG_USER_IS_EMPTY = 'Rec~%s'        #主题 - 已经读完了的用户 set
 
 REDIS_REC_USER_LOG = 'Rec+%s'                 #用exist判断文章是否已经读过 zset
@@ -72,7 +72,7 @@ def rec_read_by_user_id_tag_id(user_id, tag_id):
     po_id = 0
     from_new = False
     now = time_new_offset()
-    key_to_rec = REDIS_REC_USER_TAG_TO_REC%tag_id
+    key_to_rec = REDIS_REC_USER_PO_TO_REC%tag_id
     key_readed = REDIS_REC_USER_TAG_READED%tag_id
     exists_key_to_rec = redis.exists(key_to_rec)
     cache_key_to_rec = False
@@ -87,7 +87,7 @@ def rec_read_by_user_id_tag_id(user_id, tag_id):
             else:
                 break
         else:
-            key_tag_new =  REDIS_REC_TAG_NEW%tag_id
+            key_tag_new = REDIS_REC_TAG_NEW%tag_id
             po_id = redis.srandmember(key_tag_new)
             if po_id:
                 last = redis.zrevrange(key_readed, 0 , 0 , True)
@@ -101,15 +101,18 @@ def rec_read_by_user_id_tag_id(user_id, tag_id):
 
         if cache_key_to_rec:
             #生成缓存 有效期1天 推荐文章
-            pass
-            #TODO!!!!!!!!
+            p = redis.pipeline()
+            p.zunionstore(key_to_rec, {key_readed:-1, REDIS_REC_USER_TAG%tag_id:1})
+            p.expire(key_to_rec, ONE_DAY)
+            p.zremrangebyscore(key_to_rec, '-inf', 0)
+            p.execute()
             exists_key_to_rec = True
- 
+
         if po_id:
             redis.zadd(key_readed, po_id, now)
             if redis.zrank(REDIS_REC_USER_LOG%user_id, po_id) is not None:
-                po_id = 0 
-        
+                po_id = 0
+
         if po_id:
             break
 
@@ -280,7 +283,7 @@ def rec_read(user_id, limit):
                 continue
 
             result.add(po_id)
-            
+
         if result:
             now = time_new_offset()
             t = []
