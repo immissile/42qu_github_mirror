@@ -7,6 +7,10 @@ function load_tag(id){
             alert("没有内容了")
         }
         if(data){
+            var btn=$("#nobtn,#okbtn");
+            btn.hide(function(){
+                setTimeout(btn.show(1000),1500)
+            });
             $("#editwrapper").html($("#render_txt").tmpl(data));
             $("#author_rm").attr('checked',data.author_rm);
             autocomplete_tag("#tag_id_list", data.tag_id_list)
