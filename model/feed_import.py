@@ -107,22 +107,11 @@ if __name__ == '__main__':
     #FeedImport.where("state!=%s"%FEED_IMPORT_STATE_WITHOUT_TAG).update(state=FEED_IMPORT_STATE_WITHOUT_TAG)
     from zkit.fanjian import utf8_ftoj
     from zweb.orm import ormiter
-    for i in ormiter(FeedImport):
+    for i in ormiter(FeedImport,"state>%s"%FEED_IMPORT_STATE_INIT):
         title = i.title
-        i.title = utf8_ftoj(i.title)
-        i.txt = utf8_ftoj(i.txt)
-        if i._changed:
-            print i.id
-        i.save()
+        print i.id, i.state
+        if i.id == 1984:
+            i.state = FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR
+            i.save()
+        print title
 
-    #feed_import_by_douban_feed()
-    #print FeedImport.where(state = FEED_IMPORT_STATE_INIT)
-    #feed2po_new()
-
-    #    i.txt = i.txt.replace("豆友","网友").replace("豆油","私信").replace("豆邮","私信")
-    #    i.tag_id_list = ""
-    #    print i.id, i.tag_id_list
-    #    i.save()
-    #print FeedImport.where(state=FEED_IMPORT_STATE_INIT)[:2]
-    #print FeedImport.get(state = FEED_IMPORT_STATE_INIT)
-    #print hot(2,0,1310424775)
