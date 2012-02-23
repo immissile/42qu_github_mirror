@@ -19,6 +19,7 @@ CID_DOUBAN_FEED_TOPIC = 1013
 DOUBAN_USER_FEED_VOTE_LIKE = 1
 DOUBAN_USER_FEED_VOTE_REC = 2
 
+REC_MIN_RANK = 1500
 
 
 DOUBAN_REC_CID = {
@@ -159,6 +160,7 @@ def douban_rec_new(id, user_id, cid , htm, time):
     o.time = time
     o.save()
 
+
 def douban_feed_new(
     cid , rid , rec , like , title  , htm, time, user_id=0, topic_id=0
 ):
@@ -176,7 +178,7 @@ def douban_feed_new(
 
     if not o.state:
         state = 0
-        if int(rec)+int(like) > 20 :
+        if int(rec)+int(like) > REC_MIN_RANK :
             state = DOUBAN_FEED_STATE_TO_REIVEW
         o.state = state
     o.time = time
@@ -246,13 +248,15 @@ if __name__ == '__main__':
     for i in ormiter(DoubanFeed):
         total = i.rec + i.like
     
-        if total > 2000:
+        if total > REC_MIN_RANK:
             count += 1
-            print i.id, count, i.title, i.link
-        #    i.state = DOUBAN_FEED_STATE_TO_REIVEW
-        #else:
-        #    i.state = 0
-        #i.save()
+            i.state = DOUBAN_FEED_STATE_TO_REIVEW
+        else:
+            i.state = 0
+        print i.id
+        i.save()
+
+
 #        else:
 #            print title_normal_rt(i.title)
 #    for i in DoubanFeed.where():
