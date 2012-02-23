@@ -110,8 +110,8 @@ if __name__ == '__main__':
     for i in ormiter(FeedImport,"state>%s"%FEED_IMPORT_STATE_INIT):
         title = i.title
         print i.id, i.state
-        if i.id == 1984:
-            i.state = FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR
-            i.save()
+#        if i.id == 1984:
+#            i.state = FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR
+#            i.save()
         print title
 
