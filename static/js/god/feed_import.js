@@ -33,7 +33,7 @@ function load_tag(id){
     $("#okbtn").live('click',function(){
             if($("input:radio:checked").val()){
                 var post_data = $("#editform").serialize();
-                $.postJSON(prefix+'/next',post_data ,refresh_data);
+                $.postJSON(prefix+'/1',post_data ,refresh_data);
             }else{
                 alert("请选择类型");
             }
