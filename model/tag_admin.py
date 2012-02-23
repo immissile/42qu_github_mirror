@@ -38,12 +38,22 @@ def tag_id_name_count_list_by_tag_admin(limit, offset):
     return r, redis.zcard(REDIS_TAG_ADMIN)
 
 
-#def po_list_by_tag_admin(tag_id, limit, offset):
-#    pass
+def id_by_tag_admin(tag_id,  offset):
+    r = redis.zrevrange(
+        REDIS_TAG_ADMIN_TAG_ID%tag_id,
+        offset,offset
+    )
+    if r:
+        id = r[0]
+    else:
+        id = 0
+
+    return id
 
 if __name__ == '__main__':
     pass
  
     limit = 50
     offset = 0
+    print id_by_tag_admin(10230364L, 0)
     print tag_id_name_count_list_by_tag_admin(limit, offset)

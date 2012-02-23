@@ -3,22 +3,37 @@
 from yajl import dumps
 from cgi import escape
 from model.douban import is_rt_by_title
-from model.rec_read import REDIS_REC_CID_TUPLE
+from model.po_tag import REDIS_REC_CID_TUPLE
+from model.zsite import Zsite
 %>
+<%def name="htm_title()">
+<%
+zsite = Zsite.mc_get(tag_id)
+%>
+${zsite.name}
+</%def>
 <%def name="htm_head()">
 ${css.god_feed_import|n}
 </%def>
 
-<script type="text/x-json" id="site_data">
-${result|n}
-</script>
 <script id="render_txt" type="text/x-jquery-tmpl">
 <%text>
-    <form id="editform" rel="${id}">
+    <form id="editform">
+    <a href="${url}" target="_blank">原文链接</a>
     <input id="title" name="title" type="text" value="${title}" >
     <textarea id="txt" name="txt">{{html txt}}</textarea>
 
     </%text>
+
+<div class="check">
+    <input id="sync" name="sync" type="checkbox" >
+    <label for="sync">同步</label>
+
+    <input id="author_rm" name="author_rm" type="checkbox">
+    <label for="author_rm">删除作者</label>
+</div>
+
+
 <div class="redis_cid c">
     % for id,name in REDIS_REC_CID_TUPLE:
     <span>
@@ -29,7 +44,7 @@ ${result|n}
 
 <%text>
 <div>
-    <label for="tag_id_list">标签</label>
+    <label for="tag_id_list" class="ul_label">标签</label>
     <input id="tag_id_list" name="tag_id_list" type="text" value="${tag_id_list}" >
 </div>
 
@@ -37,23 +52,19 @@ ${result|n}
    <%text>
 
 
-<div class="check">
-    <input id="sync" name="sync" type="checkbox" >
-    <label for="sync">同步</label>
-
-    <input id="author_rm" name="author_rm" type="checkbox">
-    <label for="author_rm">删除作者</label>
-    <a href="${url}" target="_blank">原文链接</a>
-</div>
-    <input id="" name="id" style="display:none" value="${id}" type="text" >
+<input name="id" type="hidden" value="${id}" type="text" id="feed_id">
 </form>
 </%text>
 </script>
 
 <div id="editwrapper"></div>
 <div class="btnbar">
-<button id="okbtn">确认</button>
-<button id="nobtn">跳过</button>
+<a id="okbtn" href="javascript:void(0)">确认</a>
+<a id="nobtn" href="javascript:void(0)">跳过</a>
 </div>
 <script src="${js.god_feed_import|n}"></script>
+
+<script>
+load_tag(${tag_id})
+</script>
 

@@ -5,11 +5,11 @@ import _env
 from _db import Model, McModel, redis
 from po import po_note_new
 from kv import Kv
-from rec_read import  rec_read_new, REDIS_REC_CID_DICT
 from part_time_job import part_time_job_new
 from config.privilege import PRIVILEGE_FEED_IMPORT
 from zrank.sorts import hot
-
+from model.tag_admin import tag_admin_rm
+from po_tag import REDIS_REC_CID_DICT
 
 FEED_IMPORT_STATE_RM = 0
 FEED_IMPORT_STATE_WITHOUT_TAG = 10
@@ -47,9 +47,14 @@ def feed_next():
         return fdlist[0]
 
 def feed_import_rm(id, current_user_id):
-    part_time_job_new(PRIVILEGE_FEED_IMPORT, id, current_user_id)
-    feed_state_set(id, FEED_IMPORT_STATE_RM)
-
+    feed = FeedImport.get(id)
+    if feed:
+        part_time_job_new(PRIVILEGE_FEED_IMPORT, id, current_user_id)
+        feed_state_set(id, FEED_IMPORT_STATE_RM)
+        tag_admin_rm(
+            id, 
+            feed.tag_id_list.split(" ")
+        )
 
 def feed_state_set(id, state):
     feed = FeedImport.get(id)
@@ -86,6 +91,10 @@ def feed_review(id,  cid, title, txt, tag_id_list, current_user_id, author_rm=Fa
         feed.cid = int(cid)
         feed.title = title
         feed.txt = txt
+       
+        tag_id_list = feed.tag_id_list 
+        tag_admin_rm( id, tag_id_list.split(" "))
+
         feed.tag_id_list = tag_id_list
         
         part_time_job_new(PRIVILEGE_FEED_IMPORT, feed.id, current_user_id)
@@ -96,6 +105,15 @@ def feed_review(id,  cid, title, txt, tag_id_list, current_user_id, author_rm=Fa
 if __name__ == '__main__':
     pass
     #FeedImport.where("state!=%s"%FEED_IMPORT_STATE_WITHOUT_TAG).update(state=FEED_IMPORT_STATE_WITHOUT_TAG)
+    from zkit.fanjian import utf8_ftoj
+    from zweb.orm import ormiter
+    for i in ormiter(FeedImport):
+        title = i.title
+        i.title = utf8_ftoj(i.title)
+        i.txt = utf8_ftoj(i.txt)
+        if i._changed:
+            print i.id
+        i.save()
 
     #feed_import_by_douban_feed()
     #print FeedImport.where(state = FEED_IMPORT_STATE_INIT)

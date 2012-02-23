@@ -3,7 +3,7 @@
 
 import _env
 from name2id import NAME2ID
-from model.po_by_tag import tag_alias_new
+from model.po_tag import tag_alias_new
 from model.autocomplete  import autocomplete_tag
 
 def main():

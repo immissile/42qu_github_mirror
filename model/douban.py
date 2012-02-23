@@ -242,14 +242,17 @@ if __name__ == '__main__':
     #kv_int.set(KV_IMPORT_DOUBAN,0)
     #douban_feed_to_review_iter()
     from zweb.orm import ormiter
+    count = 0
     for i in ormiter(DoubanFeed):
-        print i.id
         total = i.rec + i.like
-        if total > 20:
-            i.state = DOUBAN_FEED_STATE_TO_REIVEW
-        else:
-            i.state = 0
-        i.save()
+    
+        if total > 2000:
+            count += 1
+            print i.id, count, i.title, i.link
+        #    i.state = DOUBAN_FEED_STATE_TO_REIVEW
+        #else:
+        #    i.state = 0
+        #i.save()
 #        else:
 #            print title_normal_rt(i.title)
 #    for i in DoubanFeed.where():
