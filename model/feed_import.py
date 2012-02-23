@@ -26,8 +26,9 @@ def feed_import_list_count_by_part_time_job(limit , offset):
     id_list = id_list_by_part_time_job_cid(cid, limit, offset)
     feed_list = map(FeedImport.get, map(itemgetter(0), id_list))
     user_list = Zsite.mc_get_list(map(itemgetter(1), id_list))
-    for i, u in zip(feed_list, user_list):
+    for i, u, t in zip(feed_list, user_list, map(itemgetter(2), id_list)):
         i.admin = u
+        i.time = t
 
     return feed_list, part_time_job_count_by_cid(cid)
 

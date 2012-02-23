@@ -23,7 +23,7 @@ part_time_job_count_by_cid = McNum(
 
 
 def id_list_by_part_time_job_cid(cid, limit, offset):
-    rid_list = PartTimeJob.where(cid=cid).order_by("id desc").col_list(limit, offset, "rid, user_id")
+    rid_list = PartTimeJob.where(cid=cid).order_by("id desc").col_list(limit, offset, "rid, user_id, create_time")
     return rid_list
 
 if __name__ == "__main__":
