@@ -5,8 +5,7 @@
     width:90%;
 }
 .redis_cid{
-    width:90%;
-    margin-left:122px;
+    margin-right:32px;
 }
 .redis_cid span{
     float:left;
@@ -15,7 +14,7 @@
 }
 #title{
     padding:7px;
-    width:82%;
+    width:70%;
     margin:14px 0 14px 23px;
 }
 .check{
@@ -23,8 +22,10 @@
     margin-top:14px;
     float:left;
     margin-bottom:14px;
+    border:1px dotted #ccc;
+    padding:7px;
 }
-.check label{
+.label_sync{
     margin-right:32px
 }
 #txt
@@ -38,13 +39,9 @@
     margin-top:14px;    
 }
 #nobtn{
-    float:right;
-    margin-right:10%;
     margin-top:18px;
+    float:right;
 }
-.btnbar{
-padding-bottom:256px;
-} 
 ul.token-input-list{
     display:inline-block;
 }

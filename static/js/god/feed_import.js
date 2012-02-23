@@ -38,21 +38,21 @@ function load_tag(id){
                 alert("请选择类型");
             }
     });
-
-    $.fancybox.showActivity()
-    $.getJSON(prefix+'/0',function(r){
-        data=r
-        if(data){
-            $.getJSON(prefix+'/1', function(r){
-                refresh_data(r);
-                $.fancybox.closeActivity();
-            }) 
-        }else{
-            alert("没有内容了")
-            $.fancybox.closeActivity();
-        }
+    $(function(){
+        $.fancybox.showActivity()
+        $.getJSON(prefix+'/0',function(r){
+            data=r
+            if(data){
+                $.getJSON(prefix+'/1', function(r){
+                    refresh_data(r);
+                    $.fancybox.hideActivity();
+                }) 
+            }else{
+                alert("没有内容了")
+                $.fancybox.hideActivity();
+            }
+        })
     })
-
 }
 
 
