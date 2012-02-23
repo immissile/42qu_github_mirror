@@ -63,7 +63,7 @@ def _user_tag_old_rank(po_id, tag_id, times=None):
         times = redis.hget(REDIS_REC_PO_TIMES, po_id)
 
     score = redis.hget(REDIS_REC_PO_SCORE, po_id) or 0
-    rank = float(score) / times
+    rank = float(score) / int(times)
     redis.zadd(REDIS_REC_TAG_OLD%tag_id, po_id, rank)
 
 
@@ -299,7 +299,11 @@ def rec_read(user_id, limit):
 
 if __name__ == '__main__':
     pass
-
+    from model.zsite import Zsite
+    for i in Zsite.mc_get_list( redis.zrange(REDIS_REC_TAG,0,-1) ):
+        print i.name
+    user_id = 10000000
+    print rec_read(user_id, 7)
 #rec_topic_choice = RecTagPicker(user_id)
 #for i in xrange(10):
 #    print rec_topic_choice.choice()
