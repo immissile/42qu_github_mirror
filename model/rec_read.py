@@ -31,6 +31,8 @@ REDIS_REC_PO_SCORE = 'RecPoScore'             #话题的积分 hset
 REDIS_REC_PO_TIMES = 'RecTimes'                  #老话题的被推荐次数 
 REDIS_REC_LAST_TIME = 'RecLastTime'            #上次推荐话题的时间
 
+mc_rec_is_empty = McCache("Rec!%s")
+
 REDIS_REC_USER_TAG_LIMIT = 512
 REDIS_REC_PO_SHOW_TIMES = 10
 
@@ -136,8 +138,13 @@ def po_json_by_rec_read(user_id, limit=8):
     return po_json(user_id , id_list, 47)
 
 def rec_read_more(user_id, limit):
+    if mc_rec_is_empty.get(user_id) is not None:
+        return
+
     if rec_read(user_id, limit):
         return rec_read_log_by_user_id(user_id, limit, 0)
+
+    mc_rec_is_empty.set(user_id, "", 600)
     return []
 
 def rec_read_log_by_user_id(user_id, limit, offset):

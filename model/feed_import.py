@@ -11,6 +11,7 @@ from model.tag_admin import tag_admin_rm
 from po_tag import REDIS_REC_CID_DICT, tag_id_list_by_str_list
 from operator import itemgetter
 from model.zsite import Zsite
+from config import ZSITE_DOUBAN_ID
 
 FEED_IMPORT_STATE_RM = 0
 FEED_IMPORT_STATE_WITHOUT_TAG = 10
