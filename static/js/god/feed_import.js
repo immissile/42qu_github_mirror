@@ -22,7 +22,7 @@ function load_tag(id){
 
 
 
-    $("#nobtn").click(function(){
+    $("#nobtn").live('click',function(){
         $.postJSON(
             prefix+'/rm/'+$("#feed_id").val(),
             refresh_data
@@ -30,7 +30,7 @@ function load_tag(id){
     });
 
     
-    $("#okbtn").click(function(){
+    $("#okbtn").live('click',function(){
             if($("input:radio:checked").val()){
                 var post_data = $("#editform").serialize();
                 $.postJSON(prefix+'/next',post_data ,refresh_data);
@@ -38,6 +38,7 @@ function load_tag(id){
                 alert("请选择类型");
             }
     });
+
     $(function(){
         $.fancybox.showActivity()
         $.getJSON(prefix+'/0',function(r){
