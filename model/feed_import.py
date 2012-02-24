@@ -11,7 +11,7 @@ from model.tag_admin import tag_admin_rm
 from po_tag import REDIS_REC_CID_DICT, tag_id_list_by_str_list
 from operator import itemgetter
 from model.zsite import Zsite
-from config import ZSITE_DOUBAN_ID
+from config import ZSITE_DOUBAN_ID, ZSITE_UCD_CHINA_ID
 
 FEED_IMPORT_STATE_RM = 0
 FEED_IMPORT_STATE_WITHOUT_TAG = 10
@@ -54,13 +54,13 @@ class PoMetaUser(McModel):
     def link(self):
         if self.cid == ZSITE_DOUBAN_ID:
             return 'http://www.douban.com/people/%s'%self.url
+        elif self.cid == ZSITE_UCD_CHINA_ID:
+            return 'http://ucdchina.com/author/%s'%quote(self.name)
 
 def user_url_by_po_meta_user_id(id):
     user = PoMetaUser.mc_get(id)
     if user:
-        if user.cid == ZSITE_DOUBAN_ID:
-            return 'http://www.douban.com/people/%s'%user_id.url
-
+        return user.link
 
 def feed_next():
     fdlist = FeedImport.where(state=FEED_IMPORT_STATE_INIT)[1:2]
@@ -83,10 +83,12 @@ def feed_state_set(id, state):
         feed.state = state
         feed.save()
 
-def zsite_id_by_feed_user(douban_user):
+def zsite_id_by_feed_user(feed_user):
     #TODO: get zsite_user_id
+    if not feed_user:
+        return 0 
     return 0
-    zsite_id = 0
+    zsite_id = feed_user.zsite_id
     if douban_user:
         douban_username = douban_user.name
         zsite_id = 10001518
@@ -126,6 +128,9 @@ def feed_review(id, cid, title, txt, tag_id_list, current_user_id, author_rm=Fal
 
 if __name__ == '__main__':
     pass
+    for i in FeedImport.where(zsite_id=ZSITE_UCD_CHINA_ID):
+        print i.title
+        #i.delete()
     #for i in FeedImport.where("state>%s"%FEED_IMPORT_STATE_INIT):
     #    i.state=FEED_IMPORT_STATE_WITHOUT_TAG
     #    i.save()

@@ -30,13 +30,14 @@ def feed_import_by_douban_feed():
             '豆友', '网友'
         ).replace('豆油', '私信').replace('豆邮', '私信')
         #print i.id, i.title
+        txt = htm2txt(txt)
         feed_import_new(
            ZSITE_DOUBAN_ID, i.id, i.title, txt, i.link,  i.like+i.rec
         )
 
 def feed_import_new(zsite_id, rid, title, txt, url,  rank):
     title = utf8_ftoj(unescape(title))
-    txt = utf8_ftoj(format_txt(htm2txt(txt)))
+    txt = utf8_ftoj(format_txt(txt))
 
     if import_feed_duplicator.txt_is_duplicate(txt):
         return
@@ -71,15 +72,22 @@ def feed2po_new():
         ):
         feed_new(feed)
 
-def user_by_feed_id_zsite_id(feed_id, zsite_id):
+def user_by_feed_id_zsite_id(rid, zsite_id):
+    feed_user = None
     if zsite_id == ZSITE_DOUBAN_ID:
-        return douban_user_by_feed_id(feed_id)
+        user = douban_user_by_feed_id(rid)
+        if user:
+            feed_user = PoMetaUser.get_or_create(name=user.name, cid=zsite_id)
+            feed_user.url = feed_user.id
+            feed_user.save()
     elif zsite_id == ZSITE_UCD_CHINA_ID:
-        return 
+        feed_user = PoMetaUser.get(rid) 
+    return feed_user 
 
 def feed_new(feed):
     txt = txt_img_fetch(feed.txt)
-    feed_user = user_by_feed_id_zsite_id(feed.rid, feed.zsite_id)
+    zsite_id = feed.zsite_id
+    feed_user = user_by_feed_id_zsite_id(feed.rid, zsite_id)
     user_id = zsite_id_by_feed_user(feed_user)
 
 
@@ -102,11 +110,7 @@ def feed_new(feed):
         if not feed_user:
             feed_user_id = 0
         else:
-            user = PoMetaUser.get_or_create(name=feed_user.name, cid=zsite_id)
-            user.url = feed_user.id
-            user.save()
-
-            feed_user_id = user.id
+            feed_user_id = feed_user.id
 
         record = PoMeta.get_or_create(id=po.id)
         record.user_id = feed_user_id
