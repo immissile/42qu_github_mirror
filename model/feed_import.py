@@ -83,7 +83,7 @@ def feed_state_set(id, state):
         feed.state = state
         feed.save()
 
-def zsite_id_by_douban_user_id(douban_user):
+def zsite_id_by_feed_user(douban_user):
     #TODO: get zsite_user_id
     return 0
     zsite_id = 0
