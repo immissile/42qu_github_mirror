@@ -335,10 +335,15 @@ def po_tag_id_cid(tag_id, cid, limit, offset):
 
 if __name__ == '__main__':
     pass
-    from model.po import Po
-    po = Po.where()[1]
-    print po
-    po_tag_new_by_autocompelte(po, ['-张沈鹏'], 1)
-    print tag_cid_count(10232177)
 
-    print po_tag_id_cid(10232177, 1, 1, 0)
+
+    for tag_cid, count in tag_cid_count(10233568):
+        print REDIS_REC_CID_DICT [tag_cid]
+
+    #from model.po import Po
+    #po = Po.where()[1]
+    #print po
+    #po_tag_new_by_autocompelte(po, ['-张沈鹏'], 1)
+    #print tag_cid_count(10232177)
+
+    #print po_tag_id_cid(10232177, 1, 1, 0)
