@@ -4,7 +4,7 @@ import urllib2, time, urllib
 from yajl import loads
 from urlparse import unquote
 from urllib import quote
-from urllib2 import HTTPError
+from urllib2 import HTTPError, URLError
 
 
 GOOGLE_URL_PREFIX = (
@@ -86,7 +86,7 @@ class Reader(object):
         try:
             r = urllib2.Request(url, headers=self.headers)
             return urllib2.urlopen(r, timeout=20).read()
-        except HTTPError:
+        except (HTTPError, URLError):
             print url
 
     def get_json(self, url):
