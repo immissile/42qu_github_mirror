@@ -3,7 +3,7 @@
 
 import _env
 from model.feed_import import  zsite_id_by_feed_user, FeedImport, FEED_IMPORT_STATE_WITHOUT_TAG, FEED_IMPORT_STATE_INIT, FEED_IMPORT_STATE_POED, FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC, FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR, FEED_IMPORT_STATE_REVIEWED_SYNC, PoMetaUser, PoMeta
-from config import ZSITE_DOUBAN_ID
+from config import ZSITE_DOUBAN_ID, ZSITE_UCD_CHINA_ID
 from model.duplicate import Duplicator
 from model.zsite import Zsite
 from zkit.txt import format_txt
@@ -74,6 +74,8 @@ def feed2po_new():
 def user_by_feed_id_zsite_id(feed_id, zsite_id):
     if zsite_id == ZSITE_DOUBAN_ID:
         return douban_user_by_feed_id(feed_id)
+    elif zsite_id == ZSITE_UCD_CHINA_ID:
+        return 
 
 def feed_new(feed):
     txt = txt_img_fetch(feed.txt)
