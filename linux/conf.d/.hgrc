@@ -18,6 +18,9 @@ ignore = ~/.hgignore
 hgext.purge=
 color=
 hgext.fetch=
+hgext.graphlog = 
+bookmarks =
+hggit =
 
 [color]
 status.modified = blue underline red_background
