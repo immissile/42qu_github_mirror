@@ -76,7 +76,7 @@ class Reader(object):
         headers['Authorization'] = 'GoogleLogin auth=' + self.auth
         r = urllib2.Request('https://www.google.com/reader/api/0/token', headers=headers)
 
-        token = urllib2.urlopen(r, timeout=20).read()
+        token = urllib2.urlopen(r, timeout=40).read()
         #headers = {'Cookie': 'SID=%s; T=%s'%(sid, token)}
         self.headers = headers
         self.token = token
@@ -85,7 +85,7 @@ class Reader(object):
         #print url
         try:
             r = urllib2.Request(url, headers=self.headers)
-            return urllib2.urlopen(r, timeout=20).read()
+            return urllib2.urlopen(r, timeout=40).read()
         except (HTTPError, URLError):
             print url
 
