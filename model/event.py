@@ -791,7 +791,7 @@ if __name__ == '__main__':
     pass
     from model.user_mail import mail_by_user_id
     for i in event_joiner_user_id_list(10236239):
-        print mail_by_user_id(i)
+        print mail_by_user_id(i),",",
 
     #id = 10242980 
     #event = Event.mc_get(id)
