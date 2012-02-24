@@ -12,7 +12,7 @@ from po_tag import REDIS_REC_CID_DICT, tag_id_list_by_str_list
 from operator import itemgetter
 from model.zsite import Zsite
 from config import ZSITE_DOUBAN_ID, ZSITE_UCD_CHINA_ID
-
+from urllib import quote
 FEED_IMPORT_STATE_RM = 0
 FEED_IMPORT_STATE_WITHOUT_TAG = 10
 FEED_IMPORT_STATE_INIT = 20
