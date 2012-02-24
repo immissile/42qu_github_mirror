@@ -160,7 +160,8 @@ max_id = Rss.max_id()
 %endif
 <%
 PATH_NAME = (
-    ("/feed_import","审核导入文章"),
+    ("/feed_import","导入文章 - 待审核"),
+    ("/feed_import/log","导入文章 - 已审核"),
 )
 %>
 %for path,name in PATH_NAME:
