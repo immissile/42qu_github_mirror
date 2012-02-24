@@ -54,6 +54,7 @@ def prepare(o):
     ))
 
     o.ZSITE_DOUBAN_ID = 10216239
+    o.ZSITE_UCD_CHINA_ID = 10109232 
 
     o.SITE_DOMAIN = '42qu.test'
     o.SITE_NAME = '42区'
