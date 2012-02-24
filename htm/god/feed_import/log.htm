@@ -57,6 +57,9 @@ color:#666;
 color:#999;
 font-size:12px;
 }
+.log_jump{
+display:inline-block;
+}
 </style>
 
 %for pos, i in enumerate(feed_list,1):
@@ -73,9 +76,10 @@ admin = i.admin
     </span>
 
 %if i.state < FEED_IMPORT_STATE_POED:
-    <a class="log_title_a" href="/feed_import/edit/${i.id}" target="_blank">${i.title}</a>
+    <a class="log_title_a" href="/feed_import/edit/${i.id}" target="_blank">${i.title}</a><a href="${i.url}" class="log_jump"></a>
 %else:
-    <span class="log_title">${i.title}</span>
+    <span class="log_title">${i.title}<a href="${i.url}" class="log_jump"></a>
+</span>
 %endif
 
 <span class="log_state">[ ${STATE2CN.get(i.state,"???")} ]</span>
