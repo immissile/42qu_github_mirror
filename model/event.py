@@ -789,8 +789,10 @@ def event_joiner_by_owner_id(user_id):
 
 if __name__ == '__main__':
     pass
-    event = Event.mc_get(10204180)
-    print event.state , event.end_time
+    id = 10242980 
+    event = Event.mc_get(id)
+    event.state = EVENT_STATE_REJECT
+    event.save()
 #    for i in Event.where(state=EVENT_STATE_TO_REVIEW):
 #        print i.id
 #        i.state = EVENT_STATE_REJECT
