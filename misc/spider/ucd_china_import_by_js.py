@@ -16,7 +16,9 @@ for i in FeedImport.where(zsite_id=ZSITE_UCD_CHINA_ID):
         if 'www1.feedsky.com' not in line:
             r.append(line)
     txt = "\n".join(r)
-    print txt
+    print i.title
+    i.txt = txt
+    i.save()
 
 raise
 with open('/mnt/zdata/ucd_china.js') as ucd_china:
