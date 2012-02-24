@@ -41,12 +41,10 @@ border-right:1px solid #ddd;
 margin-right:4px;
 }
 .log_title{
-margin-right:16px;
 color:#444;
 font-weight:700;
 }
 .log_title_a{
-margin-right:16px;
 font-weight:700;
 }
 .log_state{
@@ -62,6 +60,8 @@ display:inline-block;
 width:18px;
 height:18px;
 background:url(http://s4.42qu.us/img/gif/icons/gif/light_gray/to_size/arrow1_ne.gif) 50% 50% no-repeat;
+vertical-align:-2px;
+margin-right:16px;
 }
 .log_jump:hover{
 background:url(http://s4.42qu.us/img/gif/icons/gif/red/to_size/arrow1_ne.gif) 50% 50% no-repeat;
@@ -82,10 +82,9 @@ admin = i.admin
     </span>
 
 %if i.state < FEED_IMPORT_STATE_POED:
-    <a class="log_title_a" href="/feed_import/edit/${i.id}" target="_blank">${i.title}</a><a href="${i.url}" class="log_jump"></a>
+    <a class="log_title_a" href="/feed_import/edit/${i.id}" target="_blank">${i.title}</a><a href="${i.url}" target="_blank" class="log_jump"></a>
 %else:
-    <span class="log_title">${i.title}<a href="${i.url}" class="log_jump"></a>
-</span>
+    <span class="log_title">${i.title}</span><a href="${i.url}" target="_blank" class="log_jump"></a>
 %endif
 
 <span class="log_state">[ ${STATE2CN.get(i.state,"???")} ]</span>
