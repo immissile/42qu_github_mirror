@@ -18,6 +18,7 @@ STATE2CN = {
 <style>
 .log_line{
 border-bottom:1px dotted #e9e9e9;
+line-height:32px;
 }
 .log_tag_id{
 display:none;
@@ -38,6 +39,21 @@ border-right:1px solid #ddd;
 .tag_split{
 border-right:1px solid #ddd;
 margin-right:4px;
+}
+.log_title{
+margin-right:12px;
+color:#000;
+}
+.log_title_a{
+margin-right:12px;
+}
+.log_state{
+margin-right:12px;
+color:#666;
+}
+.log_time{
+color:#999;
+font-size:12px;
 }
 </style>
 
@@ -60,7 +76,7 @@ admin = i.admin
     <span class="log_title">${i.title}</span>
 %endif
 
-<span class="log_state">${STATE2CN.get(i.state,"???")}</span>
+<span class="log_state">[ ${STATE2CN.get(i.state,"???")} ]</span>
 <span class="log_time">${friendly_time(i.time)}</span>
 </div>
 %endfor

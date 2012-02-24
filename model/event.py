@@ -789,7 +789,7 @@ def event_joiner_by_owner_id(user_id):
 
 if __name__ == '__main__':
     pass
-    from model.user_mail import mail_by_user_id
+    #from model.user_mail import mail_by_user_id
     class Vps(Model):
         pass
     #id = 0
@@ -799,7 +799,13 @@ if __name__ == '__main__':
     #        continue
     #    Vps(state=10,group=1,id_in_group=id, user_id=i).save()
     #    print id, mail_by_user_id(i)
-
+    #from os import urandom
+    #from base64 import b64encode
+    #print 
+    from uuid import uuid4
+    for i in Vps.where():
+        i.passwd = uuid4().hex[:8].replace("l","k")
+        i.save()
     #id = 10242980 
     #event = Event.mc_get(id)
     #event.state = EVENT_STATE_REJECT
