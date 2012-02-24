@@ -14,25 +14,49 @@ STATE2CN = {
 }
 
 %>
+
+<style>
+.log_line{
+border-bottom:1px dotted #e9e9e9;
+}
+.log_tag_id{
+display:none;
+}
+.log_num{
+color:#999;
+margin-right:6px;
+}
+.log_admin_name{
+margin-right:12px;
+}
+.log_tags{
+background:#f3f3f3;
+margin-right:12px;
+color:#666;
+}
+</style>
+
 %for pos, i in enumerate(feed_list,1):
 <%
 admin = i.admin
 %>
-<div>
-${pos}
-<a href="${admin.link}" target="_blank">${admin.name}</a>
+<div class="log_line">
+<span class="log_num">${pos}</span>
+<a href="${admin.link}" target="_blank" class="log_admin_name">${admin.name}</a>
+    <span class="log_tags">
     %for tag in i.tag_list:
-${tag.id} ${tag.name}
+<span class="log_tag_id">${tag.id}</span><span class="log_tag_name">${tag.name}</span>
     %endfor
+    </span>
 
 %if i.state < FEED_IMPORT_STATE_POED:
-    <a href="/feed_import/edit/${i.id}" target="_blank">${i.title}</a>
+    <a class="log_title_a" href="/feed_import/edit/${i.id}" target="_blank">${i.title}</a>
 %else:
-    ${i.title}
+    <span class="log_title">${i.title}</span>
 %endif
 
-${STATE2CN.get(i.state,"???")}
-${friendly_time(i.time)}
+<span class="log_state">${STATE2CN.get(i.state,"???")}</span>
+<span class="log_time">${friendly_time(i.time)}</span>
 </div>
 %endfor
 

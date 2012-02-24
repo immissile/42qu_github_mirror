@@ -790,8 +790,15 @@ def event_joiner_by_owner_id(user_id):
 if __name__ == '__main__':
     pass
     from model.user_mail import mail_by_user_id
+    class Vps(Model):
+        pass
+    id = 0
     for i in event_joiner_user_id_list(10236239):
-        print mail_by_user_id(i),",",
+        id+=1
+        if id in (12,):
+            continue
+        Vps(state=10,group=1,id_in_group=id).save()
+        print id, mail_by_user_id(i)
 
     #id = 10242980 
     #event = Event.mc_get(id)
