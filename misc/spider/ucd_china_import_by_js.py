@@ -13,7 +13,7 @@ for i in FeedImport.where(zsite_id=ZSITE_UCD_CHINA_ID):
     txt = txt.split("\n")
     r = []
     for line in txt:
-        if 'www1.feedsky.com' not in line:
+        if 'www1.feedsky.com' not in line and '相关话题：' not in line:
             r.append(line)
     txt = "\n".join(r)
     print i.title
