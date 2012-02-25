@@ -1318,6 +1318,8 @@ CREATE TABLE `vps` (
   `state` int(10) unsigned NOT NULL,
   `group` int(10) unsigned NOT NULL,
   `id_in_group` smallint(5) unsigned NOT NULL,
+  `passwd` varbinary(256) NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
