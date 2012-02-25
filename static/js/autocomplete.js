@@ -20,10 +20,10 @@ function autocomplete_tag(id, default_tag_list, only_search, idPrefix){
                         list.push(t)
                     }
                 }
-                if(ctrl && !only_search)list.unshift({id:'-'+word,name:word,num:0})
+                if(ctrl && !only_search)list.unshift({id:'-'+word,name:$('#token-input-tag_id_list').val(),num:0})
                 return list
             },
-            hintText:only_search?null:'搜索标签',
+            hintText:only_search?null:'',
             propertyToSearch: "name",
             onAdd: function (item) {
                 if(only_search){

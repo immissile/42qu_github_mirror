@@ -10,6 +10,7 @@ from model.po_recommend import mq_rm_rec_po_by_po_id
 from model.buzz import mq_buzz_follow_new
 from model.buzz_at import mq_buzz_at_new
 from model.buzz_reply import mq_buzz_po_reply_new, mq_buzz_po_reply_rm, mq_buzz_po_rm
+from model.rec_read import mq_rec_topic_has_new
 
 def run():
     mq_server()

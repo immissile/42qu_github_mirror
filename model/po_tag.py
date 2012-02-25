@@ -23,9 +23,9 @@ from rec_read import rec_read_new, rec_read_user_topic_score_incr, REDIS_REC_PO_
 
 REDIS_REC_CID_TUPLE = (
     (1, '新闻 / 快讯'),
-    (2, '评论 / 观点'),
+    (2, '观察 / 思考'),
     (3, '问题 / 讨论'),
-    (4, '访谈 / 人物'),
+    (4, '人物 / 对话'),
     (5, '资料 / 知识'),
     (6, '灌水 / 闲聊'),
 )
@@ -57,7 +57,7 @@ class PoZsiteTag(Model):
 
 def po_score_incr(po, user_id, score=1):
     po_id = po.id
-    cid = redis.hget(REDIS_PO_ID2CID, po_id)
+    cid = redis.hget(REDIS_PO_ID2TAG_CID, po_id)
     tag_id_list = tag_id_list_by_po_id(po_id=po_id)
     if tag_id_list:
         redis.hincrby(REDIS_REC_PO_SCORE, po_id, score) 
@@ -292,16 +292,19 @@ def tag_list_by_po_id(po_id):
     zsite_id_list = tag_id_list_by_po_id(po_id)
     return Zsite.mc_get_list(zsite_id_list)
 
-def po_tag_new_by_autocompelte(po, tag_list, cid=0):
+def tag_id_list_by_str_list(tag_list):
     tag_id_list = []
     for i in tag_list:
         if i.startswith('-'):
             for id in tag_by_str(i[1:]):
-                #print id
                 tag_id_list.append(id)
         else:
             tag_id_list.append(i)
-    return po_tag_id_list_new(po, unique(tag_id_list), cid)
+    return unique(map(int,tag_id_list))
+
+
+def po_tag_new_by_autocompelte(po, tag_list, cid=0):
+    return po_tag_id_list_new(po, tag_id_list_by_str_list(tag_list), cid)
 
 def po_tag_id_list_new(po, tag_id_list, cid=0):
     po_id = po.id
@@ -332,10 +335,15 @@ def po_tag_id_cid(tag_id, cid, limit, offset):
 
 if __name__ == '__main__':
     pass
-    from model.po import Po
-    po = Po.where()[1]
-    print po
-    po_tag_new_by_autocompelte(po, ['-张沈鹏'], 1)
-    print tag_cid_count(10232177)
 
-    print po_tag_id_cid(10232177, 1, 1, 0)
+
+    for tag_cid, count in tag_cid_count(10233568):
+        print REDIS_REC_CID_DICT [tag_cid]
+
+    #from model.po import Po
+    #po = Po.where()[1]
+    #print po
+    #po_tag_new_by_autocompelte(po, ['-张沈鹏'], 1)
+    #print tag_cid_count(10232177)
+
+    #print po_tag_id_cid(10232177, 1, 1, 0)
