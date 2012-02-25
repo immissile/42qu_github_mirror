@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import _env
+import config
 import sys
 
 import re
@@ -11,8 +13,7 @@ import hashlib
 import time
 import shutil
 
-base_path = "/mnt/nova/xen"
-nbd_device = "/dev/nbd6"
+from config.vps import BASE_PATH as base_path , NBD_DEVICE as nbd_device
 
 
 if not os.path.isdir (base_path):
