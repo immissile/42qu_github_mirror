@@ -50,7 +50,9 @@ def main():
 
     count = 0
     for i in event_joiner_user_id_list(10236239):
-        if id in (12, ):
+        if i in ( 
+            10027978,
+        ):
             continue
         count += 1
         vps = Vps.get(user_id=i)
@@ -82,6 +84,7 @@ def main():
         vps_new(vps.id, ip, ssh_port, vps.passwd)
 
 def vps_new(id, ip, ssh_port, passwd):
+
     result = []
     cmd = """python create_vm.py --baseimg /mnt/nova/xen/template/ext4_root.img --name vps%s --ip %s/24 --gateway 10.10.1.1 --user work:%s"""%(
         id, ip, passwd
