@@ -44,6 +44,7 @@ def _setup_loop (img_path):
     _call_cmd ("losetup -f %s" % (img_path))
     _out = subprocess.check_output (["losetup", "-a"])
     lines = _out.split ("\n")
+    time.sleep (1)
     for line in lines:
         if line.find (img_path) != -1:
             om = re.match (r"^(/dev/loop\d+):.*$", line)
@@ -137,7 +138,7 @@ sdl = 0
 vnc = 0
 vncunused = 1
 vnclisten = "0.0.0.0"
-disk = [ "tap:qcow:%s,xvda1,w", "tap:aio:%s,xvdb1,w", "file:%s,xvdc1,w"]
+disk = [ "tap:qcow:%s,xvda1,w", "tap:aio:%s,xvdb1,w", "tap:aio:%s,xvdc1,w"]
 vif = ["bridge=br0"]
 """ % (vm_name, mem_size, mem_size, disk1_path, disk2_path, swap_path)
     f = open (config_path, "w+")
