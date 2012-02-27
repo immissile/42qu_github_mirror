@@ -58,7 +58,4 @@ def autocomplete_user_new(user):
 
 if __name__ == '__main__':
     pass
-    from zkit.orm import ormiter
-    for user in ormiter(Zsite,"cid=%s"%CID_USER):
-        autocomplete_user_new(user)
-
+    print autocomplete_user.id_rank_name_list_by_str('z')
