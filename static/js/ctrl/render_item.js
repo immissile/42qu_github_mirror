@@ -27,7 +27,7 @@ $.template(
         '</div>'+
         '<div id="item_list_${$data[0]}" class="tag_item_list"></div>'+
         '{{if $data[4]}}<div class="tag_cid_more">'+
-            '<a href="javascript:tag_cid_more(${$data[0]},${$data[4]})" id="tag_cid_more${$data[0]}">更多 ...</a>'+
+            '<a href="javascript:tag_cid_more(${$data[0]},-${$data[4]})" id="tag_cid_more${$data[0]}">更多 ...</a>'+
         '</div>{{/if}}'+
     '</div></div>'+
 '</div>'
