@@ -148,10 +148,10 @@ if __name__ == '__main__':
     #    print i
     #print "=+++"
 
-    from zkit.pprint import pprint
-    pprint(autocomplete_tag.id_rank_name_list_by_str('baidu'))
+    #from zkit.pprint import pprint
+    #pprint(autocomplete_tag.id_rank_name_list_by_str('baidu'))
     #print autocomplete_tag.id_rank_name_list_by_str('f')
-    print redis.keys('tag`baidu')
+    #print redis.keys('tag`baidu')
     #from timeit import timeit
     #def f():
     #    autocomplete_tag.id_name_list_by_name_list('t')
