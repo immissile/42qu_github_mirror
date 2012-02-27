@@ -58,4 +58,4 @@ def autocomplete_user_new(user):
 
 if __name__ == '__main__':
     pass
-    print autocomplete_user.id_rank_name_list_by_str('z')
+    print autocomplete_user.id_rank_name_list_by_str('z',3)

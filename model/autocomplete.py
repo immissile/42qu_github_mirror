@@ -122,6 +122,7 @@ class AutoComplete:
         ZSET_CID = self.ZSET_CID
 
         if id_list is None:
+            limit = 10
             mkey = ZSET_CID%name_key
 
             if not redis.exists(mkey):
@@ -133,13 +134,13 @@ class AutoComplete:
             id_list = redis.zrevrange(mkey, 0, limit)
             self._set_cache(name_key, id_list)
 
-        return id_list
+        return id_list[:limit]
 
 
-    def id_rank_name_list_by_str(self, query):
+    def id_rank_name_list_by_str(self, query, limit=7):
         query = query.strip().lower()
         result = []
-        id_list = self.id_list_by_str(query)
+        id_list = self.id_list_by_str(query, limit)
         if id_list:
             for id, name_rank in zip(id_list, redis.hmget(self.ID2NAME, id_list)):
                 name, rank = name_rank.rsplit('`', 1)
