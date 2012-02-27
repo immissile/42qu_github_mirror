@@ -13,6 +13,7 @@ width:619px;
 .com_side{
 width:270px;
 padding-left:0;
+z-index:-1;
 }
 .hero_avatar{
 width:619px;
@@ -163,7 +164,6 @@ padding-right:32px;
 float:left;
 background:url(http://s4.42qu.us/img/gif/comment.gif) no-repeat 692px 160px;
 position:relative;
-z-index:999;
 margin-right:-1px;
 }
 .user_say{
