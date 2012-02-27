@@ -138,7 +138,6 @@ class AutoComplete:
         return result
 
 autocomplete_tag = AutoComplete('tag')
-autocomplete_user = AutoComplete('user')
 
 if __name__ == '__main__':
     pass
