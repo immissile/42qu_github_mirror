@@ -95,7 +95,8 @@ def vps_new(_id, user_id, ip, ssh_port, passwd):
 用户名 : %s
 密码 : %s
 
-如何登录 ? -> http://book.42qu.com/linux/introduction.html
+如何登录主机
+http://book.42qu.com/linux/introduction.html
 
 预习材料:
 http://book.42qu.com/linux/introduction.html
