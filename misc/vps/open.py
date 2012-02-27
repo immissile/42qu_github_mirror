@@ -94,7 +94,7 @@ def vps_new(_id, user_id, ip, ssh_port, passwd):
     username = "v%s"%_id
     mail = mail_by_user_id(user_id)
 
-    print username, mail
+    print username, passwd
 #    mail = "zsp007@gmail.com"
 #    subject = "[42qu.培训班] 学习用的主机帐号" 
 #    text = """
