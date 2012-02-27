@@ -62,7 +62,8 @@ def user_mail_new(user_id, mail, state=MAIL_UNVERIFY):
     mc_user_id_by_mail.set(mail, user_id)
     return user_id
 
-def user_mail_active_by_user_id(user_id, mail=None):
+def user_mail_active_by_user(user, mail=None):
+    user_id = user.id
     for u in UserMail.where(user_id=user_id, state=MAIL_LOGIN):
         u.state = MAIL_VERIFIED
         u.save()
@@ -81,6 +82,9 @@ def user_mail_active_by_user_id(user_id, mail=None):
         mc_user_id_by_mail.set(mail, user_id)
 
     return um
+
+
+
 
 def user_mail_by_state(user_id, state):
     return UserMail.where(user_id=user_id).where('state>=%s', state).col_list(col='mail')

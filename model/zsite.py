@@ -146,7 +146,10 @@ def zsite_new(name, cid, state=ZSITE_STATE_APPLY, id=None):
     return zsite
 
 def zsite_new_user(name, state=ZSITE_STATE_APPLY):
-    return zsite_new(name, CID_USER, state)
+    from model.autocomplete_user import autocomplete_user_name_new
+    user = zsite_new(name, CID_USER, state)
+    autocomplete_user_name_new(user, 0) 
+    return user
 
 #def zsite_to_verify_by_cid(cid, limit, offset):
 #    return Zsite.where(cid=cid, state=ZSITE_STATE_WAIT_VERIFY).order_by('id')[offset: limit+offset]
@@ -205,6 +208,7 @@ def zsite_name_id_dict(id_set):
 
 if __name__ == '__main__':
     pass
+    
     #zsite_name_rm(10017321)
     #print zsite_user_verify_count()
 #    from zweb.orm import ormiter
@@ -218,6 +222,7 @@ if __name__ == '__main__':
     from model.cid import CID_TAG
     from collections import defaultdict
 
+    zsite_new_user("test", state=ZSITE_STATE_APPLY)
 
     #id = 10224057
   #  id = 10232186 
@@ -286,7 +291,6 @@ if __name__ == '__main__':
 #        path = '/mnt/zpage/%s'%s[18:]
 #        if not  exists(path):
 #            print path
-
 
 
 
