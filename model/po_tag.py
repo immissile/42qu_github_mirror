@@ -323,13 +323,18 @@ def po_tag_id_list_new(po, tag_id_list, cid=0):
         zsite_tag_po_new(tag_id, po, cid)
 
 
-def tag_cid_count(tag_id):
-    count_dict = redis.hgetall(REDIS_TAG_CID_COUNT%tag_id)
-    r = []
-    for k, v in count_dict.iteritems():
-        r.append((int(k), int(v)))
-    r.sort(key=itemgetter(0))
-    return r
+
+def tag_cid_count(tag_id, cid=None):
+    key = REDIS_TAG_CID_COUNT%tag_id
+    if cid is None:
+        count_dict = redis.hgetall(key)
+        r = []
+        for k, v in count_dict.iteritems():
+            r.append((int(k), int(v)))
+        r.sort(key=itemgetter(0))
+        return r
+    else:
+        return redis.hget(key, cid)
 
 def po_id_list_by_tag_id_cid(tag_id, cid, limit, offset):
     id_list = redis.zrange( REDIS_TAG_CID%(tag_id, cid), offset, limit+offset-1 )

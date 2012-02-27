@@ -12,7 +12,6 @@ from model.rec_read import po_json_by_rec_read
 from model.po_tag import tag_cid_count
 from tornado.escape import json_encode 
 from model.po_tag import REDIS_REC_CID_DICT, po_tag_by_cid 
-from zkit.page import limit_offset, Page
 #from model.po_tag import po_tag
 
 def render_zsite_site(self, n=1, page_template='/-%s'):
