@@ -58,7 +58,6 @@ class AutoComplete:
 
         _append = False
         if value:
-            #TODO 如果rank不一样, 需要进行修改
             value_name, value_rank = value.rsplit('`', 1)
             if value_name != name:
                 for i in self._key(value):
