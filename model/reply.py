@@ -38,7 +38,6 @@ class ReplyMixin(object):
 
     def reply_new(self, user, txt, state=STATE_ACTIVE, create_time=None):
         from zsite import user_can_reply
-        from po_by_tag import section_rank_refresh
         user_id = user.id
         cid = self.cid
         if cid not in (CID_SITE, CID_COM):
@@ -74,8 +73,6 @@ class ReplyMixin(object):
 #            if mc_reply_in_1h.get(key) is None:
 #                mq_buzz_po_reply_new(user_id, rid)
 #                mc_reply_in_1h.set(key, True, 3600)
-        if cid in CID_PO:
-            section_rank_refresh(self)
 
         return id
 

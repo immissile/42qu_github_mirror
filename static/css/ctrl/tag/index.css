@@ -124,6 +124,7 @@ margin-top:27px;
 #tagbar{
 margin-top:27px;
 margin-left:-7px;
+margin-bottom:27px;
 }
 #tagbar .xa{
 margin-left:7px;
@@ -147,9 +148,6 @@ height:18px;
 }
 #tagbar .xatagset{
 padding:7px; 8px 0 0;
-}
-.com_main, .com_side{
-display:none
 }
 .com_main .page{
 border-top:1px dotted #ccc;
@@ -180,6 +178,7 @@ margin-top:7px;
 padding-top:14px;
 margin-bottom:4px
 }
+/*
 .readl .zname{
 width:118px;
 height:28px;
@@ -188,6 +187,7 @@ height:28px;
 height:28px;
 width:520px;
 }
+*/
 #main_nav_in{
 width:666px;
 }
@@ -259,3 +259,20 @@ border:1px dotted #ccc;width:715px;height:80px;
 padding:2px 3px;
 margin-bottom:7px;
 }
+.tag_cid_page a{
+color:#999;
+}
+.tag_cid_page a:hover{
+color:#d20;
+}
+.tag_cid_page{
+padding:5px 2px 0;
+border-top:1px solid #eee;
+}
+.main_nav .now, .tag_cid_page a{
+padding-left:21px;
+}
+.main_nav .now{
+background:url(/img/gif/adot.gif) no-repeat scroll -1px 2px;
+}
+

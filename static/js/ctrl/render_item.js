@@ -15,6 +15,39 @@ $.template(
 )
 
 
+$.template(
+    'tag_cid',
+'<div class="com_main" id="com_main_${$data[0]}">'+
+    '<div id="feeds"><div id="feed_index">'+
+        '<div class="main_nav">'+
+            '<a class="now" href="/cid/${$data[0]}">'+
+                '${$data[1]}'+
+            '</a>'+
+            '<span class="R">共 ${$data[2]} 篇</span>'+
+        '</div>'+
+        '<div id="item_list_${$data[0]}" class="tag_item_list"></div>'+
+        '{{if $data[4]}}<div class="tag_cid_page">'+
+            '<a href="javascript:tag_cid_page(${$data[0]},-${$data[4]})" id="tag_cid_page${$data[0]}">更多 ...</a>'+
+        '</div>{{/if}}'+
+    '</div></div>'+
+'</div>'
+)
+
+function tag_cid_page(cid, page){
+   alert(cid, page) 
+}
+
+function _render_tag_cid(id, data){
+    $.tmpl('tag_cid', data).appendTo(id)
+    var i=0,cid, item, t;
+    for(;i<data.length;++i){
+        t = data[i]
+        cid = t[0]
+        item = t[3]
+        _render_note("#com_main_"+cid, "#item_list_"+cid, item)
+    }
+}
+
 function _render_note(feed_index, elem, data){
     var result = $.tmpl('note_li', data)
     result.find('.TPH').each(function(){
@@ -95,7 +128,7 @@ function note_li(feed_index){
     })
 
     $('.reada').live('click',function(){
-        scrollTop = feeds.offset().top-14
+        scrollTop = feeds.offset().top-28
         feed_index.hide();
         var p = this.parentNode,
             self=$(p), 

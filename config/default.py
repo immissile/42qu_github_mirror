@@ -54,6 +54,7 @@ def prepare(o):
     ))
 
     o.ZSITE_DOUBAN_ID = 10216239
+    o.ZSITE_UCD_CHINA_ID = 10109232 
 
     o.SITE_DOMAIN = '42qu.test'
     o.SITE_NAME = '42区'
@@ -141,6 +142,24 @@ def prepare(o):
     o.GREADER_PASSWORD = ''
     o.GREADER_USERNAME = ''
 
+    o.KAIXIN_CONSUMER_KEY = ''
+    o.KAIXIN_CONSUMER_SECRET = ''
+
+    o.FANFOU_CONSUMER_KEY = ''
+    o.FANFOU_CONSUMER_SECRET = ''
+
+    o.SLIDESHARE_KEY = ''
+    o.SLIDESHARE_SECRET = ''
+    o.SLIDESHARE_USERNAME = ''
+    o.SLIDESHARE_PASSWORD = ''
+
+    o.UPYUN_PATH_BUILDER = 'test/%s'
+    o.UPYUN_USERNAME = ''
+    o.UPYUN_PWD = ''
+    o.UPYUN_SPACENAME = ''
+    o.UPYUN_API_URL = ''  
+    o.UPYUN_DOMAIN = ''
+    o.UPYUN_DIRNAME = ''
     
 
     return o

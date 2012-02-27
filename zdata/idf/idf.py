@@ -19,6 +19,10 @@ def idf_dumps(count, df):
     return result
 
 def tf_idf(word_list, idf):
+
+    if 'http' in idf:
+        del idf['http']
+
     tf = defaultdict(int)
     for i in word_list:
         tf[i] += 1

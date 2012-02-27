@@ -101,8 +101,8 @@ count = product_count()
 <a class="cola" href="/product?${count}"><span class="R">${count}</span>产品</a>
 
 <a class="cola" href="/com"><span class="R">${Zsite.where(cid=CID_COM).count()}</span>全部公司</a>
-<a class="cola" href="/feed_import">审核导入文章</a>
-<a class="cola" href="/feed_import/list/1">修改导入文章</a>
+<a class="cola tc" href="/feed_import">审核导入文章</a>
+<a class="cola tc" href="/feed_import/list/1">修改导入文章</a>
 <p class="coltitle">RSS文章</p>
 
 <%
@@ -160,7 +160,8 @@ max_id = Rss.max_id()
 %endif
 <%
 PATH_NAME = (
-    ("/feed_import","审核导入文章"),
+    ("/feed_import","导入文章 - 待审核"),
+    ("/feed_import/log","导入文章 - 已审核"),
 )
 %>
 %for path,name in PATH_NAME:

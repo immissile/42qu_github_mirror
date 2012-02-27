@@ -1,10 +1,18 @@
-<%inherit file="/god/_base.htm" />
+<%inherit file="_base.htm" />
 <%!
 from yajl import dumps
 from cgi import escape
 from model.douban import is_rt_by_title
-from model.rec_read import REDIS_REC_CID_TUPLE
+from model.po_tag import REDIS_REC_CID_TUPLE
+from model.zsite import Zsite
 %>
+
+<%def name="htm_title()">
+<%
+zsite = Zsite.mc_get(tag_id)
+%>
+${zsite.name}
+</%def>
 <%def name="htm_head()">
 ${css.god_feed_import|n}
 </%def>
@@ -12,46 +20,45 @@ ${css.god_feed_import|n}
 <script id="render_txt" type="text/x-jquery-tmpl">
 <%text>
     <form id="editform">
+    <a href="${url}" target="_blank">原文链接</a>
     <input id="title" name="title" type="text" value="${title}" >
+    <a id="nobtn" href="javascript:void(0)">跳过</a>
+<div>
+    <label for="tag_id_list" class="ul_label">标签</label>
+    <input id="tag_id_list" type="text" value="${tag_id_list}" >
+</div>
     <textarea id="txt" name="txt">{{html txt}}</textarea>
 
-    </%text>
-<div class="redis_cid c">
+
+<div class="btnbar">
+<div class="redis_cid L">
+</%text>
+
     % for id,name in REDIS_REC_CID_TUPLE:
     <span>
         <input type="radio" name="cid"  value="${id}" id="cid${id}"><label for="cid${id}">${name}</label><br>
     </span>
     % endfor
-</div>
 
 <%text>
-<div>
-    <label for="tag_id_list">标签</label>
-    <input id="tag_id_list" name="tag_id_list" type="text" value="${tag_id_list}" >
 </div>
-
-    </%text>
-   <%text>
-
-
 <div class="check">
     <input id="sync" name="sync" type="checkbox" >
-    <label for="sync">同步</label>
+    <label class="label_sync" for="sync">同步</label>
 
     <input id="author_rm" name="author_rm" type="checkbox">
     <label for="author_rm">删除作者</label>
-    <a href="${url}" target="_blank">原文链接</a>
 </div>
+<a id="okbtn" href="javascript:void(0)">确认</a>
+</div>
+
+
 <input name="id" type="hidden" value="${id}" type="text" id="feed_id">
 </form>
 </%text>
 </script>
 
 <div id="editwrapper"></div>
-<div class="btnbar">
-<button id="okbtn">确认</button>
-<button id="nobtn">跳过</button>
-</div>
 <script src="${js.god_feed_import|n}"></script>
 
 <script>

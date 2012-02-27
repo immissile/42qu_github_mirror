@@ -73,6 +73,7 @@ def render_machine(host, name_list):
         render(config_name, host, name)
 
 render_machine('krios', """
+huhuchen
 zuroc
 wooparadog
 work

@@ -35,7 +35,7 @@ def fav_cid_dict(user_id, po_id_list):
         d[v] = cid
     return d
 
-def fav_add(user_id, po_id):
+def fav_new(user_id, po_id):
     po = Po.mc_get(po_id)
     if po and po.cid in PO_SHARE_FAV_CID and po.state >= STATE_ACTIVE and not fav_cid(user_id, po_id):
         cid = po.cid
@@ -44,8 +44,9 @@ def fav_add(user_id, po_id):
         mc_flush_by_user_id(user_id, cid)
         mc_flush_by_po_id(po_id)
         po_pos_set(user_id, po)
-        from po_by_tag import section_rank_refresh
-        section_rank_refresh(po)
+
+        from po_tag import po_score_incr
+        po_score_incr(po, user_id, 7)
 
 def fav_rm(user_id, po_id):
     cid = fav_cid(user_id, po_id)
@@ -106,4 +107,4 @@ def fav_user_list_by_po_id(po_id, limit, offset=0):
 
 
 if __name__ == '__main__':
-    fav_add(10000212, 10071341)
+    fav_new(10000212, 10071341)

@@ -5,7 +5,7 @@ from ctrl._urlmap.zsite import urlmap
 from model.cid import CID_SITE
 from model.zsite_fav import zsite_fav_get_and_touch
 from ctrl.zsite.index import render_zsite_site
-from model.po_by_tag import po_by_tag,zsite_tag_po_count
+#from model.po_tag import po_tag
 
 @urlmap('/read')
 @urlmap('/read-(\d+)')
@@ -22,7 +22,7 @@ class Index(LoginBase):
             self.render("/ctrl/zsite/site/read.htm", li=li, page=page)
         else:
             zsite_id = 137110
-            item_list = po_by_tag(zsite_id, current_user_id, 15, 0 )
+            item_list = po_tag(zsite_id, current_user_id, 15, 0 )
             self.render(item_list=item_list)
 
 

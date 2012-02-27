@@ -9,7 +9,10 @@ from model.site_po import feed_po_list_by_zsite_id, po_cid_count_by_zsite_id, PA
 from zkit.page import page_limit_offset
 from model.zsite_fav import zsite_fav_get_and_touch
 from model.rec_read import po_json_by_rec_read
-from model.po_by_tag import po_by_tag,zsite_tag_po_count
+from model.po_tag import tag_cid_count
+from tornado.escape import json_encode 
+from model.po_tag import REDIS_REC_CID_DICT, po_tag_by_cid 
+#from model.po_tag import po_tag
 
 def render_zsite_site(self, n=1, page_template='/-%s'):
     zsite_id = self.zsite_id
@@ -35,10 +38,10 @@ class Feed(LoginBase):
     def get(self):
         current_user_id = self.current_user_id
 
-#        from model.po_by_tag import po_by_tag
- 
+#        from model.po_tag import po_tag
+
         self.render(
-            rec_item_list = po_json_by_rec_read( current_user_id)
+            rec_item_list=po_json_by_rec_read( current_user_id)
         )
 
 
@@ -67,31 +70,59 @@ class Index(ZsiteBase):
                     user_id=current_user_id
             )
         elif zsite.cid == CID_TAG:
-            render_tag_site(self,n)
+            render_tag_site(self, n)
         else:
             self.render( motto=motto.get(zsite_id) )
-
 
 @urlmap('/link/(\d+)')
 class Link(LoginBase):
     def get(self, id):
         self.redirect(link_by_id(id))
 
+PAGE_LIMIT_TAG = 25
 
-def render_tag_site(self,n=1,template='/ctrl/zsite/index/tag.htm'):
+def render_tag_site(self, n=1):
     zsite = self.zsite
-    zsite_id = zsite.id
-    total = zsite_tag_po_count(zsite_id)
-    page, limit, offset = page_limit_offset(
-        "/-%s", total, n, limit = 15
-    )
+    zsite_id = self.zsite_id
     current_user_id = self.current_user_id
-    item_list = po_by_tag(zsite_id, current_user_id, limit, offset )
+
+    limit = 3
+    tag_cid_json_list = []
+
+    for cid, count in tag_cid_count(zsite_id):
+        if count>limit:
+            page = limit
+        else:
+            page = 0
+
+        t = [
+cid, 
+REDIS_REC_CID_DICT[cid],
+count, 
+po_tag_by_cid(cid, zsite_id, current_user_id, limit),
+page
+        ]
+        
+        tag_cid_json_list.append(t)
+
+
     self.render(
-        template,
-        page  = str(page),
-        total = total,
-        item_list = item_list,
+'/ctrl/zsite/index/tag.htm',
+tag_cid_json_list = json_encode(tag_cid_json_list),
+
     )
+#    zsite = self.zsite
+#    zsite_id = zsite.id
+#    page, limit, offset = page_limit_offset(
+#        '/-%s', total, n, limit=15
+#    )
+#    current_user_id = self.current_user_id
+#    item_list = po_tag(zsite_id, current_user_id, limit, offset )
+#    self.render(
+#        template,
+#        page=str(page),
+#        total=total,
+#        item_list=item_list,
+#    )
 
 

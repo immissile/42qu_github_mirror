@@ -10,11 +10,11 @@ from model._db import redis
 from model.zsite_fav import zsite_fav_count_by_zsite
 from os import path
 from yajl import loads
-from model.po_by_tag import  tag_by_str
+from model.po_tag import  tag_by_str
 from zkit.bot_txt import txt_map
 from misc.spider.zhihu_topic_id_rank import ID2RANK
 from zdata.tag.name2id import NAME2ID
-from model.po_by_tag import tag_alias_new, _tag_alias_new
+from model.po_tag import tag_alias_new, _tag_alias_new
 from zkit.fanjian import utf8_ftoj
 
 CURRNET_PATH = path.dirname(path.abspath(__file__))
