@@ -92,7 +92,7 @@ def render_tag_site(self, n=1):
 
     for cid, count in tag_cid_count(zsite_id):
         if count>limit:
-            page = "%s--%s"%(cid,limit)
+            page = limit
         else:
             page = 0
 
