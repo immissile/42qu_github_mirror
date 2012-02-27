@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -`- coding: utf-8 -`-
+# coding: utf-8 
 
 from _db import redis
 from model.zsite import Zsite , CID_USER
@@ -58,7 +58,7 @@ def autocomplete_user_new(user):
 
 if __name__ == '__main__':
     pass
-    for user in Zsite.where(cid=CID_USER):
-        print user.id
+    from zkit.orm import ormiter
+    for user in ormiter(Zsite,"cid=%s"%CID_USER):
         autocomplete_user_new(user)
 

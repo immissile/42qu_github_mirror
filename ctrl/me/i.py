@@ -207,6 +207,8 @@ class Url(LoginBase):
     def post(self):
 
         current_user_id = self.current_user_id
+        current_user = self.current_user
+
         url = self.get_argument('url', None)
         if url:
             if url_by_id(current_user_id):
@@ -215,6 +217,8 @@ class Url(LoginBase):
                 error_url = url_valid(url)
             if error_url is None:
                 url_new(current_user_id, url)
+                from model.autocomplete_user import autocomplete_user_url_new
+                autocomplete_user_url_new(current_user, url)
                 self.redirect(SITE_URL)
         else:
             error_url = '个性域名不能为空'
