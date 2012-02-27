@@ -3,8 +3,8 @@ from tornado.escape import json_encode
 from model.motto import motto_get
 from model.zsite_fav import zsite_fav_get
 from model.po_tag import tag_author_list
-#from yajl import dumps
-#from cgi import escape
+from yajl import dumps
+from cgi import escape
 
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
@@ -12,6 +12,7 @@ from model.po_tag import tag_author_list
 <%def name="htm_head()">
 ##<script src="${js.ctrl_side_tag_search}"></script>
 ##<script src="${js.ctrl_zsite_feed}"></script>
+<script src="${js.ctrl_tag}"></script>
 <script src="${js.ctrl_render_item}"></script>
 ${css.ctrl_zsite_com|n}
 ${css.ctrl_hero|n}
@@ -20,28 +21,9 @@ ${css.ctrl_tag_side|n}
 </%def>
 
 
-##<%
-##is_faved = zsite_fav_get(zsite,current_user_id)
-##%>
-##
-##<script id="render_txt" type="text/x-jquery-tmpl"><%text>
-##<pre class="prebody" id="fdtxt${id}">{{html txt}}</pre><div
-##class="fdbar"><span
-##class="L"><span
-##class="fdopt"><a
-##class="${fav}"
-##href="javascript:void(0)" rel="${id}"></a><span
-##class="split">-</span><a
-##href="javascript:share(${id});void(0)"
-##class="vote">推荐</a><span
-##class="split">-</span><a
-##href="javascript:fcm(${id},${reply_count});void(0)"
-##class="fcma"><span
-##class="mr3">{{if reply_count}}${reply_count}{{/if}}</span>评论</a></span></span><a 
-##target="_blank" href="/${link}">${time}</a><span
-##class="split">,</span>{{html user_name}}<a
-##class="aH" href="${link}" target="_blank"></a></div>
-##</%text></script>
+<%
+is_faved = zsite_fav_get(zsite,current_user_id)
+%>
 
 
 <div class="G">
@@ -81,19 +63,18 @@ txt = motto_get(zsite.id)
 
         <div class="tag_author_list">
 
-        <%
-        site_list=tag_author_list(zsite_id)
-        %>
+<%
+site_list = zsite_json(current_user_id, [current_user]) 
+from model.zsite_json import zsite_json
+#site_list = tag_author_list(zsite_id)
+%>
         %if site_list:
         <script type="text/x-json" id="site_data">
             ${escape(dumps(site_list))|n}
         </script>
-        %endif
-
 
         <div class="buzz_h1" id="rec_title">贡献者</div>
         <div class="site_rec" id="rec_wrapper" ></div>
-        </div>
 <script id="site_rec" type="text/x-jquery-tmpl">
 <%text>
 <div class="site_li c" id="rec_${$data[0]}">
@@ -128,6 +109,8 @@ class="sitefav${$data[7]}"></a>
 </%text>
         </script>
 
+        %endif
+        </div>
 </div>
 
 
