@@ -25,7 +25,10 @@ $.template(
             '</a>'+
             '<span class="R">共 ${$data[2]} 篇</span>'+
         '</div>'+
-        '<div id="item_list_${$data[0]}" class="tag_item_list"></div>',
+        '<div id="item_list_${$data[0]}" class="tag_item_list"></div>'+
+        '{{if $data[4]}}<div class="tag_cid_more">'+
+            '<a href="${$data[4]}">更多 ...</a>'+
+        '</div>{{/if}}'+
     '</div></div>'+
 '</div>'
 )

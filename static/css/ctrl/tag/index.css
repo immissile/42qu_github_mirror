@@ -258,3 +258,20 @@ border:1px dotted #ccc;width:715px;height:80px;
 padding:2px 3px;
 margin-bottom:7px;
 }
+.tag_cid_more a{
+color:#999;
+}
+.tag_cid_more a:hover{
+color:#d20;
+}
+.tag_cid_more{
+padding:5px 2px 0;
+border-top:1px solid #eee;
+}
+.main_nav .now, .tag_cid_more a{
+padding-left:21px;
+}
+.main_nav .now{
+background:url(/img/gif/adot.gif) no-repeat scroll -1px 2px;
+}
+
