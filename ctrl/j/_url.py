@@ -8,4 +8,5 @@ import hero
 import fav
 import auth
 import com 
+import tag
 import buzz

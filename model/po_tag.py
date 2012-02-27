@@ -322,8 +322,6 @@ def po_tag_id_list_new(po, tag_id_list, cid=0):
     for tag_id in to_add:
         zsite_tag_po_new(tag_id, po, cid)
 
-
-
 def tag_cid_count(tag_id, cid=None):
     key = REDIS_TAG_CID_COUNT%tag_id
     if cid is None:

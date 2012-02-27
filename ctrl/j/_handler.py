@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import model._db
+from model.zsite_url import zsite_by_domain, url_by_digit_domain
 from zweb._handler import Base as _Base
 
 class Base(_Base):
