@@ -26,14 +26,14 @@ $.template(
             '<span class="R">共 ${$data[2]} 篇</span>'+
         '</div>'+
         '<div id="item_list_${$data[0]}" class="tag_item_list"></div>'+
-        '{{if $data[4]}}<div class="tag_cid_more">'+
+        '{{if $data[4]}}<div class="tag_cid_page">'+
             '<a href="javascript:tag_cid_more(${$data[0]},-${$data[4]})" id="tag_cid_more${$data[0]}">更多 ...</a>'+
         '</div>{{/if}}'+
     '</div></div>'+
 '</div>'
 )
 
-function tag_cid_more(cid, page){
+function tag_cid_page(cid, page){
    alert(cid, page) 
 }
 
