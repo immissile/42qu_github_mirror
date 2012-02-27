@@ -7,7 +7,7 @@ from itertools import izip_longest
 from collections import defaultdict
 from zkit.zitertools import roundrobin
 
-def id_rank_name_list_by_autocomplete(word):
+def autocomplete(word):
 
     total = 10
     r1 = autocomplete_tag.id_rank_name_list_by_str(word, total)
