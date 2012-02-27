@@ -84,31 +84,38 @@ def main():
 
         vps_new(vps.id, i, ip, ssh_port, vps.passwd)
 
+
 def vps_new(_id, user_id, ip, ssh_port, passwd):
+    global count
+
+#    if user_id in (10000205, 10027978):
+#        return
+ 
     username = "v%s"%_id
     mail = mail_by_user_id(user_id)
-    print mail
-    mail = "zsp007@gmail.com"
-    subject = "[42qu.培训班] 学习用的主机帐号" 
-    text = """
-主机 : 0002.42qu.us
-用户名 : %s
-密码 : %s
 
-如何登录主机
-http://book.42qu.com/linux/introduction.html
-
-预习材料:
-http://book.42qu.com/linux/introduction.html
-http://book.42qu.com/python/before_started.html
-
-    """%(username, passwd)
-
-    sendmail(
-        subject,
-        text, mail
-    )
-
+    print username, mail
+#    mail = "zsp007@gmail.com"
+#    subject = "[42qu.培训班] 学习用的主机帐号" 
+#    text = """
+#主机 : 0002.42qu.us
+#用户名 : %s
+#密码 : %s
+#
+#如何登录主机
+#http://book.42qu.com/linux/introduction.html
+#
+#预习材料:
+#http://book.42qu.com/linux/introduction.html
+#http://book.42qu.com/python/before_started.html
+#
+#    """%(username, passwd)
+#
+#    sendmail(
+#        subject,
+#        text, mail
+#    )
+    
 #    result = []
 #    cmd = """python create_vm.py --baseimg /mnt/nova/xen/template/ext4_root.img --name vps%s --ip %s/24 --gateway 10.10.1.1 --user work:%s"""%(
 #        _id, ip, passwd
