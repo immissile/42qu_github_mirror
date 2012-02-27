@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache
 from model.zsite import Zsite
+from model.cid import CID_USER
 
 MAIL_UNVERIFY = 40
 MAIL_VERIFIED = 50
@@ -80,6 +81,10 @@ def user_mail_active_by_user(user, mail=None):
         um.save()
         mc_mail_by_user_id.set(user_id, mail)
         mc_user_id_by_mail.set(mail, user_id)
+
+    if user.cid == CID_USER and mail:
+        from model.autocomplete_user import autocomplete_user_mail_new
+        autocomplete_user_mail_new(user, mail)
 
     return um
 

@@ -104,8 +104,12 @@ class AutoComplete:
         for i in self._key(name):
             redis.zadd(i, id, rank)
 
+    def add(self, name, id, rank=1):
+        name = name.lower().strip()
+        redis.zadd(self.ZSET_CID%name, id, rank)
+
     def id_list_by_str(self, query, limit=7):
-        name_list = query.strip().lower().replace('`', "'").split()
+        name_list = query.replace('`', "'").split()
         if not name_list:
             return []
 
@@ -133,12 +137,13 @@ class AutoComplete:
 
 
     def id_rank_name_list_by_str(self, query):
+        query = query.strip().lower()
         result = []
         id_list = self.id_list_by_str(query)
         if id_list:
             for id, name_rank in zip(id_list, redis.hmget(self.ID2NAME, id_list)):
                 name, rank = name_rank.rsplit('`', 1)
-                if query not in name:
+                if query not in name.lower():
                     alias = self.alias_by_id_query(id, query) or 0
                 else:
                     alias = 0
