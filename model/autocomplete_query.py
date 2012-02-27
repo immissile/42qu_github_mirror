@@ -31,6 +31,6 @@ def id_rank_name_list_by_autocomplete(word):
 
 
 if __name__ == '__main__':
-
-    print id_rank_name_list_by_autocomplete('z')
-
+    from json import dumps
+    print dumps(id_rank_name_list_by_autocomplete('z'))
+    
