@@ -64,7 +64,7 @@ def main():
 
     from zsite_iter import search_zsite_keyword_iter, zsite_keyword_iter
     index(search_zsite_keyword_iter)
-    #index(zsite_keyword_iter)
+    
 
 
 if __name__ == '__main__':
