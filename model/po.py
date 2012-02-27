@@ -534,7 +534,7 @@ if __name__ == '__main__':
     po.save()
 
     #rm_all_po_and_reply_and_tag_by_user_id(10001299)
-    pass
+    #pass
     #for po in Po.where(cid = CID_NOTE,state=STATE_ACTIVE):
     #    print po.txt
     #    raw_input()

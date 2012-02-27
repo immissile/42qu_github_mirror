@@ -239,6 +239,8 @@ def po_tag(tag_id, user_id, limit=25, offset=0):
     id_list = po_id_list_by_tag_id(tag_id, limit, offset)
     return po_json(user_id, id_list, 36)
 
+
+
 def tag_author_list(zsite_id):
     zsite_list = filter(lambda x:x, zsite_author_list(zsite_id))
     return zsite_json(zsite_id, zsite_list)
@@ -329,16 +331,27 @@ def tag_cid_count(tag_id):
     r.sort(key=itemgetter(0))
     return r
 
-def po_tag_id_cid(tag_id, cid, limit, offset):
+def po_id_list_by_tag_id_cid(tag_id, cid, limit, offset):
     id_list = redis.zrange( REDIS_TAG_CID%(tag_id, cid), offset, limit+offset-1 )
-    return Po.mc_get_list(id_list)
+    return id_list
+
+def po_tag_by_cid(cid, tag_id, user_id, limit=25, offset=0):
+    id_list = po_id_list_by_tag_id_cid(tag_id, cid, limit, offset)
+    return po_json(user_id, id_list, 45)
+
 
 if __name__ == '__main__':
     pass
 
+    tag_id = 10233328
+    user_id = 10014918
+    print po_tag_by_cid(4, tag_id, user_id,)
+#    print po_json(po_id_list_tag_id_cid(10233328, 4, 5, 0))
+    #print po_json(po_id_list_tag_id_cid(10233328, 4, 5, 0))
 
-    for tag_cid, count in tag_cid_count(10233568):
-        print REDIS_REC_CID_DICT [tag_cid]
+
+    #for tag_cid, count in tag_cid_count(10233568):
+        #print REDIS_REC_CID_DICT [tag_cid]
 
     #from model.po import Po
     #po = Po.where()[1]

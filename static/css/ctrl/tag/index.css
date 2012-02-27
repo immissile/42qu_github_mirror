@@ -148,9 +148,6 @@ height:18px;
 #tagbar .xatagset{
 padding:7px; 8px 0 0;
 }
-.com_main, .com_side{
-display:none
-}
 .com_main .page{
 border-top:1px dotted #ccc;
 padding-top:14px;
@@ -180,6 +177,7 @@ margin-top:7px;
 padding-top:14px;
 margin-bottom:4px
 }
+/*
 .readl .zname{
 width:118px;
 height:28px;
@@ -188,6 +186,7 @@ height:28px;
 height:28px;
 width:520px;
 }
+*/
 #main_nav_in{
 width:666px;
 }
