@@ -259,17 +259,17 @@ border:1px dotted #ccc;width:715px;height:80px;
 padding:2px 3px;
 margin-bottom:7px;
 }
-.tag_cid_more a{
+.tag_cid_page a{
 color:#999;
 }
-.tag_cid_more a:hover{
+.tag_cid_page a:hover{
 color:#d20;
 }
-.tag_cid_more{
+.tag_cid_page{
 padding:5px 2px 0;
 border-top:1px solid #eee;
 }
-.main_nav .now, .tag_cid_more a{
+.main_nav .now, .tag_cid_page a{
 padding-left:21px;
 }
 .main_nav .now{
