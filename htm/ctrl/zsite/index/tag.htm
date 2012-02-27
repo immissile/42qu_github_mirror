@@ -1,8 +1,8 @@
 <%!
 from tornado.escape import json_encode 
 from model.motto import motto_get
-#from model.zsite_fav import zsite_fav_get
-#from model.po_tag import tag_author_list
+from model.zsite_fav import zsite_fav_get
+from model.po_tag import tag_author_list
 #from yajl import dumps
 #from cgi import escape
 
@@ -55,82 +55,83 @@ txt = motto_get(zsite.id)
 %endif
     </h1>
 
-<div id="tag_cid"></div>
-<script>_render_tag_cid('#tag_cid',${tag_cid_json_list|n})</script>
+        <div id="tag_cid"></div>
+        <script>_render_tag_cid('#tag_cid',${tag_cid_json_list|n})</script>
+    </div>
 
-##    <div class="com_side">
-##
-##
-##<div id="tagbar">
-##<span class="xatxt">
-##%if is_faved:
-##<a class="xa fav_txt" href="javascript:void(0)" >遗忘</a>\
-##%else:
-##<a class="xa fav_txt" href="javascript:void(0)" >关注</a>\
-##%endif
-##<a class="xa" href="javascript:void(0)">投递</a>\
-##<a class="xa" href="javascript:void(0)">提问</a>\
-##</span>\
-##<a class="xa xatagset" href="javascript:void(0)"><span></span></a>
-##</div>
-##
-##
-##
-##<form class="search" action="http://zuroc.42qu.com/q">
-##<input type="text" style="color:#999" placeholder="搜索此话题下内容 ..." name="q" id="search" autocomplete="off"><input type="submit" class="search_btn" value=""></form>
-##
-##<div style="font-size:12px;margin-top:19px;">
-##
-##<%
-##site_list=tag_author_list(zsite_id)
-##%>
-##%if site_list:
-##<script type="text/x-json" id="site_data">
-##    ${escape(dumps(site_list))|n}
-##</script>
-##%endif
-##
-##
-####        ${site_rec_render()}
-##<div class="buzz_h1" id="rec_title">贡献者</div>
-##<div class="site_rec" id="rec_wrapper" ></div>
-##<script id="site_rec" type="text/x-jquery-tmpl">
-##<%text>
-##<div class="site_li c" id="rec_${$data[0]}">
-##{{if $data[3]}}<div class="site_left"><div
-##class="site_img"><a
-##target="_blank"
-##href="${$data[1]}"><img 
-##class="site_avatar" src="${$data[3]}"></a></div></div><div class="
-##{{else}}
-##<div class="site_info_no_img
-##{{/if}}
-##site_info">
-##<span class="site_name"><a target="_top"
-##id="site_name_a" href="${$data[1]}">${$data[2]}</a></span>
-##<a id="rec_id${$data[0]}"
-##{{if $data[7] === true}}
-##href="${$data[1]}/i" target="_blank"
-##{{else}}
-##href="javascript:void(0)"
-##{{/if}}
-##class="sitefav${$data[7]}"></a>
-##<div class="site_bio">
-##{{if $data[5]==1 && $data[4]}}
-##<div>${$data[4]}</div>
-##{{/if}}
-##
-##{{if $data[6]}}<div>${$data[6]}</div>{{/if}}
-##</div>
-##</div>
-##
-##</div>
-##</%text>
-##        </script>
-##
-##
-##    </div>
+    <div class="com_side">
+
+        <div id="tagbar">\
+<span class="xatxt">\
+            %if is_faved:
+<a class="xa fav_txt" href="javascript:void(0)" >遗忘</a>\
+            %else:
+<a class="xa fav_txt" href="javascript:void(0)" >关注</a>\
+            %endif
+<a class="xa" href="javascript:void(0)">投递</a>\
+<a class="xa" href="javascript:void(0)">提问</a>\
+</span>\
+<a class="xa xatagset" href="javascript:void(0)"><span></span></a>\
+        </div>
+
+
+
+        ##<form class="search" action="http://zuroc.42qu.com/q">
+        ##<input type="text" style="color:#999" placeholder="搜索此话题下内容 ..." name="q" id="search" autocomplete="off"><input type="submit" class="search_btn" value=""></form>
+
+        <div class="tag_author_list">
+
+        <%
+        site_list=tag_author_list(zsite_id)
+        %>
+        %if site_list:
+        <script type="text/x-json" id="site_data">
+            ${escape(dumps(site_list))|n}
+        </script>
+        %endif
+
+
+        <div class="buzz_h1" id="rec_title">贡献者</div>
+        <div class="site_rec" id="rec_wrapper" ></div>
+        </div>
+<script id="site_rec" type="text/x-jquery-tmpl">
+<%text>
+<div class="site_li c" id="rec_${$data[0]}">
+{{if $data[3]}}<div class="site_left"><div
+class="site_img"><a
+target="_blank"
+href="${$data[1]}"><img 
+class="site_avatar" src="${$data[3]}"></a></div></div><div class="
+{{else}}
+<div class="site_info_no_img
+{{/if}}
+site_info">
+<span class="site_name"><a target="_top"
+id="site_name_a" href="${$data[1]}">${$data[2]}</a></span>
+<a id="rec_id${$data[0]}"
+{{if $data[7] === true}}
+href="${$data[1]}/i" target="_blank"
+{{else}}
+href="javascript:void(0)"
+{{/if}}
+class="sitefav${$data[7]}"></a>
+<div class="site_bio">
+{{if $data[5]==1 && $data[4]}}
+<div>${$data[4]}</div>
+{{/if}}
+
+{{if $data[6]}}<div>${$data[6]}</div>{{/if}}
 </div>
+</div>
+
+</div>
+</%text>
+        </script>
+
+</div>
+
+
+
 ##
 ##
 ##<script id="render_item" type="text/x-jquery-tmpl"><%text>
