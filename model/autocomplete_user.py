@@ -6,7 +6,8 @@ from model.zsite import Zsite , CID_USER
 
 def name_to_user(user):
     r = []
-    user = user.
+    user = user.name
+    
 
 if __name__ == '__main__':
     pass
