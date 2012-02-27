@@ -26,5 +26,23 @@ def lineiter(l):
         result.extend(i)
     return result
 
-if "__main__" == __name__:
+from itertools import cycle, islice
+
+def roundrobin(*iterables):
+    "roundrobin('ABC', 'D', 'EF') --> A D E B F C"
+    # Recipe credited to George Sakkis
+    pending = len(iterables)
+    nexts = cycle(iter(it).next for it in iterables)
+    while pending:
+        try:
+            for next in nexts:
+                yield next()
+        except StopIteration:
+            pending -= 1
+            nexts = cycle(islice(nexts, pending))
+
+
+if '__main__' == __name__:
     pass
+    print list(roundrobin('ABC', 'D', 'EF'))
+
