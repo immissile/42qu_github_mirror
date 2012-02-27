@@ -793,30 +793,44 @@ if __name__ == '__main__':
     class Vps(Model):
         pass
     #id = 0
-    #for i in event_joiner_user_id_list(10236239):
-    #    id+=1
-    #    if id in (12,):
-    #        continue
-    #    Vps(state=10,group=1,id_in_group=id, user_id=i).save()
-    #    print id, mail_by_user_id(i)
-    #from os import urandom
-    #from base64 import b64encode
-    #print 
+    for i in event_joiner_user_id_list(10236239):
+        print  mail_by_user_id(i),",",
+        if not Vps.get(user_id=i) and i != 10027978:
+            print i, mail_by_user_id(i)
+            v = Vps(state=10, group=1, id_in_group=0, user_id=i)
+            v.save()
+            v.id_in_group = v.id
+            v.save()
+ 
+            
+#    id+=1
+#    if id in (12,):
+#        continue
+#    Vps(state=10,group=1,id_in_group=id, user_id=i).save()
+
+#    print id, mail_by_user_id(i)
+#from os import urandom
+#from base64 import b64encode
+#print
+        
     from uuid import uuid4
     for i in Vps.where():
-        i.passwd = uuid4().hex[:8].replace("l","k")
-        i.save()
-    #id = 10242980 
-    #event = Event.mc_get(id)
-    #event.state = EVENT_STATE_REJECT
-    #event.save()
+        print i.id, i.user_id, i.passwd
+        #for i in Vps.where(user_id=10239779):
+        #    print i.id
+        #    i.passwd = uuid4().hex[:8].replace("l","k")
+        #    i.save()
+#id = 10242980 
+#event = Event.mc_get(id)
+#event.state = EVENT_STATE_REJECT
+#event.save()
 
 #    for i in Event.where(state=EVENT_STATE_TO_REVIEW):
 #        print i.id
 #        i.state = EVENT_STATE_REJECT
 #        i.save()
 
-    #print event_review_yes(10202687)
+#print event_review_yes(10202687)
 #    print last_event_by_zsite_id(10001299).id
 #    from zsite import Zsite
 #    from po import Po
@@ -826,7 +840,7 @@ if __name__ == '__main__':
 #        print 'http:%s'%i.link, '---', mail_by_user_id(i.id), '---', 'http:%s'%e.link, '---', Po.mc_get(e.id).name_
 #print last_event_by_zsite_id(10001299).id
 
-    #for id , name, j in event_joiner_by_owner_id(10000000):
-    #    print id, name, j
+#for id , name, j in event_joiner_by_owner_id(10000000):
+#    print id, name, j
 
-    #print event_joiner_new_count(2803)
+#print event_joiner_new_count(2803)

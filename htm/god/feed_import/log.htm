@@ -32,7 +32,7 @@ margin-right:12px;
 }
 .log_tags{
 background:#f3f3f3;
-margin-right:12px;
+margin-right:16px;
 color:#666;
 border-right:1px solid #ddd;
 }
@@ -41,11 +41,11 @@ border-right:1px solid #ddd;
 margin-right:4px;
 }
 .log_title{
-margin-right:12px;
-color:#000;
+color:#444;
+font-weight:700;
 }
 .log_title_a{
-margin-right:12px;
+font-weight:700;
 }
 .log_state{
 margin-right:12px;
@@ -54,6 +54,17 @@ color:#666;
 .log_time{
 color:#999;
 font-size:12px;
+}
+.log_jump{
+display:inline-block;
+width:18px;
+height:18px;
+background:url(http://s4.42qu.us/img/gif/icons/gif/light_gray/to_size/arrow1_ne.gif) 50% 50% no-repeat;
+vertical-align:-2px;
+margin-right:16px;
+}
+.log_jump:hover{
+background:url(http://s4.42qu.us/img/gif/icons/gif/red/to_size/arrow1_ne.gif) 50% 50% no-repeat;
 }
 </style>
 
@@ -71,9 +82,9 @@ admin = i.admin
     </span>
 
 %if i.state < FEED_IMPORT_STATE_POED:
-    <a class="log_title_a" href="/feed_import/edit/${i.id}" target="_blank">${i.title}</a>
+    <a class="log_title_a" href="/feed_import/edit/${i.id}" target="_blank">${i.title}</a><a href="${i.url}" target="_blank" class="log_jump"></a>
 %else:
-    <span class="log_title">${i.title}</span>
+    <span class="log_title">${i.title}</span><a href="${i.url}" target="_blank" class="log_jump"></a>
 %endif
 
 <span class="log_state">[ ${STATE2CN.get(i.state,"???")} ]</span>
