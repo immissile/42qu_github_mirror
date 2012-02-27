@@ -122,7 +122,6 @@ class AutoComplete:
         ZSET_CID = self.ZSET_CID
 
         if id_list is None:
-            limit = 10
             mkey = ZSET_CID%name_key
 
             if not redis.exists(mkey):
@@ -131,7 +130,7 @@ class AutoComplete:
                 p.expire(mkey, EXPIRE)
                 p.execute()
 
-            id_list = redis.zrevrange(mkey, 0, limit)
+            id_list = redis.zrevrange(mkey, 0, 10)
             self._set_cache(name_key, id_list)
 
         return id_list[:limit]
@@ -155,6 +154,7 @@ class AutoComplete:
 
 from po_tag import tag_alias_by_id_query
 autocomplete_tag = AutoComplete('tag', tag_alias_by_id_query)
+
 
 if __name__ == '__main__':
     pass
