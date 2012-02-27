@@ -2,6 +2,24 @@
 # -*- coding: utf-8 -*-
 import _env
 from zkit.single_process import single_process
+
+
+from model.zsite import Zsite
+from zweb.orm import ormiter
+from model.autocomplete_user import autocomplete_user_new
+from model.cid import CID_USER
+
+def autocomplete_user_index(): 
+    for user in ormiter(Zsite,"cid=%s"%CID_USER):
+        autocomplete_user_new(user)
+#        print user.id
+
+
+
+
+
+
+
 from config import SEARCH_DB_PATH
 from mmseg.search import seg_txt_search, seg_title_search, seg_txt_2_dict
 from os import makedirs
@@ -41,6 +59,9 @@ def index(keyword_iter):
 
 @single_process
 def main():
+    autocomplete_user_index()
+
+
     from zsite_iter import search_zsite_keyword_iter, zsite_keyword_iter
     index(search_zsite_keyword_iter)
     #index(zsite_keyword_iter)
