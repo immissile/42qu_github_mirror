@@ -139,8 +139,8 @@ if __name__ == '__main__':
     for pos, (a, b) in enumerate(k):
         user = PoMetaUser.mc_get(a)
         if len(b) >= 8:
-            print pos, user.name
-            print user.link
+            print pos, user.link
+            print a, user.name
             print "%s篇文章"%len(b)
             for i in b:
                 print "\t",i.title , i.url
