@@ -4,6 +4,7 @@ from model.feed_import import PoMetaUser, FeedImport
 from model.zsite import zsite_by_query , Zsite
 from model.user_mail import user_by_mail
 from model.ico import pic_url
+from model.feed_import_user import feed_import_user_new
 
 count = 0
 with open('ucd.csv') as ucd:
@@ -29,9 +30,12 @@ with open('ucd.csv') as ucd:
 
 
             if zsite:
-                if pic_url(zsite.id):
+                user_id = zsite.id
+                if pic_url(user_id):
                     for i in FeedImport.where(po_meta_user_id=u.id):
-                        print i.title
+                        feed_import_user_new(user_id, i.id)
+
+                    #    print i.title
                     #print zsite.name, "http:"+zsite.link
                     #print u.name , u.link
                     #count += 1
