@@ -15,6 +15,14 @@ from yajl import dumps
 from model.zsite import Zsite
 from zkit.page import limit_offset, Page
 from model.tag_admin import tag_id_name_count_list_by_tag_admin , id_by_tag_admin
+from model.feed_import_user import user_list_count_by_feed_import_user
+
+
+@urlmap('/feed_import/user')
+class FeedImportUser(Base):
+    def get(self):
+        user_list = user_list_count_by_feed_import_user()
+        self.render(user_list=user_list)
 
 @urlmap('/feed_import/log')
 @urlmap('/feed_import/log-(\d+)')
