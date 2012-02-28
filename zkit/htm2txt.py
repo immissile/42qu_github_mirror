@@ -66,7 +66,7 @@ PASS = set([
 ])
 
 def htm2txt(htm):
-    htm = htm.replace(u'*', u'﹡').replace("\r\n","\n").replace("\r","\n")
+    htm = htm.replace(u'*', u'﹡').replace('\r\n', '\n').replace('\r', '\n')
 
     soup = BeautifulSoup(htm)
 
@@ -101,7 +101,10 @@ def htm2txt(htm):
                         li.append(u'\n图:%s\n' % src)
                 elif name == 'pre':
                     s = soup2txt_recursion(i)
-                    li.append("\n{{{\r%s\r}}}\n"%s.replace("\n","\r").strip("\r"))
+                    if s:
+                        if '\n' in s.strip('\n') and (len(s.encode('utf-8', 'ignore'))/len(s)) < 2:
+                            s = '\n{{{\r%s\r}}}\n'%s.replace('\n', '\r').strip('\r')
+                        li.append(s)
                 else:
                     s = soup2txt_recursion(i)
 
@@ -122,8 +125,8 @@ def htm2txt(htm):
     s = soup2txt_recursion(soup)
     s = unescape(s.strip())
     txt = s
-    txt = '\n\n'.join(filter(bool, [i.strip() for i in s.split("\n")]))
-    txt = txt.replace("\r","\n")
+    txt = '\n\n'.join(filter(bool, [i.strip() for i in s.split('\n')]))
+    txt = txt.replace('\r', '\n')
     txt = BLOD_LINE.sub('**', txt)
     return txt
 
@@ -137,7 +140,10 @@ ss
 # coding: utf-8
 
 class A(object):
-
+我我
+我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我
+我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我
+我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我
     @property
     def _value(self):
 #        raise AttributeError(&quot;test&quot;)
