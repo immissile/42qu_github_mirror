@@ -61,8 +61,10 @@ def feed_import_new(zsite_id, rid, title, txt, url,  rank):
     import_feed_duplicator.set_record(txt, id)
 
     feed_user = user_by_feed_id_zsite_id(zsite_id, rid)
-    if feed_user and feed_user.user_id:
-        feed_import_user_new(user_id, id)
+    if feed_user:
+        user_id = feed_user.user_id
+        if user_id:
+            feed_import_user_new(user_id, id)
 
     return new_feed
 
