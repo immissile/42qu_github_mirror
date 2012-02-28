@@ -7,73 +7,12 @@ from model.po_tag import REDIS_REC_CID_TUPLE
 
 %>
 <%def name="htm_head()">
-<style>
-    #title{
-        padding:7px;
-        width:90%;
-    }
-    .check{
-        font-size:16px;
-        margin-top:14px
-    }
-    .check label{
-        margin-right:32px
-    }
-    #txt
-    {
-        width:90%;
-        height:500px;
-    }
-    #okbtn{
-        padding:7px 30px;
-        margin-top:14px;    
-    }
-    #nobtn{
-        float:right;
-        margin-right:10%
-    } 
-</style>
 </%def>
 
-<form id="editform" action="/feed_import/edit/${cid}" method="POST"  >
-<label for="title">标题</label>
-<br/>
-<input id="title" name="title" type="text" value="${po.name}" />
-<br/>
-
-<label for="txt">正文</label>
-<br/>
-<textarea id="txt" name="txt">${po.txt}</textarea>
-<br/>
-
-<label for="tags">标签</label>
-<input id="tags" name="tags" type="text" value="${','.join([tag.name for tag in tags])} " />
-<br/>
-
-<label for="cid">种类</label>
-<br/>
-% for id,name in REDIS_REC_CID_TUPLE:
-<span style="float:left">
-<input type="radio" name="cid"  value="${id}" id="cid${id}"/ ><label for="cid${id}">${name}</label><br/>
-</span>
-% endfor
-
-<br/>
-
-<div class="check">
-    <input id="sync" name="sync" type="checkbox" />
-    <label for="sync">同步</label>
-
-    <input id="author_rm" name="author_rm" type="checkbox" />
-    <label for="author_rm">删除作者</label>
+%for i in user_list:
+<div>
+<a href="/feed_import/user/${i.id}">${i.name}</a>
+${i.feed_import_count}
 </div>
-    <input id="" name="id" style="display:none" value="${po.id}" type="text" />
-    <input type="submit" id="okbtn" value="确认" />
-    <a href="/feed_import/${cid}/rm/${po.id}" id="nobtn"><button>删除</button></a>
-</form>
-
-<script type="text/javascript">
-    $("#cid${cid}").attr('checked',true);
-    $("#txt").height($("#txt")[0].scrollHeight);
-</script>
+%endfor
 
