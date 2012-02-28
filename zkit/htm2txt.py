@@ -101,7 +101,7 @@ def htm2txt(htm):
                         li.append(u'\n图:%s\n' % src)
                 elif name == 'pre':
                     s = soup2txt_recursion(i)
-                    li.append(s.replace("\n","\r"))
+                    li.append("\n{{{\r%s\r}}}\n"%s.replace("\n","\r").strip("\r"))
                 else:
                     s = soup2txt_recursion(i)
 
