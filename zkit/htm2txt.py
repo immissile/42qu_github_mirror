@@ -66,7 +66,7 @@ PASS = set([
 ])
 
 def htm2txt(htm):
-    htm = htm.replace(u'*', u'﹡')
+    htm = htm.replace(u'*', u'﹡').replace('\r\n', '\n').replace('\r', '\n')
 
     soup = BeautifulSoup(htm)
 
@@ -99,11 +99,17 @@ def htm2txt(htm):
                     if src:
                         #img_url = upyun_fetch_pic(src)
                         li.append(u'\n图:%s\n' % src)
+                elif name == 'pre':
+                    s = soup2txt_recursion(i)
+                    if s:
+                        if '\n' in s.strip('\n') and (len(s.encode('utf-8', 'ignore'))/len(s)) < 2:
+                            s = '\n{{{\r%s\r}}}\n'%s.replace('\n', '\r').strip('\r')
+                        li.append(s)
                 else:
                     s = soup2txt_recursion(i)
 
-                    if name in BLOCK_BOLD:
-                        if '\n' not in s:
+                    if name in BLOCK_BOLD :
+                        if '\n' not in s and '**' not in s:
                             li.append(u'\n**%s**\n' % s)
                         else:
                             li.append(s)
@@ -118,7 +124,9 @@ def htm2txt(htm):
 
     s = soup2txt_recursion(soup)
     s = unescape(s.strip())
-    txt = '\n\n'.join(filter(bool, [i.strip() for i in s.splitlines()]))
+    txt = s
+    txt = '\n\n'.join(filter(bool, [i.strip() for i in s.split('\n')]))
+    txt = txt.replace('\r', '\n')
     txt = BLOD_LINE.sub('**', txt)
     return txt
 
@@ -127,6 +135,30 @@ if __name__ == '__main__':
     reload(sys)
     sys.setdefaultencoding('utf-8')
     print htm2txt("""
-    <p style="text-align: center;"><a href="http://www.ifanr.com/wp-content/uploads/2012/02/phone7_test.jpg"><img class="aligncenter size-full wp-image-71339" title="phone_test" src="http://www.ifanr.com/wp-content/uploads/2012/02/phone7_test.jpg" alt="" width="600" height="375" />2</a>""")
+ss
+<pre class="brush: python">
+# coding: utf-8
+
+class A(object):
+我我
+我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我
+我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我
+我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我 我我
+    @property
+    def _value(self):
+#        raise AttributeError(&quot;test&quot;)
+        return {&quot;v&quot;: &quot;This is a test.&quot;}
+
+    def __getattr__(self, key):
+        print &quot;__getattr__:&quot;, key
+        return self._value[key]
+
+if __name__ == &#39;__main__&#39;:
+    a = A()
+    print a.v
+
+
+</pre>s
+""")
     #print unescape("""<option value='&#20013;&#22269;&#35821;&#35328;&#25991;&#23398;&#31995;'>&#20013;&#22269;&#35821;&#35328;&#25991;&#23398;&#31995;</option>""")
 
