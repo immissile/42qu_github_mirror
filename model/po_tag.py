@@ -346,9 +346,14 @@ def po_tag_by_cid(cid, tag_id, user_id, limit=25, offset=0):
 if __name__ == '__main__':
     pass
 
-    tag_id = 10233328
-    user_id = 10014918
-    print po_tag_by_cid(4, tag_id, user_id,)
+    print tag_cid_count(10225558)
+
+    for a,b in REDIS_REC_CID_TUPLE:
+        print tag_cid_count(10225558,a)
+
+    #tag_id = 10233328
+    #user_id = 10014918
+    #print po_tag_by_cid(4, tag_id, user_id,)
 #    print po_json(po_id_list_tag_id_cid(10233328, 4, 5, 0))
     #print po_json(po_id_list_tag_id_cid(10233328, 4, 5, 0))
 
