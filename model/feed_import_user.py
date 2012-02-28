@@ -7,8 +7,8 @@ REDIS_FEED_IMPORT_USER_ID_LIST = 'FeedImportUser:%s'
 
 
 def feed_import_user_new(user_id, feed_import_id):
-    redis.zincrby(REDIS_FEED_IMPORT_USER, user_id, 1)
-    redis.sadd(REDIS_FEED_IMPORT_USER_ID_LIST%user_id, feed_import_id)
+    if redis.sadd(REDIS_FEED_IMPORT_USER_ID_LIST%user_id, feed_import_id):
+        redis.zincrby(REDIS_FEED_IMPORT_USER, user_id, 1)
 
 
 def feed_import_user_rm(user_id, feed_import_id):
