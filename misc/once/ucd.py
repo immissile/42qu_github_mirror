@@ -35,5 +35,7 @@ with open('ucd.csv') as ucd:
                     count += 1
                     print count , zsite.id
                     print ''
+                    u.user_id = zsite.id
+                    u.save()
 
 
