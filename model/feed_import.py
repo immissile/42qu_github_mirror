@@ -129,7 +129,7 @@ def feed_review(id, cid, title, txt, tag_id_list, current_user_id, author_rm=Fal
 if __name__ == '__main__':
     pass
     for i in FeedImport.where(zsite_id=ZSITE_UCD_CHINA_ID):
-        print i.title
+        print i.rid
         #i.delete()
     #for i in FeedImport.where("state>%s"%FEED_IMPORT_STATE_INIT):
     #    i.state=FEED_IMPORT_STATE_WITHOUT_TAG
