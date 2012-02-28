@@ -147,6 +147,7 @@ function note_li(feed_index){
         oldtop=winj.scrollTop();
         winj.scrollTop(scrollTop);
         txt_title.html(title.html())
+        $('.readpad:not(:last)').remove()
         $.get(
         "/j/po/json/"+id,
         function(r){

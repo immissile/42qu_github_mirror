@@ -187,11 +187,7 @@ height:28px;
 width:520px;
 }
 */
-#main_nav_in{
-width:666px;
-}
 #main_nav_txt{
-width:666px;
 overflow:hidden;
 }
 .prebody a img
@@ -296,7 +292,17 @@ margin-top:-1px;
 position:absolute;
 background:#fff;
 z-index:100;
-left: 121px;
+left: 134px;
 width:146px;
 display:none;
+}
+.readpad{
+border:1px solid #e9e9e9;
+box-shadow:2px 2px 1px #F3F3F3;
+margin-bottom:32px;
+}
+.fdbar{
+border-top:1px solid #e9e9e9;
+margin:7px 0 0;
+padding:9px 20px 10px;
 }
