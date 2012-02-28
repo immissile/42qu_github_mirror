@@ -19,6 +19,7 @@ from model.po import po_note_new
 from zkit.htm2txt import htm2txt, unescape
 from time import sleep
 from zkit.fanjian import utf8_ftoj
+from model.feed_import import feed_import_user_new
 
 import_feed_duplicator = Duplicator(DUMPLICATE_DB_PREFIX%'import_feed')
 
@@ -56,7 +57,12 @@ def feed_import_new(zsite_id, rid, title, txt, url,  rank):
     )
 
     new_feed.save()
-    import_feed_duplicator.set_record(txt, new_feed.id)
+    id = new_feed.id
+    import_feed_duplicator.set_record(txt, id)
+
+    feed_user = user_by_feed_id_zsite_id(zsite_id, rid)
+    if feed_user and feed_user.user_id:
+        feed_import_user_new(user_id, id)
 
     return new_feed
 
@@ -72,7 +78,7 @@ def feed2po_new():
         ):
         feed_new(feed)
 
-def user_by_feed_id_zsite_id(rid, zsite_id):
+def user_by_feed_id_zsite_id(zsite_id, rid):
     feed_user = None
     if zsite_id == ZSITE_DOUBAN_ID:
         user = douban_user_by_feed_id(rid)
@@ -87,7 +93,7 @@ def user_by_feed_id_zsite_id(rid, zsite_id):
 def feed_new(feed):
     txt = txt_img_fetch(feed.txt)
     zsite_id = feed.zsite_id
-    feed_user = user_by_feed_id_zsite_id(feed.rid, zsite_id)
+    feed_user = user_by_feed_id_zsite_id(zsite_id, feed.rid)
     user_id = zsite_id_by_feed_user(feed_user)
 
 
