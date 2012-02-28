@@ -116,21 +116,7 @@ def feed_review(id, cid, title, txt, tag_id_list, current_user_id, author_rm=Fal
 
 if __name__ == '__main__':
     pass
-    for i in FeedImport.where(zsite_id=ZSITE_UCD_CHINA_ID):
-        print i.rid
-        #i.delete()
-    #for i in FeedImport.where("state>%s"%FEED_IMPORT_STATE_INIT):
-    #    i.state=FEED_IMPORT_STATE_WITHOUT_TAG
-    #    i.save()
-#    from zkit.fanjian import utf8_ftoj
-#    from zweb.orm import ormiter
-#    for i in ormiter(FeedImport,"state>%s"%FEED_IMPORT_STATE_INIT):
-#        title = i.title
-#        print i.id, i.state
-##        if i.id == 1984:
-##            i.state = FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR
-##            i.save()
-#        print title
-    #limit = 30
-    #offset = 0
-    #print feed_import_list_count_by_part_time_job(limit , offset)
+    #from collections import defaultdict
+    #user_count = defaultdict(list)
+    for i in FeedImport.where():
+        pass
