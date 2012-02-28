@@ -8,7 +8,7 @@ from model.autocomplete import autocomplete_tag
 
 def zsite_fav_rm(zsite, owner_id):
     fav = zsite_fav_get(zsite, owner_id)
-    if fav.state <= STATE_ACTIVE:
+    if fav and fav.state <= STATE_ACTIVE:
         zsite_list_rm(
             zsite.id,
             owner_id,
