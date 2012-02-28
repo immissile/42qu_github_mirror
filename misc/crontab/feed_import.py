@@ -45,6 +45,12 @@ def feed_import_new(zsite_id, rid, title, txt, url,  rank):
     #print zsite_id, rid, title
     #sleep(0.1)
 
+    feed_user = user_by_feed_id_zsite_id(zsite_id, rid)
+    if feed_user:
+        po_meta_user_id = feed_user.id
+    else:
+        po_meta_user_id = 0
+
     new_feed = FeedImport(
         title=title,
         txt=txt,
@@ -53,19 +59,19 @@ def feed_import_new(zsite_id, rid, title, txt, url,  rank):
         url=url,
         tag_id_list='',
         state=FEED_IMPORT_STATE_WITHOUT_TAG,
-        rank=rank
+        rank=rank,
+        po_meta_user_id=po_meta_user_id    
     )
 
     new_feed.save()
     id = new_feed.id
     import_feed_duplicator.set_record(txt, id)
 
-    feed_user = user_by_feed_id_zsite_id(zsite_id, rid)
     if feed_user:
         user_id = feed_user.user_id
         if user_id:
             feed_import_user_new(user_id, id)
-
+    
     return new_feed
 
 
