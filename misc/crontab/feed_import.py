@@ -19,7 +19,7 @@ from model.po import po_note_new
 from zkit.htm2txt import htm2txt, unescape
 from time import sleep
 from zkit.fanjian import utf8_ftoj
-from model.feed_import import feed_import_user_new, feed_import_user_rm
+from model.feed_import_user import feed_import_user_new, feed_import_user_rm
 
 import_feed_duplicator = Duplicator(DUMPLICATE_DB_PREFIX%'import_feed')
 
@@ -158,6 +158,17 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+    #from zweb.orm import ormiter
+    #for i in ormiter(FeedImport):
+    #    zsite_id = i.zsite_id
+    #    rid = i.rid
+    #    user = user_by_feed_id_zsite_id(zsite_id, rid)
+    #    if user:
+    #        print zsite_id, rid
+    #        i.po_meta_user_id = user.id
+    #        i.save()
+
     #from zweb.orm import ormiter
     #for i in ormiter(FeedImport):
     #    i.title = unescape(i.title)

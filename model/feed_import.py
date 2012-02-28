@@ -118,6 +118,3 @@ if __name__ == '__main__':
     pass
     #from collections import defaultdict
     #user_count = defaultdict(list)
-    from zweb.orm import ormiter
-    for i in ormiter(FeedImport):
-        print i.zsite_id, i.rid
