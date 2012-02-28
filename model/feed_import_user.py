@@ -32,14 +32,15 @@ def feed_import_id_by_user_id(user_id):
 
 if __name__ == '__main__':
     pass
+    print id_count_by_feed_import_user(100, 0)
 
-    user_id = 10000000
-    feed_import_id = 1
-
-    feed_import_user_new(user_id, feed_import_id)
-    print id_count_by_feed_import_user(11, 0)
-    print feed_import_id_by_user_id(user_id)
-    feed_import_user_rm(user_id, feed_import_id)
-    print feed_import_id_by_user_id(user_id)
-    print id_count_by_feed_import_user(11, 0)
+#    user_id = 10000000
+#    feed_import_id = 1
+#
+#    feed_import_user_new(user_id, feed_import_id)
+#    print id_count_by_feed_import_user(11, 0)
+#    print feed_import_id_by_user_id(user_id)
+#    feed_import_user_rm(user_id, feed_import_id)
+#    print feed_import_id_by_user_id(user_id)
+#    print id_count_by_feed_import_user(11, 0)
 
