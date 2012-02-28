@@ -21,8 +21,6 @@ def feed_import_user_rm(user_id, feed_import_id):
     else:
         redis.zrem(REDIS_FEED_IMPORT_USER, user_id)
 
-
-
 def feed_import_id_by_user_id(user_id):
     return redis.srandmember(REDIS_FEED_IMPORT_USER_ID_LIST%user_id) 
 
