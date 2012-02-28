@@ -83,18 +83,6 @@ def feed_state_set(id, state):
         feed.state = state
         feed.save()
 
-def zsite_id_by_feed_user(feed_user):
-    #TODO: get zsite_user_id
-    if not feed_user:
-        return 0 
-    return 0
-    zsite_id = feed_user.zsite_id
-    if douban_user:
-        douban_username = douban_user.name
-        zsite_id = 10001518
-    return zsite_id
-
-
 
 
 def feed_review(id, cid, title, txt, tag_id_list, current_user_id, author_rm=False, sync=False):

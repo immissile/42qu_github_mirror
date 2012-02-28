@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import _env
-from model.feed_import import  zsite_id_by_feed_user, FeedImport, FEED_IMPORT_STATE_WITHOUT_TAG, FEED_IMPORT_STATE_INIT, FEED_IMPORT_STATE_POED, FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC, FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR, FEED_IMPORT_STATE_REVIEWED_SYNC, PoMetaUser, PoMeta
+from model.feed_import import FeedImport, FEED_IMPORT_STATE_WITHOUT_TAG, FEED_IMPORT_STATE_INIT, FEED_IMPORT_STATE_POED, FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC, FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR, FEED_IMPORT_STATE_REVIEWED_SYNC, PoMetaUser, PoMeta
 from config import ZSITE_DOUBAN_ID, ZSITE_UCD_CHINA_ID
 from model.duplicate import Duplicator
 from model.zsite import Zsite
@@ -19,7 +19,7 @@ from model.po import po_note_new
 from zkit.htm2txt import htm2txt, unescape
 from time import sleep
 from zkit.fanjian import utf8_ftoj
-from model.feed_import import feed_import_user_new
+from model.feed_import import feed_import_user_new, feed_import_user_rm
 
 import_feed_duplicator = Duplicator(DUMPLICATE_DB_PREFIX%'import_feed')
 
@@ -94,8 +94,11 @@ def feed_new(feed):
     txt = txt_img_fetch(feed.txt)
     zsite_id = feed.zsite_id
     feed_user = user_by_feed_id_zsite_id(zsite_id, feed.rid)
-    user_id = zsite_id_by_feed_user(feed_user)
+    user_id = feed_user.user_id
+    id = feed.id
 
+    if user_id:
+        feed_import_user_rm(user_id, id)
 
     zsite_id = feed.zsite_id
 
