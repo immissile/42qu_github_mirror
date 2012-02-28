@@ -1,101 +1,207 @@
+##<%inherit file="/ctrl/_base/zsite.htm" />
+##
+##<%namespace file="/_util/_g1.htm" import="about_me"/>
+##<%namespace file="/_util/user_index.htm" import="user_index"/>
+##<%namespace file="/ctrl/zsite/po_view/index.htm" import="user_po_show"/>
+##<%!
+##from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_PHOTO, CID_VIDEO, CID_AUDIO
+##from model.follow import follow_get
+##from model.ico import pic_url as _pic_url, ico_url_with_default
+##from model.fav import fav_po_count_by_user_id
+##%>
+##<%def name="htm_head()">
+##<link rel="alternate" href="/rss" type="application/rss+xml" title="${zsite.name} - 文章">
+##</%def>
+##
+##<%def name="htm_title()">
+##${zsite.name}
+##%if motto:
+## . ${motto}
+##%endif
+##</%def>
+##
+##
+##
+##<%
+##is_owner = zsite_id == current_user_id
+##%>
+##
+##%if not is_owner and current_user_id:
+##<div id="nav2">
+##<a
+##    id="follow_a${zsite_id}" class="nav_a" href="javascript:follow_a(${zsite_id});void(0)">\
+##%if follow_get(current_user_id, zsite_id):
+##淡忘\
+##%else:
+##关注\
+##%endif
+##</a><a 
+##    id="nav2_touch" class="nav_a" href="javascript:nav2_touch()"
+##>互动</a>
+##    <div id="nav2drop" class="nav2drop">
+##        <a href="/wall">留言</a>\
+##        <a href="/pay">捐赠</a>\
+##    </div>
+##</div>
+##%endif
+##
+##${user_index(zsite, is_owner)}
+##${user_po_show()}
+##
+##
+##<div class="zsite_block zsite_follow">\
+##
+##
+##<%
+##from model.follow import follow_count_by_to_id, follow_count_by_from_id, follow_list_show_by_from_id
+##following_count = follow_count_by_from_id(zsite_id)
+##follower_count = follow_count_by_to_id(zsite_id)
+##follow_list = follow_list_show_by_from_id(zsite_id, 3)
+##fav_count = fav_po_count_by_user_id(zsite_id)
+##follow_fav_tuple = filter(lambda x: x[0], (
+##    (following_count, '/following', '关注'),
+##    (follower_count, '/follower', '围观'),
+##    (fav_count, '/fav', '收藏'),
+##))
+##%>
+##%if follow_list:
+##<div class="zsite_ico_div">\
+##%for i in follow_list:
+##%if i:
+##<%
+##i_career = i.career
+##%>
+##<div class="zsite_ico c">
+##    <a href="${i.link}"><img src="${i.ico96}"></a>
+##    <div><a href="${i.link}" target="_blank">${i.name}</a></div>
+##    <div>${i_career[0]}</div>
+##    <div>${i_career[1]}</div>
+##</div>
+##%endif
+##%endfor
+##</div>\
+##%endif
+##
+##% if follow_fav_tuple:
+##<div class="zsite_num_div">\
+##% for pos, (count, link, name) in enumerate(follow_fav_tuple):
+##% if pos:
+##&amp;
+##<a href="${link}" class="num_normal"><span>${count}</span>${name}</a>
+##% else:
+##<a href="${link}" class="num"><span class="now">${count}</span><b>${name}</b></a>
+##% endif
+##% endfor
+##</div>
+##% endif
+##
+##</div>
+##
+##
+##<script src="${js.ctrl_zsite|n}"></script>
+
 <%inherit file="/ctrl/_base/zsite.htm" />
 
-<%namespace file="/_util/_g1.htm" import="about_me"/>
-<%namespace file="/_util/user_index.htm" import="user_index"/>
-<%namespace file="/ctrl/zsite/po_view/index.htm" import="user_po_show"/>
-<%!
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_PHOTO, CID_VIDEO, CID_AUDIO
-from model.follow import follow_get
-from model.ico import pic_url as _pic_url, ico_url_with_default
-from model.fav import fav_po_count_by_user_id
-%>
 <%def name="htm_head()">
-<link rel="alternate" href="/rss" type="application/rss+xml" title="${zsite.name} - 文章">
+${css.ctrl_zsite_com|n}
+${css.ctrl_hero|n}
+${css.ctrl_tag_side|n}
+${css.ctrl_hero_index|n}
+<script src="${js.ctrl_hero|n}"></script>
 </%def>
 
-<%def name="htm_title()">
-${zsite.name}
-%if motto:
- . ${motto}
-%endif
-</%def>
+<div class="G">
+<div class="com_wrap">
+    <h1>生命是一场无限的游戏 - realfex</h1>
+    <div class="com_main_wrap">
+    <div class="com_main">
+        <img class="hero_avatar" src="http://p4.42qu.us/721/834/57154.jpg"/>
+        <div class="bio_quot"></div>
+        <div class="user_bio"><pre>我叫 realfex，摩羯男，20岁。安徽巢湖人，现居北京市昌平区。2008-2012本科就读于西南财经大学电子商务专业。现在在42qu.com做程序员，写写代码，做做设计。</pre></div>
 
-
-
-<%
-is_owner = zsite_id == current_user_id
-%>
-
-%if not is_owner and current_user_id:
-<div id="nav2">
-<a
-    id="follow_a${zsite_id}" class="nav_a" href="javascript:follow_a(${zsite_id});void(0)">\
-%if follow_get(current_user_id, zsite_id):
-淡忘\
-%else:
-关注\
-%endif
-</a><a 
-    id="nav2_touch" class="nav_a" href="javascript:nav2_touch()"
->互动</a>
-    <div id="nav2drop" class="nav2drop">
-        <a href="/wall">留言</a>\
-        <a href="/pay">捐赠</a>\
+        <div class="main_info">
+            <div class="user_posts">
+                <div class="com_title type_wrap">
+                    <span class="cont_type">文章</span>
+                    <span class="cont_type">回答</span>
+                    <span class="cont_type">问题</span>
+                    <span class="cont_type">图片</span>
+                    <span class="cont_type">活动</span>
+                    <span class="title_more type_more">( <a class="a_12_9" href="">全部 11</a> )</span></div>
+                <div class="post_item">
+                    <div class="post_title"><a href="">ZIP,一个没落天才的故事</a></div>
+                    <div class="post_cont">Philip Katz，这个英年早逝惨淡一生的程序员，天才地缔造了ZIP这种压缩文件格式和Internet历史上最有名的共享软件之一——WinZIP。缔造了自由软件打败商业公司的典型成功范例。不仅如此，他的……<span class="post_reply">( <a class="a_12_9" href="">8回应</a> )</span></div>
+                </div>
+                <div class="post_item">
+                    <div class="post_title"><a href="">人生是一场马拉松 — HP大中华区总裁孙振耀退休感言</a></div>
+                    <div class="post_cont">一、关于工作与生活我有个有趣的观察，外企公司多的是25-35岁的白领，40岁以上的员工很少，二三十岁的外企员工是意气风发的，但外企公司40岁附近的经理人是很尴尬的。我见过的40岁附近的外企……<span class="post_reply">( <a class="a_12_9" href="">1回应</a> )</span></div>
+                </div>
+                <div class="post_item">
+                    <div class="post_title"><a href="">再看三年</a></div>
+                    <div class="post_cont">陈年：挺住意味着一切
+你可以努力，却无法拒绝，人生哪有胜利可言，挺住意味着一切。
+凡客诚品到今天也就刚刚四年多的时间，我们是和《创业家》一起上路的。昨天晚上我和牛文文社长沟通了一下今天演……<span class="post_reply">( <a class="a_12_9" href="">8回应</a> )</span></div>
+                </div>
+                <div class="post_item">
+                    <div class="post_title"><a href="">ZIP,一个没落天才的故事</a></div>
+                    <div class="post_cont">Philip Katz，这个英年早逝惨淡一生的程序员，天才地缔造了ZIP这种压缩文件格式和Internet历史上最有名的共享软件之一——WinZIP。缔造了自由软件打败商业公司的典型成功范例。不仅如此，他的……<span class="post_reply">( <a class="a_12_9" href="">8回应</a> )</span></div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    </div>
+    </div>
+    <div class="com_side">
+        <div id="tagbar">
+            <span class="xatxt">
+                <a class="xa fav_txt" href="javascript:void(0)" >关注</a>
+                <a class="xa" href="javascript:void(0)">留言</a>
+                <a class="xa" href="javascript:void(0)">捐赠</a>
+            </span>
+            <a class="xa xatagset" href="javascript:click_sets();void(0)"><span></span></a>
+            <div class="pop_block">
+                <a href="javascript:void(0)" class="pop_link">举报该用户</a><a href="#" class="pop_link">其他操作</a>
+            </div>
+        </div>
+
+        <div class="user_stats">
+            <ul id="user_stats">
+                <li class="user_num">728<span class="num_text">关注</span></li>
+                <li class="user_num">1024<span class="num_text">粉丝</span></li>
+                <li class="user_num">39<span class="num_text">收藏</span></li>
+            </ul>
+        </div>
+        <div class="user_say">感谢自在侯  , 创建了一个42qu.com QQ群 , 群号码 103538647<a class="zsite_reply" href=""></a></div>
+        <div class="user_follows">
+            <div class="com_title">他关注的人 · · ·<span class="title_more">( <a class="a_12_9" href="">全部 49</a> )</span></div>
+                <div class="com_text com_author">
+                <div class="c">
+                <a class="com_avatar" href="//sunny.42qu.com"><img src="http://p4.42qu.us/96/875/46955.jpg"></a>
+                <a href="//sunny.42qu.com" class="c0" target="_blank"><div>高阳</div><div class="mt6">PE.VC</div><div class="mt6">分析湿</div></a>
+                </div>
+                </div>
+                <div class="com_text com_author">
+                <div class="c">
+                <a class="com_avatar" href="//10102329.42qu.com"><img src="http://p4.42qu.us/96/125/60541.jpg"></a>
+                <a href="//10102329.42qu.com" class="c0" target="_blank"><div>贺钰城</div><div class="mt6">pe.vc</div><div class="mt6">框架师</div></a>
+                </div>
+                </div>
+                <div class="com_text com_author">
+                <div class="c">
+                <a class="com_avatar" href="//jianguo.42qu.com"><img src="http://p4.42qu.us/96/77/150605.jpg"></a>
+                <a href="//jianguo.42qu.com" class="c0" target="_blank"><div>季男</div><div class="mt6">PE.VC</div><div class="mt6">运营</div></a>
+                </div>
+                </div>
+                <div class="com_text com_author">
+                <div class="c">
+                <a class="com_avatar" href="//cocoai.42qu.com"><img src="http://p4.42qu.us/96/512/27136.jpg"></a>
+                <a href="//cocoai.42qu.com" class="c0" target="_blank"><div>胡小可</div><div class="mt6">北京PE.VC</div><div class="mt6">人力资源总监</div></a>
+                </div>
+                </div>
+        </div>
+
 </div>
-%endif
-
-${user_index(zsite, is_owner)}
-${user_po_show()}
+</div></div></div>
 
 
-<div class="zsite_block zsite_follow">\
-
-
-<%
-from model.follow import follow_count_by_to_id, follow_count_by_from_id, follow_list_show_by_from_id
-following_count = follow_count_by_from_id(zsite_id)
-follower_count = follow_count_by_to_id(zsite_id)
-follow_list = follow_list_show_by_from_id(zsite_id, 3)
-fav_count = fav_po_count_by_user_id(zsite_id)
-follow_fav_tuple = filter(lambda x: x[0], (
-    (following_count, '/following', '关注'),
-    (follower_count, '/follower', '围观'),
-    (fav_count, '/fav', '收藏'),
-))
-%>
-%if follow_list:
-<div class="zsite_ico_div">\
-%for i in follow_list:
-%if i:
-<%
-i_career = i.career
-%>
-<div class="zsite_ico c">
-    <a href="${i.link}"><img src="${i.ico96}"></a>
-    <div><a href="${i.link}" target="_blank">${i.name}</a></div>
-    <div>${i_career[0]}</div>
-    <div>${i_career[1]}</div>
-</div>
-%endif
-%endfor
-</div>\
-%endif
-
-% if follow_fav_tuple:
-<div class="zsite_num_div">\
-% for pos, (count, link, name) in enumerate(follow_fav_tuple):
-% if pos:
-&amp;
-<a href="${link}" class="num_normal"><span>${count}</span>${name}</a>
-% else:
-<a href="${link}" class="num"><span class="now">${count}</span><b>${name}</b></a>
-% endif
-% endfor
-</div>
-% endif
-
-</div>
-
-
-<script src="${js.ctrl_zsite|n}"></script>
