@@ -282,4 +282,21 @@ padding:0 10px 1px;
 .main_nav .now{
 background:url(/img/gif/adot.gif) no-repeat scroll -1px 2px;
 }
-
+.pop_link{
+display:inline-block;
+text-align:center;
+padding: 2px 0;
+color:#333;
+width:146px;
+font-size:12px;
+border:1px solid #ccc;
+margin-top:-1px;
+}
+.pop_block{
+position:absolute;
+background:#fff;
+z-index:100;
+left: 121px;
+width:146px;
+display:none;
+}
