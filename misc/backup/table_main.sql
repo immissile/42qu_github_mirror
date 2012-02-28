@@ -799,6 +799,7 @@ CREATE TABLE `po_meta_user` (
   `name` varbinary(256) NOT NULL,
   `cid` int(10) unsigned NOT NULL,
   `url` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `Index_2` (`cid`,`url`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
