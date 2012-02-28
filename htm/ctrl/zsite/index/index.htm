@@ -154,14 +154,13 @@ ${css.ctrl_hero_index|n}
     <div class="com_side">
         <div id="tagbar">
             <span class="xatxt">
-             ## <a class="xa" href="javascript:void(0)">关注</a>
-                <a  id="follow_a${zsite_id}" class="xa" href="javascript:follow_a(${zsite_id});void(0)">
-                  %if follow_get(current_user_id,zsite_id):
-淡忘
-                   %else:
-关注
-                  %endif
-</a>
+<a  id="follow_a${zsite_id}" class="xa" href="javascript:follow_a(${zsite_id});void(0)">\
+%if follow_get(current_user_id,zsite_id):
+淡忘\
+%else:
+关注\
+%endif
+</a>\
                 <a class="xa" href="javascript:void(0)">忘了</a>
                 <a class="xa" href="javascript:void(0)">捐赠</a>
             </span>
