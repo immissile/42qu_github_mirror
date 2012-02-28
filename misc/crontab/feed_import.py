@@ -131,7 +131,7 @@ def feed_new(feed):
         cid = feed.cid
 
         po_tag_id_list_new(po, feed.tag_id_list.split(' '), cid)
-        print po.link
+        #print po.link
 
 @single_process
 def main():

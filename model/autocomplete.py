@@ -4,7 +4,6 @@
 from _db import redis
 from zkit.zitertools import lineiter
 from array import array
-from po_by_tag import tag_alias_by_id_query
 
 REDIS_ZSET_CID = '%s`'
 REDIS_ID2NAME = 'ACId2Name:%s'
@@ -18,10 +17,11 @@ EXPIRE = 86400
 class AutoComplete:
     #别名可以自动补全
 
-    def __init__(self, name):
+    def __init__(self, name, alias_by_id_query):
         self.ZSET_CID = '%s%%s'%(REDIS_ZSET_CID%name)
         self.ID2NAME = '%s'%(REDIS_ID2NAME%name)
         self.CACHE = '%s%%s'%(REDIS_CACHE%name)
+        self.alias_by_id_query = alias_by_id_query
 
     def _set_cache(self, key, id_list):
         key = self.CACHE%key
@@ -69,7 +69,7 @@ class AutoComplete:
             _append = True
 
         if _append:
-            self._append(tag_name, id, rank)
+            self._append(name, id, rank)
             tag_name = name.replace('`', "'").strip()
             redis.hset(ID2NAME, id, '%s`%s'%(tag_name, rank))
 
@@ -104,8 +104,12 @@ class AutoComplete:
         for i in self._key(name):
             redis.zadd(i, id, rank)
 
+    def add(self, name, id, rank=1):
+        name = name.lower().strip()
+        redis.zadd(self.ZSET_CID%name, id, rank)
+
     def id_list_by_str(self, query, limit=7):
-        name_list = query.strip().lower().replace('`', "'").split()
+        name_list = query.replace('`', "'").split()
         if not name_list:
             return []
 
@@ -126,20 +130,21 @@ class AutoComplete:
                 p.expire(mkey, EXPIRE)
                 p.execute()
 
-            id_list = redis.zrevrange(mkey, 0, limit)
+            id_list = redis.zrevrange(mkey, 0, 10)
             self._set_cache(name_key, id_list)
 
-        return id_list
+        return id_list[:limit]
 
 
-    def id_rank_name_list_by_str(self, query):
+    def id_rank_name_list_by_str(self, query, limit=7):
+        query = query.strip().lower()
         result = []
-        id_list = self.id_list_by_str(query)
+        id_list = self.id_list_by_str(query, limit)
         if id_list:
             for id, name_rank in zip(id_list, redis.hmget(self.ID2NAME, id_list)):
                 name, rank = name_rank.rsplit('`', 1)
-                if query not in name:
-                    alias = tag_alias_by_id_query(id, query) or 0
+                if query not in name.lower():
+                    alias = self.alias_by_id_query(id, query) or 0
                 else:
                     alias = 0
                 result.append(
@@ -147,7 +152,9 @@ class AutoComplete:
                 )
         return result
 
-autocomplete_tag = AutoComplete('tag')
+from po_tag import tag_alias_by_id_query
+autocomplete_tag = AutoComplete('tag', tag_alias_by_id_query)
+
 
 if __name__ == '__main__':
     pass
