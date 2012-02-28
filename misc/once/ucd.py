@@ -1,6 +1,6 @@
 #coding:utf-8
 import _env
-from model.feed_import import PoMetaUser
+from model.feed_import import PoMetaUser, FeedImport
 from model.zsite import zsite_by_query , Zsite
 from model.user_mail import user_by_mail
 from model.ico import pic_url
@@ -30,12 +30,14 @@ with open('ucd.csv') as ucd:
 
             if zsite:
                 if pic_url(zsite.id):
-                    print zsite.name, "http:"+zsite.link
-                    print u.name , u.link
-                    count += 1
-                    print count , zsite.id
-                    print ''
-                    u.user_id = zsite.id
-                    u.save()
+                    for i in FeedImport.where(po_meta_user_id=u.id):
+                        print i.title
+                    #print zsite.name, "http:"+zsite.link
+                    #print u.name , u.link
+                    #count += 1
+                    #print count , zsite.id
+                    #print ''
+                    #u.user_id = zsite.id
+                    #u.save()
 
 
