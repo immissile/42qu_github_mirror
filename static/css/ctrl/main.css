@@ -34,7 +34,7 @@ margin-left:15px;
 #TW #T{
     position:fixed;
     width:100%;
-    z-index:1;
+    z-index:50;
 }
 #T a{
     color: #ffe000;

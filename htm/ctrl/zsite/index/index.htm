@@ -3,16 +3,16 @@
 ##<%namespace file="/_util/_g1.htm" import="about_me"/>
 ##<%namespace file="/_util/user_index.htm" import="user_index"/>
 ##<%namespace file="/ctrl/zsite/po_view/index.htm" import="user_po_show"/>
-##<%!
-##from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_PHOTO, CID_VIDEO, CID_AUDIO
-##from model.follow import follow_get
-##from model.ico import pic_url as _pic_url, ico_url_with_default
-##from model.fav import fav_po_count_by_user_id
-##%>
+<%!
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_PHOTO, CID_VIDEO, CID_AUDIO
+from model.follow import follow_get
+from model.ico import pic_url as _pic_url, ico_url_with_default
+from model.fav import fav_po_count_by_user_id
+%>
 ##<%def name="htm_head()">
 ##<link rel="alternate" href="/rss" type="application/rss+xml" title="${zsite.name} - 文章">
 ##</%def>
-##
+
 ##<%def name="htm_title()">
 ##${zsite.name}
 ##%if motto:
@@ -25,16 +25,15 @@
 ##<%
 ##is_owner = zsite_id == current_user_id
 ##%>
-##
+
 ##%if not is_owner and current_user_id:
 ##<div id="nav2">
-##<a
-##    id="follow_a${zsite_id}" class="nav_a" href="javascript:follow_a(${zsite_id});void(0)">\
-##%if follow_get(current_user_id, zsite_id):
+##<a    id="follow_a${zsite_id}" class="nav_a" href="javascript:follow_a(${zsite_id});void(0)">\
+##      %if follow_get(current_user_id, zsite_id):
 ##淡忘\
-##%else:
+##      %else:
 ##关注\
-##%endif
+##      %endif
 ##</a><a 
 ##    id="nav2_touch" class="nav_a" href="javascript:nav2_touch()"
 ##>互动</a>
@@ -81,7 +80,7 @@
 ##%endfor
 ##</div>\
 ##%endif
-##
+
 ##% if follow_fav_tuple:
 ##<div class="zsite_num_div">\
 ##% for pos, (count, link, name) in enumerate(follow_fav_tuple):
@@ -155,8 +154,15 @@ ${css.ctrl_hero_index|n}
     <div class="com_side">
         <div id="tagbar">
             <span class="xatxt">
-                <a class="xa fav_txt" href="javascript:void(0)" >关注</a>
-                <a class="xa" href="javascript:void(0)">留言</a>
+             ## <a class="xa" href="javascript:void(0)">关注</a>
+                <a  id="follow_a${zsite_id}" class="xa" href="javascript:follow_a(${zsite_id});void(0)">
+                  %if follow_get(current_user_id,zsite_id):
+淡忘
+                   %else:
+关注
+                  %endif
+</a>
+                <a class="xa" href="javascript:void(0)">忘了</a>
                 <a class="xa" href="javascript:void(0)">捐赠</a>
             </span>
             <a class="xa xatagset" href="javascript:click_sets();void(0)"><span></span></a>
