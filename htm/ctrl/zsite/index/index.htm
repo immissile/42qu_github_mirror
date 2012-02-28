@@ -101,6 +101,23 @@ from model.fav import fav_po_count_by_user_id
 
 <%inherit file="/ctrl/_base/zsite.htm" />
 
+<%
+from model.follow import follow_count_by_to_id, follow_count_by_from_id, follow_list_show_by_from_id
+following_count = follow_count_by_from_id(zsite_id)
+follower_count = follow_count_by_to_id(zsite_id)
+follow_list = follow_list_show_by_from_id(zsite_id, 3)
+fav_count = fav_po_count_by_user_id(zsite_id)
+if any((following_count,follow_count,fav_count)):
+    follow_fav_tuple=(
+        (following_count, '/following', '关注'),
+        (follower_count, '/follower', '粉丝'),
+        (fav_count, '/fav', '收藏'),
+    )
+else:
+    follow_fav_tuple=None   
+%>
+
+
 <%def name="htm_head()">
 ${css.ctrl_zsite_com|n}
 ${css.ctrl_hero|n}
@@ -169,14 +186,18 @@ ${css.ctrl_hero_index|n}
                 <a href="javascript:void(0)" class="pop_link">举报该用户</a><a href="#" class="pop_link">其他操作</a>
             </div>
         </div>
-
-        <div class="user_stats">
+                %if follow_fav_tuple:
+        <div class="user_stats"> 
             <ul id="user_stats">
-                <li class="user_num">728<span class="num_text">关注</span></li>
-                <li class="user_num">1024<span class="num_text">粉丝</span></li>
-                <li class="user_num">39<span class="num_text">收藏</span></li>
+                %for (count,link,name) in follow_fav_tuple:
+               <li class="user_num"><a href="${link}">${count}</a><span class="num_text">${name}</span></li>
+                %endfor
+               ## <li class="user_num">123<span class="num_text">关注</span></li>
+               ## <li class="user_num">40<span class="num_text">粉丝</span></li>
+               ## <li class="user_num">39<span class="num_text">收藏</span></li>
             </ul>
         </div>
+                %endif
         <div class="user_say">感谢自在侯  , 创建了一个42qu.com QQ群 , 群号码 103538647<a class="zsite_reply" href=""></a></div>
         <div class="user_follows">
             <div class="com_title">他关注的人 · · ·<span class="title_more">( <a class="a_12_9" href="">全部 49</a> )</span></div>
