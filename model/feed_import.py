@@ -86,7 +86,7 @@ def feed_state_set(id, state):
 def zsite_id_by_feed_user(feed_user):
     #TODO: get zsite_user_id
     if not feed_user:
-        return 0 
+        return 0
     return 0
     zsite_id = feed_user.zsite_id
     if douban_user:
@@ -128,12 +128,27 @@ def feed_review(id, cid, title, txt, tag_id_list, current_user_id, author_rm=Fal
 
 if __name__ == '__main__':
     pass
+    from collections import defaultdict
+    user_count = defaultdict(list)
     for i in FeedImport.where(zsite_id=ZSITE_UCD_CHINA_ID):
-        print i.title
-        #i.delete()
-    #for i in FeedImport.where("state>%s"%FEED_IMPORT_STATE_INIT):
-    #    i.state=FEED_IMPORT_STATE_WITHOUT_TAG
-    #    i.save()
+        user_count[i.rid].append(i)
+
+    k = user_count.items()
+    k.sort(key=lambda x:-len(x[1]))
+
+    for pos, (a, b) in enumerate(k):
+        user = PoMetaUser.mc_get(a)
+        if len(b) >= 8:
+            print pos, user.name
+            print user.link
+            print "%s篇文章"%len(b)
+            for i in b:
+                print "\t",i.title , i.url
+
+#i.delete()
+#for i in FeedImport.where("state>%s"%FEED_IMPORT_STATE_INIT):
+#    i.state=FEED_IMPORT_STATE_WITHOUT_TAG
+#    i.save()
 #    from zkit.fanjian import utf8_ftoj
 #    from zweb.orm import ormiter
 #    for i in ormiter(FeedImport,"state>%s"%FEED_IMPORT_STATE_INIT):
@@ -143,6 +158,6 @@ if __name__ == '__main__':
 ##            i.state = FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR
 ##            i.save()
 #        print title
-    #limit = 30
-    #offset = 0
-    #print feed_import_list_count_by_part_time_job(limit , offset)
+#limit = 30
+#offset = 0
+#print feed_import_list_count_by_part_time_job(limit , offset)
