@@ -105,6 +105,7 @@ CREATE TABLE `feed_import` (
   `tag_id_list` varbinary(1024) NOT NULL,
   `cid` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `rank` int(10) unsigned NOT NULL DEFAULT '0',
+  `po_meta_user_id` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `Index_2` (`zsite_id`,`state`,`rank`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
