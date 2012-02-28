@@ -45,11 +45,13 @@ txt = motto_get(zsite.id)
 
         <div id="tagbar">\
 <span class="xatxt">\
+<a class="xa fav_txt" id="follow_a${zsite_id}" href="javascript:follow_a(${zsite_id});void(0)">\
             %if is_faved:
-<a class="xa fav_txt" href="javascript:void(0)" >遗忘</a>\
+淡忘\
             %else:
-<a class="xa fav_txt" href="javascript:void(0)" >关注</a>\
+关注\
             %endif
+</a>\
 <a class="xa" href="javascript:void(0)">投递</a>\
 <a class="xa" href="javascript:void(0)">提问</a>\
 </span>\

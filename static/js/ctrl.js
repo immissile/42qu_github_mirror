@@ -176,8 +176,8 @@ function follow_a(id) {
 	if (text == follow) {
 		text = follow_rm;
 	} else {
-    		text = follow;
-	    	url += "/rm"
+        text = follow;
+        url += "/rm"
 	}
 	$.postJSON(url + "/" + id)
 	a.html(text)
