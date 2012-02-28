@@ -148,7 +148,7 @@ class AutoComplete:
                 else:
                     alias = 0
                 result.append(
-                    (id, rank, name, alias)
+                    (id, int(rank), name, alias)
                 )
         return result
 
