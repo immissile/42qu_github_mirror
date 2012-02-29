@@ -121,6 +121,7 @@ font-family:Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mon
     color:#000;
 }
 .zsite_tag_name select{
-    padding:3px;
+    text-align:center;
+    padding:8px;
 }
 
