@@ -153,7 +153,7 @@ function note_li(feed_index, result){
         }
         READX = readx
 
-        scrollTop = feeds.offset().top-28
+        scrollTop = feeds.offset().top-14
         feed_index.hide();
         var p = this.parentNode,
             self=$(p), 
