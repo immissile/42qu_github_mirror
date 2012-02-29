@@ -136,7 +136,9 @@ function note_li(feed_index){
     }
 
 
-    if(!READX){
+    if(READX){
+        READX()
+    }else{
         $(document).bind("keyup",function(e){
             if(e.keyCode == 27){
                 READX()
