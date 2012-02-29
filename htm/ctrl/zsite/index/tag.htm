@@ -54,7 +54,7 @@ txt = motto_get(zsite.id)
 关注\
             %endif
 </a>\
-<a class="xa" href="javascript:void(0)">投递</a>\
+<a class="xa" href="/po/note">投递</a>\
 <a class="xa" href="javascript:void(0)">提问</a>\
 </span>\
 <a class="xa xatagset" href="javascript:click_sets();void(0)"><span></span></a>\
@@ -74,6 +74,7 @@ txt = motto_get(zsite.id)
 #from model.zsite_json import zsite_json
 #site_list = zsite_json(current_user_id, [current_user]) 
 site_list = tag_author_list(zsite_id)
+
 %>
         %if site_list:
         <script type="text/x-json" id="site_data">
