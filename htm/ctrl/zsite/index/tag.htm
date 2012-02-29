@@ -71,9 +71,9 @@ txt = motto_get(zsite.id)
         <div class="tag_author_list">
 
 <%
-from model.zsite_json import zsite_json
-site_list = zsite_json(current_user_id, [current_user]) 
-#site_list = tag_author_list(zsite_id)
+#from model.zsite_json import zsite_json
+#site_list = zsite_json(current_user_id, [current_user]) 
+site_list = tag_author_list(zsite_id)
 %>
         %if site_list:
         <script type="text/x-json" id="site_data">
