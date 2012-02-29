@@ -16,8 +16,10 @@ from cgi import escape
 <script src="${js.ctrl_render_item}"></script>
 ${css.ctrl_zsite_com|n}
 ${css.ctrl_hero|n}
+${css.ctrl_index|n}
 ${css.ctrl_tag_index|n}
 ${css.ctrl_tag_side|n}
+
 </%def>
 
 
@@ -55,7 +57,10 @@ txt = motto_get(zsite.id)
 <a class="xa" href="javascript:void(0)">投递</a>\
 <a class="xa" href="javascript:void(0)">提问</a>\
 </span>\
-<a class="xa xatagset" href="javascript:void(0)"><span></span></a>\
+<a class="xa xatagset" href="javascript:click_sets();void(0)"><span></span></a>\
+            <div class="pop_block">
+                <a href="javascript:void(0)" class="pop_link">管理此标签</a>
+            </div>
         </div>
 
 

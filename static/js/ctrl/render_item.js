@@ -34,7 +34,13 @@ $.template(
 )
 
 function tag_cid_page(cid, page){
-   alert(cid, page) 
+    $.get('/j/tag/'+cid+'-'+page,function(data){
+        if(String(page).substring(0,1)!=='-'){
+            $('#item_list_'+cid+'>.readl').remove()
+        }
+        _render_note('#com_main_'+cid,'#item_list_'+cid, data.li)
+        $('.tag_cid_page').html(data.page)
+    })
 }
 
 function _render_tag_cid(id, data){
@@ -141,6 +147,7 @@ function note_li(feed_index){
         oldtop=winj.scrollTop();
         winj.scrollTop(scrollTop);
         txt_title.html(title.html())
+        $('.readpad:not(:last)').remove()
         $.get(
         "/j/po/json/"+id,
         function(r){
