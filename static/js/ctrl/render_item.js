@@ -101,7 +101,7 @@ $.template(
         '</span></span>'+
     '</div>'
 )
-
+var READX;
 
 function note_li(feed_index){
     var feeds=$(feed_index[0].parentNode), 
@@ -126,24 +126,28 @@ function note_li(feed_index){
         txt_opt=txt_loading.find('#main_nav_opt'),
         txt_body;
 
-
     function readx(){
+        if(oldtop<0)return;
         txt_loading.remove()
         feed_index.show() 
         winj.scrollTop(oldtop)
         oldtop=-1
-
         txt_body.replaceWith(read_loading)
     }
 
-    $('.readx').live('click',readx)
-    $(document).bind("keyup",function(e){
-        if(e.keyCode == 27 && oldtop>=0){
-            readx()
-        }
-    })
 
-    $('.reada').live('click',function(){
+    if(!READX){
+        $(document).bind("keyup",function(e){
+            if(e.keyCode == 27){
+                READX()
+            }
+        })
+        $('.readx').live('click', function(){READX()})
+    }
+
+    READX = readx
+
+    feeds.find('.reada').click(function(){
         scrollTop = feeds.offset().top-28
         feed_index.hide();
         var p = this.parentNode,
