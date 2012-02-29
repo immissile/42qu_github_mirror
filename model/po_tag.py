@@ -57,6 +57,8 @@ class PoZsiteTag(Model):
     pass
 
 def tag_cid_by_po_id(po_id):
+    if not po_id:
+        return 0
     return redis.hget(REDIS_PO_ID2TAG_CID, po_id) or 0
 
 def po_score_incr(po, user_id, score=1):

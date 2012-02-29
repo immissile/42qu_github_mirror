@@ -4,8 +4,7 @@ from model.cid import CID_QUESTION, CID_WORD, CID_NOTE, CID_EVENT, CID_EVENT_FEE
 from yajl import dumps
 from model.po_question import answer_count
 from model.event import Event, EVENT_STATE_REJECT, EVENT_JOIN_STATE_FEEDBACK_GOOD, event_joiner_state, EVENT_STATE_INIT, EVENT_JOIN_STATE_FEEDBACK_NORMAL, EVENT_STATE_TO_REVIEW
-from model.po_tag import REDIS_REC_CID_TUPLE
-
+from model.po_tag import REDIS_REC_CID_TUPLE, tag_cid_by_po_id
 
 PO_NOTE_CID_TUPLE = [ 
     (0, "- 类别 -"),
@@ -128,8 +127,7 @@ rid = po.rid
 if po.state == STATE_SECRET: 
     po_note_cid = -1
 else:
-    po_note_cid = -1
-     
+    po_note_cid = tag_cid_by_po_id(po.id)
 %>
 
 <span class="zsite_tag_name">
@@ -138,7 +136,7 @@ ${zsite.name} - 默认标签
     %endif
 <input type="text">\
 <select name="tag_cid">\
-%for tcid, tname in PO_NOTE_CID_TUPLE :
+%for tcid, tname in PO_NOTE_CID_TUPLE:
     <option 
         %if po_note_cid == tcid:
 selected

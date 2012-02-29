@@ -58,7 +58,7 @@ class PoRss(ZsiteBase):
 
 @urlmap('/po/rec/(\d+)')
 class PoRec(LoginBase):
-    def post(self,id):
+    def post(self, id):
         current_user_id = self.current_user_id
         rec_po = Po.mc_get(id)
         if rec_po and rec_po.cid == CID_REC and rec_po.user_id == current_user_id:
@@ -66,7 +66,7 @@ class PoRec(LoginBase):
             rec_po.name_ = name
             rec_po.save()
         self.finish('{}')
-        
+
 @urlmap('/po/word')
 class PoWord(LoginBase):
     def post(self):
@@ -90,13 +90,23 @@ def po_post(self):
     name = self.get_argument('name', '')
     txt = self.get_argument('txt', '', strip=False).rstrip()
     zsite = self.zsite
+    cid = self.cid
 
     arguments = self.request.arguments
 
+    tag_cid = None
+    state = None
 
-    if self.cid == CID_EVENT_FEEDBACK:
+    if cid == CID_EVENT_FEEDBACK:
         state = self.get_argument('good', None)
         zsite_id = 0
+    elif cid == CID_NOTE:
+        tag_cid = int(self.get_argument('tag_cid', 0))
+        if tag_cid < 0:
+            tag_cid = None
+            state = STATE_SECRET
+        else:
+            state = STATE_ACTIVE
     else:
         zsite_id = zsite_id_by_zsite_user_id(zsite, user_id)
 
@@ -106,10 +116,12 @@ def po_post(self):
             secret = self.get_argument('secret', None)
             if secret:
                 state = STATE_SECRET
-                from model.feed import feed_rm
-                feed_rm(self.id)
             else:
                 state = STATE_ACTIVE
+
+    if state == STATE_SECRET:    
+        from model.feed import feed_rm
+        feed_rm(self.id)
 
     po = self.po_save(user_id, name, txt, state, zsite_id)
 
@@ -126,11 +138,8 @@ def po_post(self):
             '%s_%s' % (user_id, self_id)
         )
 
-    if zsite and po:
-        cid = zsite.cid
-        if cid == CID_TAG:
-            tag_cid = self.get_argument('tag_cid', 0)
-            po_tag_id_new(po, zsite.id, cid) 
+    if tag_cid is not None:
+        po_tag_id_new(po, zsite.id, cid)
 
     return po
 
