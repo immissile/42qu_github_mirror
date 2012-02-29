@@ -254,7 +254,7 @@ border:1px dotted #ccc;width:715px;height:80px;
 padding:2px 3px;
 margin-bottom:7px;
 }
-.tag_cid_page a{
+.tag_cid_page a, .tag_cid_page .more{
 color:#999;
 }
 .tag_cid_page a:hover{
@@ -267,6 +267,10 @@ border-top:1px solid #eee;
 .tag_cid_page a{
 padding:0 10px 1px;
 margin:0;
+}
+.tag_cid_page .more{
+margin-left:21px;
+padding:0;
 }
 .main_nav .now{
 padding-left:21px;

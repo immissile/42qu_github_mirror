@@ -26,20 +26,28 @@ $.template(
             '<span class="R">共 ${$data[2]} 篇</span>'+
         '</div>'+
         '<div id="item_list_${$data[0]}" class="tag_item_list"></div>'+
-        '{{if $data[4]}}<div class="tag_cid_page">'+
-            '<a href="javascript:tag_cid_page(${$data[0]},-${$data[4]})" id="tag_cid_page${$data[0]}">更多 ...</a>'+
+        '{{if $data[4]}}<div class="tag_cid_page" id="tag_cid_page${$data[0]}">'+
+            '<a class="more" href="javascript:tag_cid_page(${$data[0]},-${$data[4]})">更多 ...</a>'+
         '</div>{{/if}}'+
     '</div></div>'+
 '</div>'
 )
 
 function tag_cid_page(cid, page){
+    var tag_cid = $('#tag_cid_page'+cid).html('<span class="more">稍等 ...</span>'),
+    item_list_cid = $('#item_list_'+cid);
+
     $.get('/j/tag/'+cid+'-'+page,function(data){
-        if(String(page).substring(0,1)!=='-'){
-            $('#item_list_'+cid+'>.readl').remove()
+        var page=data.page
+        if(page){
+            item_list_cid.html('')
         }
         _render_note('#com_main_'+cid,'#item_list_'+cid, data.li)
-        $('.tag_cid_page').html(data.page)
+        if(!page){
+            tag_cid.css('border',0)
+        };
+        tag_cid.html(data.page||'')
+
     })
 }
 
