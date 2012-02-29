@@ -223,9 +223,9 @@ ${css.ctrl_hero_index|n}
         </div>
                 %endif
         <div class="user_say">感谢自在侯  , 创建了一个42qu.com QQ群 , 群号码 103538647<a class="zsite_reply" href=""></a></div>
-        <div class="user_follows">
-            <div class="com_title">他关注的人 · · ·<span class="title_more">( <a class="a_12_9" href="">全部 ${follow_fav_tuple[0][0]}</a> )</span></div>
-                 %if follow_list:
+             %if follow_list:
+             <div class="user_follows">
+             <div class="com_title">他关注的人 · · ·<span class="title_more">( <a class="a_12_9" href="">全部 ${follow_fav_tuple[0][0]}</a> )</span></div>
                  %for i in follow_list:
                  %if i:
                  <%
@@ -238,9 +238,9 @@ ${css.ctrl_hero_index|n}
                  </div>
                 %endif
                 %endfor
-                %endif
-                </div>\
                 </div>
+                </div>
+               %endif
         </div>
 
 </div>
