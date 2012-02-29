@@ -34,7 +34,7 @@ $.template(
 )
 
 function tag_cid_page(cid, page){
-    var tag_cid = $('#tag_cid_page'+cid).html('<span class="more">稍等 ...</span>'),
+    var tag_cid = $('#tag_cid_page'+cid).html('<div class="readloading"></div>'),
     item_list_cid = $('#item_list_'+cid);
 
     $.get('/j/tag/'+cid+'-'+page,function(data){
