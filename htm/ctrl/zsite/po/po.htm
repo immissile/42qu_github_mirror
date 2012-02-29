@@ -122,7 +122,7 @@ rid = po.rid
         %endfor
     </select>
 </span>
-%else:
+%endif
     %if zsite.cid != CID_SITE or (cid!=CID_QUESTION and rid):
         %if cid in (CID_WORD, CID_NOTE, CID_QUESTION):
     <input type="checkbox" name="secret" id="secret"
@@ -141,7 +141,6 @@ checked
 </label>\
         %endif
     %endif
-%endif
 
 % if cid == CID_EVENT_FEEDBACK and current_user_id!=event.zsite_id:
 <input type="checkbox" name="good" id="good"
