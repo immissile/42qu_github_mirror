@@ -23,7 +23,7 @@ class TagMore(JLoginZsiteBase):
             PAGE_LIMIT
         )
         page = str(page) or 0
-        print int(tag_cid_count(zsite_id, cid) or 0)
+        #print int(tag_cid_count(zsite_id, cid) or 0)
  
         self.finish({
 'li':po_tag_by_cid(cid, zsite_id, current_user_id, limit, offset),
