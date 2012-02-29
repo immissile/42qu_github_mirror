@@ -29,7 +29,7 @@ REDIS_REC_CID_TUPLE = (
     (3, '问题 / 讨论'),
     (4, '人物 / 对话'),
     (5, '资料 / 知识'),
-    (REDIS_REC_CID_BUZZ, '灌水 / 闲聊'),
+    (REDIS_REC_CID_BUZZ, '碎语 / 片段'),
 )
 REDIS_REC_CID_DICT = dict(REDIS_REC_CID_TUPLE)
 
