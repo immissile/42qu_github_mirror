@@ -126,18 +126,20 @@ function note_li(feed_index){
         txt_opt=txt_loading.find('#main_nav_opt'),
         txt_body;
 
-    function readx(){
+    function readx(noscroll){
         if(oldtop<0)return;
         txt_loading.remove()
-        feed_index.show() 
-        winj.scrollTop(oldtop)
+        feed_index.show()
+        if(!noscroll){ 
+            winj.scrollTop(oldtop)
+        }
         oldtop=-1
         txt_body.replaceWith(read_loading)
     }
 
 
     if(READX){
-        READX()
+        READX(1)
     }else{
         $(document).bind("keyup",function(e){
             if(e.keyCode == 27){
