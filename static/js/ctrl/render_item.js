@@ -70,7 +70,7 @@ function _render_note(feed_index, elem, data){
         this.href="//"+this.rel+HOST_SUFFIX
     })
     result.appendTo(elem);
-    note_li($(feed_index))
+    note_li($(feed_index), result)
     return result
 }
 
@@ -103,7 +103,7 @@ $.template(
 )
 var READX;
 
-function note_li(feed_index){
+function note_li(feed_index, result){
     var feeds=$(feed_index[0].parentNode), 
         scrollTop,
         oldtop=-1,
@@ -138,20 +138,21 @@ function note_li(feed_index){
     }
 
 
-    if(READX){
-        READX(1)
-    }else{
-        $(document).bind("keyup",function(e){
-            if(e.keyCode == 27){
-                READX()
-            }
-        })
-        $('.readx').live('click', function(){READX()})
-    }
+    $(document).bind("keyup",function(e){
+        if(e.keyCode == 27){
+            READX()
+        }
+    })
+    $('.readx').live('click', function(){READX()})
 
     READX = readx
 
-    feeds.find('.reada').click(function(){
+    result.find('.reada').click(function(){
+        if(READX){
+            READX(1)
+        }
+        READX = readx
+
         scrollTop = feeds.offset().top-28
         feed_index.hide();
         var p = this.parentNode,
@@ -166,7 +167,6 @@ function note_li(feed_index){
         winj.scrollTop(scrollTop);
         txt_title.html(title.html())
 
-//        $('.readpad:not(:last)').remove()
 
         $.get(
         "/j/po/json/"+id,
