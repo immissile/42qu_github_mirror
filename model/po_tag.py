@@ -56,10 +56,12 @@ REDIS_PO_ID2TAG_CID = 'PoId2TagCid'
 class PoZsiteTag(Model):
     pass
 
+def tag_cid_by_po_id(po_id):
+    return redis.hget(REDIS_PO_ID2TAG_CID, po_id) or 0
 
 def po_score_incr(po, user_id, score=1):
     po_id = po.id
-    cid = redis.hget(REDIS_PO_ID2TAG_CID, po_id)
+    cid = tag_cid_by_po_id(po_id)
     tag_id_list = tag_id_list_by_po_id(po_id=po_id)
     if tag_id_list:
         redis.hincrby(REDIS_REC_PO_SCORE, po_id, score) 
@@ -269,7 +271,7 @@ def _tag_rm_by_user_id_list(po, user_id, id_list):
             user_rank.save()
 
     po_id = po.id
-    cid = redis.hget(REDIS_PO_ID2TAG_CID, po_id)
+    cid = tag_cid_by_po_id(po_id)
 
     if cid:
         p = redis.pipeline()
@@ -289,7 +291,7 @@ def _tag_rm_by_user_id_list(po, user_id, id_list):
 
 def po_tag_id_cid_new(po, tag_id_list, cid):
     po_id = po.id
-    old_cid = redis.hget(REDIS_PO_ID2TAG_CID, po_id)
+    old_cid = tag_cid_by_po_id(po_id)
 
     set_cid = False
     if old_cid:
@@ -308,7 +310,7 @@ def po_tag_id_cid_new(po, tag_id_list, cid):
         set_cid = True
 
     if set_cid:
-        old_cid = redis.hset(REDIS_PO_ID2TAG_CID, po_id)
+        old_cid = tag_cid_by_po_id(po_id)
 
 @mc_tag_id_list_by_po_id('{po_id}')
 def tag_id_list_by_po_id(po_id):
