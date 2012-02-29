@@ -10,7 +10,7 @@ from cgi import escape
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/site_rec_new.htm" import="site_rec_render"/>
 <%def name="htm_head()">
-##<script src="${js.ctrl_side_tag_search}"></script>
+<script src="${js.ctrl_side_tag_search}"></script>
 ##<script src="${js.ctrl_zsite_feed}"></script>
 <script src="${js.ctrl_tag}"></script>
 <script src="${js.ctrl_render_item}"></script>
@@ -65,8 +65,8 @@ txt = motto_get(zsite.id)
 
 
 
-        ##<form class="search" action="http://zuroc.42qu.com/q">
-        ##<input type="text" style="color:#999" placeholder="搜索此话题下内容 ..." name="q" id="search" autocomplete="off"><input type="submit" class="search_btn" value=""></form>
+        <form class="search" action="http://zuroc.42qu.com/q">
+        <input type="text" style="color:#999" placeholder="搜索此话题下内容 ..." name="q" id="search" autocomplete="off"><input type="submit" class="search_btn" value=""></form>
 
         <div class="tag_author_list">
 

@@ -86,7 +86,7 @@ padding:0 3px;
 color:#999;
 font-family:monospace;
 font-weight:normal;
-margin-left:7px;
+margin-left:8px;
 }
 .token-input-dropdown-item, .token-input-dropdown-item2{
 border-top: 1px solid #EEEEEE;
@@ -99,6 +99,9 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item{
 color:#fff;
 /*background:#f9f9ff;*/
 background:#d20;
+}
+div.token-input-dropdown ul li.token-input-selected-dropdown-item .drop_follow_num{
+color:#e9e9e9;
 }
 .tag_wrap{
 width:722px;
@@ -119,4 +122,6 @@ margin:0 3px;
 .tag_author_list{
 font-size:12px;
 }
-
+.drop_item_alias{
+margin-left:3px;
+}

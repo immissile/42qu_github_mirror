@@ -33,6 +33,7 @@ from tornado.escape import json_encode
 </div>
 </div></div></div></div>
 </div>
+
 <script src="${js.ctrl_render_item}"></script>
 <script>_render_note('#feedrec', '#item_list', ${json_encode(rec_item_list)|n}) </script>
 %endif
@@ -181,6 +182,9 @@ href="/${id}" target="_blank">${create_time}</a>{{if rt_list.length  && rt_list[
 </%text>
 </script>
 
+${css.ctrl_tag_side|n}
+<script src="${js.ctrl_index_search}"></script>
+
 <div class="Iwp">
     <div class="Lwp">
         <div class="feed_li feedL" id="feed_self">
@@ -232,8 +236,8 @@ ${rec_read_render(rec_item_list)}\
 </div>
 <div class="Rwp">
 
-
-<a class="gask" href="http://zuroc.42qu.com/10204513">有空 ?  来写42区小功能吧!</a>
+<form class="search" action="http://zuroc.42qu.com/q" style="margin:0 0 26px;">
+<input type="text" style="color:#999" placeholder="搜索话题或人 ..." name="q" id="search" autocomplete="off"><input type="submit" class="search_btn" value=""></form>
         ${buzz_show(current_user_id)}
 <%doc>
         ##${site_rec_render()}
