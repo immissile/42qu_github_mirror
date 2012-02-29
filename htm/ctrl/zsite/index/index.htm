@@ -105,7 +105,7 @@ from model.fav import fav_po_count_by_user_id
 from model.follow import follow_count_by_to_id, follow_count_by_from_id, follow_list_show_by_from_id
 following_count = follow_count_by_from_id(zsite_id)
 follower_count = follow_count_by_to_id(zsite_id)
-follow_list = follow_list_show_by_from_id(zsite_id, 3)
+follow_list = follow_list_show_by_from_id(zsite_id, 4)
 fav_count = fav_po_count_by_user_id(zsite_id)
 if any((following_count,follow_count,fav_count)):
     follow_fav_tuple=(
@@ -126,16 +126,40 @@ ${css.ctrl_hero_index|n}
 <script src="${js.ctrl_hero|n}"></script>
 </%def>
 
+
+
 <div class="G">
 <div class="com_wrap">
-    <h1>生命是一场无限的游戏 - realfex</h1>
+     %if motto:
+    <h1>${motto}-${zsite.name} </h1>
+     %else:
+    <h1> ${zstie_name}</h1>
+    %endif
     <div class="com_main_wrap">
     <div class="com_main">
-        <img class="hero_avatar" src="http://p4.42qu.us/721/834/57154.jpg"/>
-        <div class="bio_quot"></div>
-        <div class="user_bio"><pre>我叫 realfex，摩羯男，20岁。安徽巢湖人，现居北京市昌平区。2008-2012本科就读于西南财经大学电子商务专业。现在在42qu.com做程序员，写写代码，做做设计。</pre></div>
 
-        <div class="main_info">
+    <%
+    pic_url = _pic_url(zsite_id)
+    %>
+    %if pic_url:
+    <img class="hero_avatar" src="${pic_url}" alt="${zsite.name}"/>
+    %elif is_owner:
+    <a href="/i/pic">点此上传本人头像，我们将人工审核</a>
+    %endif
+   
+        <%
+        txt = zsite.txt
+        %>
+        %if txt or is_owner:
+        <div class="bio_quot"></div>
+        %if txt:
+        <div class="user_bio"><pre>${txt}</pre></div>
+        %else:
+        <div class="user_bio"><pre><a href="/i#txt">点击这里，补充简介</a></pre></div>
+        %endif
+        %endif 
+
+         <div class="main_info">
             <div class="user_posts">
                 <div class="com_title type_wrap">
                     <span class="cont_type">文章</span>
@@ -200,30 +224,22 @@ ${css.ctrl_hero_index|n}
                 %endif
         <div class="user_say">感谢自在侯  , 创建了一个42qu.com QQ群 , 群号码 103538647<a class="zsite_reply" href=""></a></div>
         <div class="user_follows">
-            <div class="com_title">他关注的人 · · ·<span class="title_more">( <a class="a_12_9" href="">全部 49</a> )</span></div>
+            <div class="com_title">他关注的人 · · ·<span class="title_more">( <a class="a_12_9" href="">全部 ${follow_fav_tuple[0][0]}</a> )</span></div>
+                 %if follow_list:
+                 %for i in follow_list:
+                 %if i:
+                 <%
+                 i_career = i.career
+                 %>
                 <div class="com_text com_author">
-                <div class="c">
-                <a class="com_avatar" href="//sunny.42qu.com"><img src="http://p4.42qu.us/96/875/46955.jpg"></a>
-                <a href="//sunny.42qu.com" class="c0" target="_blank"><div>高阳</div><div class="mt6">PE.VC</div><div class="mt6">分析湿</div></a>
-                </div>
-                </div>
-                <div class="com_text com_author">
-                <div class="c">
-                <a class="com_avatar" href="//10102329.42qu.com"><img src="http://p4.42qu.us/96/125/60541.jpg"></a>
-                <a href="//10102329.42qu.com" class="c0" target="_blank"><div>贺钰城</div><div class="mt6">pe.vc</div><div class="mt6">框架师</div></a>
-                </div>
-                </div>
-                <div class="com_text com_author">
-                <div class="c">
-                <a class="com_avatar" href="//jianguo.42qu.com"><img src="http://p4.42qu.us/96/77/150605.jpg"></a>
-                <a href="//jianguo.42qu.com" class="c0" target="_blank"><div>季男</div><div class="mt6">PE.VC</div><div class="mt6">运营</div></a>
-                </div>
-                </div>
-                <div class="com_text com_author">
-                <div class="c">
-                <a class="com_avatar" href="//cocoai.42qu.com"><img src="http://p4.42qu.us/96/512/27136.jpg"></a>
-                <a href="//cocoai.42qu.com" class="c0" target="_blank"><div>胡小可</div><div class="mt6">北京PE.VC</div><div class="mt6">人力资源总监</div></a>
-                </div>
+                 <div class="c">
+                <a class="com_avatar" href="${i.link}"><img src="${i.ico96}"></a>
+             <a href="${i.link}" class="c0" target="_blank"><div>${i.name}</div><div class="mt6">${i_career[0]}</div><div class="mt6">${i_career[1]}</div></a>
+                 </div>
+                %endif
+                %endfor
+                %endif
+                </div>\
                 </div>
         </div>
 
