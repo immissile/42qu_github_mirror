@@ -36,10 +36,33 @@ mc_rec_is_empty = McCache("Rec!%s")
 REDIS_REC_USER_TAG_LIMIT = 512
 REDIS_REC_PO_SHOW_TIMES = 10
 
-def rec_read_user_topic_score_incr(user_id, tag_id, score=1):
+def rec_read_user_topic_score_follow(user_id, tag_id):
+    rec_read_user_topic_score_incr(user_id, tag_id, score=float('inf'), tag_score=1)
+
+
+
+#In [14]: redis.zrevrange("Rec@10220175",0,0,True,int)
+#[('10234454', 103)]
+#
+#In [15]: redis.zrevrange("Rec@10220175,1",0,0,True,int)
+#[]
+
+def rec_read_user_topic_score_incr(user_id, tag_id, score=1, tag_score=None):
     key = REDIS_REC_USER_TAG%user_id
-    redis.zincrby(key, tag_id, score)
-    redis.zincrby(REDIS_REC_TAG, tag_id, score)
+
+    if score == float('inf'):
+        score_list = redis.zrevrange(key, 0, 0, True, int)
+        if score_list:
+            score = max(1,score_list[0][1])
+        else:
+            score = 1
+        redis.zadd(key, tag_id, score)
+    else:
+        redis.zincrby(key, tag_id, score)
+
+    if tag_score is None:
+        tag_score = score
+    redis.zincrby(REDIS_REC_TAG, tag_id, tag_score)
 
     # zrank <  REDIS_REC_USER_TAG_LIMIT的时候 
     # 并且不在读完的redis时候 , 进入候选的推荐主题
