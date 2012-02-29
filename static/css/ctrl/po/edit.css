@@ -116,4 +116,11 @@ background:#FeFeFF;
 font-family:Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;
 }
 
+.zsite_tag_name a{
+    margin-right:14px;
+    color:#000;
+}
+.zsite_tag_name select{
+    padding:3px;
+}
 

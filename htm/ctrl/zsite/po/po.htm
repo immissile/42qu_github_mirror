@@ -1,9 +1,10 @@
 <%!
 from model.po import STATE_SECRET, Po
-from model.cid import CID_QUESTION, CID_WORD, CID_NOTE, CID_EVENT, CID_EVENT_FEEDBACK, CID_SITE
+from model.cid import CID_QUESTION, CID_WORD, CID_NOTE, CID_EVENT, CID_EVENT_FEEDBACK, CID_SITE, CID_TAG
 from yajl import dumps
 from model.po_question import answer_count
 from model.event import Event, EVENT_STATE_REJECT, EVENT_JOIN_STATE_FEEDBACK_GOOD, event_joiner_state, EVENT_STATE_INIT, EVENT_JOIN_STATE_FEEDBACK_NORMAL, EVENT_STATE_TO_REVIEW
+from model.po_tag import REDIS_REC_CID_TUPLE
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -56,6 +57,8 @@ ${css.ctrl_po_event|n}
 if cid == CID_EVENT_FEEDBACK:
     event = this.event
     event_po = Po.mc_get(event.id)
+
+zsite_cid = zsite.cid
 %>
 
 %if cid == CID_EVENT:
@@ -109,23 +112,35 @@ rid = po.rid
         % endif
     %endif
 % endif
-%if zsite.cid != CID_SITE or (cid!=CID_QUESTION and rid):
-%if cid in (CID_WORD, CID_NOTE, CID_QUESTION):
+%if zsite_cid == CID_TAG:
+<span class="zsite_tag_name">
+<a href="${zsite.link}" target="_blank">${zsite.name}</a>\
+<select name="tag_cid">
+<option value="0">- 选择分类 -</option>
+        %for tcid, tname in REDIS_REC_CID_TUPLE:
+<option value="${tcid}">${tname}</option>
+        %endfor
+    </select>
+</span>
+%else:
+    %if zsite.cid != CID_SITE or (cid!=CID_QUESTION and rid):
+        %if cid in (CID_WORD, CID_NOTE, CID_QUESTION):
     <input type="checkbox" name="secret" id="secret"
-%if po.state == STATE_SECRET: 
+            %if po.state == STATE_SECRET: 
 checked
-%endif
+            %endif
     >\
     <label for="secret" id="secret_label">\
-% if cid == CID_QUESTION:
+            % if cid == CID_QUESTION:
 草稿\
-% elif rid:
+            % elif rid:
 匿名\
-% else:
+            % else:
 私密\
-% endif
+            % endif
 </label>\
-%endif
+        %endif
+    %endif
 %endif
 
 % if cid == CID_EVENT_FEEDBACK and current_user_id!=event.zsite_id:
