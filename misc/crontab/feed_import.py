@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import _env
-from model.feed_import import  zsite_id_by_feed_user, FeedImport, FEED_IMPORT_STATE_WITHOUT_TAG, FEED_IMPORT_STATE_INIT, FEED_IMPORT_STATE_POED, FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC, FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR, FEED_IMPORT_STATE_REVIEWED_SYNC, PoMetaUser, PoMeta
+from model.feed_import import FeedImport, FEED_IMPORT_STATE_WITHOUT_TAG, FEED_IMPORT_STATE_INIT, FEED_IMPORT_STATE_POED, FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC, FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR, FEED_IMPORT_STATE_REVIEWED_SYNC, PoMetaUser, PoMeta
 from config import ZSITE_DOUBAN_ID, ZSITE_UCD_CHINA_ID
 from model.duplicate import Duplicator
 from model.zsite import Zsite
@@ -19,6 +19,7 @@ from model.po import po_note_new
 from zkit.htm2txt import htm2txt, unescape
 from time import sleep
 from zkit.fanjian import utf8_ftoj
+from model.feed_import_user import feed_import_user_new, feed_import_user_rm
 
 import_feed_duplicator = Duplicator(DUMPLICATE_DB_PREFIX%'import_feed')
 
@@ -44,6 +45,12 @@ def feed_import_new(zsite_id, rid, title, txt, url,  rank):
     #print zsite_id, rid, title
     #sleep(0.1)
 
+    feed_user = user_by_feed_id_zsite_id(zsite_id, rid)
+    if feed_user:
+        po_meta_user_id = feed_user.id
+    else:
+        po_meta_user_id = 0
+
     new_feed = FeedImport(
         title=title,
         txt=txt,
@@ -52,12 +59,19 @@ def feed_import_new(zsite_id, rid, title, txt, url,  rank):
         url=url,
         tag_id_list='',
         state=FEED_IMPORT_STATE_WITHOUT_TAG,
-        rank=rank
+        rank=rank,
+        po_meta_user_id=po_meta_user_id    
     )
 
     new_feed.save()
-    import_feed_duplicator.set_record(txt, new_feed.id)
+    id = new_feed.id
+    import_feed_duplicator.set_record(txt, id)
 
+    if feed_user:
+        user_id = feed_user.user_id
+        if user_id:
+            feed_import_user_new(user_id, id)
+    
     return new_feed
 
 
@@ -72,7 +86,7 @@ def feed2po_new():
         ):
         feed_new(feed)
 
-def user_by_feed_id_zsite_id(rid, zsite_id):
+def user_by_feed_id_zsite_id(zsite_id, rid):
     feed_user = None
     if zsite_id == ZSITE_DOUBAN_ID:
         user = douban_user_by_feed_id(rid)
@@ -87,9 +101,12 @@ def user_by_feed_id_zsite_id(rid, zsite_id):
 def feed_new(feed):
     txt = txt_img_fetch(feed.txt)
     zsite_id = feed.zsite_id
-    feed_user = user_by_feed_id_zsite_id(feed.rid, zsite_id)
-    user_id = zsite_id_by_feed_user(feed_user)
+    feed_user = user_by_feed_id_zsite_id(zsite_id, feed.rid)
+    user_id = feed_user.user_id
+    id = feed.id
 
+    if user_id:
+        feed_import_user_rm(user_id, id)
 
     zsite_id = feed.zsite_id
 
@@ -141,6 +158,17 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+    #from zweb.orm import ormiter
+    #for i in ormiter(FeedImport):
+    #    zsite_id = i.zsite_id
+    #    rid = i.rid
+    #    user = user_by_feed_id_zsite_id(zsite_id, rid)
+    #    if user:
+    #        print zsite_id, rid
+    #        i.po_meta_user_id = user.id
+    #        i.save()
+
     #from zweb.orm import ormiter
     #for i in ormiter(FeedImport):
     #    i.title = unescape(i.title)

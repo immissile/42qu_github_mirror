@@ -124,11 +124,11 @@ def create_xen_vm (vm_name, baseimg, mem_size=256, disk2_size=10000, disk2_forma
     _create_raw_image (swap_path, "mkswap", swap_size)
 
     vm_config_content = """
+kernel = "%s/kernel/kernel-3.2.1-r2-domu"
 name = "%s"
 maxmem = %d
 memory = %d
 vcpus = 1
-kernel = "/mnt/nova/xen/kernel/kernel-3.2.1-r2-domu"
 root = "/dev/xvda1 ro"
 extra="xencons=xvc0 console=tty" 
 on_poweroff = "destroy"
@@ -140,7 +140,7 @@ vncunused = 1
 vnclisten = "0.0.0.0"
 disk = [ "tap:qcow:%s,xvda1,w", "tap:aio:%s,xvdb1,w", "tap:aio:%s,xvdc1,w"]
 vif = ["bridge=br0"]
-""" % (vm_name, mem_size, mem_size, disk1_path, disk2_path, swap_path)
+""" % (base_path, vm_name, mem_size, mem_size, disk1_path, disk2_path, swap_path)
     f = open (config_path, "w+")
     try:
         f.write (vm_config_content)
