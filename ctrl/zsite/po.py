@@ -3,7 +3,7 @@ from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
 from model import reply
 from model.feed import feed_merge_iter, MAXINT, Feed, mc_feed_tuple, PAGE_LIMIT, feed_rm
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_EVENT, CID_EVENT_FEEDBACK, CID_SITE, CID_REC
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_EVENT, CID_EVENT_FEEDBACK, CID_SITE, CID_REC, CID_TAG
 from model.po import Po, po_rm, po_word_new, po_note_new, po_state_set
 from model.state import STATE_PO_ZSITE_SHOW_THEN_REVIEW, STATE_SECRET, STATE_ACTIVE
 from model.po_pic import pic_list, pic_list_edit, mc_pic_id_list
@@ -17,6 +17,7 @@ from model.event import Event, event_init2to_review
 from model.po_event import event_joiner_state_set_by_good
 from model.zsite_url import link
 from model.zsite_site import zsite_id_by_zsite_user_id
+from model.po_tag import po_tag_id_new
 
 def update_pic(form, user_id, po_id, id):
     pl = pic_list(user_id, id)
@@ -98,6 +99,7 @@ def po_post(self):
         zsite_id = 0
     else:
         zsite_id = zsite_id_by_zsite_user_id(zsite, user_id)
+
         if zsite_id:
             state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
         else:
@@ -111,6 +113,7 @@ def po_post(self):
 
     po = self.po_save(user_id, name, txt, state, zsite_id)
 
+
     self_id = self.id
     if po:
         po_id = po.id
@@ -122,6 +125,13 @@ def po_post(self):
         mc_pic_id_list.delete(
             '%s_%s' % (user_id, self_id)
         )
+
+    if zsite and po:
+        cid = zsite.cid
+        if cid == CID_TAG:
+            tag_cid = self.get_argument('tag_cid', 0)
+            po_tag_id_new(po, zsite.id, cid) 
+
     return po
 
 
