@@ -100,24 +100,26 @@ def po_post(self):
     if cid == CID_EVENT_FEEDBACK:
         state = self.get_argument('good', None)
         zsite_id = 0
-    elif cid == CID_NOTE:
-        tag_cid = int(self.get_argument('tag_cid', 0))
-        if tag_cid < 0:
-            tag_cid = None
-            state = STATE_SECRET
-        else:
-            state = STATE_ACTIVE
     else:
         zsite_id = zsite_id_by_zsite_user_id(zsite, user_id)
 
-        if zsite_id:
-            state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
-        else:
-            secret = self.get_argument('secret', None)
-            if secret:
+        if cid == CID_NOTE:
+            tag_cid = int(self.get_argument('tag_cid', 0))
+            if tag_cid < 0:
+                tag_cid = None
                 state = STATE_SECRET
             else:
                 state = STATE_ACTIVE
+        else:
+
+            if zsite_id:
+                state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
+            else:
+                secret = self.get_argument('secret', None)
+                if secret:
+                    state = STATE_SECRET
+                else:
+                    state = STATE_ACTIVE
 
     if state == STATE_SECRET:    
         from model.feed import feed_rm
