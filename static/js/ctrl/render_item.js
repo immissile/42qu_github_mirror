@@ -38,15 +38,17 @@ function tag_cid_page(cid, page){
     item_list_cid = $('#item_list_'+cid);
 
     $.get('/j/tag/'+cid+'-'+page,function(data){
-        var page=data.page
-        if(page){
+
+
+        if(page>0){
             item_list_cid.html('')
         }
-        _render_note('#com_main_'+cid,'#item_list_'+cid, data.li)
-        if(!page){
+        _render_note('#com_main_'+cid,'#item_list_'+cid, data.li);
+        var p=data.page
+        if(!p){
             tag_cid.css('border',0)
         };
-        tag_cid.html(data.page||'')
+        tag_cid.html(p||'')
 
     })
 }
@@ -155,7 +157,9 @@ function note_li(feed_index){
         oldtop=winj.scrollTop();
         winj.scrollTop(scrollTop);
         txt_title.html(title.html())
-        $('.readpad:not(:last)').remove()
+
+//        $('.readpad:not(:last)').remove()
+
         $.get(
         "/j/po/json/"+id,
         function(r){

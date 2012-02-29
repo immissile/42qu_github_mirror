@@ -8,7 +8,7 @@ from zkit.page import page_limit_offset, Page
 from json import dumps
 from model.po_tag import po_tag_by_cid, tag_cid_count 
 
-PAGE_LIMIT = 12 
+PAGE_LIMIT = 1 
 
 @urlmap('/j/tag/(\d+)-(\-?\d+)')
 class TagMore(JLoginZsiteBase):
