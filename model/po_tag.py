@@ -252,7 +252,7 @@ def tag_author_list(zsite_id):
     zsite_list = filter(lambda x:x, zsite_author_list(zsite_id))
     return zsite_json(zsite_id, zsite_list)
 
-def tag_rm_by_po(po):
+def po_tag_rm_by_po(po):
     po_id = po.id
     user_id = po.user_id
     _tag_rm_by_user_id_list(po, user_id, tag_id_list_by_po_id(po_id))
