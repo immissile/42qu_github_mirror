@@ -36,7 +36,7 @@ RSS_PO_ID_STATE_NOTAG = 0
 RSS_PO_ID_STATE_AUTOTAG = 10
 RSS_PO_ID_STATE_TAGED = 20
 
-class RssPoId(McModel):
+class RssPoId(Model):
     pass
 
 def rss_po_id_new(user, rss_po_id, po_id):
