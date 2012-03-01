@@ -11,6 +11,11 @@ from zkit.htm2txt import htm2txt, unescape
 from model.duplicate import Duplicator
 from zweb.orm import ormiter
 from model.po import Po, CID_NOTE
+from zkit.bot_txt import txt_map
+
+def pre_br(txt):
+    r = txt.replace('\r\n', '\n').replace('\r', '\n').replace('\n\n', '\n').replace('\n', '<br>')
+    return r
 
 duplicator_rss = Duplicator(DUMPLICATE_DB_PREFIX%'rss')
 
@@ -38,6 +43,37 @@ def unread_feed_update(greader, feed):
         res = greader.unread(feed)
         rss_feed_update(res, id , user_id)
 
+def link_title_uid_txt(i):
+    if 'alternate' in i:
+        link = i['alternate'][0]['href']
+    else:
+        link = ''
+    if 'title' in i:
+        title = i['title']
+        title = unescape(title)
+    else:
+        title = zsite.name
+    rss_uid = i.get('id') or 1
+    snippet = i.get('summary') or i.get('content') or None
+
+    if not snippet:
+        return
+
+    if snippet:
+        htm = snippet['content']
+        if not htm:
+            return
+
+    htm = txttidy(htm)
+    htm = txt_map('<pre', '</pre>', htm, pre_br)
+    htm = tidy_fragment(htm, {'indent': 0})[0]
+    htm = htm.replace('<br />', '\n')
+    txt = htm2txt(htm)
+
+    if not txt:
+        return
+
+    return link, title, rss_uid, txt
 
 def rss_feed_update(res, id, user_id, limit=None):
     rss = Rss.mc_get(id)
@@ -46,44 +82,26 @@ def rss_feed_update(res, id, user_id, limit=None):
         if limit:
             if count > limit:
                 break
-        if 'alternate' in i:
-            link = i['alternate'][0]['href']
+        r = link_title_uid_txt(i)
+        if not r:
+            continue
+        link, title, rss_uid, txt = r
+
+        title_txt = '%s\n%s'%(title, txt)
+        if duplicator_rss.txt_is_duplicate(title_txt):
+            continue
+
+        if rss.auto:
+            state = RSS_PRE_PO
         else:
-            link = ''
-        if 'title' in i:
-            title = i['title']
-        else:
-            title = zsite.name
-        rss_uid = i.get('id') or 1
-        snippet = i.get('summary') or i.get('content') or None
+            state = RSS_UNCHECK
 
-        if snippet:
-            htm = snippet['content']
-            if htm:
-                htm = txttidy(htm)
-                htm = txt_map('<pre', '</pre>', htm, pre_br)
-                htm = tidy_fragment(htm, {'indent': 0})[0]
-                htm = htm.replace('<br />', '\n')
-                txt = htm2txt(htm)
-
-                if txt:
-                    title = unescape(title)
-
-                    title_txt = '%s\n%s'%(title, txt)
-                    if duplicator_rss.txt_is_duplicate(title_txt):
-                        continue
-
-                    if rss.auto:
-                        state = RSS_PRE_PO
-                    else:
-                        state = RSS_UNCHECK
-
-                    c = RssPo.raw_sql(
+        c = RssPo.raw_sql(
 'insert into rss_po (user_id,rss_id,rss_uid,title,txt,link,state) values (%s,%s,%s,%s,%s,%s,%s,%s) on duplicate key update title=%s , txt=%s ',
 user_id, id, rss_uid, title, txt, link, state,
 title, txt
-                    )
-                    duplicator_rss.set_record(title_txt, c.lastrowid)
+        )
+        duplicator_rss.set_record(title_txt, c.lastrowid)
 
 
 def rss_subscribe(greader=None):
@@ -148,7 +166,7 @@ def duplicator_set_by_user_id(user_id):
     for i in ormiter(Po, 'user_id=%s and cid=%s'%(user_id, CID_NOTE)):
         title_txt = '%s\n%s'%(i.name_, i.txt)
         if duplicator_rss.txt_is_duplicate(title_txt):
-            print i.name_
+            #print i.name_
             continue
         duplicator_rss.set_record(title_txt, i.id)
 
@@ -160,5 +178,13 @@ def main():
 
 
 if __name__ == '__main__':
-    #main()
-    duplicator_set_by_user_id(10014854)
+    main()
+    #greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
+    #for i in greader.feed('feed/%s'%'http://feed.feedsky.com/whitecrow_blog'):
+    #    r = link_title_uid_txt(i)
+    #    if r:
+    #        link, title, rss_uid, txt = r
+    #        title_txt = '%s\n%s'%(title, txt)
+    #        if not duplicator_rss.txt_is_duplicate(title_txt):
+    #            print title 
+

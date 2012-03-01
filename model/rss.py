@@ -10,7 +10,6 @@ from model.mail import rendermail
 from model.user_mail import mail_by_user_id
 from model.zsite import Zsite
 from model.cid import CID_USER
-from zkit.bot_txt import txt_map
 
 RSS_UNCHECK = 0
 RSS_RM = 1
@@ -88,14 +87,6 @@ def get_rss_by_gid(gid, limit=1, offset=10):
 def rss_po_list_by_state(state, limit=1, offset=10):
     p = RssPo.raw_sql('select id,link,user_id,title,txt,pic_list,rss_id from rss_po where state = %s order by id desc limit %s offset %s', state, limit, offset).fetchall()
     return p
-
-
-
-
-def pre_br(txt):
-    r = txt.replace('\r\n', '\n').replace('\r', '\n').replace('\n\n', '\n').replace('\n', '<br>')
-    return r
-
 
 
 def mail_by_rss_id(rss_id):
