@@ -351,8 +351,6 @@ def po_tag_new_by_autocompelte(po, tag_list, cid=0):
 #    po_tag_id_list_new(po, tag_id_list, cid=cid)
 
 
-def po_tag_id_list_rm(po):
-
     
 def po_tag_id_list_new(po, tag_id_list, cid=0):
     cid = int(cid)
