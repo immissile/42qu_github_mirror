@@ -48,15 +48,15 @@ class RssRm(Base):
             pre.save()
         self.redirect('/rss/index')
 
-@urlmap('/rss_gid')
-@urlmap('/rss_gid/(\-?\d+)')
-@urlmap('/rss_gid/(\-?\d+)-(\d+)')
+@urlmap('/rss/gid')
+@urlmap('/rss/gid/(\-?\d+)')
+@urlmap('/rss/gid/(\-?\d+)-(\d+)')
 class RssGid(Base):
     def get(self, gid=0, n=1):
         gid = int(gid)
         total = rss_total_gid(gid)
         page, limit, offset = page_limit_offset(
-                '/rss_gid/%s-%%s'%gid,
+                '/rss/gid/%s-%%s'%gid,
                 total,
                 n,
                 PAGE_LIMIT
@@ -67,7 +67,7 @@ class RssGid(Base):
                 page=page
                 )
 
-@urlmap('/rss_gid/edit/(\d+)')
+@urlmap('/rss/gid/edit/(\d+)')
 class RssGidEdit(Base):
     def get(self, id):
         rss = Rss.mc_get(id)
@@ -131,7 +131,7 @@ def _rss_post_argument(self):
     return url , link , user_id , name , auto
 
 
-@urlmap('/rss_gid/rm/(\d+)')
+@urlmap('/rss/gid/rm/(\d+)')
 class RssGid(Base):
     def get(self, id):
         id = int(id)
@@ -144,7 +144,7 @@ class RssGid(Base):
             rss.gid = -rss.gid
             rss.save()
 
-        self.redirect('/rss_gid/1')
+        self.redirect('/rss/gid/1')
 
 
 @urlmap('/rss/edit')
