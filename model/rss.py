@@ -26,11 +26,11 @@ STATE_RSS_OK = 8
 
 
 STATE2CN = {
-        STATE_RSS_OK:'通过',
-        STATE_RSS_NEW:'新建',
-        STATE_RSS_EMAILD:'已经联系',
-        STATE_RSS_REJECT:'已经被拒绝'
-        }
+    STATE_RSS_OK:'通过',
+    STATE_RSS_NEW:'新建',
+    STATE_RSS_EMAILD:'已经联系',
+    STATE_RSS_REJECT:'已经被拒绝'
+}
 
 RSS_PO_ID_STATE_NOTAG = 0
 RSS_PO_ID_STATE_AUTOTAG = 10
@@ -56,6 +56,7 @@ def rss_link_by_po_id(id):
         rss_po = RssPo.mc_get(rss_po.id)
         if rss_po:
             return rss_po.link
+
 
 
 
