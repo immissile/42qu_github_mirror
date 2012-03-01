@@ -140,7 +140,7 @@ def po_post(self):
             '%s_%s' % (user_id, self_id)
         )
 
-    if tag_cid is not None:
+    if tag_cid:
         po_tag_id_new(po, zsite.id, cid)
 
     return po

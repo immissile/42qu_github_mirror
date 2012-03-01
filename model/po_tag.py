@@ -341,21 +341,21 @@ def tag_id_list_by_str_list(tag_list):
 def po_tag_new_by_autocompelte(po, tag_list, cid=0):
     return po_tag_id_list_new(po, tag_id_list_by_str_list(tag_list), cid)
 
-def po_tag_id_new(po, tag_id, cid):
-    if cid:
-        cid = int(cid)
-        if cid not in REDIS_REC_CID_DICT:
-            cid = 0
-    if not cid:
-        cid = REDIS_REC_CID_BUZZ 
-
-    po_id = po.id
-    
-    old_tag_id_list = set(tag_id_list_by_po_id(po_id))
-    old_tag_id_list.add(tag_id)
-    
-    po_tag_id_cid_new(po, old_tag_id_list, cid)
-    po_tag_id_list_new(po, tag_id_list, cid=cid)
+#def po_tag_id_new(po, tag_id, cid):
+#    if cid:
+#        cid = int(cid)
+#        if cid not in REDIS_REC_CID_DICT:
+#            cid = 0
+#    if not cid:
+#        cid = REDIS_REC_CID_BUZZ 
+#
+#    po_id = po.id
+#    
+#    old_tag_id_list = set(tag_id_list_by_po_id(po_id))
+#    old_tag_id_list.add(tag_id)
+#    
+#    po_tag_id_cid_new(po, old_tag_id_list, cid)
+#    po_tag_id_list_new(po, tag_id_list, cid=cid)
 
 
 
@@ -367,6 +367,9 @@ def po_tag_id_list_new(po, tag_id_list, cid=0):
 
     to_add = new_tag_id_list - old_tag_id_list
     to_rm = old_tag_id_list - new_tag_id_list
+
+     
+    po_tag_id_cid_new(po, old_tag_id_list - to_rm, cid)
 
     user_id = po.user_id
     _tag_rm_by_user_id_list(po, user_id, to_rm)
