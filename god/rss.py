@@ -8,15 +8,15 @@ from model.zsite import Zsite
 from model.site_sync import site_sync_rm, site_sync_new
 PAGE_LIMIT = 50
 
-@urlmap('/rss_index')
-@urlmap('/rss_index/(\d+)')
-@urlmap('/rss_index/(\d+)-(\-?\d+)')
+@urlmap('/rss/index')
+@urlmap('/rss/index/(\d+)')
+@urlmap('/rss/index/(\d+)-(\-?\d+)')
 class RssIndex(Base):
     def get(self, state=RSS_UNCHECK, n=1):
         total = rss_po_total(state)
 
         page, limit, offset = page_limit_offset(
-                 '/rss_index/%s-%%s'%state,
+                 '/rss/index/%s-%%s'%state,
                  total,
                  n,
                  PAGE_LIMIT
@@ -46,17 +46,17 @@ class RssRm(Base):
         if pre:
             pre.state = RSS_RM
             pre.save()
-        self.redirect('/rss_index')
+        self.redirect('/rss/index')
 
-@urlmap('/rss_gid')
-@urlmap('/rss_gid/(\-?\d+)')
-@urlmap('/rss_gid/(\-?\d+)-(\d+)')
+@urlmap('/rss/gid')
+@urlmap('/rss/gid/(\-?\d+)')
+@urlmap('/rss/gid/(\-?\d+)-(\d+)')
 class RssGid(Base):
     def get(self, gid=0, n=1):
         gid = int(gid)
         total = rss_total_gid(gid)
         page, limit, offset = page_limit_offset(
-                '/rss_gid/%s-%%s'%gid,
+                '/rss/gid/%s-%%s'%gid,
                 total,
                 n,
                 PAGE_LIMIT
@@ -67,7 +67,7 @@ class RssGid(Base):
                 page=page
                 )
 
-@urlmap('/rss_gid/edit/(\d+)')
+@urlmap('/rss/gid/edit/(\d+)')
 class RssGidEdit(Base):
     def get(self, id):
         rss = Rss.mc_get(id)
@@ -77,7 +77,7 @@ class RssGidEdit(Base):
 
     def post(self, id):
         rss = Rss.mc_get(id)
-        next = self.get_argument('next', None) or '/rss_index'
+        next = self.get_argument('next', None) or '/rss/index'
         url = self.get_argument('url', None)
         link = self.get_argument('link', None)
         user_id = self.get_argument('user_id', None)
@@ -107,7 +107,7 @@ class RssNew(Base):
         self.render('/god/rss/rss_gid_edit.htm', next=next)
 
     def post(self):
-        next = self.get_argument('next', None) or '/rss_index'
+        next = self.get_argument('next', None) or '/rss/index'
         url , link , user_id , name , auto = _rss_post_argument(self)
         if url and user_id:
             rss = rss_new(user_id, url, name, link, auto=1)
@@ -131,7 +131,7 @@ def _rss_post_argument(self):
     return url , link , user_id , name , auto
 
 
-@urlmap('/rss_gid/rm/(\d+)')
+@urlmap('/rss/gid/rm/(\d+)')
 class RssGid(Base):
     def get(self, id):
         id = int(id)
@@ -144,7 +144,7 @@ class RssGid(Base):
             rss.gid = -rss.gid
             rss.save()
 
-        self.redirect('/rss_gid/1')
+        self.redirect('/rss/gid/1')
 
 
 @urlmap('/rss/edit')
@@ -195,7 +195,7 @@ class RssPoEdit(Base):
         sync = self.get_argument('sync',None)
         po = RssPo.mc_get(id)
         po.txt = txt
-        next = self.get_argument('next', None) or '/rss_index'
+        next = self.get_argument('next', None) or '/rss/index'
         if rt:
             po.state = RSS_RT_PO
         else:
@@ -220,7 +220,7 @@ class RssMail(Base):
     def get(self, id):
         if id:
             mail_by_rss_id(id)
-        next = self.request.headers.get('Referer', None) or '/rss_index'
+        next = self.request.headers.get('Referer', None) or '/rss/index'
         self.redirect(next)
 
 
