@@ -65,6 +65,8 @@ def htm2po_by_po(pre):
     po.feed_new()
     if pre.state == RSS_RT_PO:
         po_show_new(po)
+    else:
+        po.feed_new()
 
     mc_flush(po, po.zsite_id)
 
