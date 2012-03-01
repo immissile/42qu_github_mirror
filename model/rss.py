@@ -4,7 +4,6 @@ from _db import Model, McModel, McCache
 from zkit.google.greader import Reader
 import json
 import sys
-from zkit.htm2txt import htm2txt, unescape
 from config import GREADER_USERNAME, GREADER_PASSWORD, ADMIN_MAIL
 import traceback
 from model.mail import rendermail
@@ -91,82 +90,12 @@ def rss_po_list_by_state(state, limit=1, offset=10):
     return p
 
 
-def unread_update(greader=None):
-    if greader is None:
-        greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
 
-    feeds = greader.unread_feed()
-
-    for feed in feeds:
-        try:
-            unread_feed_update(greader, feed)
-        except:
-            traceback.print_exc()
-            continue
-
-    greader.mark_as_read()
-
-def unread_feed_update(greader, feed):
-    rs = Rss.raw_sql('select id,user_id from rss where url = %s', feed[5:]).fetchone()
-    if rs:
-        id, user_id = rs
-
-        res = greader.unread(feed)
-        rss_feed_update(res, id , user_id)
 
 def pre_br(txt):
     r = txt.replace('\r\n', '\n').replace('\r', '\n').replace('\n\n', '\n').replace('\n', '<br>')
     return r
 
-def rss_feed_update(res, id, user_id, limit=None):
-    from zkit.rss.txttidy import txttidy
-    from tidylib import  tidy_fragment
-
-
-    rss = Rss.mc_get(id)
-    zsite = Zsite.mc_get(user_id)
-    for count , i in enumerate(res):
-        if limit:
-            if count > limit:
-                break
-        if 'alternate' in i:
-            link = i['alternate'][0]['href']
-        else:
-            link = ''
-        if 'title' in i:
-            title = i['title']
-        else:
-            title = zsite.name
-        rss_uid = i.get('id') or 1
-        snippet = i.get('summary') or i.get('content') or None
-
-        if snippet:
-            htm = snippet['content']
-            if htm:
-                htm = txttidy(htm)
-                htm = txt_map('<pre', '</pre>', htm, pre_br)
-                htm = tidy_fragment(htm, {'indent': 0})[0]
-                htm = htm.replace('<br />', '\n')
-#                print htm
-                txt = htm2txt(htm)
-
-                if txt:
-                    title = unescape(title)
-                    if rss.auto:
-                        state = RSS_PRE_PO
-                    else:
-                        state = RSS_UNCHECK
-
-                    c = RssPo.raw_sql('select title from rss_po where user_id=%s and rss_id=%s order by id desc limit 20', user_id, id)
-                    r = set([i[0] for i in c])
-                    if title in r:
-                        continue
-                    else:
-                        RssPo.raw_sql(
-                        'insert into rss_po (user_id,rss_id,rss_uid,title,txt,link,state) values (%s,%s,%s,%s,%s,%s,%s,%s) on duplicate key update title=%s , txt=%s ',
-                        user_id, id, rss_uid, title, txt, link,  state,
-                        title, txt
-                        )
 
 
 def mail_by_rss_id(rss_id):
