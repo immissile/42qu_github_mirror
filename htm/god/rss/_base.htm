@@ -9,8 +9,8 @@ from model.rss import rss_po_total, RSS_UNCHECK,Rss,RSS_RM,RSS_POED,RSS_RT_PO,RS
 <%
 max_id = Rss.max_id()
 %>
-<a class="cola" href="/">返回后台</a>
-
+<a class="cola tc" href="/">返回后台</a>
+<div class="mt14">
 <p class="coltitle">文章</p>
 <a class="cola" href="/rss_index?${max_id}">未审核</a>
 <a class="cola" href="/rss_index/${RSS_PRE_PO}?${max_id}">已审核</a>
@@ -23,4 +23,8 @@ max_id = Rss.max_id()
 <a class="cola" href="/rss_gid/1">已订阅</a>
 <a class="cola" href="/rss_gid/-1">被删除</a>
 <a class="cola" href="/rss/new">添加RSS</a>
+</div>
 </%def>
+
+${next.body()}
+
