@@ -30,7 +30,7 @@ def htm2po_by_po(pre):
     else:
         group_id = pre.site_id
 
-    rp = RssPoId.get(pre.id)
+    rp = RssPoId.get(rss_po_id=pre.id)
     if rp:
         po = Po.mc_get(rp.po_id)
         if po:

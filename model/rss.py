@@ -23,6 +23,8 @@ STATE_RSS_EMAILD = 6
 STATE_RSS_REJECT = 7
 STATE_RSS_OK = 8
 
+
+
 STATE2CN = {
         STATE_RSS_OK:'通过',
         STATE_RSS_NEW:'新建',
@@ -43,7 +45,7 @@ class RssUpdate(McModel):
     pass
 
 def rss_po_id(rss_po_id, po_id):
-    RssPoId.raw_sql('insert into rss_po_id (id, po_id, state) values (%s, %s, 0)', rss_po_id, po_id)
+    RssPoId.raw_sql('insert into rss_po_id (rss_id, po_id, state) values (%s, %s, 0)', rss_po_id, po_id)
 
 mc_rss_link_by_po_id = McCache('RssLinkByPoId:%s')
 
