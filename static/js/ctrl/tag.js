@@ -137,6 +137,7 @@ function click_sets(){
 }
 
 function pop_manage(){
+    if(!islogin())return;
     var fancybox = $.fancybox
     fancybox.showActivity()
     fancybox({
