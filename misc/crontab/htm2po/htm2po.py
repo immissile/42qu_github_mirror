@@ -8,7 +8,7 @@ from zkit.htm2txt import htm2txt
 from model.po import po_note_new, Po
 from model.po_pic import po_pic_new
 from model.state import STATE_RM, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
-from model.rss import rss_po_id, RSS_RT_PO, RssPoId
+from model.rss import rss_po_id_new, RSS_RT_PO, RssPoId
 from model.po_show import po_show_new
 from model.zsite import Zsite
 from model.cid import CID_SITE
@@ -46,7 +46,7 @@ def htm2po_by_po(pre):
     po_id = po.id
 
     if not rp:
-        rss_po_id(pre.id, po_id)
+        rss_po_id_new(zsite, pre.id, po_id)
 
     txt = txt_img_fetch(txt)
 

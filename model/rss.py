@@ -32,20 +32,17 @@ STATE2CN = {
         STATE_RSS_REJECT:'已经被拒绝'
         }
 
-class Rss(McModel):
-    pass
-
-class RssPo(McModel):
-    pass
+RSS_PO_ID_STATE_NOTAG = 0
 
 class RssPoId(McModel):
     pass
 
-class RssUpdate(McModel):
-    pass
-
-def rss_po_id(rss_po_id, po_id):
-    RssPoId.raw_sql('insert into rss_po_id (rss_id, po_id, state) values (%s, %s, 0)', rss_po_id, po_id)
+def rss_po_id_new(user, rss_po_id, po_id):
+    RssPoId.raw_sql(
+        'insert into rss_po_id (rss_po_id, po_id, user_id, user_cid, state) '\
+        'values (%s, %s, %s, %s, %s)', 
+        rss_po_id, po_id,  user.id, user.cid, RSS_PO_ID_STATE_NOTAG,
+    )
 
 mc_rss_link_by_po_id = McCache('RssLinkByPoId:%s')
 
@@ -56,6 +53,18 @@ def rss_link_by_po_id(id):
         rss_po = RssPo.mc_get(rss_po.id)
         if rss_po:
             return rss_po.link
+
+
+
+class Rss(McModel):
+    pass
+
+class RssPo(McModel):
+    pass
+
+
+class RssUpdate(McModel):
+    pass
 
 def rss_po_total(state):
     return RssPo.where(state=state).count()
