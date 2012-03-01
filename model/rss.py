@@ -59,7 +59,6 @@ def rss_link_by_po_id(id):
 
 
 
-
 class Rss(McModel):
     pass
 
