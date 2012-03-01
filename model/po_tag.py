@@ -87,7 +87,7 @@ def po_score(po):
 #def section_rank_refresh(po):
 
 
-def zsite_tag_po_new(zsite_id, po, cid, rank=1):
+def _zsite_tag_po_new(zsite_id, po, cid, rank=1):
     po_id = po.id
 
     tag_po = PoZsiteTag.get_or_create(po_id=po_id, cid=po.cid, zsite_id=zsite_id)
@@ -104,7 +104,6 @@ def zsite_tag_po_new(zsite_id, po, cid, rank=1):
             user_rank.save()
 
     mc_flush(zsite_id, po_id)
-    cid = int(cid)
 
     rec_read_new(po_id, zsite_id)
     if cid in REDIS_REC_CID_DICT:
@@ -118,8 +117,6 @@ def zsite_tag_po_new(zsite_id, po, cid, rank=1):
         key = REDIS_TAG_CID_COUNT%zsite_id
         p.hincrby(key, cid, 1)
 
-        #将po放在相应的po_id=>cid中
-        p.hset(REDIS_PO_ID2TAG_CID, po_id, cid)
         p.execute()
 
     return tag_po
@@ -292,28 +289,24 @@ def _tag_rm_by_user_id_list(po, user_id, id_list):
                 p.zrem(key, po_id)
         p.execute()
 
-def po_tag_id_cid_new(po, tag_id_list, cid):
+def _po_tag_id_cid_new(po, tag_id_list, cid):
     po_id = po.id
     old_cid = tag_cid_by_po_id(po_id)
 
     set_cid = False
     if old_cid:
         if old_cid != cid:
-            set_cid = True
             score = po_score(po)
 
             p = redis.pipeline()
             for tag_id in tag_id_list:
                 old_key = REDIS_TAG_CID%(tag_id, old_cid)
-                new_key = REDIS_TAG_CID%(tag_id, cid)
                 p.zrem(old_key, po_id)
-                p.zadd(new_key, po_id, score)
+                if cid in REDIS_REC_CID_DICT:
+                    new_key = REDIS_TAG_CID%(tag_id, cid)
+                    p.zadd(new_key, po_id, score)
             p.execute()
-    else:
-        set_cid = True
 
-    if set_cid:
-        old_cid = tag_cid_by_po_id(po_id)
 
 @mc_tag_id_list_by_po_id('{po_id}')
 def tag_id_list_by_po_id(po_id):
@@ -358,9 +351,12 @@ def po_tag_new_by_autocompelte(po, tag_list, cid=0):
 #    po_tag_id_list_new(po, tag_id_list, cid=cid)
 
 
+def po_tag_id_list_rm(po):
 
-
+    
 def po_tag_id_list_new(po, tag_id_list, cid=0):
+    cid = int(cid)
+
     po_id = po.id
     new_tag_id_list = set(map(int, tag_id_list))
     old_tag_id_list = set(tag_id_list_by_po_id(po_id))
@@ -369,14 +365,17 @@ def po_tag_id_list_new(po, tag_id_list, cid=0):
     to_rm = old_tag_id_list - new_tag_id_list
 
      
-    po_tag_id_cid_new(po, old_tag_id_list - to_rm, cid)
+    _po_tag_id_cid_new(po, old_tag_id_list - to_rm, cid)
 
     user_id = po.user_id
     _tag_rm_by_user_id_list(po, user_id, to_rm)
 
     for tag_id in to_add:
-        zsite_tag_po_new(tag_id, po, cid)
+        _zsite_tag_po_new(tag_id, po, cid)
 
+    if cid:
+        #将po放在相应的po_id=>cid中
+        redis.hset(REDIS_PO_ID2TAG_CID, po_id, cid)
 
 
 def tag_cid_count(tag_id, cid=None):
