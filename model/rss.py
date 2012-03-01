@@ -39,7 +39,7 @@ class RssPoId(McModel):
 
 def rss_po_id_new(user, rss_po_id, po_id):
     RssPoId.raw_sql(
-        'insert into rss_po_id (rss_po_id, po_id, user_id, user_cid, state) '\
+        'insert delayed into rss_po_id (rss_po_id, po_id, user_id, user_cid, state) '\
         'values (%s, %s, %s, %s, %s)', 
         rss_po_id, po_id,  user.id, user.cid, RSS_PO_ID_STATE_NOTAG,
     )
