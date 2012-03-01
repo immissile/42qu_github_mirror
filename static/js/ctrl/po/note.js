@@ -35,5 +35,14 @@ $(function(){
     $("#txt").bind("keydown",insertTab);
 })
 
-
+$(function(){
+    autocomplete_tag('#search', [['减肥',10226353]], 0)
+/*    var txt = $('#txt'),txt_height = txt.height()
+    $('#token-input-search').focus(function(){
+        txt.height(txt_height-250)
+    }).blur(function(){
+        txt.height(txt_height)
+    })
+*/
+})
 

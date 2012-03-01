@@ -178,9 +178,11 @@ class PoBase(LoginBase):
 
 @urlmap('/po/note')
 class PoNote(PoBase):
-    cid = CID_NOTE
-    po_save = staticmethod(po_note_new)
-
+##    cid = CID_NOTE
+##    po_save = staticmethod(po_note_new)
+    def get(self):
+       self.render("/ctrl/zsite/po/po_txt.htm")
+ 
 
 @urlmap('/po/question')
 class PoQuestion(PoBase):

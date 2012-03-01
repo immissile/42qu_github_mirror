@@ -157,4 +157,17 @@ function pop_manage(){
         'overlayShow':false
     })
 }
-
+function sns_share(){
+    var fancybox = $.fancybox
+    fancybox({
+        content:'<div class="pop_share"><p class="share_title">分享到 · · ·</p></div>',
+        onComplete:function(){
+            var url = location.href,
+            title = document.title,
+            urls = [["http://www.douban.com/recommend/?url=","豆瓣","2"],["http://share.renren.com/share/buttonshare.do?link=","人人","9"],["http://v.t.sina.com.cn/share/share.php?url=","新浪","3"],["http://share.v.t.qq.com/index.php?c=share&a=index&url=","腾讯",8]] 
+            for(var i=0;i<urls.length;++i){
+                $('.pop_share').append('<a class="share_a" href='+urls[i][0]+url+'&title='+title+' target="_blank"><img src="http://s.realfex.xxx/img/ico/oauth/'+urls[i][2]+'.ico" class="share_img" />'+urls[i][1]+'</a>')
+            }
+        }
+    })
+}

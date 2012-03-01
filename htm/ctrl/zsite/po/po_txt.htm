@@ -1,0 +1,130 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/ctrl/zsite/_util/event.htm" import="event_admin_nav"/>
+
+<%def name="htm_head()">
+${css.ctrl_zsite_com|n}
+<script src="${js.ctrl_po_note}"></script>
+</%def>
+
+<style>
+.com_wrap{
+margin-top:40px;
+}
+.com_main{
+padding:0;
+width:608px;
+}
+.com_side{
+width:297px;
+padding-left:40px;
+}
+#name{
+background:#FeFeFF;
+}
+#txt{
+background:#FeFeFF;
+font-family:Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;
+}
+#txt,#name{
+margin:auto;
+display:block;
+padding:7px;
+width:594px;
+border:0;
+color:#444;
+}
+#name{
+font-size:16px;
+margin:0 auto;
+padding:14px 7px;
+height:19px;
+text-align:center;
+padding-top:9px\9;
+padding-bottom:16px\9;
+}
+#txt{
+height:350px;
+border-top:1px #f3f3f3 solid;
+box-shadow:2px 0 2px #F3F3F3
+}
+ul.token-input-list{
+width:287px;
+border:1px solid #f3f3f3;
+margin-bottom:22px;
+}
+li.token-input-token{
+line-height:34px;
+}
+div.token-input-dropdown{
+width:287px;
+}
+ul.token-input-list li p{
+color:#666;
+}
+select{
+text-align:center;
+padding:10px;
+height:43px;
+border:1px solid #f3f3f3;
+margin-right:32px;
+color:#666;
+font-size:14px;
+width:128px;
+}
+.add_pic{
+width:124px;
+display:inline-block;
+text-align:center;
+font-size:14px;
+border:1px solid #f3f3f3;
+height:26px;
+padding:7px 0;
+line-height:26px;
+}
+.po_btn{
+background: -moz-linear-gradient(center top , #FCFCFF, #F6F6FF) repeat scroll 0 0 transparent;
+border: 1px solid #E0E0E0;
+box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 0 rgba(150, 150, 255, 0.1);
+color: #666666 !important;
+display: inline-block;
+font-size: 14px;
+padding: 3px 14px;
+text-shadow: 0 1px 0 #FFFFFF;
+width:259px;
+vertical-align:3px;
+text-align:center;
+height:42px;
+line-height:42px;
+margin-bottom:22px;
+filter:progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff',EndColorStr='#f3f3f3');
+background-image:-webkit-gradient(linear,0 0,0 100%,from(#fff),to(#f3f3f3));
+}
+.po_btn:active{
+box-shadow:0 1px 2px rgba(0, 0, 0, 0.3) inset;
+}
+
+</style>
+
+<div class="com_wrap">
+<div class="com_main">
+<input id="name" type="text" autocomplete="off" name="name" >\
+<textarea id="txt" name="txt"></textarea>
+</div>
+</div>
+
+<div class="com_side">
+<a class="po_btn" href="javascript:void(0)">发布</a>
+<input type="text" style="color:#999" placeholder="搜索此话题下内容 ..." name="q" id="search" autocomplete="off">\
+
+<select name="tag_cid"> <option value="0" selected="selected">- 类别 -</option>
+ <option value="-1">仅自己可见</option>
+ <option value="1">新闻 / 快讯</option>
+ <option value="2">观察 / 思考</option>
+ <option value="3">问题 / 讨论</option>
+ <option value="4">人物 / 对话</option>
+ <option value="5">资料 / 知识</option>
+ <option value="6">碎语 / 片段</option>
+</select>
+<a class="add_pic" href="javascript:void(0)">添加图片</a>
+</div>
