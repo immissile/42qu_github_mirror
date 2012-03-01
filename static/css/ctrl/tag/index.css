@@ -293,6 +293,10 @@ font-size:12px;
 border:1px solid #ccc;
 margin-top:-1px;
 }
+.pop_link:hover{
+background:#f9f9ff;
+color:#000;
+}
 .pop_block{
 position:absolute;
 background:#fff;
@@ -328,7 +332,7 @@ padding:16px;
 .pop_title{
 font-size:16px;
 color:#444;
-margin:0 0 16px 8px;
+margin:0 0 16px 0;
 }
 .pop_txt{
 border:1px dotted #ccc;

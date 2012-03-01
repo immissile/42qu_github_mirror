@@ -140,14 +140,15 @@ function pop_manage(){
     var fancybox = $.fancybox
     fancybox.showActivity()
     fancybox({
-        content:'<div class="pop_wrap"><div class="pop_title">请填写你在该领域的经验</div><textarea class="pop_txt"></textarea><a class="pop_submit_a" href="javascript:void(0)">提交</a></div>',
+        content:'<div class="pop_wrap"><div class="pop_title">描述你在该领域的经验 , 审核后将开通管理权限</div><textarea id="pop_txt" class="pop_txt"></textarea><a class="pop_submit_a" href="javascript:void(0)">提交</a></div>',
         onComplete:function(){
-            $('.pop_txt').focus()
+            var pop_txt = $('#pop_txt')
+            pop_txt.focus()
             $('.pop_submit_a').click(function(){
                 $.post(
-                    '/j/tag_manage',
+                    '/j/tag/manage/apply',
                     {
-                        content:$('.pop_txt').val()
+                        content:pop_txt.val()
                     },
                     function(){fancybox.close()}
                 )
