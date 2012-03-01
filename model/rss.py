@@ -148,9 +148,8 @@ def rss_feed_update(res, id, user_id, limit=None):
                 htm = tidy_fragment(htm, {'indent': 0})[0]
                 htm = htm.replace('<br />', '\n')
 #                print htm
-                txt, pic_list = htm2txt(htm), ''
+                txt = htm2txt(htm)
 
-                pic_list = json.dumps(pic_list)
                 if txt:
                     title = unescape(title)
                     if rss.auto:
@@ -164,9 +163,9 @@ def rss_feed_update(res, id, user_id, limit=None):
                         continue
                     else:
                         RssPo.raw_sql(
-                        'insert into rss_po (user_id,rss_id,rss_uid,title,txt,link,pic_list,state) values (%s,%s,%s,%s,%s,%s,%s,%s) on duplicate key update title=%s , txt=%s , pic_list=%s',
-                        user_id, id, rss_uid, title, txt, link, pic_list, state,
-                        title, txt, pic_list
+                        'insert into rss_po (user_id,rss_id,rss_uid,title,txt,link,state) values (%s,%s,%s,%s,%s,%s,%s,%s) on duplicate key update title=%s , txt=%s ',
+                        user_id, id, rss_uid, title, txt, link,  state,
+                        title, txt
                         )
 
 
