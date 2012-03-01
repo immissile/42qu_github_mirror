@@ -74,6 +74,7 @@ def po_score_incr(po, user_id, score=1):
                 redis.zadd(key, po_id, po_score(po))
 
 def po_score(po):
+    po_id = po.id
     score = int(redis.hget(REDIS_REC_PO_SCORE, po_id)) 
     return hot(score, 0, po.create_time)
     
