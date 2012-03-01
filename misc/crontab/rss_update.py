@@ -12,6 +12,7 @@ from model.duplicate import Duplicator
 from zweb.orm import ormiter
 from model.po import Po, CID_NOTE
 from zkit.bot_txt import txt_map
+import traceback
 
 def pre_br(txt):
     r = txt.replace('\r\n', '\n').replace('\r', '\n').replace('\n\n', '\n').replace('\n', '<br>')
@@ -97,7 +98,7 @@ def rss_feed_update(res, id, user_id, limit=None):
             state = RSS_UNCHECK
 
         c = RssPo.raw_sql(
-'insert into rss_po (user_id,rss_id,rss_uid,title,txt,link,state) values (%s,%s,%s,%s,%s,%s,%s,%s) on duplicate key update title=%s , txt=%s ',
+'insert into rss_po (user_id,rss_id,rss_uid,title,txt,link,state) values (%s,%s,%s,%s,%s,%s,%s) on duplicate key update title=%s , txt=%s ',
 user_id, id, rss_uid, title, txt, link, state,
 title, txt
         )
