@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import _env
-from model.rss import rss_subscribe, Rss, Zsite, RSS_PRE_PO, RSS_UNCHECK, RssPo
+from model.rss import  Rss, Zsite, RSS_PRE_PO, RSS_UNCHECK, RssPo
 from zkit.single_process import single_process
 from zkit.google.greader import Reader
-from config import GREADER_USERNAME, GREADER_PASSWORD, 
+from config import GREADER_USERNAME, GREADER_PASSWORD , DUMPLICATE_DB_PREFIX
 from zkit.rss.txttidy import txttidy
 from tidylib import  tidy_fragment
 from zkit.htm2txt import htm2txt, unescape
 from model.duplicate import Duplicator
+from zweb.orm import ormiter
+from model.po import Po, CID_NOTE
 
 duplicator_rss = Duplicator(DUMPLICATE_DB_PREFIX%'rss')
 
@@ -66,10 +68,10 @@ def rss_feed_update(res, id, user_id, limit=None):
 
                 if txt:
                     title = unescape(title)
-                    
-                    title_txt"%s\n%s"%(title, txt)
+
+                    title_txt = '%s\n%s'%(title, txt)
                     if duplicator_rss.txt_is_duplicate(title_txt):
-                        continue 
+                        continue
 
                     if rss.auto:
                         state = RSS_PRE_PO
@@ -78,7 +80,7 @@ def rss_feed_update(res, id, user_id, limit=None):
 
                     c = RssPo.raw_sql(
 'insert into rss_po (user_id,rss_id,rss_uid,title,txt,link,state) values (%s,%s,%s,%s,%s,%s,%s,%s) on duplicate key update title=%s , txt=%s ',
-user_id, id, rss_uid, title, txt, link,  state,
+user_id, id, rss_uid, title, txt, link, state,
 title, txt
                     )
                     duplicator_rss.set_record(title_txt, c.lastrowid)
@@ -124,7 +126,9 @@ def rss_subscribe(greader=None):
                 i.save()
                 #print i.url
                 feed = 'feed/%s'%i.url
-                rss_feed_update(greader.feed(feed), i.id, i.user_id, 1024)
+                user_id = i.user_id
+                duplicator_set_by_user_id(user_id)
+                rss_feed_update(greader.feed(feed), i.id, user_id, 1024)
                 greader.mark_as_read(feed)
             except:
                 traceback.print_exc()
@@ -138,7 +142,15 @@ def rss_subscribe(greader=None):
         #print "unsubscribe",i.url
         i.delete()
 
-
+def duplicator_set_by_user_id(user_id):
+    if not user_id:
+        return
+    for i in ormiter(Po, 'user_id=%s and cid=%s'%(user_id, CID_NOTE)):
+        title_txt = '%s\n%s'%(i.name_, i.txt)
+        if duplicator_rss.txt_is_duplicate(title_txt):
+            print i.name_
+            continue
+        duplicator_rss.set_record(title_txt, i.id)
 
 @single_process
 def main():
@@ -148,4 +160,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    #main()
+    duplicator_set_by_user_id(10014854)
