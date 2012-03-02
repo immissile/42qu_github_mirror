@@ -35,10 +35,12 @@ ${i.name}
 </div>
     %for rss in Rss.where(user_id=i.id):
 <div>
-${rss.id}
 <div>
-<a class="R" href="/rss/gid/${rss.id}">删除</a>
-<a target="_blank" href="/rss/edit/${rss.id}">${rss.name or 'Blog'}</a>
+${rss.id} <a target="_blank" href="/rss_gid/edit/${rss.id}">编辑</a>
+</div>
+<div>
+<a class="R" target="_blank" href="/rss/gid/${rss.id}">删除</a>
+${rss.name or 'Blog'}
 </div>
 <div style="font-size:11px">
 <a target="_blank" href="${rss.link or rss.url}">${rss.url}</a>
