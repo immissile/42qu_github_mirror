@@ -36,11 +36,11 @@ with open('ucd.csv') as ucd:
                         feed_import_user_new(user_id, i.id)
 
                     #    print i.title
-                    print zsite.id, zsite.name, 'http:'+zsite.link
+                    print count , zsite.id
+                    print zsite.name, 'http:'+zsite.link
                     print u.name , u.link
                     print t[-3]
                     count += 1
-                    #print count , zsite.id
                     print ''
                     #u.user_id = zsite.id
                     #u.save()
