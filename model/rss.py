@@ -204,6 +204,7 @@ def rss_subscribe(greader=None):
 
         url = i.url.strip()
 
+        #print url
         if not all((i.link, i.url, i.name)):
             rss, link, name = get_rss_link_title_by_url(url)
 
