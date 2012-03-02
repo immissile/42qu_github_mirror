@@ -19,7 +19,11 @@ width:80%;padding:7px;height:28px;margin-top:12px;
 }
 </style>
 </%def>
-
+%if success:
+<div class="tc" style="padding:27px;border:1px solid #eee">
+导入成功 !
+</div>
+%endif
 
 %if user_list_not_exist:
 <div style="border: 1px solid #000; padding: 7px; margin: 14px;">

@@ -265,14 +265,23 @@ class RssBind(Base):
         name = ''
         auto = 1
 
+        user_list_exist = []
         for txt, id in zip(arguments.get('txt'), arguments.get('id')):
+            user_id = int(id)
+
             for url in txt.splitlines():
                 url = url.strip()
-                user_id = int(id)
                 rss = rss_new(user_id, url, name, link, auto)
 
-        self.finish('{}')
-
-
-
+            user_list_exist.append(user_id)
+ 
+        if user_list_exist:
+            self.render(
+                '/god/rss/rss_add.htm',
+                user_list_exist=Zsite.mc_get_list(user_list_exist),
+                user_list_not_exist=[],
+                success = True
+            )
+        else:
+            self.rediect("/rss/add")
 
