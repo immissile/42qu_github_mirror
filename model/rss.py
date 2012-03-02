@@ -26,11 +26,11 @@ STATE_RSS_REJECT = 7
 STATE_RSS_OK = 8
 
 STATE2CN = {
-        STATE_RSS_OK:'通过',
-        STATE_RSS_NEW:'新建',
-        STATE_RSS_EMAILD:'已经联系',
-        STATE_RSS_REJECT:'已经被拒绝'
-        }
+    STATE_RSS_OK:'通过',
+    STATE_RSS_NEW:'新建',
+    STATE_RSS_EMAILD:'已经联系',
+    STATE_RSS_REJECT:'已经被拒绝'
+}
 
 class Rss(McModel):
     pass

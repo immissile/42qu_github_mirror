@@ -138,7 +138,6 @@ CREATE TABLE `rss_po` (
   `txt` mediumblob NOT NULL,
   `state` int(10) unsigned NOT NULL,
   `link` varbinary(1000) NOT NULL,
-  `pic_list` blob NOT NULL,
   `site_id` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `Index_3` (`rss_uid`) USING BTREE,
