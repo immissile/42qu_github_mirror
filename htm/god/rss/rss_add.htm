@@ -5,6 +5,9 @@ from model.rss import Rss
 <%inherit file="/god/_base.htm" />
 <%def name="htm_head()">
 <style>
+.col1 .rss_name{
+color:#000;
+}
 .title{
 display:block;border-bottom:1px solid #eee;padding:7px;margin-bottom:7px
 }
@@ -40,10 +43,12 @@ ${rss.id} <a target="_blank" href="/rss_gid/edit/${rss.id}">编辑</a>
 </div>
 <div>
 <a class="R" target="_blank" href="/rss/gid/${rss.id}">删除</a>
-${rss.name or 'Blog'}
+<div>
+    %if rss.link:
+<a target="_blank" href="${rss.link or rss.url}" class="rss_name">${rss.name or 'Blog'}</a>
+    %endif 
+<a target="_blank" href="${rss.url}">${rss.url}</a>
 </div>
-<div style="font-size:11px">
-<a target="_blank" href="${rss.link or rss.url}">${rss.url}</a>
 </div>
 </div>
     %endfor
