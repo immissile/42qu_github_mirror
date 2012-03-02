@@ -2,7 +2,7 @@
 from model.zsite import Zsite
 from model.rss import RssUpdate, STATE2CN, STATE_RSS_NEW, rss_update_new
 %>
-<%inherit file="_base.htm" />
+<%inherit file="/god/_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="htm_head()">
 </%def>
@@ -32,11 +32,11 @@ else:
         </div>
     </div>
     <div>
-        <a href="/rss/gid/edit/${id}">编辑</a>
+        <a href="/rss_gid/edit/${id}">编辑</a>
     </div>
 %endif
     <div class="tr">
-        <a href="/rss/gid/rm/${id}">删除</a>
+        <a href="/rss_gid/rm/${id}">删除</a>
     </div>
     %if state == STATE_RSS_NEW:
         <a href="/rss/mail/${id}">发邮件</a>

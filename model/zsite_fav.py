@@ -5,36 +5,31 @@ from model.zsite import Zsite
 from model.buzz import mq_buzz_site_fav
 from model.cid import CID_TAG
 from model.autocomplete import autocomplete_tag
-from model.rec_read import rec_read_user_topic_score_fav , rec_read_user_topic_score_fav_rm 
 
 def zsite_fav_rm(zsite, owner_id):
     fav = zsite_fav_get(zsite, owner_id)
     if fav and fav.state <= STATE_ACTIVE:
-        zsite_id = zsite.id
-        cid = zsite.cid
         zsite_list_rm(
-            zsite_id,
+            zsite.id,
             owner_id,
-            cid
+            zsite.cid
         )
-        if cid == CID_TAG:
-            rec_read_user_topic_score_fav_rm(owner_id, zsite_id)
 
 def zsite_fav_new(zsite, owner_id):
     if zsite_fav_get(zsite, owner_id):
         return
 
-    zsite_id = zsite.id
-    cid = zsite.cid
-
-    if cid == CID_TAG:
-        rec_read_user_topic_score_fav(owner_id, zsite_id)
+    #TODO: 在将标签数据导入redis后使用
+    '''
+    if zsite.cid == CID_TAG:
         #tag_tag.tag_fav(zsite.cid)
+    '''
 
+    zsite_id = zsite.id
     zsite = zsite_list_new(
         zsite_id,
         owner_id,
-        cid,
+        zsite.cid,
         1,
         STATE_ACTIVE
     )

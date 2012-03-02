@@ -16,10 +16,8 @@ from cgi import escape
 <script src="${js.ctrl_render_item}"></script>
 ${css.ctrl_zsite_com|n}
 ${css.ctrl_hero|n}
-${css.ctrl_index|n}
 ${css.ctrl_tag_index|n}
 ${css.ctrl_tag_side|n}
-
 </%def>
 
 
@@ -54,13 +52,10 @@ txt = motto_get(zsite.id)
 关注\
             %endif
 </a>\
-<a class="xa" href="/po/note">投递</a>\
-<a class="xa" href="javascript:void(0)">分享</a>\
+<a class="xa" href="javascript:void(0)">投递</a>\
+<a class="xa" href="javascript:void(0)">提问</a>\
 </span>\
-<a class="xa xatagset" href="javascript:click_sets();void(0)"><span></span></a>\
-            <div class="pop_block">
-                <a href="javascript:pop_manage();void(0)" class="pop_link">管理此标签</a>
-            </div>
+<a class="xa xatagset" href="javascript:void(0)"><span></span></a>\
         </div>
 
 
@@ -71,10 +66,9 @@ txt = motto_get(zsite.id)
         <div class="tag_author_list">
 
 <%
-#from model.zsite_json import zsite_json
-#site_list = zsite_json(current_user_id, [current_user]) 
-site_list = tag_author_list(zsite_id)
-
+from model.zsite_json import zsite_json
+site_list = zsite_json(current_user_id, [current_user]) 
+#site_list = tag_author_list(zsite_id)
 %>
         %if site_list:
         <script type="text/x-json" id="site_data">

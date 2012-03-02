@@ -530,30 +530,26 @@ background-position:-21px 9px;
 height: 387px;
 width: 474px;
 }
-
-
-.faving{
+#feeds .fav, #feeds .fav:hover , #feeds .faving,  #feeds .faved{
+padding:0;
+display:inline-block;
+background:url(/img/png/star.png) no-repeat scroll -2px -15px;
+display: inline-block;
+height: 15px;
+vertical-align: -2px;
+width: 18px;
+}
+#feeds .fav:hover{
+background-position:-2px 1px;
+}
+#feeds .faved{
+background-position:-2px -31px;
+}
+#feeds .faved:hover{
+background-position:-2px -47px;
+}
+#feeds .faving{
 background:url(/img/gif/loading12.gif) no-repeat 0 1px;
 }
 
-.fav, .faved, .fav:hover, .faving{
-background:url(/img/png/star.png) no-repeat -2px -15px;
-display: inline-block;
-height: 15px;
-padding: 0;
-vertical-align: -2px;
-width: 14px;
-}
-.fav:hover{
-background-position:-2px 1px;
-padding-right:0;
-}
-.faved{
-background-position:-2px -31px;
-}
-.faved:hover{
-background-position:-2px -47px;
-}
-#feeds .fdopt{
-padding-left:2px;
-}
+

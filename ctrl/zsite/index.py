@@ -86,7 +86,7 @@ def render_tag_site(self, n=1):
     zsite_id = self.zsite_id
     current_user_id = self.current_user_id
 
-    limit = 5 
+    limit = 3
     tag_cid_json_list = []
 
     for cid, count in tag_cid_count(zsite_id):
@@ -108,7 +108,8 @@ page
 
     self.render(
 '/ctrl/zsite/index/tag.htm',
-tag_cid_json_list = json_encode(tag_cid_json_list)
+tag_cid_json_list = json_encode(tag_cid_json_list),
+
     )
 #    zsite = self.zsite
 #    zsite_id = zsite.id

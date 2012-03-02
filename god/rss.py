@@ -6,17 +6,21 @@ from model.rss import rss_po_list_by_state, RssPo, RSS_UNCHECK, RSS_PRE_PO, RSS_
 from zkit.page import page_limit_offset
 from model.zsite import Zsite
 from model.site_sync import site_sync_rm, site_sync_new
+from model.zsite import zsite_by_query, Zsite
+from zkit.algorithm.unique import unique
+from urlparse import parse_qs, urlparse
+
 PAGE_LIMIT = 50
 
-@urlmap('/rss/index')
-@urlmap('/rss/index/(\d+)')
-@urlmap('/rss/index/(\d+)-(\-?\d+)')
+@urlmap('/rss_index')
+@urlmap('/rss_index/(\d+)')
+@urlmap('/rss_index/(\d+)-(\-?\d+)')
 class RssIndex(Base):
     def get(self, state=RSS_UNCHECK, n=1):
         total = rss_po_total(state)
 
         page, limit, offset = page_limit_offset(
-                 '/rss/index/%s-%%s'%state,
+                 '/rss_index/%s-%%s'%state,
                  total,
                  n,
                  PAGE_LIMIT
@@ -46,17 +50,17 @@ class RssRm(Base):
         if pre:
             pre.state = RSS_RM
             pre.save()
-        self.redirect('/rss/index')
+        self.redirect('/rss_index')
 
-@urlmap('/rss/gid')
-@urlmap('/rss/gid/(\-?\d+)')
-@urlmap('/rss/gid/(\-?\d+)-(\d+)')
+@urlmap('/rss_gid')
+@urlmap('/rss_gid/(\-?\d+)')
+@urlmap('/rss_gid/(\-?\d+)-(\d+)')
 class RssGid(Base):
     def get(self, gid=0, n=1):
         gid = int(gid)
         total = rss_total_gid(gid)
         page, limit, offset = page_limit_offset(
-                '/rss/gid/%s-%%s'%gid,
+                '/rss_gid/%s-%%s'%gid,
                 total,
                 n,
                 PAGE_LIMIT
@@ -67,7 +71,7 @@ class RssGid(Base):
                 page=page
                 )
 
-@urlmap('/rss/gid/edit/(\d+)')
+@urlmap('/rss_gid/edit/(\d+)')
 class RssGidEdit(Base):
     def get(self, id):
         rss = Rss.mc_get(id)
@@ -77,7 +81,7 @@ class RssGidEdit(Base):
 
     def post(self, id):
         rss = Rss.mc_get(id)
-        next = self.get_argument('next', None) or '/rss/index'
+        next = self.get_argument('next', None) or '/rss_index'
         url = self.get_argument('url', None)
         link = self.get_argument('link', None)
         user_id = self.get_argument('user_id', None)
@@ -107,7 +111,7 @@ class RssNew(Base):
         self.render('/god/rss/rss_gid_edit.htm', next=next)
 
     def post(self):
-        next = self.get_argument('next', None) or '/rss/index'
+        next = self.get_argument('next', None) or '/rss_index'
         url , link , user_id , name , auto = _rss_post_argument(self)
         if url and user_id:
             rss = rss_new(user_id, url, name, link, auto=1)
@@ -131,7 +135,7 @@ def _rss_post_argument(self):
     return url , link , user_id , name , auto
 
 
-@urlmap('/rss/gid/rm/(\d+)')
+@urlmap('/rss_gid/rm/(\d+)')
 class RssGid(Base):
     def get(self, id):
         id = int(id)
@@ -144,7 +148,7 @@ class RssGid(Base):
             rss.gid = -rss.gid
             rss.save()
 
-        self.redirect('/rss/gid/1')
+        self.redirect('/rss_gid/1')
 
 
 @urlmap('/rss/edit')
@@ -192,10 +196,10 @@ class RssPoEdit(Base):
         txt = self.get_argument('txt', None)
         rt = self.get_argument('rt', None)
         title = self.get_argument('name', None)
-        sync = self.get_argument('sync',None)
+        sync = self.get_argument('sync', None)
         po = RssPo.mc_get(id)
         po.txt = txt
-        next = self.get_argument('next', None) or '/rss/index'
+        next = self.get_argument('next', None) or '/rss_index'
         if rt:
             po.state = RSS_RT_PO
         else:
@@ -206,7 +210,7 @@ class RssPoEdit(Base):
         if title:
             po.title = title
         po.save()
-        
+
         if sync:
             site_sync_new(id)
         else:
@@ -220,7 +224,64 @@ class RssMail(Base):
     def get(self, id):
         if id:
             mail_by_rss_id(id)
-        next = self.request.headers.get('Referer', None) or '/rss/index'
+        next = self.request.headers.get('Referer', None) or '/rss_index'
         self.redirect(next)
 
+
+@urlmap('/rss/add')
+class RssAdd(Base):
+    def get(self):
+        self.render()
+
+    def post(self):
+        user_list = self.get_argument('user_list')
+        user_list = filter(bool, map(str.strip, user_list.splitlines()))
+
+        user_list_exist = []
+        user_list_not_exist = []
+
+        for i in user_list:
+            zsite_id = zsite_by_query(i)
+            if zsite_id:
+                user_list_exist.append(zsite_id)
+            else:
+                user_list_not_exist.append(i)
+
+        user_list_not_exist = unique(user_list_not_exist)
+        user_list_exist = unique(user_list_exist)
+
+        self.render(
+            user_list_exist=Zsite.mc_get_list(user_list_exist),
+            user_list_not_exist=user_list_not_exist,
+        )
+
+
+@urlmap('/rss/bind')
+class RssBind(Base):
+    def post(self):
+        arguments = parse_qs(self.request.body, True)
+
+        link = ''
+        name = ''
+        auto = 1
+
+        user_list_exist = []
+        for txt, id in zip(arguments.get('txt'), arguments.get('id')):
+            user_id = int(id)
+
+            for url in txt.splitlines():
+                url = url.strip()
+                rss = rss_new(user_id, url, name, link, auto)
+
+            user_list_exist.append(user_id)
+ 
+        if user_list_exist:
+            self.render(
+                '/god/rss/rss_add.htm',
+                user_list_exist=Zsite.mc_get_list(user_list_exist),
+                user_list_not_exist=[],
+                success = True
+            )
+        else:
+            self.rediect("/rss/add")
 

@@ -9,11 +9,14 @@ from model.state import STATE_RM
 from model.po_show import po_show_count
 from model.pic_review import pic_to_review_count_by_cid
 from model.reply import Reply
+from model.rss import rss_po_total, RSS_UNCHECK,Rss,RSS_RM,RSS_POED,RSS_RT_PO,RSS_PRE_PO 
 from model.event import Event, EVENT_STATE_TO_REVIEW
 from model.cid import CID_COM
 from model.po_product import product_count
+from config import SITE_DOMAIN_SUFFIX, SITE_HTTP
 from model.zsite_verify import ZsiteUserVerifyed, ZSITE_USER_VERIFYED_UNCHECK
 %>\
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <!doctype html>\
 <head>\
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">\
@@ -85,7 +88,6 @@ event_to_review_max = event_to_review_max_li and event_to_review_max_li[0] or 0
 
 
 <p class="coltitle">浏览</p>
-<a class="cola" href="/rss/index">RSS订阅</a>
 <a class="cola" href="/user_show_id_list"><span class="R">${Zsite.where('state>=%s', ZSITE_STATE_VERIFY ).where(cid=CID_USER).count()}</span>认证用户</a>
 <a class="cola" href="/user_list#${Zsite.raw_sql('select max(id) from zsite where cid=%s',CID_USER).fetchone()[0] or ''}"><span class="R">${Zsite.where('state>=%s', ZSITE_STATE_ACTIVE).where(cid=CID_USER).count()}</span>用户</a>
 ##<a class="cola" href="/com/${ZSITE_STATE_ACTIVE}"><span class="R">${Zsite.where(cid=CID_COM,state=ZSITE_STATE_ACTIVE).count()}</span>认证公司</a>
@@ -103,7 +105,22 @@ count = product_count()
 <a class="cola" href="/com"><span class="R">${Zsite.where(cid=CID_COM).count()}</span>全部公司</a>
 <a class="cola tc" href="/feed_import">审核导入文章</a>
 <a class="cola tc" href="/feed_import/list/1">修改导入文章</a>
+<p class="coltitle">RSS文章</p>
 
+<%
+max_id = Rss.max_id()
+%>
+<a class="cola" href="/rss_index?${max_id}">未审核</a>
+<a class="cola" href="/rss_index/${RSS_PRE_PO}?${max_id}">已审核</a>
+<a class="cola" href="/rss_index/${RSS_RT_PO}?${max_id}">已审核并全站转发</a>
+<a class="cola" href="/rss_index/${RSS_POED}?${max_id}">已发表</a>
+<a class="cola" href="/rss_index/${RSS_RM}?${max_id}">已删除</a>
+
+<p class="coltitle">RSS订阅</p>
+<a class="cola" href="/rss_gid/0">待订阅</a>
+<a class="cola" href="/rss_gid/1">已订阅</a>
+<a class="cola" href="/rss_gid/-1">被删除</a>
+<a class="cola" href="/rss/new">添加RSS</a>
 
 
 <p class="coltitle">回复</p>
@@ -141,6 +158,16 @@ count = product_count()
 <a class="cola tc" href="/trade_list">交易记录</a>
 <a class="cola tc" href="/chart">网站报表</a>
 <a class="cola tc" href="http://t.cn/aCOG3v" target="_blank">京东返点</a>
+%else:
+
+<%htm:form action="${SITE_HTTP}/auth/login">
+<input name="mail" type="text" style="border:1px solid #eee;padding:7px;width:160px" placeholder="登录邮箱">
+<input name="password" type="password" style="border:1px solid #eee;padding:7px;width:160px;margin-top:14px" placeholder="登录密码">
+<span class="btnw mt14">
+<button class="btn" style="width:173px" type="submit">切换帐号</button>
+</span>
+<input type="hidden" name="next" value="//god${SITE_DOMAIN_SUFFIX}">
+</%htm:form>
 
 %endif
 <%
