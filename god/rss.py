@@ -6,7 +6,7 @@ from model.rss import rss_po_list_by_state, RssPo, RSS_UNCHECK, RSS_PRE_PO, RSS_
 from zkit.page import page_limit_offset
 from model.zsite import Zsite
 from model.site_sync import site_sync_rm, site_sync_new
-from model.zsite import zsite_by_query, Zsite 
+from model.zsite import zsite_by_query, Zsite
 from zkit.algorithm.unique import unique
 from urlparse import parse_qs, urlparse
 
@@ -196,7 +196,7 @@ class RssPoEdit(Base):
         txt = self.get_argument('txt', None)
         rt = self.get_argument('rt', None)
         title = self.get_argument('name', None)
-        sync = self.get_argument('sync',None)
+        sync = self.get_argument('sync', None)
         po = RssPo.mc_get(id)
         po.txt = txt
         next = self.get_argument('next', None) or '/rss_index'
@@ -210,7 +210,7 @@ class RssPoEdit(Base):
         if title:
             po.title = title
         po.save()
-        
+
         if sync:
             site_sync_new(id)
         else:
@@ -228,14 +228,14 @@ class RssMail(Base):
         self.redirect(next)
 
 
-@urlmap("/rss/add")
+@urlmap('/rss/add')
 class RssAdd(Base):
     def get(self):
-        self.render() 
+        self.render()
 
     def post(self):
         user_list = self.get_argument('user_list')
-        user_list = filter(bool,map(str.strip,user_list.splitlines()))
+        user_list = filter(bool, map(str.strip, user_list.splitlines()))
 
         user_list_exist = []
         user_list_not_exist = []
@@ -243,28 +243,35 @@ class RssAdd(Base):
         for i in user_list:
             zsite_id = zsite_by_query(i)
             if zsite_id:
-                user_list_exist.append(zsite_id) 
+                user_list_exist.append(zsite_id)
             else:
                 user_list_not_exist.append(i)
- 
+
         user_list_not_exist = unique(user_list_not_exist)
         user_list_exist = unique(user_list_exist)
 
         self.render(
-            user_list_exist = Zsite.mc_get_list(user_list_exist),
-            user_list_not_exist = user_list_not_exist,
+            user_list_exist=Zsite.mc_get_list(user_list_exist),
+            user_list_not_exist=user_list_not_exist,
         )
 
 
-@urlmap("/rss/bind")
+@urlmap('/rss/bind')
 class RssBind(Base):
     def post(self):
         arguments = parse_qs(self.request.body, True)
-        
-        for txt, id in zip(arguments.get('txt'), arguments.get('id')):
-            print txt, id
 
-        self.finish('{}') 
+        link = ''
+        name = ''
+        auto = 1
+
+        for txt, id in zip(arguments.get('txt'), arguments.get('id')):
+            for url in txt.splitlines():
+                url = url.strip()
+                user_id = int(id)
+                rss = rss_new(user_id, url, name, link, auto)
+
+        self.finish('{}')
 
 
 
