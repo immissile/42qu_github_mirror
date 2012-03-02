@@ -12,7 +12,10 @@ color:#000;
 display:block;border-bottom:1px solid #eee;padding:7px;margin-bottom:7px
 }
 .box{
-border:1px solid #ccc;padding:7px;margin:14px
+border:1px solid #ccc;padding:7px;margin:14px 0;
+}
+.txt{
+width:80%;padding:7px;height:28px;margin-top:12px;
 }
 </style>
 </%def>
@@ -28,6 +31,7 @@ border:1px solid #ccc;padding:7px;margin:14px
 %endif
 
 %if user_list_exist:
+<form method="POST" action="/rss/bind">
 <div>
     <div>${len(user_list_exist)} 用户</div>
     %for i in  user_list_exist:
@@ -49,16 +53,23 @@ ${rss.id} <a target="_blank" href="/rss_gid/edit/${rss.id}">编辑</a>
     %endif 
 <a target="_blank" href="${rss.url}">${rss.url}</a>
 </div>
+<div>
+</div>
 </div>
 </div>
     %endfor
+<textarea class="txt" placeholder="添加新的RSS"></textarea>
+<input type="hidden" value="${i.id}" name="txt_id">
 </div>
     %endfor 
 </div>
+<div class="btnw">
+<button type="submit">保存</button>
+</div>
+</form>
 %endif
 
 %if not (user_list_exist or user_list_not_exist):
-
 <form method="POST">
 <div>用户 网址/邮箱 一行一个</div>
 <textarea name="user_list" style="padding:7px;width:80%;height:300px"></textarea>
@@ -76,3 +87,7 @@ ${rss.id} <a target="_blank" href="/rss_gid/edit/${rss.id}">编辑</a>
 <a href="/rss/add">新的搜索</a>
 </div>
 %endif
+
+
+
+
