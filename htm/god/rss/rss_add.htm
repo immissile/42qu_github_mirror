@@ -1,0 +1,55 @@
+<%!
+from model.rss import Rss
+%>
+
+<%inherit file="/god/_base.htm" />
+%if user_list_not_exist:
+<div style="border: 1px solid #000; padding: 7px; margin: 14px;">
+    <div style="border-bottom:1px solid #000">以下用户找不到 !!!</div>
+    %for i in  user_list_not_exist:
+<div>${i}</div>
+    %endfor
+</div>
+%endif
+
+%if user_list_exist:
+<div>
+    <div>${len(user_list_exist)} 用户</div>
+    %for i in  user_list_exist:
+<div style="border:1px solid #ccc;padding:7px;margin:14px">
+<div style="display:block;border-bottom:1px solid #eee;padding:7px;margin-bottom:7px">
+${i.name}
+    <a href="${i.link}" target="_blank">${i.link[2:]}</a>
+</div>
+ 
+    %for rss in Rss.where(user_id=i.id):
+<div>
+${rss.id}
+<a href="/rss/edit/${rss.id}">${rss.name or 'Blog'}</a>
+<a href="${rss.link or rss.url}"> <div style="font-size:11px">${rss.url}</div> </a>
+</div>
+    %endfor
+</div>
+    %endfor 
+</div>
+%endif
+
+%if not (user_list_exist or user_list_not_exist):
+
+<form method="POST">
+<div>用户 网址/邮箱 一行一个</div>
+<textarea name="user_list" style="padding:7px;width:80%;height:300px"></textarea>
+<div>
+给这批用户贴上的标签 
+</div>
+<input type name="tag" style="width:80%;padding:7px;margin-bottom:32px">
+
+<div><div class="btnw">
+<button type="submit">导入用户的RSS</button>
+</div></div>
+</form>
+%else:
+<div>
+<a href="/rss/add">新的搜索</a>
+</div>
+%endif
