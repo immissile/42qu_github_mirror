@@ -8,6 +8,7 @@ from model.zsite import Zsite
 from model.site_sync import site_sync_rm, site_sync_new
 from model.zsite import zsite_by_query, Zsite 
 from zkit.algorithm.unique import unique
+from urlparse import parse_qs, urlparse
 
 PAGE_LIMIT = 50
 
@@ -253,6 +254,18 @@ class RssAdd(Base):
             user_list_exist = Zsite.mc_get_list(user_list_exist),
             user_list_not_exist = user_list_not_exist,
         )
+
+
+@urlmap("/rss/bind")
+class RssBind(Base):
+    def post(self):
+        arguments = parse_qs(self.request.body, True)
+        
+        for txt, id in zip(arguments.get('txt'), arguments.get('id')):
+            print txt, id
+
+        self.finish('{}') 
+
 
 
 

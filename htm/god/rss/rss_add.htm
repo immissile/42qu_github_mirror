@@ -58,8 +58,8 @@ ${rss.id} <a target="_blank" href="/rss_gid/edit/${rss.id}">编辑</a>
 </div>
 </div>
     %endfor
-<textarea class="txt" placeholder="添加新的RSS"></textarea>
-<input type="hidden" value="${i.id}" name="txt_id">
+<textarea class="txt" name="txt" placeholder="添加新的RSS"></textarea>
+<input type="hidden" value="${i.id}" name="id">
 </div>
     %endfor 
 </div>
@@ -67,6 +67,9 @@ ${rss.id} <a target="_blank" href="/rss_gid/edit/${rss.id}">编辑</a>
 <button type="submit">保存</button>
 </div>
 </form>
+<script>
+$(".txt").elastic(3).css('height',28)
+</script>
 %endif
 
 %if not (user_list_exist or user_list_not_exist):
