@@ -21,10 +21,10 @@ def fetch_pic(line):
     if not netloc:
         return ''
 
-    if 'feedsky.com' in netloc:
-        return ''
 
     for i in (
+        'feedsky.com/',
+        'feedburner.com/',
         'wumii.com/',
         '/wp-content/plugins/',
     ):

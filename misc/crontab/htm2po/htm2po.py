@@ -20,15 +20,6 @@ import re
     
 def htm2po_by_po(pre):
     txt = pre.txt.rstrip()
-    for key in (
-'您可能也喜欢',
-'<p>除非注明，本站文章均为原创或编译，转载请注明： 文章来自',
-'与本日志可能相关的文章有',
-'无觅猜您也喜欢',
-):
-        pos = txt.find(key)
-        if pos > 0:
-            txt = txt[:pos]
 
     if not txt:
         return
