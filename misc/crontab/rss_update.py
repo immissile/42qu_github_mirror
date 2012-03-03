@@ -54,7 +54,7 @@ def link_title_uid_txt(i):
         title = i['title']
         title = unescape(title)
     else:
-        title = zsite.name
+        title = "无题" 
     rss_uid = i.get('id') or 1
     snippet = i.get('summary') or i.get('content') or None
 
@@ -97,7 +97,7 @@ def rss_feed_update(res, id, user_id, limit=None):
         if duplicator_rss.txt_is_duplicate(title_txt):
             continue
 
-        #print title, link, duplicator_rss.txt_is_duplicate(title_txt)
+        print title, link, duplicator_rss.txt_is_duplicate(title_txt)
 
         if rss.auto:
             state = RSS_PRE_PO
