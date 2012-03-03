@@ -67,7 +67,12 @@ ${i.name}
     %for rss in Rss.where(user_id=i.id):
 <div>
 <div>
-${rss.id} <a target="_blank" href="/rss_gid/edit/${rss.id}">编辑</a>
+RSS ${rss.id} ; 
+Google Reader 编号 ${rss.gid} 
+%if rss.gid < 0:
+等待删除
+%endif
+<a target="_blank" href="/rss_gid/edit/${rss.id}">编辑</a>
 </div>
 <div>
 <a class="R" target="_blank" href="/rss_gid/rm/${rss.id}">删除</a>
