@@ -177,7 +177,8 @@ def rss_subscribe(greader=None):
                 i.delete()
 
     for i in Rss.where('gid<0'):
-        print i.id, i.url
+#        print i.id, i.url
+
         if greader is None:
             greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
         try:
@@ -196,7 +197,7 @@ if __name__ == '__main__':
 
 #    from zkit.rss.txttidy import txttidy
 #    from tidylib import  tidy_fragment
-#   rss = Rss.get(596)
+#    rss = Rss.get(596)
 #    print rss.id, rss.gid
 
 
