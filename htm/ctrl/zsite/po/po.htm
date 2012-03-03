@@ -43,6 +43,7 @@ PO_NOTE_CID_TUPLE = tuple(PO_NOTE_CID_TUPLE)
 <%def name="htm_head()">
 ${css.ctrl_po_edit|n}
 ${css.ctrl_event_admin|n}
+${css.ctrl_po_tag|n}
 <%
 if po:
     suffix = '/%s' % po.id
@@ -54,6 +55,7 @@ else:
 UPLOADURL = "/j/po/upload${suffix}"
 DELETEURL = "/j/po/upload/rm${suffix}"
 </script>
+
 <script src="${js.ctrl_po_note}"></script>
 <script src="${js.upload}"></script>
 <script src="${js.pic}"></script>
@@ -131,10 +133,10 @@ else:
 %>
 
 <span class="zsite_tag_name">
-    %if zsite_cid == CID_TAG:
-${zsite.name} - 默认标签
-    %endif
-<input type="text">\
+##    %if zsite_cid == CID_TAG:
+##${zsite.name} - 默认标签
+##    %endif
+<input type="text" style="color:#999" placeholder="搜索此话题下内容 ..." name="q" id="search" autocomplete="off">\
 <select name="tag_cid">\
 %for tcid, tname in PO_NOTE_CID_TUPLE:
     <option 
