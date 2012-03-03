@@ -128,8 +128,6 @@ def mail_by_rss_id(rss_id):
 
 
 
-<<<<<<< local
-=======
 def rss_subscribe(greader=None):
     from zkit.google.findrss import get_rss_link_title_by_url
 
@@ -186,7 +184,6 @@ def rss_subscribe(greader=None):
         i.delete()
 
 
->>>>>>> other
 if __name__ == '__main__':
     pass
 
