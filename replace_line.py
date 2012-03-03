@@ -4,11 +4,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-rss_gid
+from config import PART_TIME_JOBS_RULE
 """
 
 TO_STRING = """
-rss/gid
+from model.privilege import PART_TIME_JOBS_RULE
 """
 
 def run():

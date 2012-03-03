@@ -297,11 +297,8 @@ def tag_list_by_po_id(po_id):
 def tag_id_list_by_str_list(tag_list):
     tag_id_list = []
     for i in tag_list:
-        i_ = i.startswith('-')
-        if i_:
-            i_ = i[1:]
-        if i_ or not i.isdigit():
-            for id in tag_by_str(i):
+        if i.startswith('-'):
+            for id in tag_by_str(i[1:]):
                 tag_id_list.append(id)
         else:
             tag_id_list.append(i)
@@ -349,10 +346,10 @@ def po_tag_by_cid(cid, tag_id, user_id, limit=25, offset=0):
 if __name__ == '__main__':
     pass
 
-    #Print tag_cid_count(10225558)
+    print tag_cid_count(10225558)
 
-    #For a,b in REDIS_REC_CID_TUPLE:
-    #    print tag_cid_count(10225558,a)
+    for a,b in REDIS_REC_CID_TUPLE:
+        print tag_cid_count(10225558,a)
 
     #tag_id = 10233328
     #user_id = 10014918
@@ -371,7 +368,3 @@ if __name__ == '__main__':
     #print tag_cid_count(10232177)
 
     #print po_tag_id_cid(10232177, 1, 1, 0)
-
-    print tag_id_list_by_str_list(['张沈鹏'])
-
-

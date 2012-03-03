@@ -138,21 +138,9 @@ CREATE TABLE `rss_po` (
   `txt` mediumblob NOT NULL,
   `state` int(10) unsigned NOT NULL,
   `link` varbinary(1000) NOT NULL,
-<<<<<<< local
-<<<<<<< local
-  `site_id` int(10) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `Index_3` (`rss_uid`),
-=======
-=======
->>>>>>> other
   `site_id` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `Index_3` (`rss_uid`) USING BTREE,
-<<<<<<< local
->>>>>>> other
-=======
->>>>>>> other
   KEY `Index_2` (`rss_id`),
   KEY `link` (`link`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
