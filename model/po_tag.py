@@ -400,10 +400,10 @@ def po_tag_by_cid(cid, tag_id, user_id, limit=25, offset=0):
 if __name__ == '__main__':
     pass
 
-    print tag_cid_count(10225558)
+    #Print tag_cid_count(10225558)
 
-    for a,b in REDIS_REC_CID_TUPLE:
-        print tag_cid_count(10225558,a)
+    #For a,b in REDIS_REC_CID_TUPLE:
+    #    print tag_cid_count(10225558,a)
 
     #tag_id = 10233328
     #user_id = 10014918
@@ -422,3 +422,7 @@ if __name__ == '__main__':
     #print tag_cid_count(10232177)
 
     #print po_tag_id_cid(10232177, 1, 1, 0)
+
+    print tag_id_list_by_str_list(['-张沈鹏'])
+
+
