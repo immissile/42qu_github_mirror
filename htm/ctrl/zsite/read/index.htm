@@ -1,6 +1,6 @@
 <%!
 from tornado.escape import json_encode 
-<<<<<<< local
+from static import js
 from model.motto import motto_get
 from model.zsite_fav import zsite_fav_get
 from model.po_tag import tag_author_list
@@ -25,13 +25,9 @@ ${css.ctrl_tag_side|n}
 
 <%
 is_faved = zsite_fav_get(zsite,current_user_id)
-=======
-from static import js
->>>>>>> other
 %>
 <%namespace file="/ctrl/_util/buzz.htm" import="rec_item_render"/>
 
-<<<<<<< local
 <script id="render_txt" type="text/x-jquery-tmpl"><%text>
 <pre class="prebody" id="fdtxt${id}">{{html txt}}</pre><div
 class="fdbar"><span
@@ -77,11 +73,7 @@ ${page|n}
 </div>
     <div class="com_side">
 
-=======
-<%inherit file="/ctrl/_base/_base2.htm" />
->>>>>>> other
 
-<<<<<<< local
 <div id="tagbar">
 <span class="xatxt">
 %if is_faved:
@@ -148,25 +140,10 @@ class="sitefav${$data[7]}"></a>
 </%text>
         </script>
 
-=======
-<%def name="h_nav_more()"></%def>
-<div class="Iwp">
-    <div class="Lwp">
-w
-    </div>
-    <div class="Rwp">
->>>>>>> other
 ${rec_item_render(current_user_id)}
-<<<<<<< local
-
-
-
-=======
->>>>>>> other
     </div>
 </div>
 
-<<<<<<< local
 
 <script id="render_item" type="text/x-jquery-tmpl"><%text>
 <div class="readl c">
@@ -214,6 +191,3 @@ render_note(${json_encode(item_list)|n})
 
 </div>
 
-=======
-<script src="${js.ctrl_read}"></script>
->>>>>>> other
