@@ -12,6 +12,10 @@ def txt_img_fetch(txt):
 
 def fetch_pic(line):
     url = str(line)[4:-1]
+    pos = url.find("[[")
+    if pos>0:
+        url = url[:pos].strip()
+
     netloc = urlparse(url)[1]
 
     if not netloc:
@@ -19,6 +23,13 @@ def fetch_pic(line):
 
     if 'feedsky.com' in netloc:
         return ''
+
+    for i in (
+        'wumii.com/',
+        '/wp-content/plugins/',
+    ):
+        if i in url:
+            return ''
 
     if netloc == UPYUN_DOMAIN:
         return line

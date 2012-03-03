@@ -97,7 +97,7 @@ def rss_feed_update(res, id, user_id, limit=None):
         if duplicator_rss.txt_is_duplicate(title_txt):
             continue
 
-        print title, link, duplicator_rss.txt_is_duplicate(title_txt)
+        #print title, link, duplicator_rss.txt_is_duplicate(title_txt)
 
         if rss.auto:
             state = RSS_PRE_PO
