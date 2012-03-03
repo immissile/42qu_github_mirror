@@ -3,7 +3,7 @@ from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
 from model import reply
 from model.feed import feed_merge_iter, MAXINT, Feed, mc_feed_tuple, PAGE_LIMIT, feed_rm
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_EVENT, CID_EVENT_FEEDBACK, CID_SITE, CID_REC
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_EVENT, CID_EVENT_FEEDBACK, CID_SITE, CID_REC, CID_TAG
 from model.po import Po, po_rm, po_word_new, po_note_new, po_state_set
 from model.state import STATE_PO_ZSITE_SHOW_THEN_REVIEW, STATE_SECRET, STATE_ACTIVE
 from model.po_pic import pic_list, pic_list_edit, mc_pic_id_list
@@ -17,6 +17,8 @@ from model.event import Event, event_init2to_review
 from model.po_event import event_joiner_state_set_by_good
 from model.zsite_url import link
 from model.zsite_site import zsite_id_by_zsite_user_id
+from model.po_tag import po_tag_new_by_autocompelte
+from json import loads
 
 def update_pic(form, user_id, po_id, id):
     pl = pic_list(user_id, id)
@@ -57,7 +59,7 @@ class PoRss(ZsiteBase):
 
 @urlmap('/po/rec/(\d+)')
 class PoRec(LoginBase):
-    def post(self,id):
+    def post(self, id):
         current_user_id = self.current_user_id
         rec_po = Po.mc_get(id)
         if rec_po and rec_po.cid == CID_REC and rec_po.user_id == current_user_id:
@@ -65,7 +67,7 @@ class PoRec(LoginBase):
             rec_po.name_ = name
             rec_po.save()
         self.finish('{}')
-        
+
 @urlmap('/po/word')
 class PoWord(LoginBase):
     def post(self):
@@ -89,27 +91,43 @@ def po_post(self):
     name = self.get_argument('name', '')
     txt = self.get_argument('txt', '', strip=False).rstrip()
     zsite = self.zsite
+    cid = self.cid
 
     arguments = self.request.arguments
 
+    tag_cid = None
+    state = None
 
-    if self.cid == CID_EVENT_FEEDBACK:
+    if cid == CID_EVENT_FEEDBACK:
         state = self.get_argument('good', None)
         zsite_id = 0
     else:
         zsite_id = zsite_id_by_zsite_user_id(zsite, user_id)
-        if zsite_id:
-            state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
-        else:
-            secret = self.get_argument('secret', None)
-            if secret:
+
+        if cid == CID_NOTE:
+            tag_cid = int(self.get_argument('tag_cid', 0))
+            if tag_cid < 0:
+                tag_cid = None
                 state = STATE_SECRET
-                from model.feed import feed_rm
-                feed_rm(self.id)
             else:
                 state = STATE_ACTIVE
+        else:
+
+            if zsite_id:
+                state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
+            else:
+                secret = self.get_argument('secret', None)
+                if secret:
+                    state = STATE_SECRET
+                else:
+                    state = STATE_ACTIVE
+
+    if state == STATE_SECRET:    
+        from model.feed import feed_rm
+        feed_rm(self.id)
 
     po = self.po_save(user_id, name, txt, state, zsite_id)
+
 
     self_id = self.id
     if po:
@@ -122,6 +140,12 @@ def po_post(self):
         mc_pic_id_list.delete(
             '%s_%s' % (user_id, self_id)
         )
+
+    if tag_cid:
+        tag_id_list = self.get_argument('tag_id_list', '[]')
+        tag_id_list = loads(tag_id_list)
+        po_tag_new_by_autocompelte(po, tag_id_list, tag_cid)
+
     return po
 
 

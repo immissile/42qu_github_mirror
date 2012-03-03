@@ -117,3 +117,45 @@ function render_note(data){
     }
 })();
 */
+
+function click_sets(){
+    var html = $('html,body'),
+    e = $('.xatagset').blur(),
+    pb = $('.pop_block')
+    function _() {
+        pb.hide()
+        html.unbind('click', _)
+    }
+
+    if (pb.is(":hidden")) {
+        pb.show()
+        html.click(_)
+        clicked = true;
+    } else {
+        _()
+    }
+}
+
+function pop_manage(){
+    if(!islogin())return;
+    var fancybox = $.fancybox
+    fancybox.showActivity()
+    fancybox({
+        content:'<div class="pop_wrap"><div class="pop_title">描述你在该领域的经验 , 审核后将开通管理权限</div><textarea id="pop_txt" class="pop_txt"></textarea><a class="pop_submit_a" href="javascript:void(0)">提交</a></div>',
+        onComplete:function(){
+            var pop_txt = $('#pop_txt')
+            pop_txt.focus()
+            $('.pop_submit_a').click(function(){
+                $.post(
+                    '/j/tag/manage/apply',
+                    {
+                        content:pop_txt.val()
+                    },
+                    function(){fancybox.close()}
+                )
+            })             
+        },
+        'overlayShow':false
+    })
+}
+
