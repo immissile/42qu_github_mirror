@@ -193,7 +193,7 @@ def rss_subscribe(greader=None):
 if __name__ == '__main__':
     pass
 
-    rss_subscribe()
+#    rss_subscribe()
 
 #    from zkit.rss.txttidy import txttidy
 #    from tidylib import  tidy_fragment
@@ -202,5 +202,8 @@ if __name__ == '__main__':
 
 
 #    for i in Rss.where("gid<0"):
-#        print i
-
+#        print ii
+    from model.cid import CID_USER
+    for i in RssPoId.where("user_cid=%s", CID_USER):
+        print i.id
+    #RSS_PO_ID_STATE_NOTAG 
