@@ -1,13 +1,17 @@
 #coding:utf-8
 from _db import  McModel, Model, McLimitA, McNum, McCacheA, redis
 
+
+#标签 - 用户数
+#标签%id - 用户 id list 
+#用户%id - 标签 id list
+ 
+#标签 - 文章数
+#文章%id - 标签 id list
+#标签%id - 文章 id list
+
 REDIS_PO_TAG_USER = "PoTagUser:%s"
 REDIS_UESR_PO_TAG = "UserPoTag:%s" 
-
-
-
-#返回 count
-#返回 id_list
 
 class PoUserTag(object):
     def __init__(self, key):
