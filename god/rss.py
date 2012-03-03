@@ -10,6 +10,7 @@ from model.zsite import zsite_by_query, Zsite
 from zkit.algorithm.unique import unique
 from urlparse import parse_qs, urlparse
 from model.po_tag import tag_id_list_by_str_list
+from model.po_tag_user import tag2idlist_po_user 
 
 PAGE_LIMIT = 50
 
@@ -238,15 +239,6 @@ class RssAdd(Base):
         user_list = self.get_argument('user_list','')
         user_list = filter(bool, map(str.strip, user_list.splitlines()))
 
-        tag_id_list = tag_id_list_by_str_list(
-            filter(
-                bool, map(
-                    str.strip, 
-                    self.get_argument('tag','').split()
-                )
-            )
-        )
-
 #        print tag_id_list
 
         user_list_exist = []
@@ -258,9 +250,25 @@ class RssAdd(Base):
                 user_list_exist.append(zsite_id)
             else:
                 user_list_not_exist.append(i)
+            
+             
 
         user_list_not_exist = unique(user_list_not_exist)
         user_list_exist = unique(user_list_exist)
+
+
+
+        tag_id_list = tag_id_list_by_str_list(
+            filter(
+                bool, map(
+                    str.strip, 
+                    self.get_argument('tag','').split()
+                )
+            )
+        )
+
+        for i in user_list_exist:
+            tag2idlist_po_user.append(i, tag_id_list) 
 
         self.render(
             user_list_exist=Zsite.mc_get_list(user_list_exist),
