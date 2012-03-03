@@ -37,13 +37,6 @@ $(function(){
 
 $(function(){
     autocomplete_tag('#search', [['减肥',10226353]], 0)
-/*    var txt = $('#txt'),txt_height = txt.height()
-    $('#token-input-search').focus(function(){
-        txt.height(txt_height-250)
-    }).blur(function(){
-        txt.height(txt_height)
-    })
-*/
     function show_placeholder(){
         if(!$('#token-input-search').val().length>0 && !$('.token-input-token').length>0){
             $('.token-input-list').hide()
@@ -70,6 +63,14 @@ $(function(){
             show_token_input()
         }
     })
+    $('#search').show().click()
 
+    $('.po_btn').click(function(){
+        if($('.token-input-token').length>0 && $('#tag_cid').val()==0){
+            alert('请选择类别')
+        }else{
+           $('form')[0].submit() 
+        }
+    })
 })
 
