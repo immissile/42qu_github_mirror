@@ -73,9 +73,13 @@ class Tag2IdList(object):
 
         self._flush_count(tag_id_set)
 
-    def id_list_by_tag_id(self, tag_id):
-        key = self.key_tag_id_xid_list%tag_id 
-        return redis.lrange(key, 0, -1)
+    def id_list_by_tag_id(self, tag_id, limit=None, offset=0):
+        key = self.key_tag_id_xid_list%tag_id
+        if limit is None:
+            end = -1
+        else: 
+            end = offset+limit-1
+        return redis.lrange(key, offset, end)
 
     def tag_id_list_by_id(self, id):
         key = self.key_xid_tag_id_list%id 
@@ -93,3 +97,5 @@ if __name__ == '__main__':
 
     t = Tag2IdList('T')
     print t.id_list_by_tag_id(2)
+
+
