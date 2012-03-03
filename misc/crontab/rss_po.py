@@ -10,7 +10,7 @@ def rss_po():
     rss_feed_new = set()
     rss_feed = set()
 
-    for pre in RssPo.where(state=RSS_PRE_PO):
+    for pre in RssPo.where(state=RSS_PRE_PO).order_by("id desc"):
         print pre.id, pre.title, pre.link
         po = htm2po_by_po(pre)
         if po:
@@ -40,13 +40,13 @@ def main():
     rss_po()
 
 if __name__ == '__main__':
-    main()
 
-    #from model.po import Po,feed_rm
-    #from model.rss import RssPoId
-    #for i in RssPo.where(user_id=10088364):
-    #    rss_po = RssPoId.get(rss_po_id=i.id)
-    #    if rss_po:
-    #        po = Po.mc_get( rss_po.po_id  )
-    #        feed_rm(po.id)
-    #        print po.id
+    main()
+    from model.po import Po,feed_rm
+    from model.rss import RssPoId
+    for i in RssPo.where(user_id=10000082):
+        rss_po = RssPoId.get(rss_po_id=i.id)
+        if rss_po:
+            po = Po.mc_get( rss_po.po_id  )
+            feed_rm(po.id)
+            print po.id

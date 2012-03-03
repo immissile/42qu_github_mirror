@@ -291,7 +291,8 @@ class RssBind(Base):
 
             for url in txt.splitlines():
                 url = url.strip()
-                rss = rss_new(user_id, url, name, link, 0, auto)
+                if url:
+                    rss = rss_new(user_id, url, name, link, 0, auto)
 
             user_list_exist.append(user_id)
  
