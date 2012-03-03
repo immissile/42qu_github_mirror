@@ -11,7 +11,7 @@ def rss_po():
     rss_feed = set()
 
     for pre in RssPo.where(state=RSS_PRE_PO):
-        print pre.id, pre.title, pre.link
+        #print pre.id, pre.title, pre.link
         po = htm2po_by_po(pre)
         if po:
             rss_id = pre.rss_id
