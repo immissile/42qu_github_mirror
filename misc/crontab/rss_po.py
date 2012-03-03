@@ -42,11 +42,11 @@ def main():
 if __name__ == '__main__':
     main()
 
-    from model.po import Po,feed_rm
-    from model.rss import RssPoId
-    for i in RssPo.where(user_id=10088364):
-        rss_po = RssPoId.get(rss_po_id=i.id)
-        if rss_po:
-            po = Po.mc_get( rss_po.po_id  )
-            feed_rm(po.id)
-            print po.id
+    #from model.po import Po,feed_rm
+    #from model.rss import RssPoId
+    #for i in RssPo.where(user_id=10088364):
+    #    rss_po = RssPoId.get(rss_po_id=i.id)
+    #    if rss_po:
+    #        po = Po.mc_get( rss_po.po_id  )
+    #        feed_rm(po.id)
+    #        print po.id
