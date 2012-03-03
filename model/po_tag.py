@@ -323,8 +323,11 @@ def tag_list_by_po_id(po_id):
 def tag_id_list_by_str_list(tag_list):
     tag_id_list = []
     for i in tag_list:
-        if i.startswith('-'):
-            for id in tag_by_str(i[1:]):
+        i_ = i.startswith('-')
+        if i_:
+            i_ = i[1:]
+        if i_ or not i.isdigit():
+            for id in tag_by_str(i):
                 tag_id_list.append(id)
         else:
             tag_id_list.append(i)
@@ -423,6 +426,6 @@ if __name__ == '__main__':
 
     #print po_tag_id_cid(10232177, 1, 1, 0)
 
-    print tag_id_list_by_str_list(['-张沈鹏'])
+    print tag_id_list_by_str_list(['张沈鹏'])
 
 
