@@ -1,10 +1,14 @@
 <%!
 from model.rss import Rss
+from model.po_tag_user import tag_list_by_user_id
 %>
 
 <%inherit file="_base.htm" />
 <%def name="htm_head()">
 <style>
+.tag{
+color:#369;
+}
 .col1 .rss_name{
 color:#000;
 }
@@ -63,6 +67,9 @@ width:80%;padding:7px;height:28px;margin-top:12px;
 <div class="title">
 ${i.name}
     <a href="${i.link}" target="_blank">${i.link[2:]}</a>
+%for i in tag_list_by_user_id(user_id):
+<a href="${i.link}" target="_blank" class="tag">${i.name}</a>
+%endif
 </div>
     %for rss in Rss.where(user_id=i.id):
 <div>
