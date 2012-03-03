@@ -34,8 +34,6 @@ with open('ucd.csv') as ucd:
                 if pic_url(user_id):
                     for i in FeedImport.where(po_meta_user_id=u.id):
                         feed_import_user_new(user_id, i.id)
-
-                    #    print i.title
                     print count , zsite.id
                     print zsite.name, 'http:'+zsite.link
                     print u.name , u.link
