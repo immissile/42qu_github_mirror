@@ -974,8 +974,19 @@ CREATE TABLE `rss_po_id` (
   `id` int(10) unsigned NOT NULL,
   `po_id` int(10) unsigned NOT NULL,
   `state` int(10) unsigned NOT NULL,
+<<<<<<< local
   PRIMARY KEY  (`id`),
   KEY `po_id` (`po_id`)
+=======
+  `tag_id_list` blob NOT NULL,
+  `rss_po_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `admin_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `user_cid` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `po_id` (`po_id`),
+  KEY `Index_3` (`rss_po_id`)
+>>>>>>> other
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `rss_update`;
@@ -1101,32 +1112,58 @@ DROP TABLE IF EXISTS `tag_exp`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tag_exp` (
+<<<<<<< local
   `id` int(10) unsigned NOT NULL auto_increment,
+=======
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+>>>>>>> other
   `user_id` int(11) unsigned NOT NULL,
   `tag_id` int(11) unsigned NOT NULL,
   `txt` text NOT NULL,
+<<<<<<< local
   `create_time` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `Index_2` (`user_id`,`tag_id`),
+=======
+  `time` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `Index_2` (`user_id`,`tag_id`) USING BTREE,
+>>>>>>> other
   KEY `Index_3` (`tag_id`),
+<<<<<<< local
   KEY `Index_4` (`user_id`,`create_time`)
+=======
+  KEY `Index_4` (`user_id`,`time`) USING BTREE
+>>>>>>> other
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `tag_exp_admin`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tag_exp_admin` (
+<<<<<<< local
   `id` int(10) unsigned NOT NULL auto_increment,
+=======
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+>>>>>>> other
   `tag_id` int(10) unsigned NOT NULL,
   `tag_exp_id` int(10) unsigned NOT NULL,
+<<<<<<< local
   `state` int(10) unsigned NOT NULL default '10',
   `admin_id` int(10) unsigned NOT NULL,
   `create_time` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id`),
+=======
+  `state` int(10) unsigned NOT NULL DEFAULT '10',
+  `admin_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `time` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+>>>>>>> other
   KEY `Index_2` (`state`),
   KEY `Index_3` (`tag_id`,`state`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
+<<<<<<< local
 DROP TABLE IF EXISTS `tag_id_user_id`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -1139,6 +1176,8 @@ CREATE TABLE `tag_id_user_id` (
   KEY `Index_3` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+=======
+>>>>>>> other
 DROP TABLE IF EXISTS `top_notice`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;

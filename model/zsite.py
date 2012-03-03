@@ -216,13 +216,13 @@ if __name__ == '__main__':
 #    from os.path import exists
 #    from model.cid import CID_TAG
 #    from collections import defaultdict
-    from zweb.orm import ormiter
-    from model.ico import  pic_url, ico_save, picopen
-    from os.path import exists
-    from model.cid import CID_TAG
-    from collections import defaultdict
-
-    zsite_new_user("test", state=ZSITE_STATE_APPLY)
+#    from zweb.orm import ormiter
+#    from model.ico import  pic_url, ico_save, picopen
+#    from os.path import exists
+#    from model.cid import CID_TAG
+#    from collections import defaultdict
+#
+#    zsite_new_user("test", state=ZSITE_STATE_APPLY)
 
     #id = 10224057
   #  id = 10232186 

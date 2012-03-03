@@ -99,7 +99,7 @@ def get_rss_by_gid(gid, limit=1, offset=10):
     return rss
 
 def rss_po_list_by_state(state, limit=1, offset=10):
-    p = RssPo.raw_sql('select id,link,user_id,title,txt,pic_list,rss_id from rss_po where state = %s order by id desc limit %s offset %s', state, limit, offset).fetchall()
+    p = RssPo.raw_sql('select id,link,user_id,title,txt,rss_id from rss_po where state = %s order by id desc limit %s offset %s', state, limit, offset).fetchall()
     return p
 
 
@@ -128,9 +128,74 @@ def mail_by_rss_id(rss_id):
 
 
 
+<<<<<<< local
+=======
+def rss_subscribe(greader=None):
+    from zkit.google.findrss import get_rss_link_title_by_url
+
+    rss_list = []
+
+    for i in Rss.where(gid=0):
+
+        url = i.url.strip()
+
+        #print url
+        if not all((i.link, i.url, i.name)):
+            rss, link, name = get_rss_link_title_by_url(url)
+
+            if rss:
+                i.url = rss
+
+            if link:
+                i.link = link
+
+                if not name:
+                    name = link.split('://', 1)[-1]
+
+            if name:
+                i.name = name
+
+            i.save()
+
+        rss_list.append(i)
+
+    if rss_list:
+        if greader is None:
+            greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
+
+        for i in rss_list:
+            #print i.url
+            try:
+                greader.subscribe(i.url)
+                i.gid = 1
+                i.save()
+                #print i.url
+                feed = 'feed/%s'%i.url
+                rss_feed_update(greader.feed(feed), i.id, i.user_id, 512)
+                greader.mark_as_read(feed)
+            except:
+                traceback.print_exc()
+                print i.url, i.user_id
+                i.delete()
+
+    for i in Rss.where('gid<0'):
+        if greader is None:
+            greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
+        greader.unsubscribe('feed/'+i.url)
+        #print "unsubscribe",i.url
+        i.delete()
+
+
+>>>>>>> other
 if __name__ == '__main__':
     pass
 
-    from zkit.rss.txttidy import txttidy
-    from tidylib import  tidy_fragment
+#    from zkit.rss.txttidy import txttidy
+#    from tidylib import  tidy_fragment
+    rss = Rss.get(596)
+    print rss.id, rss.gid
+
+
+    for i in Rss.where("gid<0"):
+        print i
 
