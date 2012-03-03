@@ -268,7 +268,7 @@ class RssAdd(Base):
         )
 
         for i in user_list_exist:
-            tag2idlist_po_user.append(i, tag_id_list) 
+            tag2idlist_po_user.append_id_tag_id_list(i, tag_id_list) 
 
         self.render(
             user_list_exist=Zsite.mc_get_list(user_list_exist),
