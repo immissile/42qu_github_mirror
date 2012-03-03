@@ -9,6 +9,7 @@ from model.site_sync import site_sync_rm, site_sync_new
 from model.zsite import zsite_by_query, Zsite
 from zkit.algorithm.unique import unique
 from urlparse import parse_qs, urlparse
+from model.po_tag import tag_id_list_by_str_list
 
 PAGE_LIMIT = 50
 
@@ -234,8 +235,19 @@ class RssAdd(Base):
         self.render()
 
     def post(self):
-        user_list = self.get_argument('user_list')
+        user_list = self.get_argument('user_list','')
         user_list = filter(bool, map(str.strip, user_list.splitlines()))
+
+        tag_id_list = tag_id_list_by_str_list(
+            filter(
+                bool, map(
+                    str.strip, 
+                    self.get_argument('tag','').split()
+                )
+            )
+        )
+
+#        print tag_id_list
 
         user_list_exist = []
         user_list_not_exist = []
