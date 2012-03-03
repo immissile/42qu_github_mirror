@@ -36,40 +36,10 @@ mc_rec_is_empty = McCache("Rec!%s")
 REDIS_REC_USER_TAG_LIMIT = 512
 REDIS_REC_PO_SHOW_TIMES = 10
 
-inf = float('inf')
-ninf = float('-inf')
-
-def rec_read_user_topic_score_fav(user_id, tag_id):
-    rec_read_user_topic_score_incr(user_id, tag_id, score=inf, tag_score=1)
-
-
-def rec_read_user_topic_score_fav_rm(user_id, tag_id):
-    rec_read_user_topic_score_incr(user_id, tag_id, score=ninf, tag_score=-1)
-
-#In [14]: redis.zrevrange("Rec@10220175",0,0,True,int)
-#[('10234454', 103)]
-#
-#In [15]: redis.zrevrange("Rec@10220175,1",0,0,True,int)
-#[]
-
-def rec_read_user_topic_score_incr(user_id, tag_id, score=1, tag_score=None):
+def rec_read_user_topic_score_incr(user_id, tag_id, score=1):
     key = REDIS_REC_USER_TAG%user_id
-
-    if score == inf:
-        score_list = redis.zrevrange(key, 0, 0, True, int)
-        if score_list:
-            score = max(1,score_list[0][1])
-        else:
-            score = 1
-        redis.zadd(key, tag_id, score)
-    elif score == ninf:
-        redis.zrem(key, tag_id)
-    else:
-        redis.zincrby(key, tag_id, score)
-
-    if tag_score is None:
-        tag_score = score
-    redis.zincrby(REDIS_REC_TAG, tag_id, tag_score)
+    redis.zincrby(key, tag_id, score)
+    redis.zincrby(REDIS_REC_TAG, tag_id, score)
 
     # zrank <  REDIS_REC_USER_TAG_LIMIT的时候 
     # 并且不在读完的redis时候 , 进入候选的推荐主题
@@ -333,18 +303,11 @@ def rec_read(user_id, limit):
 
 if __name__ == '__main__':
     pass
-    user_id = 10000000 
-    key = REDIS_REC_USER_TAG%user_id
-    rec_read_user_topic_score_fav(user_id, 10225249)
-    print redis.zrevrange(key, 0, 0, True, int)
-    rec_read_user_topic_score_fav_rm(user_id, 10225249)
-    print redis.zrevrange(key, 0, 0, True, int)
-
-#    from model.zsite import Zsite
-#    for i in Zsite.mc_get_list( redis.zrange(REDIS_REC_TAG,0,-1) ):
-#        print i.name
-#    user_id = 10000000
-#    print po_json_by_rec_read(user_id, 7)
+    from model.zsite import Zsite
+    for i in Zsite.mc_get_list( redis.zrange(REDIS_REC_TAG,0,-1) ):
+        print i.name
+    user_id = 10000000
+    print po_json_by_rec_read(user_id, 7)
 #rec_topic_choice = RecTagPicker(user_id)
 #for i in xrange(10):
 #    print rec_topic_choice.choice()

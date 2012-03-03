@@ -4,13 +4,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-"/rss_gid
-'/rss_gid
+rss_gid
 """
 
 TO_STRING = """
-"/rss/gid
-'/rss/gid
+rss/gid
 """
 
 def run():

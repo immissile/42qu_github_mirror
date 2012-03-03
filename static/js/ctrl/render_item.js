@@ -26,31 +26,15 @@ $.template(
             '<span class="R">共 ${$data[2]} 篇</span>'+
         '</div>'+
         '<div id="item_list_${$data[0]}" class="tag_item_list"></div>'+
-        '{{if $data[4]}}<div class="tag_cid_page" id="tag_cid_page${$data[0]}">'+
-            '<a class="more" href="javascript:tag_cid_page(${$data[0]},-${$data[4]})">更多 ...</a>'+
+        '{{if $data[4]}}<div class="tag_cid_page">'+
+            '<a href="javascript:tag_cid_page(${$data[0]},-${$data[4]})" id="tag_cid_page${$data[0]}">更多 ...</a>'+
         '</div>{{/if}}'+
     '</div></div>'+
 '</div>'
 )
 
 function tag_cid_page(cid, page){
-    var tag_cid = $('#tag_cid_page'+cid).html('<div class="readloading"></div>'),
-    item_list_cid = $('#item_list_'+cid);
-
-    $.get('/j/tag/'+cid+'-'+page,function(data){
-
-
-        if(page>0){
-            item_list_cid.html('')
-        }
-        _render_note('#com_main_'+cid,'#item_list_'+cid, data.li);
-        var p=data.page
-        if(!p){
-            tag_cid.css('border',0)
-        };
-        tag_cid.html(p||'')
-
-    })
+   alert(cid, page) 
 }
 
 function _render_tag_cid(id, data){
@@ -70,7 +54,7 @@ function _render_note(feed_index, elem, data){
         this.href="//"+this.rel+HOST_SUFFIX
     })
     result.appendTo(elem);
-    note_li($(feed_index), result)
+    note_li($(feed_index))
     return result
 }
 
@@ -101,9 +85,9 @@ $.template(
         '</span></span>'+
     '</div>'
 )
-var READX;
 
-function note_li(feed_index, result){
+
+function note_li(feed_index){
     var feeds=$(feed_index[0].parentNode), 
         scrollTop,
         oldtop=-1,
@@ -126,34 +110,25 @@ function note_li(feed_index, result){
         txt_opt=txt_loading.find('#main_nav_opt'),
         txt_body;
 
-    function readx(noscroll){
-        if(oldtop<0)return;
+
+    function readx(){
         txt_loading.remove()
-        feed_index.show()
-        if(!noscroll){ 
-            winj.scrollTop(oldtop)
-        }
+        feed_index.show() 
+        winj.scrollTop(oldtop)
         oldtop=-1
+
         txt_body.replaceWith(read_loading)
     }
 
-
+    $('.readx').live('click',readx)
     $(document).bind("keyup",function(e){
-        if(e.keyCode == 27){
-            READX()
+        if(e.keyCode == 27 && oldtop>=0){
+            readx()
         }
     })
-    $('.readx').live('click', function(){READX()})
 
-    READX = readx
-
-    result.find('.reada').click(function(){
-        if(READX){
-            READX(1)
-        }
-        READX = readx
-
-        scrollTop = feeds.offset().top-14
+    $('.reada').live('click',function(){
+        scrollTop = feeds.offset().top-28
         feed_index.hide();
         var p = this.parentNode,
             self=$(p), 
@@ -166,8 +141,6 @@ function note_li(feed_index, result){
         oldtop=winj.scrollTop();
         winj.scrollTop(scrollTop);
         txt_title.html(title.html())
-
-
         $.get(
         "/j/po/json/"+id,
         function(r){
