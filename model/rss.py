@@ -177,22 +177,29 @@ def rss_subscribe(greader=None):
                 i.delete()
 
     for i in Rss.where('gid<0'):
+        print i.id, i.url
         if greader is None:
             greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
-        greader.unsubscribe('feed/'+i.url)
-        #print "unsubscribe",i.url
+        try:
+            greader.unsubscribe('feed/'+i.url)
+        except:
+            traceback.print_exc()
+            print i.url, i.user_id
+        
         i.delete()
 
 
 if __name__ == '__main__':
     pass
 
+    rss_subscribe()
+
 #    from zkit.rss.txttidy import txttidy
 #    from tidylib import  tidy_fragment
-    rss = Rss.get(596)
-    print rss.id, rss.gid
+#   rss = Rss.get(596)
+#    print rss.id, rss.gid
 
 
-    for i in Rss.where("gid<0"):
-        print i
+#    for i in Rss.where("gid<0"):
+#        print i
 
