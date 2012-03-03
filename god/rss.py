@@ -108,7 +108,7 @@ class RssGidEdit(Base):
 class RssNew(Base):
     def get(self):
         next = self.request.headers.get('Referer', '')
-        self.render('/god/rss/rss/gid_edit.htm', next=next)
+        self.render('/god/rss/rss_gid_edit.htm', next=next)
 
     def post(self):
         next = self.get_argument('next', None) or '/rss_index'
