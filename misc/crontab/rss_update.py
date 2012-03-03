@@ -13,6 +13,7 @@ from zweb.orm import ormiter
 from model.po import Po, CID_NOTE
 from zkit.bot_txt import txt_map
 import traceback
+from urllib import quote
 
 def pre_br(txt):
     r = txt.replace('\r\n', '\n').replace('\r', '\n').replace('\n\n', '\n').replace('\n', '<br>')
@@ -88,9 +89,15 @@ def rss_feed_update(res, id, user_id, limit=None):
             continue
         link, title, rss_uid, txt = r
 
+        if '相片: ' in title:
+            continue
+
+
         title_txt = '%s\n%s'%(title, txt)
         if duplicator_rss.txt_is_duplicate(title_txt):
             continue
+
+        print title, link, duplicator_rss.txt_is_duplicate(title_txt)
 
         if rss.auto:
             state = RSS_PRE_PO
@@ -113,10 +120,11 @@ def rss_subscribe(greader=None):
     for i in Rss.where(gid=0):
 
         url = i.url.strip()
+        #print url
 
         if not all((i.link, i.url, i.name)):
             rss, link, name = get_rss_link_title_by_url(url)
-
+            #print link, name
             if rss:
                 i.url = rss
 
@@ -139,26 +147,34 @@ def rss_subscribe(greader=None):
 
         for i in rss_list:
             #print i.url
+            url = quote(i.url)
             try:
-                greader.subscribe(i.url)
+                greader.subscribe(url)
                 i.gid = 1
                 i.save()
-                #print i.url
-                feed = 'feed/%s'%i.url
-                user_id = i.user_id
-                duplicator_set_by_user_id(user_id)
-                rss_feed_update(greader.feed(feed), i.id, user_id, 1024)
-                greader.mark_as_read(feed)
             except:
                 traceback.print_exc()
                 print i.url, i.user_id
                 i.delete()
 
+            try:
+                #print i.url
+                feed = 'feed/%s'%url
+                user_id = i.user_id
+                duplicator_set_by_user_id(user_id)
+                rss_feed_update(greader.feed(feed), i.id, user_id, 1024)
+#                greader.mark_as_read(feed)
+            except:
+                traceback.print_exc()
+
     for i in Rss.where('gid<0'):
         if greader is None:
             greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
-        greader.unsubscribe('feed/'+i.url)
-        #print "unsubscribe",i.url
+        try:
+            greader.unsubscribe('feed/'+quote(i.url))
+        except:
+            traceback.print_exc()
+            print i.url, i.user_id
         i.delete()
 
 def duplicator_set_by_user_id(user_id):

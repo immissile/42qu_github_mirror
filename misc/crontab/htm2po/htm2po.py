@@ -43,6 +43,7 @@ def htm2po_by_po(pre):
 
     if not po:
         return
+
     po_id = po.id
 
     if not rp:
@@ -62,11 +63,8 @@ def htm2po_by_po(pre):
     if po.zsite_id != po.user_id:
         zsite_tag_new_by_tag_id(po)
 
-    po.feed_new()
     if pre.state == RSS_RT_PO:
         po_show_new(po)
-    else:
-        po.feed_new()
 
     mc_flush(po, po.zsite_id)
 

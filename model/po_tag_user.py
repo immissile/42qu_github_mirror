@@ -17,7 +17,7 @@ def tag_list_with_user_count():
     id_count_list = tag2idlist_po_user.tag_id_count_list()
     tag_list = Zsite.mc_get_list(map(itemgetter(0), id_count_list))
     for tag, count in zip(tag_list, map(itemgetter(1), id_count_list)):
-        tag.user_count = count 
+        tag.user_count = count
     return tag_list
 
 def user_list_by_tag_id(tag_id):
@@ -29,11 +29,26 @@ def user_list_by_tag_id(tag_id):
 if __name__ == '__main__':
     pass
 
-#    for i in tag_list_by_user_id(10000000):
-#        print i
-#    print tag2idlist_po_user.tag_id_count_list()
+    from model.rss import Rss, RssPo, RssPoId
     for i in tag_list_with_user_count():
         print i.name
-         
+
         for j in user_list_by_tag_id(i.id):
-            print "\t",j.name
+            #for l in RssPo.where(user_id=j.id):
+            #    if RssPoId.get(rss_po_id=l.id) or RssPoId.get(l.id):
+            #        print l.title
+            #    else:
+            #        l.delete()
+
+            print '\t', j.name
+            for k in Rss.where(user_id=j.id):
+                #k.gid = 0
+                #k.save()
+
+                #from zkit.google.findrss import get_rss_link_title_by_url
+                #print get_rss_link_title_by_url(k.url)
+                #print all((k.link, k.url, k.name))
+                print '\t\t', k.link, k.url, k.name, k.gid, k.auto
+
+
+
