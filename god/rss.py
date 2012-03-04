@@ -275,6 +275,10 @@ class RssAdd(Base):
             user_list_not_exist=user_list_not_exist,
         )
 
+@urlmap('/rss/po_user')
+class RssPoUser(Base):
+    def get(self):
+        self.render()
 
 @urlmap('/rss/bind')
 class RssBind(Base):
