@@ -39,8 +39,8 @@ def rss_po():
 def main():
     rss_po()
 
-if __name__ == '__main__':
 
+if __name__ == '__main__':
     main()
 ###    from model.po import Po,feed_rm
 ###    from model.rss import RssPoId

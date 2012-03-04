@@ -189,10 +189,53 @@ def duplicator_set_by_user_id(user_id):
 
 @single_process
 def main():
-    greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
-    rss_subscribe(greader)
-    unread_update(greader)
+    #greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
+    #rss_subscribe(greader)
+    #unread_update(greader)
+    rss_tag()
 
+def rss_tag():
+    from model.rss import RSS_PO_ID_STATE_NOTAG, CID_USER, RssPoId, RSS_PO_ID_STATE_AUTOTAG
+    from zweb.orm import ormiter
+    from zdata.idf.tfidf import tag_id_rank_list_by_txt, ID2NAME
+    from model.po import Po
+    from operator import itemgetter
+    from model.po_tag_user import tag2idlist_po_user, rss_po_new 
+    from zkit.algorithm.unique import unique
+
+    for rss_po_id in ormiter(
+        RssPoId,
+        "user_cid=%s and state=%s"%(CID_USER,RSS_PO_ID_STATE_NOTAG)
+    ):
+        po = Po.mc_get(rss_po_id.po_id)
+        if not po:
+            continue
+
+        print po.name_
+
+        txt = "%s\n%s"%(po.name_, po.txt)
+        tag_id_rank_list = tag_id_rank_list_by_txt(txt)[:7]
+        tag_id_list = map(itemgetter(0), tag_id_rank_list)
+        user_tag_id_list = map(
+            int,
+            tag2idlist_po_user.tag_id_list_by_id(
+                po.user_id
+            )
+        )
+        id_list = user_tag_id_list[:] 
+        id_list.extend(tag_id_list)
+        rss_po_id.tag_id_list = " ".join(
+            map(str,unique(id_list))
+        )
+
+        #for i in tag_id_list:
+        #    i.append_id_tag_id_list
+        #print i.tag_id_list 
+        #raise
+        rss_po_id.state = RSS_PO_ID_STATE_AUTOTAG
+        rss_po_id.save()
+    
+        rss_po_new(po, user_tag_id_list)
 
 if __name__ == '__main__':
     main()
