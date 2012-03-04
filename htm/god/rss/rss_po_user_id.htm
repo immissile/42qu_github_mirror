@@ -26,13 +26,16 @@ padding-left:8px;
 }
 </style>
 </%def>
-<div class="tc" style="border-bottom:1px solid #ccc;padding:7px"><a href="${tag.link}" target="_blank">${tag.name}</a></div>
+<div  style="border-bottom:1px solid #ccc;padding:7px">
+<span class="R">右侧数字为待处理是文章数</span>
+
+<a href="${tag.link}" target="_blank">${tag.name}</a></div>
 
 <div class="tag_wrap">
 %for user in user_list:
 <div class="tag_item">
 <a class="tag_a"  href="/rss/user/po/${user.id}">${user.name}</a>
-<span class="tag_count">?</span>
+<span class="tag_count">${user.po_count}</span>
 </div>
 %endfor
 </div>
