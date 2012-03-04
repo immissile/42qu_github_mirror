@@ -23,11 +23,14 @@ def tag_list_by_user_id(user_id):
     return tag_list
 
 
-def tag_list_with_user_count():
+def tag_list_with_user_count_po_count():
     id_count_list = tag2idlist_po_user.tag_id_count_list()
-    tag_list = Zsite.mc_get_list(map(itemgetter(0), id_count_list))
-    for tag, count in zip(tag_list, map(itemgetter(1), id_count_list)):
+    po_count_dict = dict(tag2idlist_po.tag_id_count_list())
+    id_list = map(itemgetter(0), id_count_list)
+    tag_list = Zsite.mc_get_list(id_list)
+    for id, tag, count in zip(id_list, tag_list, map(itemgetter(1), id_count_list)):
         tag.user_count = count
+        tag.po_count = po_count_dict.get(id,0)
     return tag_list
 
 def user_list_by_tag_id(tag_id):

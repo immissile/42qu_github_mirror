@@ -1,6 +1,6 @@
 <%!
 from model.rss import Rss
-from model.po_tag_user import tag_list_with_user_count
+from model.po_tag_user import tag_list_with_user_count_po_count
 %>
 
 <%inherit file="_base.htm" />
@@ -28,14 +28,20 @@ float:right;
 border-left:1px solid #e9e9e9;
 padding-left:8px;
 }
+.bt1{
+border-top:1px dotted #ccc;
+}
 </style>
 </%def>
 
 <div class="tag_wrap">
-%for tag in tag_list_with_user_count():
+%for tag in tag_list_with_user_count_po_count():
 <div class="tag_item">
 <a class="tag_a"  href="/rss/po_user/${tag.id}">${tag.name}</a>
 <span class="tag_count">${tag.user_count}</span>
+%if tag.po_count:
+<div class="bt1"><a href="/rss/po_user/tag/${tag.id}">待处理文章 : ${tag.po_count}</a></div>
+%endif
 </div>
 %endfor
 </div>
