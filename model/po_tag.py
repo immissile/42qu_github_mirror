@@ -19,7 +19,7 @@ from zkit.fanjian import utf8_ftoj
 from fav import fav_user_count_by_po_id
 from zrank.sorts import hot
 from operator import itemgetter
-from rec_read import rec_read_new, rec_read_user_topic_score_incr, REDIS_REC_PO_SCORE, REDIS_REC_TAG_NEW, REDIS_REC_TAG_OLD 
+from rec_read import rec_read_new, rec_read_user_topic_score_incr, REDIS_REC_PO_SCORE, REDIS_REC_TAG_NEW, REDIS_REC_TAG_OLD
 
 #REDIS_REC_CID_BUZZ =  6
 
@@ -66,7 +66,7 @@ def po_score_incr(po, user_id, score=1):
     cid = tag_cid_by_po_id(po_id)
     tag_id_list = tag_id_list_by_po_id(po_id=po_id)
     if tag_id_list:
-        redis.hincrby(REDIS_REC_PO_SCORE, po_id, score) 
+        redis.hincrby(REDIS_REC_PO_SCORE, po_id, score)
         for tag_id in tag_id_list:
             rec_read_user_topic_score_incr(user_id, tag_id, score)
             if cid:
@@ -75,9 +75,9 @@ def po_score_incr(po, user_id, score=1):
 
 def po_score(po):
     po_id = po.id
-    score = int(redis.hget(REDIS_REC_PO_SCORE, po_id)) 
+    score = int(redis.hget(REDIS_REC_PO_SCORE, po_id) or 0)
     return hot(score, 0, po.create_time)
-    
+
 
 #def section_list_by_tag_id_cid(tag_id, cid):
 #    key = REDIS_TAG_CID%(tag_id, cid)
@@ -331,7 +331,7 @@ def tag_id_list_by_str_list(tag_list):
                 tag_id_list.append(id)
         else:
             tag_id_list.append(i)
-    return unique(map(int,tag_id_list))
+    return unique(map(int, tag_id_list))
 
 
 def po_tag_new_by_autocompelte(po, tag_list, cid=0):
@@ -354,7 +354,7 @@ def po_tag_new_by_autocompelte(po, tag_list, cid=0):
 #    po_tag_id_list_new(po, tag_id_list, cid=cid)
 
 
-    
+
 def po_tag_id_list_new(po, tag_id_list, cid=0):
     cid = int(cid)
 
@@ -365,7 +365,7 @@ def po_tag_id_list_new(po, tag_id_list, cid=0):
     to_add = new_tag_id_list - old_tag_id_list
     to_rm = old_tag_id_list - new_tag_id_list
 
-     
+
     _po_tag_id_cid_new(po, old_tag_id_list - to_rm, cid)
 
     user_id = po.user_id
@@ -402,29 +402,36 @@ def po_tag_by_cid(cid, tag_id, user_id, limit=25, offset=0):
 
 if __name__ == '__main__':
     pass
+    for k, v  in redis.hgetall(REDIS_PO_ID2TAG_CID).iteritems():
+        tag_id_list = tag_id_list_by_po_id(k)
+        po = Po.mc_get(k)
+        _po_tag_id_cid_new(po, tag_id_list, 2)
+        #print po.id, k,v, tag_id_list
 
-    #Print tag_cid_count(10225558)
+        #_po_tag_id_cid_new(po, tag_id_list, cid)
 
-    #For a,b in REDIS_REC_CID_TUPLE:
-    #    print tag_cid_count(10225558,a)
+#Print tag_cid_count(10225558)
 
-    #tag_id = 10233328
-    #user_id = 10014918
-    #print po_tag_by_cid(4, tag_id, user_id,)
+#For a,b in REDIS_REC_CID_TUPLE:
+#    print tag_cid_count(10225558,a)
+
+#tag_id = 10233328
+#user_id = 10014918
+#print po_tag_by_cid(4, tag_id, user_id,)
 #    print po_json(po_id_list_tag_id_cid(10233328, 4, 5, 0))
-    #print po_json(po_id_list_tag_id_cid(10233328, 4, 5, 0))
+#print po_json(po_id_list_tag_id_cid(10233328, 4, 5, 0))
 
 
-    #for tag_cid, count in tag_cid_count(10233568):
+#for tag_cid, count in tag_cid_count(10233568):
         #print REDIS_REC_CID_DICT [tag_cid]
 
-    #from model.po import Po
-    #po = Po.where()[1]
-    #print po
-    #po_tag_new_by_autocompelte(po, ['-张沈鹏'], 1)
-    #print tag_cid_count(10232177)
+#from model.po import Po
+#po = Po.where()[1]
+#print po
+#po_tag_new_by_autocompelte(po, ['-张沈鹏'], 1)
+#print tag_cid_count(10232177)
 
-    #print po_tag_id_cid(10232177, 1, 1, 0)
+#print po_tag_id_cid(10232177, 1, 1, 0)
 
 #    print tag_id_list_by_str_list(['张沈鹏'])
 
