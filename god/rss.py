@@ -275,6 +275,13 @@ class RssAdd(Base):
             user_list_not_exist=user_list_not_exist,
         )
 
+@urlmap('/rss/po_user/(\d+)')
+class RssPoUserId(Base):
+    def get(self, id):
+        tag = Zsite.mc_get(id)
+        user_list = user_list_by_tag_id(id)
+        self.render(tag=tag, user_list=user_list)
+
 @urlmap('/rss/po_user')
 class RssPoUser(Base):
     def get(self):
