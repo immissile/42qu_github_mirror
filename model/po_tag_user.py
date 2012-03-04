@@ -38,27 +38,32 @@ def user_list_by_tag_id(tag_id):
 
 if __name__ == '__main__':
     pass
-
-    from model.rss import Rss, RssPo, RssPoId
-    for i in tag_list_with_user_count():
-        print i.name
-
-        for j in user_list_by_tag_id(i.id):
-            #for l in RssPo.where(user_id=j.id):
-            #    if RssPoId.get(rss_po_id=l.id) or RssPoId.get(l.id):
-            #        print l.title
-            #    else:
-            #        l.delete()
-
-            print '\t', j.name
-            for k in Rss.where(user_id=j.id):
-                #k.gid = 0
-                #k.save()
-
-                #from zkit.google.findrss import get_rss_link_title_by_url
-                #print get_rss_link_title_by_url(k.url)
-                #print all((k.link, k.url, k.name))
-                print '\t\t', k.link, k.url, k.name, k.gid, k.auto
+    print tag2idlist_po.tag_id_count_list()
+    print tag2idlist_user_rss_po.tag_id_count_list()
+#tag2idlist_po = Tag2IdList('Po')
+#tag2idlist_user_rss_po = Tag2IdList('UserRssPo')
 
 
-
+#    from model.rss import Rss, RssPo, RssPoId
+#    for i in tag_list_with_user_count():
+#        print i.name
+#
+#        for j in user_list_by_tag_id(i.id):
+#            #for l in RssPo.where(user_id=j.id):
+#            #    if RssPoId.get(rss_po_id=l.id) or RssPoId.get(l.id):
+#            #        print l.title
+#            #    else:
+#            #        l.delete()
+#
+#            print '\t', j.name
+#            for k in Rss.where(user_id=j.id):
+#                #k.gid = 0
+#                #k.save()
+#
+#                #from zkit.google.findrss import get_rss_link_title_by_url
+#                #print get_rss_link_title_by_url(k.url)
+#                #print all((k.link, k.url, k.name))
+#                print '\t\t', k.link, k.url, k.name, k.gid, k.auto
+#
+#
+#

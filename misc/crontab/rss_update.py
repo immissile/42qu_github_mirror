@@ -189,9 +189,9 @@ def duplicator_set_by_user_id(user_id):
 
 @single_process
 def main():
-    #greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
-    #rss_subscribe(greader)
-    #unread_update(greader)
+    greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
+    rss_subscribe(greader)
+    unread_update(greader)
     rss_tag()
 
 def rss_tag():
@@ -211,7 +211,7 @@ def rss_tag():
         if not po:
             continue
 
-        print po.name_
+        #print po.name_
 
         txt = "%s\n%s"%(po.name_, po.txt)
         tag_id_rank_list = tag_id_rank_list_by_txt(txt)[:7]
