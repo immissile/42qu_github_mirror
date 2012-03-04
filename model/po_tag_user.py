@@ -40,13 +40,14 @@ def tag_list_with_user_count_po_count():
 def user_list_by_tag_id(tag_id):
     user_id_list = tag2idlist_po_user.id_list_by_tag_id(tag_id)
     user_list = Zsite.mc_get_list(user_id_list)
+    for i in user_list:
+        i.po_count = redis.llen(REDIS_USER_RSS_PO%i.id)
     return user_list
 
 
 if __name__ == '__main__':
     pass
     print tag2idlist_po.tag_id_count_list()
-    print tag2idlist_user_rss_po.tag_id_count_list()
 #tag2idlist_po = Tag2IdList('Po')
 #tag2idlist_user_rss_po = Tag2IdList('UserRssPo')
 

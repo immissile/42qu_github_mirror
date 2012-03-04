@@ -188,11 +188,6 @@ def duplicator_set_by_user_id(user_id):
         duplicator_rss.set_record(title_txt, i.id)
 
 @single_process
-def main():
-    greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
-    rss_subscribe(greader)
-    unread_update(greader)
-    rss_tag()
 
 def rss_tag():
     from model.rss import RSS_PO_ID_STATE_NOTAG, CID_USER, RssPoId, RSS_PO_ID_STATE_AUTOTAG
@@ -237,10 +232,18 @@ def rss_tag():
 
         rss_po_new(po, user_tag_id_list)
 
+def main():
+    greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
+    rss_subscribe(greader)
+    unread_update(greader)
+    rss_tag()
+
 if __name__ == '__main__':
     main()
 
 
+    #from model.rss import RSS_PO_ID_STATE_NOTAG, CID_USER, RssPoId, RSS_PO_ID_STATE_AUTOTAG
+    #RssPoId.where(state=RSS_PO_ID_STATE_AUTOTAG).update(state=RSS_PO_ID_STATE_NOTAG)
     #greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
     #for i in greader.feed('feed/%s'%'http://feed.feedsky.com/whitecrow_blog'):
     #    r = link_title_uid_txt(i)
