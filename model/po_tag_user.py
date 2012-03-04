@@ -6,16 +6,20 @@ from operator import itemgetter
 
 tag2idlist_po_user = Tag2IdList('PoUser')
 tag2idlist_po = Tag2IdList('Po')
-tag2idlist_user_rss_po = Tag2IdList('UserRssPo')
+#tag2idlist_user_rss_po = Tag2IdList('UserRssPo')
+REDIS_USER_RSS_PO = "UserRssPo:%s"
 
 def rss_po_new(po, user_tag_id_list):
+    id = po.id
     tag2idlist_po.append_id_tag_id_list(
-        po.id , user_tag_id_list
+        id , user_tag_id_list
     )
-    tag2idlist_user_rss_po.append_id_tag_id_list(
-        po.id, (po.user_id,) 
-    )
+    key = REDIS_USER_RSS_PO%po.user_id
 
+    p = redis.pipeline()
+    p.lrem(key, id)
+    p.rpush(key, id)
+    p.execute()
 
 def tag_list_by_user_id(user_id):
     tag_id_list = tag2idlist_po_user.tag_id_list_by_id(user_id)
