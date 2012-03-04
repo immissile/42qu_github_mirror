@@ -10,7 +10,7 @@ from model.zsite import zsite_by_query, Zsite
 from zkit.algorithm.unique import unique
 from urlparse import parse_qs, urlparse
 from model.po_tag import tag_id_list_by_str_list
-from model.po_tag_user import tag2idlist_po_user 
+from model.po_tag_user import tag2idlist_po_user,user_list_by_tag_id 
 
 PAGE_LIMIT = 50
 
