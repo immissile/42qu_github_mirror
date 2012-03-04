@@ -24,7 +24,7 @@ from rec_read import rec_read_new, rec_read_user_topic_score_incr, REDIS_REC_PO_
 #REDIS_REC_CID_BUZZ =  6
 
 REDIS_REC_CID_TUPLE = (
-    (1, '消息'),
+    (1, '快讯'),
     (2, '文章'),
     (3, '讨论'),
 #    (4, '人物 / 对话'),
