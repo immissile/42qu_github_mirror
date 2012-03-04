@@ -402,10 +402,10 @@ def po_tag_by_cid(cid, tag_id, user_id, limit=25, offset=0):
 
 if __name__ == '__main__':
     pass
-    for k, v  in redis.hgetall(REDIS_PO_ID2TAG_CID).iteritems():
-        tag_id_list = tag_id_list_by_po_id(k)
-        po = Po.mc_get(k)
-        _po_tag_id_cid_new(po, tag_id_list, 2)
+#    for k, v  in redis.hgetall(REDIS_PO_ID2TAG_CID).iteritems():
+#        tag_id_list = tag_id_list_by_po_id(k)
+#        po = Po.mc_get(k)
+#        _po_tag_id_cid_new(po, tag_id_list, 2)
         #print po.id, k,v, tag_id_list
 
         #_po_tag_id_cid_new(po, tag_id_list, cid)
