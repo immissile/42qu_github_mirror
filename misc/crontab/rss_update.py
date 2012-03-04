@@ -54,7 +54,7 @@ def link_title_uid_txt(i):
         title = i['title']
         title = unescape(title)
     else:
-        title = "无题" 
+        title = '无题'
     rss_uid = i.get('id') or 1
     snippet = i.get('summary') or i.get('content') or None
 
@@ -200,12 +200,12 @@ def rss_tag():
     from zdata.idf.tfidf import tag_id_rank_list_by_txt, ID2NAME
     from model.po import Po
     from operator import itemgetter
-    from model.po_tag_user import tag2idlist_po_user, rss_po_new 
+    from model.po_tag_user import tag2idlist_po_user, rss_po_new
     from zkit.algorithm.unique import unique
 
     for rss_po_id in ormiter(
         RssPoId,
-        "user_cid=%s and state=%s"%(CID_USER,RSS_PO_ID_STATE_NOTAG)
+        'user_cid=%s and state=%s'%(CID_USER, RSS_PO_ID_STATE_NOTAG)
     ):
         po = Po.mc_get(rss_po_id.po_id)
         if not po:
@@ -213,7 +213,7 @@ def rss_tag():
 
         #print po.name_
 
-        txt = "%s\n%s"%(po.name_, po.txt)
+        txt = '%s\n%s'%(po.name_, po.txt)
         tag_id_rank_list = tag_id_rank_list_by_txt(txt)[:7]
         tag_id_list = map(itemgetter(0), tag_id_rank_list)
         user_tag_id_list = map(
@@ -222,10 +222,10 @@ def rss_tag():
                 po.user_id
             )
         )
-        id_list = user_tag_id_list[:] 
+        id_list = user_tag_id_list[:]
         id_list.extend(tag_id_list)
-        rss_po_id.tag_id_list = " ".join(
-            map(str,unique(id_list))
+        rss_po_id.tag_id_list = ' '.join(
+            map(str, unique(id_list))
         )
 
         #for i in tag_id_list:
@@ -234,11 +234,13 @@ def rss_tag():
         #raise
         rss_po_id.state = RSS_PO_ID_STATE_AUTOTAG
         rss_po_id.save()
-    
+
         rss_po_new(po, user_tag_id_list)
 
 if __name__ == '__main__':
     main()
+
+
     #greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
     #for i in greader.feed('feed/%s'%'http://feed.feedsky.com/whitecrow_blog'):
     #    r = link_title_uid_txt(i)
@@ -247,4 +249,30 @@ if __name__ == '__main__':
     #        title_txt = '%s\n%s'%(title, txt)
     #        if not duplicator_rss.txt_is_duplicate(title_txt):
     #            print title 
+
+#    from model.rss import RSS_PO_ID_STATE_NOTAG, CID_USER, RssPoId, RSS_PO_ID_STATE_AUTOTAG
+#    from zweb.orm import ormiter
+#    from zdata.idf.tfidf import tag_id_rank_list_by_txt, ID2NAME
+#    from model.po import Po
+#    from operator import itemgetter
+#    from model.po_tag_user import tag2idlist_po_user, rss_po_new
+#    from zkit.algorithm.unique import unique
+#    from model.zsite import Zsite
+#
+#    no_tag = set()
+#    for rss_po_id in ormiter(
+#        RssPoId,
+#        'user_cid=%s'%(CID_USER)
+#    ):
+#        tag = tag2idlist_po_user.tag_id_list_by_id(
+#            rss_po_id.user_id
+#        )
+#        if not tag:
+#            no_tag.add(rss_po_id.user_id)
+#
+#    for pos, i in enumerate(Zsite.mc_get_list(no_tag)):
+#        print pos , i.id, i.name
+#        print 'http:'+i.link
+#        print ""
+#
 
