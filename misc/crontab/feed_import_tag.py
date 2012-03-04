@@ -19,11 +19,12 @@ def main():
 
         tag_id_rank_list = tag_id_rank_list_by_txt(txt)[:7]
         tag_id_list = map(itemgetter(0), tag_id_rank_list)
-        tag_admin_new(i.id, tag_id_list, i.rank)
 
         i.tag_id_list = " ".join(map(str,tag_id_list))
         i.state = FEED_IMPORT_STATE_INIT
         i.save()
+
+        tag_admin_new(i.id, tag_id_list, i.rank)
 
         print i.id, i.title, i.url
         for k, v in tag_id_rank_list:

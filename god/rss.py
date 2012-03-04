@@ -10,7 +10,7 @@ from model.zsite import zsite_by_query, Zsite
 from zkit.algorithm.unique import unique
 from urlparse import parse_qs, urlparse
 from model.po_tag import tag_id_list_by_str_list
-from model.po_tag_user import tag2idlist_po_user 
+from model.po_tag_user import tag2idlist_po_user,user_list_by_tag_id 
 
 PAGE_LIMIT = 50
 
@@ -275,6 +275,17 @@ class RssAdd(Base):
             user_list_not_exist=user_list_not_exist,
         )
 
+@urlmap('/rss/po_user/(\d+)')
+class RssPoUserId(Base):
+    def get(self, id):
+        tag = Zsite.mc_get(id)
+        user_list = user_list_by_tag_id(id)
+        self.render(tag=tag, user_list=user_list)
+
+@urlmap('/rss/po_user')
+class RssPoUser(Base):
+    def get(self):
+        self.render()
 
 @urlmap('/rss/bind')
 class RssBind(Base):
@@ -291,7 +302,8 @@ class RssBind(Base):
 
             for url in txt.splitlines():
                 url = url.strip()
-                rss = rss_new(user_id, url, name, link, auto)
+                if url:
+                    rss = rss_new(user_id, url, name, link, 0, auto)
 
             user_list_exist.append(user_id)
  

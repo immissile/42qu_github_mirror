@@ -89,12 +89,13 @@ def vps_new(_id, user_id, ip, ssh_port, passwd):
     username = 'v%s'%_id
     mail = mail_by_user_id(user_id)
 
-#    print 'echo %s:%s| chpasswd'%(username, passwd)
-#    print mail
 #    return
-    if _id != 175:
+    if _id != 151:
         return
-
+    print 'echo %s:%s| chpasswd'%(username, passwd)
+    print mail
+    print ""
+#
     subject = '[42qu.培训班] 学习用的主机帐号'
     text = """
 主机 : 0002.42qu.us

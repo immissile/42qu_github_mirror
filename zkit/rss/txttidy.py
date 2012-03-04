@@ -73,9 +73,16 @@ def txttidy_swf(txt):
     return txt
 
 def txttidy_36kr(txt):
-    pos = txt.find('<p>除非注明，本站文章均为原创或编译，转载请注明： 文章来自')
-    if pos > 0:
-        txt = txt[:pos]
+    for key in (
+'无觅猜您也喜欢',
+'您可能也喜欢',
+'<p>除非注明，本站文章均为原创或编译，转载请注明： 文章来自',
+'与本日志可能相关的文章有'
+    ):
+        pos = txt.find(key)
+        if pos > 0:
+            txt = txt[:pos]
+
     return txt
 
 def txttidy(txt):
