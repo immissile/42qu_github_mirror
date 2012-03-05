@@ -43,3 +43,6 @@ diff.trailingwhitespace = red_background
 
 [alias]
 blame = annotate --user --number
+
+[diff]
+git = True
