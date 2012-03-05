@@ -52,9 +52,9 @@ def tag_exp_new(user_id, tag_id, txt):
     return id
 
 if __name__ == "__main__":
-    #c = TagExp.raw_sql("select count(1) from tag_exp")
-    #c.fetchone()
-    #user_id = 1
-    #tag_id = 2
-    #print tag_exp_new(user_id, tag_id, "zsp331245t6yuzzzzzzzzzzzzzzzzzzzz")
+    ##c = TagExp.raw_sql("select count(1) from tag_exp")
+    ##c.fetchone()
+    user_id = 2
+    tag_id = 6
+    tag_exp_new(user_id, tag_id, "huhuchen")
 
