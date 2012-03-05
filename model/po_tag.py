@@ -23,10 +23,13 @@ from rec_read import rec_read_new, rec_read_user_topic_score_incr, REDIS_REC_PO_
 
 #REDIS_REC_CID_BUZZ =  6
 
+REDIS_REC_CID_NOTE = 2
+REDIS_REC_CID_TALK = 3
+
 REDIS_REC_CID_TUPLE = (
     (1, '快讯'),
-    (2, '文章'),
-    (3, '讨论'),
+    (REDIS_REC_CID_NOTE, '文章'),
+    (REDIS_REC_CID_TALK, '讨论'),
 #    (4, '人物 / 对话'),
 #    (5, '资料 / 知识'),
 #    (REDIS_REC_CID_BUZZ, '碎语 / 片段'),

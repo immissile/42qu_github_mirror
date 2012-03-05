@@ -17,7 +17,7 @@ from model.event import Event, event_init2to_review
 from model.po_event import event_joiner_state_set_by_good
 from model.zsite_url import link
 from model.zsite_site import zsite_id_by_zsite_user_id
-from model.po_tag import po_tag_new_by_autocompelte
+from model.po_tag import po_tag_new_by_autocompelte , REDIS_REC_CID_NOTE , REDIS_REC_CID_TALK 
 from json import loads
 
 def update_pic(form, user_id, po_id, id):
@@ -95,7 +95,6 @@ def po_post(self):
 
     arguments = self.request.arguments
 
-    tag_cid = None
     state = None
 
     if cid == CID_EVENT_FEEDBACK:
@@ -104,23 +103,15 @@ def po_post(self):
     else:
         zsite_id = zsite_id_by_zsite_user_id(zsite, user_id)
 
-        if cid == CID_NOTE:
-            tag_cid = int(self.get_argument('tag_cid', 0))
-            if tag_cid < 0:
-                tag_cid = None
+
+        if zsite_id:
+            state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
+        else:
+            secret = self.get_argument('secret', None)
+            if secret:
                 state = STATE_SECRET
             else:
                 state = STATE_ACTIVE
-        else:
-
-            if zsite_id:
-                state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
-            else:
-                secret = self.get_argument('secret', None)
-                if secret:
-                    state = STATE_SECRET
-                else:
-                    state = STATE_ACTIVE
 
     if state == STATE_SECRET:    
         from model.feed import feed_rm
@@ -141,9 +132,13 @@ def po_post(self):
             '%s_%s' % (user_id, self_id)
         )
 
-    if tag_cid:
-        tag_id_list = self.get_argument('tag_id_list', '[]')
-        tag_id_list = loads(tag_id_list)
+    if cid == CID_NOTE and po:
+        tag_id_list = self.get_arguments('tag_id_list', [])
+
+        if len(txt) > 420:
+            tag_cid = REDIS_REC_CID_NOTE 
+        else: 
+            tag_cid = REDIS_REC_CID_TALK 
         po_tag_new_by_autocompelte(po, tag_id_list, tag_cid)
 
     return po
