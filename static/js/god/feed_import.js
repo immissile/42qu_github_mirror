@@ -1,5 +1,5 @@
-function load_tag(id){ 
-    var data, prefix='/feed_import/'+id;
+function load_tag(id, prefix){ 
+    var data, prefix+=id;
 
     function refresh_data(r)
     {
