@@ -182,7 +182,7 @@ class PoBase(LoginBase):
 class PoNote(PoBase):
     cid = CID_NOTE
     po_save = staticmethod(po_note_new)
-    #template = "/ctrl/zsite/po/note.htm"
+    template = "/ctrl/zsite/po/note.htm"
 
  
 
