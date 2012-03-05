@@ -11,7 +11,7 @@ REDIS_USER_RSS_PO = "UserRssPo:%s"
 
 def po_pass(user_id, po_id):
     rss_po_pop(user_id, po_id)
-    print user_id, po_id
+#    print user_id, po_id
 
 def po_tag(user_id, po_id, title, txt, sync, tag_id_list, cid):
     #print id, title, txt, sync, tag_id_list, cid
