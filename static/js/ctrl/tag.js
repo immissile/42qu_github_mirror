@@ -172,3 +172,7 @@ function sns_share(){
         }
     })
 }
+<<<<<<< local
+
+=======
+>>>>>>> other
