@@ -82,7 +82,7 @@ $.template(
             '<a target="_blank" href="/${id}">${time}</a>'+
             '{{if link}}'+
             '<span class="split">,</span>'+
-            '${user_name}'+
+            '<a href="${link}" target="_blank">${user_name}</a>'+
             //'<a class="aH" href="${link}" target="_blank"></a>'+
             '{{/if}}'+
         '</div>'+
