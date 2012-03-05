@@ -238,24 +238,6 @@ class RssUserPoRm(Base):
         self.finish(_po_next_by_user_id(user_id, 1))
 
 
-@urlmap('/rss/user/po/(\d+)/(\d+)')
-class FeedImportJson(Base):
-    def get(self, user_id, offset):
-        self.finish(_po_next_by_user_id(user_id, offset))
-
-    def post(self, tag_id, offset):
-        id = self.get_argument('id', None)
-        title = self.get_argument('title', None)
-        txt = self.get_argument('txt', None)
-        sync = self.get_argument('sync', None)
-        author_rm = self.get_argument('author_rm', None)
-        tag_id_list = self.get_arguments('tag_id_list',[])
-        cid = self.get_argument('cid', None)
-
-        current_user_id = self.current_user_id
-        feed_review(id, cid, title, txt, tag_id_list, current_user_id, author_rm, sync)
-
-        self.get(tag_id, offset)
 
 
 @urlmap('/rss/user/po/(\d+)/pass/(\d+)')
@@ -287,6 +269,20 @@ def _po_next_by_user_id(user_id, offset):
 class RssUserPoIdOffset(Base):
     def get(self, user_id, offset):
         self.finish(_po_next_by_user_id(user_id, offset))
+
+    def post(self, user_id, offset):
+        from model.po_tag_user import po_tag
+        id = self.get_argument('id', None)
+        title = self.get_argument('title', None)
+        txt = self.get_argument('txt', None)
+        sync = self.get_argument('sync', None)
+        tag_id_list = self.get_arguments('tag_id_list',[])
+        cid = self.get_argument('cid', None)
+
+        current_user_id = self.current_user_id
+        po_tag(user_id, id, title, txt, sync, tag_id_list, cid)
+        self.get(user_id, offset)
+
 
 @urlmap('/rss/add')
 class RssAdd(Base):

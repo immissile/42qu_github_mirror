@@ -10,10 +10,13 @@ tag2idlist_po = Tag2IdList('Po')
 REDIS_USER_RSS_PO = "UserRssPo:%s"
 
 def po_pass(user_id, po_id):
-    pass
+    print user_id, po_id
 
 def po_rm(user_id, po_id):
-    pass
+    print user_id, po_id
+
+def po_tag(user_id, id, title, txt, sync, tag_id_list, cid):
+    print id, title, txt, sync, tag_id_list, cid
 
 def po_id_next_by_user(user_id, offset):
     from model.po import Po
