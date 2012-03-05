@@ -1,5 +1,5 @@
 $(function(){
-    var name=$("#name").focus();
+    var name=$("#name");
 
     $("#po_form").submit(function(){
         $("[placeholder]").each(function(){
@@ -33,10 +33,8 @@ $(function(){
     }) 
 
     $("#txt").bind("keydown",insertTab);
-})
 
 
-$(function(){
     autocomplete_tag('#search', window.TAG_LIST||[], 0);
     function show_placeholder(){
         if(!$('#token-input-search').val().length>0 && !$('.token-input-token').length>0){
@@ -55,7 +53,7 @@ $(function(){
         )
     }
     show_placeholder()
-    $('#search').bind('click',function(){
+    function _(){
         $(".token-input-list").show()
         $(this).hide()
         if(navigator.userAgent.indexOf("MSIE")>0) { 
@@ -63,7 +61,10 @@ $(function(){
         }else{
             show_token_input()
         }
-    })
-    $('#search').show().click()
+    }
+    $('#search').bind('click',_)
+    $('#search').show(_)
+
+    name.focus()
 })
 
