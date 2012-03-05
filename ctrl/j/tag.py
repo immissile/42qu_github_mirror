@@ -7,6 +7,7 @@ from model.cid import CID_TAG
 from zkit.page import page_limit_offset, Page
 from json import dumps
 from model.po_tag import po_tag_by_cid, tag_cid_count 
+from model.tag_exp import tag_exp_new, tag_exp_state_txt_by_user_id_tag_id, tag_exp_new_apply_for_admin
 
 PAGE_LIMIT = 12 
 
@@ -30,6 +31,29 @@ class TagMore(JLoginZsiteBase):
 'page':page
 
         })
+
+
+@urlmap('/j/tag/manage/apply')
+class TagManageApply(JLoginZsiteBase):
+    def post(self):
+        txt = self.get_argument('txt')
+        user_id = self.current_user_id
+        tag_id = self.zsite_id
+        tag_exp_new_apply_for_admin(user_id, tag_id, txt)
+        self.finish('{}') 
+
+    def get(self):
+        user_id = self.current_user_id
+        tag_id = self.zsite_id
+        self.finish(
+            dumps(
+                tag_exp_state_txt_by_user_id_tag_id(
+                    user_id, tag_id
+                )
+            )
+        )
+
+
 
 
 
