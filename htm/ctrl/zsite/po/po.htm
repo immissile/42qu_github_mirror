@@ -1,19 +1,9 @@
 <%!
 from model.po import STATE_SECRET, Po
-from model.cid import CID_QUESTION, CID_WORD, CID_NOTE, CID_EVENT, CID_EVENT_FEEDBACK, CID_SITE, CID_TAG
+from model.cid import CID_QUESTION, CID_WORD, CID_NOTE, CID_EVENT, CID_EVENT_FEEDBACK, CID_SITE
 from yajl import dumps
 from model.po_question import answer_count
 from model.event import Event, EVENT_STATE_REJECT, EVENT_JOIN_STATE_FEEDBACK_GOOD, event_joiner_state, EVENT_STATE_INIT, EVENT_JOIN_STATE_FEEDBACK_NORMAL, EVENT_STATE_TO_REVIEW
-from model.po_tag import REDIS_REC_CID_TUPLE, tag_cid_by_po_id
-
-PO_NOTE_CID_TUPLE = [ 
-    (0, "- 类别 -"),
-    (-1, "仅自己可见"),
-]
-PO_NOTE_CID_TUPLE.extend(REDIS_REC_CID_TUPLE)
-PO_NOTE_CID_TUPLE = tuple(PO_NOTE_CID_TUPLE)
-
-
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -43,7 +33,6 @@ PO_NOTE_CID_TUPLE = tuple(PO_NOTE_CID_TUPLE)
 <%def name="htm_head()">
 ${css.ctrl_po_edit|n}
 ${css.ctrl_event_admin|n}
-${css.ctrl_po_tag|n}
 <%
 if po:
     suffix = '/%s' % po.id
@@ -55,7 +44,6 @@ else:
 UPLOADURL = "/j/po/upload${suffix}"
 DELETEURL = "/j/po/upload/rm${suffix}"
 </script>
-
 <script src="${js.ctrl_po_note}"></script>
 <script src="${js.upload}"></script>
 <script src="${js.pic}"></script>
@@ -68,8 +56,6 @@ ${css.ctrl_po_event|n}
 if cid == CID_EVENT_FEEDBACK:
     event = this.event
     event_po = Po.mc_get(event.id)
-
-zsite_cid = zsite.cid
 %>
 
 %if cid == CID_EVENT:
@@ -123,51 +109,24 @@ rid = po.rid
         % endif
     %endif
 % endif
-%if cid == CID_NOTE:
-<%
-
-if po.state == STATE_SECRET: 
-    po_note_cid = -1
-else:
-    po_note_cid = tag_cid_by_po_id(po.id)
-%>
-
-<span class="zsite_tag_name">
-##    %if zsite_cid == CID_TAG:
-##${zsite.name} - 默认标签
-##    %endif
-<input type="text" style="color:#999" placeholder="搜索此话题下内容 ..." name="q" id="search" autocomplete="off">\
-<select name="tag_cid">\
-%for tcid, tname in PO_NOTE_CID_TUPLE:
-    <option 
-        %if po_note_cid == tcid:
-selected
-        %endif
-    value="${tcid}">${tname}</option>
-%endfor
-</select>
-</span>
-%else:
-    %if zsite_cid != CID_SITE or (cid!=CID_QUESTION and rid):
-        %if cid in (CID_WORD,  CID_QUESTION):
+%if zsite.cid != CID_SITE or (cid!=CID_QUESTION and rid):
+%if cid in (CID_WORD, CID_NOTE, CID_QUESTION):
     <input type="checkbox" name="secret" id="secret"
-            %if po.state == STATE_SECRET: 
+%if po.state == STATE_SECRET: 
 checked
-            %endif
+%endif
     >\
     <label for="secret" id="secret_label">\
-            % if cid == CID_QUESTION:
+% if cid == CID_QUESTION:
 草稿\
-            % elif rid:
+% elif rid:
 匿名\
-            % else:
+% else:
 私密\
-            % endif
-</label>
-
-        %endif
+% endif
+</label>\
 %endif
-    %endif
+%endif
 
 % if cid == CID_EVENT_FEEDBACK and current_user_id!=event.zsite_id:
 <input type="checkbox" name="good" id="good"
