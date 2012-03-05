@@ -24,9 +24,17 @@ def po_id_next_by_user(user_id, offset):
         if po:
             rss_po_id =  RssPoId.get(po_id=id)
             if rss_po_id:
-                po.tag_id_list = rss_po_id.tag_id_list
+                tag_id_list = rss_po_id.tag_id_list
             else:
-                po.tag_id_list = ""
+                tag_id_list = ""
+            tag_id_list = filter(bool, tag_id_list.split(' '))
+            tag_id_list = list(
+                zip(
+                    [ i.name for i in Zsite.mc_get_list(tag_id_list) if i is not None],
+                    tag_id_list
+                )
+            )
+            po.tag_id_list = tag_id_list
             return po
  
 def rss_po_new(po, user_tag_id_list):
