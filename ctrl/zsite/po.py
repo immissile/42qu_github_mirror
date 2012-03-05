@@ -152,7 +152,7 @@ def po_post(self):
 class PoBase(LoginBase):
     id = 0
     cid = None
-    template = None
+    template = 'ctrl/zsite/po/po.htm'
     po_save = None
     po_post = po_post
 
