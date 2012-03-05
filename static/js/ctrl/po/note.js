@@ -20,7 +20,7 @@ $(function(){
     
     function txtresize() {
         var inpo = $("#po_btn"),
-        h = Math.max(win.height() - txt.offset().top - 50, 250);
+        h = Math.max(win.height() - txt.offset().top - 37, 250);
         txt.height(h)
     }
     txtresize()
