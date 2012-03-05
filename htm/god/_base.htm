@@ -12,8 +12,10 @@ from model.reply import Reply
 from model.event import Event, EVENT_STATE_TO_REVIEW
 from model.cid import CID_COM
 from model.po_product import product_count
+from config import SITE_DOMAIN_SUFFIX, SITE_HTTP
 from model.zsite_verify import ZsiteUserVerifyed, ZSITE_USER_VERIFYED_UNCHECK
 %>\
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <!doctype html>\
 <head>\
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">\
@@ -141,6 +143,16 @@ count = product_count()
 <a class="cola tc" href="/trade_list">交易记录</a>
 <a class="cola tc" href="/chart">网站报表</a>
 <a class="cola tc" href="http://t.cn/aCOG3v" target="_blank">京东返点</a>
+%else:
+
+<%htm:form action="${SITE_HTTP}/auth/login">
+<input name="mail" type="text" style="border:1px solid #eee;padding:7px;width:160px" placeholder="登录邮箱">
+<input name="password" type="password" style="border:1px solid #eee;padding:7px;width:160px;margin-top:14px" placeholder="登录密码">
+<span class="btnw mt14">
+<button class="btn" style="width:173px" type="submit">切换帐号</button>
+</span>
+<input type="hidden" name="next" value="//god${SITE_DOMAIN_SUFFIX}">
+</%htm:form>
 
 %endif
 <%

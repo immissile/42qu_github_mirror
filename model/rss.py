@@ -23,27 +23,29 @@ STATE_RSS_EMAILD = 6
 STATE_RSS_REJECT = 7
 STATE_RSS_OK = 8
 
+
+
 STATE2CN = {
-        STATE_RSS_OK:'通过',
-        STATE_RSS_NEW:'新建',
-        STATE_RSS_EMAILD:'已经联系',
-        STATE_RSS_REJECT:'已经被拒绝'
-        }
+    STATE_RSS_OK:'通过',
+    STATE_RSS_NEW:'新建',
+    STATE_RSS_EMAILD:'已经联系',
+    STATE_RSS_REJECT:'已经被拒绝'
+}
 
-class Rss(McModel):
+RSS_PO_ID_STATE_NOTAG = 0
+RSS_PO_ID_STATE_AUTOTAG = 10
+RSS_PO_ID_STATE_TAGED = 20
+
+class RssPoId(Model):
     pass
 
-class RssPo(McModel):
-    pass
-
-class RssPoId(McModel):
-    pass
-
-class RssUpdate(McModel):
-    pass
-
-def rss_po_id(rss_po_id, po_id):
-    RssPoId.raw_sql('insert into rss_po_id (id, po_id, state) values (%s, %s, 0)', rss_po_id, po_id)
+def rss_po_id_new(user, rss_po_id, po_id):
+    RssPoId.raw_sql(
+        'insert delayed into rss_po_id '\
+        '(rss_po_id, po_id, user_id, user_cid, state) '\
+        'values (%s, %s, %s, %s, %s)', 
+        rss_po_id, po_id,  user.id, user.cid, RSS_PO_ID_STATE_NOTAG,
+    )
 
 mc_rss_link_by_po_id = McCache('RssLinkByPoId:%s')
 
@@ -54,6 +56,18 @@ def rss_link_by_po_id(id):
         rss_po = RssPo.mc_get(rss_po.id)
         if rss_po:
             return rss_po.link
+
+
+
+class Rss(McModel):
+    pass
+
+class RssPo(McModel):
+    pass
+
+
+class RssUpdate(McModel):
+    pass
 
 def rss_po_total(state):
     return RssPo.where(state=state).count()
@@ -85,7 +99,7 @@ def get_rss_by_gid(gid, limit=1, offset=10):
     return rss
 
 def rss_po_list_by_state(state, limit=1, offset=10):
-    p = RssPo.raw_sql('select id,link,user_id,title,txt,pic_list,rss_id from rss_po where state = %s order by id desc limit %s offset %s', state, limit, offset).fetchall()
+    p = RssPo.raw_sql('select id,link,user_id,title,txt,rss_id from rss_po where state = %s order by id desc limit %s offset %s', state, limit, offset).fetchall()
     return p
 
 
@@ -114,9 +128,22 @@ def mail_by_rss_id(rss_id):
 
 
 
+
+
 if __name__ == '__main__':
     pass
 
-    from zkit.rss.txttidy import txttidy
-    from tidylib import  tidy_fragment
+#    rss_subscribe()
 
+#    from zkit.rss.txttidy import txttidy
+#    from tidylib import  tidy_fragment
+#    rss = Rss.get(596)
+#    print rss.id, rss.gid
+
+
+#    for i in Rss.where("gid<0"):
+#        print ii
+    from model.cid import CID_USER
+    for i in RssPoId.where("user_cid=%s", CID_USER):
+        print i.id
+    #RSS_PO_ID_STATE_NOTAG 

@@ -122,7 +122,7 @@ class FeedImportJson(Base):
 
         self.get(tag_id, offset)
 
-@urlmap('/feed_import/(\d+)/rm/(\d+)')
+@urlmap('/feed_import/(\d+)/pass/(\d+)')
 class FeedImportRmJson(Base):
     def post(self, tag_id, id):
         current_user_id = self.current_user_id

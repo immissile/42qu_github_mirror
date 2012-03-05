@@ -6,6 +6,12 @@ from model.rss import rss_po_list_by_state, RssPo, RSS_UNCHECK, RSS_PRE_PO, RSS_
 from zkit.page import page_limit_offset
 from model.zsite import Zsite
 from model.site_sync import site_sync_rm, site_sync_new
+from model.zsite import zsite_by_query, Zsite
+from zkit.algorithm.unique import unique
+from urlparse import parse_qs, urlparse
+from model.po_tag import tag_id_list_by_str_list
+from model.po_tag_user import tag2idlist_po_user,user_list_by_tag_id , po_id_next_by_user
+
 PAGE_LIMIT = 50
 
 @urlmap('/rss/index')
@@ -192,7 +198,7 @@ class RssPoEdit(Base):
         txt = self.get_argument('txt', None)
         rt = self.get_argument('rt', None)
         title = self.get_argument('name', None)
-        sync = self.get_argument('sync',None)
+        sync = self.get_argument('sync', None)
         po = RssPo.mc_get(id)
         po.txt = txt
         next = self.get_argument('next', None) or '/rss/index'
@@ -206,7 +212,7 @@ class RssPoEdit(Base):
         if title:
             po.title = title
         po.save()
-        
+
         if sync:
             site_sync_new(id)
         else:
@@ -223,4 +229,145 @@ class RssMail(Base):
         next = self.request.headers.get('Referer', None) or '/rss/index'
         self.redirect(next)
 
+
+@urlmap('/rss/user/po/(\d+)/rm/(\d+)')
+class RssUserPoRm(Base):
+    def get(self, user_id, id):
+        from model.po_tag_user import po_rm
+        po_rm(user_id, id)
+        self.finish(_po_next_by_user_id(user_id, 1))
+
+
+
+
+@urlmap('/rss/user/po/(\d+)/pass/(\d+)')
+class RssUserPoRm(Base):
+    def get(self, user_id, id):
+        from model.po_tag_user import po_pass
+        po_pass(user_id, id)
+        self.finish(_po_next_by_user_id(user_id, 1))
+
+@urlmap('/rss/user/po/(\d+)')
+class RssUserPo(Base):
+    def get(self, id):
+        user = Zsite.mc_get(id) 
+        self.render("/god/rss/tag.htm",  prefix='/rss/user/po/', user=user)
+
+def _po_next_by_user_id(user_id, offset):
+    po = po_id_next_by_user(user_id, offset)
+    if not po:
+        return '0' 
+    return {
+        'id':po.id,
+        'title':po.name_,
+        'txt':po.txt,
+        'tag_id_list':po.tag_id_list,
+        'url':po.link
+    }
+
+@urlmap('/rss/user/po/(\d+)/(\d+)')
+class RssUserPoIdOffset(Base):
+    def get(self, user_id, offset):
+        self.finish(_po_next_by_user_id(user_id, offset))
+
+    def post(self, user_id, offset):
+        from model.po_tag_user import po_tag
+        id = self.get_argument('id', None)
+        title = self.get_argument('title', None)
+        txt = self.get_argument('txt', None)
+        sync = self.get_argument('sync', None)
+        tag_id_list = self.get_arguments('tag_id_list',[])
+        cid = self.get_argument('cid', None)
+
+        current_user_id = self.current_user_id
+        po_tag(user_id, id, title, txt, sync, tag_id_list, cid)
+        self.get(user_id, offset)
+
+
+@urlmap('/rss/add')
+class RssAdd(Base):
+    def get(self):
+        self.render()
+
+    def post(self):
+        user_list = self.get_argument('user_list','')
+        user_list = filter(bool, map(str.strip, user_list.splitlines()))
+
+#        print tag_id_list
+
+        user_list_exist = []
+        user_list_not_exist = []
+
+        for i in user_list:
+            zsite_id = zsite_by_query(i)
+            if zsite_id:
+                user_list_exist.append(zsite_id)
+            else:
+                user_list_not_exist.append(i)
+            
+             
+
+        user_list_not_exist = unique(user_list_not_exist)
+        user_list_exist = unique(user_list_exist)
+
+
+
+        tag_id_list = tag_id_list_by_str_list(
+            filter(
+                bool, map(
+                    str.strip, 
+                    self.get_argument('tag','').split()
+                )
+            )
+        )
+
+        for i in user_list_exist:
+            tag2idlist_po_user.append_id_tag_id_list(i, tag_id_list) 
+
+        self.render(
+            user_list_exist=Zsite.mc_get_list(user_list_exist),
+            user_list_not_exist=user_list_not_exist,
+        )
+
+@urlmap('/rss/po_user/(\d+)')
+class RssPoUserId(Base):
+    def get(self, id):
+        tag = Zsite.mc_get(id)
+        user_list = user_list_by_tag_id(id)
+        self.render(tag=tag, user_list=user_list)
+
+@urlmap('/rss/po_user')
+class RssPoUser(Base):
+    def get(self):
+        self.render()
+
+@urlmap('/rss/bind')
+class RssBind(Base):
+    def post(self):
+        arguments = parse_qs(self.request.body, True)
+
+        link = ''
+        name = ''
+        auto = 1
+
+        user_list_exist = []
+        for txt, id in zip(arguments.get('txt'), arguments.get('id')):
+            user_id = int(id)
+
+            for url in txt.splitlines():
+                url = url.strip()
+                if url:
+                    rss = rss_new(user_id, url, name, link, 0, auto)
+
+            user_list_exist.append(user_id)
+ 
+        if user_list_exist:
+            self.render(
+                '/god/rss/rss_add.htm',
+                user_list_exist=Zsite.mc_get_list(user_list_exist),
+                user_list_not_exist=[],
+                success = True
+            )
+        else:
+            self.rediect("/rss/add")
 
