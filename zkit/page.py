@@ -17,7 +17,7 @@ def limit_offset(n, limit):
     offset = 0
     if n <= 0:
         offset = -n
-        n = (-n+limit-1)//limit 
+        n = (-n+limit)//limit 
         list_limit = max(n*limit - offset, 1)
     else:
         offset = (n-1)*limit
