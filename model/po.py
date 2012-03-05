@@ -110,7 +110,8 @@ class Po(McModel, ReplyMixin):
 
     @attrcache
     def user(self):
-        return Zsite.mc_get(self.user_id)
+        if self.user_id:
+            return Zsite.mc_get(self.user_id)
 
     @attrcache
     def target(self):

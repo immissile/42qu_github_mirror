@@ -82,7 +82,7 @@ $.template(
             '<a target="_blank" href="/${link}">${time}</a>'+
             '{{if link}}'+
             '<span class="split">,</span>'+
-            '{{html user_name}}'+
+            '${user_name}'+
             '<a class="aH" href="${link}" target="_blank"></a>'+
             '{{/if}}'+
         '</div>'+
@@ -159,8 +159,6 @@ function note_li(feed_index, result){
             self=$(p), 
             title=self.find('.title').addClass('c9'), 
             id=p.id.slice(5), 
-            user=$(p.parentNode).find('.TPH'),
-            user_link
             ;
         feeds.append(txt_loading);
         oldtop=winj.scrollTop();
@@ -172,13 +170,6 @@ function note_li(feed_index, result){
         "/j/po/json/"+id,
         function(r){
             r.id=id
-            if(user[0]){
-                user_link=user[0].href+id
-            }else{
-                user_link = 0
-            }
-            r.user_name=user.html()
-            r.link = user_link
             r.time = $.timeago(r.create_time)
             r.fav = $('#fav'+id)[0].className
             
