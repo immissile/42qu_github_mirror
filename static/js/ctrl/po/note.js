@@ -64,13 +64,5 @@ $(function(){
         }
     })
     $('#search').show().click()
-
-    $('.po_btn').click(function(){
-        if($('.token-input-token').length>0 && $('#tag_cid').val()==0){
-            alert('请选择类别')
-        }else{
-           $('form')[0].submit() 
-        }
-    })
 })
 

@@ -387,10 +387,16 @@ def _po_rm(user_id, po):
     po.save()
     id = po.id
     feed_rm(id)
+
     from zsite_tag import zsite_tag_rm_by_po
     zsite_tag_rm_by_po(po)
+
+    from po_tag import po_tag_rm_by_po
+    po_tag_rm_by_po(po)
+
     from rank import rank_rm_all
     rank_rm_all(id)
+
     from po_question import mc_answer_id_get, answer_count
     rid = po.rid
     if rid:

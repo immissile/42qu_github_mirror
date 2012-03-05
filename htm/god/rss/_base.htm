@@ -1,0 +1,30 @@
+<%!
+from model.rss import rss_po_total, RSS_UNCHECK,Rss,RSS_RM,RSS_POED,RSS_RT_PO,RSS_PRE_PO 
+%>
+
+<%inherit file="/god/_base.htm" />
+
+<%def name="col2()">
+
+<%
+max_id = Rss.max_id()
+%>
+<a class="cola tc" href="/">返回后台</a>
+<p class="coltitle">文章</p>
+<a class="cola" href="/rss/index?${max_id}">未审核</a>
+<a class="cola" href="/rss/index/${RSS_PRE_PO}?${max_id}">已审核</a>
+<a class="cola" href="/rss/index/${RSS_RT_PO}?${max_id}">已审核并全站转发</a>
+<a class="cola" href="/rss/index/${RSS_POED}?${max_id}">已发表</a>
+<a class="cola" href="/rss/index/${RSS_RM}?${max_id}">已删除</a>
+
+<p class="coltitle">订阅</p>
+<a class="cola" href="/rss/add">导入用户</a>
+<a class="cola" href="/rss/gid/0">待订阅</a>
+<a class="cola" href="/rss/gid/1">已订阅</a>
+<a class="cola" href="/rss/gid/-1">被删除</a>
+<a class="cola" href="/rss/new">添加RSS</a>
+</div>
+</%def>
+
+${next.body()}
+

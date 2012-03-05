@@ -536,3 +536,18 @@ RegExp.escape = function(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 }
 
+function scroll_to_fixed(id, size, style1, style2){
+    if(!IE6){
+        var elem = $(id);
+        if(elem[0]){
+            elem.css('position','absolute')
+            var top = elem.offset().top, win=$(window).scroll(function() {
+                if(win.scrollTop() >= top+size){
+                    elem.css(style1)
+                }else{
+                    elem.css(style2)
+                }
+            })
+        }
+    }
+}

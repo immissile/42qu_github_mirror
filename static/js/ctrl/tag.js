@@ -137,6 +137,7 @@ function click_sets(){
 }
 
 function pop_manage(){
+    if(!islogin())return;
     var fancybox = $.fancybox
     fancybox.showActivity()
     fancybox({
@@ -171,3 +172,4 @@ function sns_share(){
         }
     })
 }
+

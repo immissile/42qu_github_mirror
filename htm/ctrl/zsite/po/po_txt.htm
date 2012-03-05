@@ -4,7 +4,23 @@
 
 <%def name="htm_head()">
 ${css.ctrl_zsite_com|n}
+<%
+if po:
+    suffix = '/%s' % po.id
+else:
+    suffix = ''
+
+%>
+
+<script>
+UPLOADURL = "/j/po/upload${suffix}"
+DELETEURL = "/j/po/upload/rm${suffix}"
+</script>
+
 <script src="${js.ctrl_po_note}"></script>
+<script src="${js.upload}"></script>
+<script src="${js.pic}"></script>
+
 </%def>
 
 <style>
@@ -64,15 +80,10 @@ width:287px;
 ul.token-input-list li p{
 color:#666;
 }
-select{
-text-align:center;
-padding:10px;
-height:43px;
-border:1px solid #e9e9e9;
-margin-right:32px;
+#cid_label{
 color:#666;
-font-size:14px;
-width:128px;
+margin:0 70px 0 6px;
+vertical-align:1px;
 }
 .add_pic{
 width:124px;
@@ -93,10 +104,10 @@ display: inline-block;
 font-size: 14px;
 padding: 3px 14px;
 text-shadow: 0 1px 0 #FFFFFF;
-width:259px;
+width:289px;
+cursor:pointer;
 vertical-align:3px;
 text-align:center;
-height:42px;
 line-height:42px;
 margin-bottom:22px;
 filter:progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff',EndColorStr='#f3f3f3');
@@ -119,6 +130,7 @@ line-height:34px;
 
 </style>
 
+<%htm:form enctype="multipart/form-data" id="po_form">
 <div class="com_wrap">
 <div class="com_main">
 <input id="name" type="text" autocomplete="off" name="name" >\
@@ -127,17 +139,51 @@ line-height:34px;
 </div>
 
 <div class="com_side">
-<a class="po_btn" href="javascript:void(0)">发布</a>
+<button class="po_btn" type="submit">发布</button>
 <input type="text" style="color:#999" placeholder="搜索并添加话题 ..." name="q" id="search" autocomplete="off">\
 
-<select name="tag_cid" id="tag_cid"> <option value="0" selected="selected">- 类别 -</option>
- <option value="-1">仅自己可见</option>
- <option value="1">新闻 / 快讯</option>
- <option value="2">观察 / 思考</option>
- <option value="3">问题 / 讨论</option>
- <option value="4">人物 / 对话</option>
- <option value="5">资料 / 知识</option>
- <option value="6">碎语 / 片段</option>
-</select>
-<a class="add_pic" href="javascript:void(0)">添加图片</a>
+<input type="checkbox" name="tag_cid" id="cid_cb"/><label for="cid_cb" id="cid_label">仅自己可见</label>
+<a class="add_pic" href="javascript:upload();void(0)">添加图片</a>
 </div>
+
+<div id="uploaded"></div>
+
+</%htm:form>
+
+<%text>
+<script id="update_item" type="text/x-jquery-tmpl">
+<div id="pic${$data[0]}" class="c imgblock">
+<img class="picsrc" src="${$data[2]}">
+<div class="picimg">
+<p>
+图:<span class="seqid">${$data[0]}</span> </p>
+<p>
+<label for="tit${$data[0]}">标题:</label>
+<input id="tit${$data[0]}" class="title" name="tit${$data[0]}" value="${$data[3]}"></p>
+<p class="align">
+<a href="javascript:void(0)" rel="${$data[0]}" class="rmpic">删除</a>
+<input 
+{{if $data[1]==-1}}
+checked
+{{/if}}
+id="pos${$data[0]}_-1" name="pos${$data[0]}" type="radio" value="-1" class="radio">
+<label for="pos${$data[0]}_-1">居左</label>
+<input
+{{if $data[1]==0}}
+checked
+{{/if}}
+id="pos${$data[0]}_0" name="pos${$data[0]}" type="radio" value="0" class="radio">
+<label for="pos${$data[0]}_0">居中</label>
+<input
+{{if $data[1]==1}}
+checked
+{{/if}}
+id="pos${$data[0]}_1" name="pos${$data[0]}" type="radio" value="1" class="radio">
+<label for="pos${$data[0]}_1">居右</label>
+</p>
+</div>
+</div>
+</script>
+</%text>
+
+

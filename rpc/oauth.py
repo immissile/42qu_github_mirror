@@ -14,7 +14,7 @@ from model.zsite import Zsite
 
 BACK_URL = '//%s/i/bind'%SITE_DOMAIN
 
-LOGIN_REDIRECT = '%s/live'
+LOGIN_REDIRECT = '%s/feed'
 
 class Base(_Base):
     def prepare(self):

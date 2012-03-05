@@ -79,7 +79,7 @@ $.template(
     'note_txt',
     '<pre class="prebody">{{html txt}}'+
         '<div class="readauthor">'+
-            '<a target="_blank" href="/${link}">${time}</a>'+
+            '来自'+
             '{{if link}}'+
             '<span class="split">,</span>'+
             '{{html user_name}}'+
@@ -129,7 +129,8 @@ function note_li(feed_index, result){
     function readx(noscroll){
         if(oldtop<0)return;
         txt_loading.remove()
-        feed_index.show()
+        //feed_index.show()
+        $('.com_main').show()
         if(!noscroll){ 
             winj.scrollTop(oldtop)
         }
@@ -154,7 +155,8 @@ function note_li(feed_index, result){
         READX = readx
 
         scrollTop = feeds.offset().top-14
-        feed_index.hide();
+        //feed_index.hide();
+        $('.com_main').hide()
         var p = this.parentNode,
             self=$(p), 
             title=self.find('.title').addClass('c9'), 
@@ -166,6 +168,8 @@ function note_li(feed_index, result){
         oldtop=winj.scrollTop();
         winj.scrollTop(scrollTop);
         txt_title.html(title.html())
+        var style1 = {'position':'fixed',"top":0},style2 = {'position':'absolute',"marginTop":0}
+        scroll_to_fixed('#main_nav_txt',8,style1,style2)
 
 
         $.get(
@@ -184,7 +188,11 @@ function note_li(feed_index, result){
             
             txt_body = $.tmpl('note_txt',r)
             read_loading.replaceWith(txt_body)
-            txt_opt.html(txt_body.find('.fdopt').html());
+            var fdopt = txt_body.find('.fdopt'),
+                readauthor = txt_body.find('.readauthor')
+            txt_opt.html(fdopt.html())
+            fdopt.replaceWith(readauthor.html())
+            readauthor.remove()
             winj.scrollTop(scrollTop)
         })
 

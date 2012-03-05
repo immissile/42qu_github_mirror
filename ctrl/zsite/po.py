@@ -17,7 +17,8 @@ from model.event import Event, event_init2to_review
 from model.po_event import event_joiner_state_set_by_good
 from model.zsite_url import link
 from model.zsite_site import zsite_id_by_zsite_user_id
-from model.po_tag import po_tag_id_new
+from model.po_tag import po_tag_new_by_autocompelte
+from json import loads
 
 def update_pic(form, user_id, po_id, id):
     pl = pic_list(user_id, id)
@@ -140,8 +141,10 @@ def po_post(self):
             '%s_%s' % (user_id, self_id)
         )
 
-    if tag_cid is not None:
-        po_tag_id_new(po, zsite.id, cid)
+    if tag_cid:
+        tag_id_list = self.get_argument('tag_id_list', '[]')
+        tag_id_list = loads(tag_id_list)
+        po_tag_new_by_autocompelte(po, tag_id_list, tag_cid)
 
     return po
 

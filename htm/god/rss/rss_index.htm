@@ -1,4 +1,4 @@
-<%inherit file="/god/_base.htm" />
+<%inherit file="_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
 from model.rss import RSS_PRE_PO,RSS_RM, STATE2CN, STATE_RSS_NEW, RssUpdate, rss_update_new
@@ -67,19 +67,12 @@ ${page|n}
 
 % for p in rss_po_list:
 <%
-id,link,user_id,title,htm,pic_list,rss_id = p
+id,link,user_id,title,htm,rss_id = p
 user = Zsite.mc_get(user_id)
 txt = htm
-pic_list = json.loads(pic_list)
 txt_cut, has_more = cnenoverflow(txt, 164)
 url = url_by_id(user_id)
 %>
-%if pic_list:
-<%
-pic_list = ['<div class="PIC"><img src="%s"></div>'%i for i in pic_list]
-htm = pic_rss(htm,pic_list)
-%>
-%endif
 
 <div class="rss">
     <div class="tr">
