@@ -110,6 +110,10 @@ http://book.42qu.com/tool/git.html
 http://book.42qu.com/database/index.html
 
 PS: 没有开通主机的同学 请邮件到我邮箱 zsp007@gmail.com 标题为 "[主机.42培训班] + 你的42qu注册帐号"
+
+另外请加入
+Google groups https://groups.google.com/group/42qu-school
+QQ群 : 211707205
 """
 
 #
