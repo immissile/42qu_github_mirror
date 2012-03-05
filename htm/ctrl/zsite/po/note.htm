@@ -7,9 +7,6 @@ from yajl import dumps
 <%namespace file="/ctrl/zsite/_util/event.htm" import="event_admin_nav"/>
 
 <%def name="htm_head()">
-${css.ctrl_zsite_com|n}
-${css.ctrl_po_edit|n}
-${css.ctrl_po_note|n}
 
 <%
 if po:
@@ -28,6 +25,9 @@ DELETEURL = "/j/po/upload/rm${suffix}"
 <script src="${js.upload}"></script>
 <script src="${js.pic}"></script>
 
+${css.ctrl_zsite_com|n}
+${css.ctrl_po_edit|n}
+${css.ctrl_po_note|n}
 </%def>
 
 <%htm:form enctype="multipart/form-data" id="po_form">
@@ -40,7 +40,7 @@ DELETEURL = "/j/po/upload/rm${suffix}"
 
 <div class="com_side">
 <button class="po_btn" type="submit">发布</button>
-<input type="text" style="color:#999" placeholder="搜索并添加话题 ..." name="q" id="search" autocomplete="off">\
+<input type="text" style="color:#999" placeholder="添加标签 , 分享给感兴趣的人 ..." name="q" id="search" autocomplete="off">\
 
 <input type="checkbox" name="tag_cid" id="cid_cb"/><label for="cid_cb" id="cid_label">仅自己可见</label>
 <a class="add_pic" href="javascript:upload();void(0)">添加图片</a>
