@@ -9,6 +9,26 @@ tag2idlist_po = Tag2IdList('Po')
 #tag2idlist_user_rss_po = Tag2IdList('UserRssPo')
 REDIS_USER_RSS_PO = "UserRssPo:%s"
 
+def po_pass(user_id, po_id):
+    pass
+
+def po_rm(user_id, po_id):
+    pass
+
+def po_id_next_by_user(user_id, offset):
+    from model.po import Po
+    from model.rss import RssPoId
+    id = redis.lindex(REDIS_USER_RSS_PO%user_id, offset)
+    if id: 
+        po = Po.mc_get(id)
+        if po:
+            rss_po_id =  RssPoId.get(po_id=id)
+            if rss_po_id:
+                po.tag_id_list = rss_po_id.tag_id_list
+            else:
+                po.tag_id_list = ""
+            return po
+ 
 def rss_po_new(po, user_tag_id_list):
     id = po.id
     tag2idlist_po.append_id_tag_id_list(

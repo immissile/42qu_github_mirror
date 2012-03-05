@@ -10,7 +10,7 @@ from model.zsite import zsite_by_query, Zsite
 from zkit.algorithm.unique import unique
 from urlparse import parse_qs, urlparse
 from model.po_tag import tag_id_list_by_str_list
-from model.po_tag_user import tag2idlist_po_user,user_list_by_tag_id 
+from model.po_tag_user import tag2idlist_po_user,user_list_by_tag_id , po_id_next_by_user
 
 PAGE_LIMIT = 50
 
@@ -229,11 +229,50 @@ class RssMail(Base):
         next = self.request.headers.get('Referer', None) or '/rss/index'
         self.redirect(next)
 
+
+@urlmap('/rss/user/po/(\d+)/rm/(\d+)')
+class RssUserPoRm(Base):
+    def get(self, user_id, id):
+        from model.po_tag_user import po_rm
+        po_rm(user_id, id)
+        self.finish(_po_next_by_user_id(user_id, 1))
+
+@urlmap('/rss/user/po/(\d+)/pass/(\d+)')
+class RssUserPoRm(Base):
+    def get(self, user_id, id):
+        from model.po_tag_user import po_pass
+        po_pass(user_id, id)
+        self.finish(_po_next_by_user_id(user_id, 1))
+
 @urlmap('/rss/user/po/(\d+)')
 class RssUserPo(Base):
     def get(self, id):
         user = Zsite.mc_get(id) 
         self.render("/god/rss/tag.htm",  prefix='/rss/user/po/', user=user)
+
+def _po_next_by_user_id(user_id, offset):
+    po = po_id_next_by_user(user_id, offset)
+    if not po:
+        return '0' 
+    tag_id_list = filter(bool, po.tag_id_list.split(' '))
+    tag_id_list = list(
+        zip(
+            [ i.name for i in Zsite.mc_get_list(tag_id_list) if i is not None],
+            tag_id_list
+        )
+    )
+    return {
+        'id':po.id,
+        'title':po.name_,
+        'txt':po.txt,
+        'tag_id_list':tag_id_list,
+        'url':po.link
+    }
+
+@urlmap('/rss/user/po/(\d+)/(\d+)')
+class RssUserPoIdOffset(Base):
+    def get(self, user_id, offset):
+        self.finish(_po_next_by_user_id(user_id, offset))
 
 @urlmap('/rss/add')
 class RssAdd(Base):
