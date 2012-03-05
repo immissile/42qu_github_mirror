@@ -171,10 +171,10 @@ class PoJson(Base):
             user = po.user
             if user:
                 result['link'] = user.link
-                result['user_name'] = "%s %s"%(
+                result['user_name'] = " ".join((
                     user.name,
                     career_current_str(user.id)
-                )
+                ))
             po_pos_mark(current_user_id, po)
         else:
             result = {}

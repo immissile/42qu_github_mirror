@@ -158,7 +158,7 @@ function note_li(feed_index, result){
         var p = this.parentNode,
             self=$(p), 
             title=self.find('.title').addClass('c9'), 
-            id=p.id.slice(5), 
+            id=p.id.slice(5)
             ;
         feeds.append(txt_loading);
         oldtop=winj.scrollTop();
@@ -167,16 +167,16 @@ function note_li(feed_index, result){
 
 
         $.get(
-        "/j/po/json/"+id,
-        function(r){
-            r.id=id
-            r.time = $.timeago(r.create_time)
-            r.fav = $('#fav'+id)[0].className
-            
-            txt_body = $.tmpl('note_txt',r)
-            read_loading.replaceWith(txt_body)
-            txt_opt.html(txt_body.find('.fdopt').html());
-            winj.scrollTop(scrollTop)
+            "/j/po/json/"+id,
+            function(r){
+                r.id=id
+                r.time = $.timeago(r.create_time)
+                r.fav = $('#fav'+id)[0].className
+                
+                txt_body = $.tmpl('note_txt',r)
+                read_loading.replaceWith(txt_body)
+                txt_opt.html(txt_body.find('.fdopt').html());
+                winj.scrollTop(scrollTop)
         })
 
         return false; 
