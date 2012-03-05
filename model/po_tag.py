@@ -328,7 +328,7 @@ def tag_id_list_by_str_list(tag_list):
     for i in tag_list:
         i_ = i.startswith('-')
         if i_:
-            i_ = i[1:]
+            i = i[1:]
         if i_ or not i.isdigit():
             for id in tag_by_str(i):
                 tag_id_list.append(id)

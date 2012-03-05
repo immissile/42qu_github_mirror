@@ -215,12 +215,16 @@ class Edit(LoginBase):
             return self.redirect(
                 '%s/po/edit/%s'%(link(po_zsite_id), id)
             )
-
-        if po.cid == CID_EVENT_FEEDBACK:
+        cid = po.cid
+        if cid == CID_EVENT_FEEDBACK:
             self.event = Event.mc_get(po.rid)
 
+        if cid == CID_NOTE:
+            template = 'ctrl/zsite/po/note.htm'
+        else:
+            template = 'ctrl/zsite/po/po.htm'
         self.render(
-            'ctrl/zsite/po/po.htm',
+            template,
             po=po,
             cid=po.cid,
             pic_list=pic_list_edit(user_id, id)

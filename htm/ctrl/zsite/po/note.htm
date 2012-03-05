@@ -35,8 +35,8 @@ ${css.ctrl_po_note|n}
 <%htm:form enctype="multipart/form-data" id="po_form">
 <div class="com_wrap">
 <div class="com_main">
-<input id="name" type="text" autocomplete="off" name="name" >\
-<textarea id="txt" name="txt"></textarea>
+<input id="name" type="text" autocomplete="off" name="name" value="${po.name_}">\
+<textarea id="txt" name="txt">${po.txt}</textarea>
 </div>
 </div>
 
@@ -102,7 +102,7 @@ $('#update_item').tmpl(${dumps(pic_json_list)|n}).appendTo("#uploaded")
 tag_list = tag_list_by_po_id(po.id)
 %>
 %if tag_list:
-TAG_LIST = ${json_encode([(i.name,i.id) for i in tag_list])}
+TAG_LIST = ${json_encode([(i.name,i.id) for i in tag_list])|n}
 %endif
 %endif
 </script>

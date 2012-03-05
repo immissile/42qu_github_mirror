@@ -62,9 +62,8 @@ $(function(){
             show_token_input()
         }
     }
-    $('#search').bind('click',_)
-    $('#search').show(_)
+    $('#search').bind('click',_).show().click()
 
-    name.focus()
+    name.focus().select()
 })
 
