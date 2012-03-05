@@ -79,11 +79,11 @@ $.template(
     'note_txt',
     '<pre class="prebody">{{html txt}}'+
         '<div class="readauthor">'+
-            '<a target="_blank" href="/${link}">${time}</a>'+
+            '<a target="_blank" href="/${id}">${time}</a>'+
             '{{if link}}'+
             '<span class="split">,</span>'+
-            '{{html user_name}}'+
-            '<a class="aH" href="${link}" target="_blank"></a>'+
+            '<a href="${link}" target="_blank" class="TPH">${user_name}</a>'+
+            //'<a class="aH" href="${link}" target="_blank"></a>'+
             '{{/if}}'+
         '</div>'+
     '</pre>'+
@@ -158,9 +158,7 @@ function note_li(feed_index, result){
         var p = this.parentNode,
             self=$(p), 
             title=self.find('.title').addClass('c9'), 
-            id=p.id.slice(5), 
-            user=$(p.parentNode).find('.TPH'),
-            user_link
+            id=p.id.slice(5)
             ;
         feeds.append(txt_loading);
         oldtop=winj.scrollTop();
@@ -169,23 +167,16 @@ function note_li(feed_index, result){
 
 
         $.get(
-        "/j/po/json/"+id,
-        function(r){
-            r.id=id
-            if(user[0]){
-                user_link=user[0].href+id
-            }else{
-                user_link = 0
-            }
-            r.user_name=user.html()
-            r.link = user_link
-            r.time = $.timeago(r.create_time)
-            r.fav = $('#fav'+id)[0].className
-            
-            txt_body = $.tmpl('note_txt',r)
-            read_loading.replaceWith(txt_body)
-            txt_opt.html(txt_body.find('.fdopt').html());
-            winj.scrollTop(scrollTop)
+            "/j/po/json/"+id,
+            function(r){
+                r.id=id
+                r.time = $.timeago(r.create_time)
+                r.fav = $('#fav'+id)[0].className
+                
+                txt_body = $.tmpl('note_txt',r)
+                read_loading.replaceWith(txt_body)
+                txt_opt.html(txt_body.find('.fdopt').html());
+                winj.scrollTop(scrollTop)
         })
 
         return false; 

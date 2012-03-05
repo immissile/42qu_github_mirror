@@ -61,12 +61,13 @@ class Duplicator(object):
 
         #print feature_list
         feature_list_len = float(len(feature_list))
-        min_same_count = int(feature_list_len*0.618)+1
+
+        min_same_count = min(int(feature_list_len*0.618)+1, feature_list_len)
 
         result = []
         for id, same_count in self.__find_duplicate__(feature_list).iteritems():
             #print same_count
-            if same_count > min_same_count:
+            if same_count >= min_same_count:
                 result.append((id, same_count/feature_list_len))
 
         return result

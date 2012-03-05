@@ -30,9 +30,10 @@ class Logout(XsrfGetBase):
 class NoLoginBase(Base):
     def prepare(self):
         super(NoLoginBase, self).prepare()
-        current_user = self.current_user
-        if current_user:
-            self.redirect(LOGIN_REDIRECT%current_user.link)
+        if self.request.method != "POST":
+            current_user = self.current_user
+            if current_user:
+                self.redirect(LOGIN_REDIRECT%current_user.link)
 
     def _login(self, user_id, mail, redirect=None):
         session = user_session(user_id)

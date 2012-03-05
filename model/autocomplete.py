@@ -167,7 +167,7 @@ if __name__ == '__main__':
 
     #from zkit.pprint import pprint
     #pprint(autocomplete_tag.id_rank_name_list_by_str('baidu'))
-    #print autocomplete_tag.id_rank_name_list_by_str('f')
+    print autocomplete_tag.id_rank_name_list_by_str('f')
     #print redis.keys('tag`baidu')
     #from timeit import timeit
     #def f():

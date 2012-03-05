@@ -8,13 +8,15 @@ from model.zsite import Zsite
 %>
 
 <%def name="htm_title()">
-<%
-zsite = Zsite.mc_get(tag_id)
-%>
-${zsite.name}
+${user.name}
 </%def>
 <%def name="htm_head()">
 ${css.god_feed_import|n}
+<style>
+.btnbar{width:90%}
+.label_sync{margin:0}
+.rm{float:right;font-size: 16px;margin-top:18px;}
+</style>
 </%def>
 
 <script id="render_txt" type="text/x-jquery-tmpl">
@@ -45,11 +47,9 @@ ${css.god_feed_import|n}
 <div class="check">
     <input id="sync" name="sync" type="checkbox" >
     <label class="label_sync" for="sync">同步</label>
-
-    <input id="author_rm" name="author_rm" type="checkbox">
-    <label for="author_rm">删除作者</label>
 </div>
 <a id="okbtn" href="javascript:void(0)">确认</a>
+<a class="rm" href="javascript:rm(${id});void(0)">删除日记</a>
 </div>
 
 
@@ -62,6 +62,15 @@ ${css.god_feed_import|n}
 <script src="${js.god_feed_import|n}"></script>
 
 <script>
-load_tag(${tag_id}),'/feed_import/')
+(function(user_id,prefix){
+load_tag(user_id, prefix)
+rm = function (id){
+    $.postJSON(
+        prefix+user_id+'/rm/'+$("#feed_id").val(),
+        refresh_data
+    );
+    $("#editform").remove()
+}
+})(${user.id}, '${prefix}')
 </script>
 

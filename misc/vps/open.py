@@ -15,7 +15,7 @@ class Vps(Model):
 
 
 def password():
-    passwd = uuid4().hex[-8:].replace("l", "k")
+    passwd = uuid4().hex[-8:].replace('l', 'k')
     return passwd
 
 
@@ -43,7 +43,7 @@ STATE_VPS_CLOSED = 40   #已经关闭
 #
 
 def next_id_by_group(group_id):
-    r = Vps.raw_sql("select max(id_in_group) from vps where `group`=%s", group_id)
+    r = Vps.raw_sql('select max(id_in_group) from vps where `group`=%s', group_id)
     r = r.fetchone()[0] or 0
     return 1+r
 
@@ -75,7 +75,7 @@ def main():
         ssh_port_offset = 53000
         id_in_group = vps.id_in_group
 
-        ip = "10.10.1.%s"%(ip_offset + id_in_group)
+        ip = '10.10.1.%s'%(ip_offset + id_in_group)
         ssh_port = ssh_port_offset + id_in_group
 
 
@@ -86,16 +86,17 @@ def main():
 
 
 def vps_new(_id, user_id, ip, ssh_port, passwd):
-    username = "v%s"%_id
+    username = 'v%s'%_id
     mail = mail_by_user_id(user_id)
 
-    print _id
-    if not (_id==173 or (user_id in (10000205, 10027978))):
+#    return
+    if _id != 151:
         return
-    print "echo %s:%s| chpasswd"%(username, passwd)
-
-
-    subject = "[42qu.培训班] 学习用的主机帐号" 
+    print 'echo %s:%s| chpasswd'%(username, passwd)
+    print mail
+    print ""
+#
+    subject = '[42qu.培训班] 学习用的主机帐号'
     text = """
 主机 : 0002.42qu.us
 用户名 : %s
@@ -105,18 +106,19 @@ def vps_new(_id, user_id, ip, ssh_port, passwd):
 http://book.42qu.com/linux/introduction.html
 
 预习材料:
-http://book.42qu.com/linux/introduction.html
 http://book.42qu.com/python/before_started.html
 
 Google groups https://groups.google.com/group/42qu-school
 QQ群 : 211707205
     """%(username, passwd)
 
+    #mail = 'zsp007@gmail.com'
+
     sendmail(
         subject,
         text, mail
     )
-    
+
 #    result = []
 #    cmd = """python create_vm.py --baseimg /mnt/nova/xen/template/ext4_root.img --name vps%s --ip %s/24 --gateway 10.10.1.1 --user work:%s"""%(
 #        _id, ip, passwd
@@ -150,6 +152,6 @@ QQ群 : 211707205
 #
 #
 #
-if "__main__" == __name__:
+if '__main__' == __name__:
     main()
 #

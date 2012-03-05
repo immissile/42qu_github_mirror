@@ -27,6 +27,7 @@ from model.po_pos import po_pos_mark
 from model.event import EVENT_STATE_END , event_joiner_feedback_normal_count , event_joiner_feedback_good_count
 from model.zsite_site import zsite_id_list_by_user_id
 from model.site_feed import site_po_iter
+from model.career import career_current_str
 
 @urlmap('/j/site/feed/(\d+)')
 class SiteFeed(JLoginBase):
@@ -167,6 +168,13 @@ class PoJson(Base):
                 'reply_count':po.reply_count,
                 'create_time':po.create_time
             }
+            user = po.user
+            if user:
+                result['link'] = user.link
+                result['user_name'] = " ".join((
+                    user.name,
+                    career_current_str(user.id)
+                ))
             po_pos_mark(current_user_id, po)
         else:
             result = {}
