@@ -21,6 +21,7 @@ hgext.fetch=
 hgext.graphlog = 
 bookmarks =
 hggit =
+progress =
 
 [color]
 status.modified = blue underline red_background
@@ -42,3 +43,6 @@ diff.trailingwhitespace = red_background
 
 [alias]
 blame = annotate --user --number
+
+[diff]
+git = True
