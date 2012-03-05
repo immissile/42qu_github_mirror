@@ -44,7 +44,7 @@ txt = motto_get(zsite.id)
     </div>
 
     <div class="com_side">
-
+%if current_user_id:
         <div id="tagbar">\
 <span class="xatxt">\
 <a class="xa fav_txt" id="follow_a${zsite_id}" href="javascript:follow_a(${zsite_id});void(0)">\
@@ -62,8 +62,7 @@ txt = motto_get(zsite.id)
                 <a href="javascript:pop_manage();void(0)" class="pop_link">管理此标签</a>
             </div>
         </div>
-
-
+%endif
 
         ##<form class="search" action="http://zuroc.42qu.com/q">
         ##<input type="text" style="color:#999" placeholder="搜索此话题下内容 ..." name="q" id="search" autocomplete="off"><input type="submit" class="search_btn" value=""></form>
