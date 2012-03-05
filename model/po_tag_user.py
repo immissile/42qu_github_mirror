@@ -10,13 +10,36 @@ tag2idlist_po = Tag2IdList('Po')
 REDIS_USER_RSS_PO = "UserRssPo:%s"
 
 def po_pass(user_id, po_id):
+    rss_po_pop(user_id, po_id)
     print user_id, po_id
+
+def po_tag(user_id, po_id, title, txt, sync, tag_id_list, cid):
+    #print id, title, txt, sync, tag_id_list, cid
+    #pass
+    rss_po_pop(user_id, po_id)
 
 def po_rm(user_id, po_id):
-    print user_id, po_id
+    from model.po import po_rm as _po_rm
+    rss_po_pop(user_id, po_id)
+    _po_rm(user_id, po_id)
 
-def po_tag(user_id, id, title, txt, sync, tag_id_list, cid):
-    print id, title, txt, sync, tag_id_list, cid
+def rss_po_new(po, user_tag_id_list):
+    id = po.id
+    tag2idlist_po.append_id_tag_id_list(
+        id , user_tag_id_list
+    )
+    key = REDIS_USER_RSS_PO%po.user_id
+
+    p = redis.pipeline()
+    p.lrem(key, id)
+    p.rpush(key, id)
+    p.execute()
+
+
+def rss_po_pop(user_id, id):
+    tag2idlist_po.pop_id(id)
+    key = REDIS_USER_RSS_PO%user_id
+    redis.lrem(key, id)
 
 def po_id_next_by_user(user_id, offset):
     from model.po import Po
@@ -40,17 +63,6 @@ def po_id_next_by_user(user_id, offset):
             po.tag_id_list = tag_id_list
             return po
  
-def rss_po_new(po, user_tag_id_list):
-    id = po.id
-    tag2idlist_po.append_id_tag_id_list(
-        id , user_tag_id_list
-    )
-    key = REDIS_USER_RSS_PO%po.user_id
-
-    p = redis.pipeline()
-    p.lrem(key, id)
-    p.rpush(key, id)
-    p.execute()
 
 def tag_list_by_user_id(user_id):
     tag_id_list = tag2idlist_po_user.tag_id_list_by_id(user_id)

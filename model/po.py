@@ -250,7 +250,7 @@ class Po(McModel, ReplyMixin):
 
     def can_admin(self, user_id):
         if user_id is not None and self.user_id:
-            return self.user_id == user_id
+            return self.user_id == int(user_id)
 
     def reply_new(self, user, txt, state=STATE_ACTIVE):
         reply_id = super(Po, self).reply_new(user, txt, state)
@@ -373,11 +373,7 @@ def po_rm(user_id, id):
                 from model.po_recommend import po_recommend_rm_reply
                 po_recommend_rm_reply(id, user_id)
 
-            from model.po_recommend import mq_rm_rec_po_by_po_id
-            mq_rm_rec_po_by_po_id(user_id, id)
 
-            from po_tag  import tag_rm_by_po
-            tag_rm_by_po(po)
 
             return _po_rm(user_id, po)
 
@@ -387,6 +383,9 @@ def _po_rm(user_id, po):
     po.save()
     id = po.id
     feed_rm(id)
+
+    from model.po_recommend import mq_rm_rec_po_by_po_id
+    mq_rm_rec_po_by_po_id(user_id, id)
 
     from zsite_tag import zsite_tag_rm_by_po
     zsite_tag_rm_by_po(po)
