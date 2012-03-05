@@ -229,6 +229,11 @@ class RssMail(Base):
         next = self.request.headers.get('Referer', None) or '/rss/index'
         self.redirect(next)
 
+@urlmap('/rss/user/po/(\d+)')
+class RssUserPo(Base):
+    def get(self, id):
+        user = Zsite.mc_get(id) 
+        self.render("/god/rss/tag.htm",  prefix='/rss/user/po/', user=user)
 
 @urlmap('/rss/add')
 class RssAdd(Base):

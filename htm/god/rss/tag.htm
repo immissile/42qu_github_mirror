@@ -8,13 +8,13 @@ from model.zsite import Zsite
 %>
 
 <%def name="htm_title()">
-<%
-zsite = Zsite.mc_get(user_id)
-%>
-${zsite.name}
+${user.name}
 </%def>
 <%def name="htm_head()">
 ${css.god_feed_import|n}
+<style>
+.rm{float:right;font-size: 16px;margin-top:18px;}
+</style>
 </%def>
 
 <script id="render_txt" type="text/x-jquery-tmpl">
@@ -25,6 +25,7 @@ ${css.god_feed_import|n}
     <a id="nobtn" href="javascript:void(0)">跳过</a>
 <div>
     <label for="tag_id_list" class="ul_label">标签</label>
+${user.name}
     <input id="tag_id_list" type="text" value="${tag_id_list}" >
 </div>
     <textarea id="txt" name="txt">{{html txt}}</textarea>
@@ -45,11 +46,9 @@ ${css.god_feed_import|n}
 <div class="check">
     <input id="sync" name="sync" type="checkbox" >
     <label class="label_sync" for="sync">同步</label>
-
-    <input id="author_rm" name="author_rm" type="checkbox">
-    <label for="author_rm">删除作者</label>
 </div>
 <a id="okbtn" href="javascript:void(0)">确认</a>
+<a class="rm" href="javascript:rm(${id});void(0)">删除</a>
 </div>
 
 
@@ -62,6 +61,6 @@ ${css.god_feed_import|n}
 <script src="${js.god_feed_import|n}"></script>
 
 <script>
-load_tag(${tag_id})
+load_tag(${user.id},'${prefix}')
 </script>
 
