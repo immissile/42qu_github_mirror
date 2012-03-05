@@ -3,7 +3,7 @@ from _db import  McModel, Model, McLimitA, McNum, McCacheA, redis
 from model.tag_id_list import Tag2IdList
 from model.zsite import Zsite
 from operator import itemgetter
-from model.po_tag import po_tag_id_list_new
+from model.po_tag import po_tag_new_by_autocompelte
 from model.po_show import po_show_new
 
 tag2idlist_po_user = Tag2IdList('PoUser')
@@ -21,7 +21,7 @@ def po_tag(user_id, po_id, title, txt, sync, tag_id_list, cid):
     from model.po import Po
     po = Po.mc_get(po_id)
     if po:
-        po_tag_id_list_new(po, tag_id_list, cid)
+        po_tag_new_by_autocompelte(po, tag_id_list, cid)
         po.name_ =  title
         po.save()
         po.txt_set(txt)
