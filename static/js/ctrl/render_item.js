@@ -79,11 +79,11 @@ $.template(
     'note_txt',
     '<pre class="prebody">{{html txt}}'+
         '<div class="readauthor">'+
-            '<a target="_blank" href="/${link}">${time}</a>'+
+            '<a target="_blank" href="/${id}">${time}</a>'+
             '{{if link}}'+
             '<span class="split">,</span>'+
             '${user_name}'+
-            '<a class="aH" href="${link}" target="_blank"></a>'+
+            //'<a class="aH" href="${link}" target="_blank"></a>'+
             '{{/if}}'+
         '</div>'+
     '</pre>'+
