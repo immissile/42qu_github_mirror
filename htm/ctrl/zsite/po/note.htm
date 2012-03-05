@@ -1,6 +1,7 @@
 <%!
 from yajl import dumps
 from model.po import STATE_SECRET
+from model.cid import CID_TAG
 from tornado.escape import json_encode 
 from model.po_tag import tag_list_by_po_id
 %>
@@ -111,6 +112,8 @@ tag_list = tag_list_by_po_id(po.id)
 %if tag_list:
 TAG_LIST = ${json_encode([(i.name,i.id) for i in tag_list])|n}
 %endif
+%elif zsite and zsite.cid == CID_TAG:
+TAG_LIST = ${json_encode([(zsite.name,zsite.id)])|n}
 %endif
 </script>
 
