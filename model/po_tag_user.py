@@ -3,6 +3,8 @@ from _db import  McModel, Model, McLimitA, McNum, McCacheA, redis
 from model.tag_id_list import Tag2IdList
 from model.zsite import Zsite
 from operator import itemgetter
+from model.po_tag import po_tag_id_list_new
+from model.po_show import po_show_new
 
 tag2idlist_po_user = Tag2IdList('PoUser')
 tag2idlist_po = Tag2IdList('Po')
@@ -16,6 +18,16 @@ def po_pass(user_id, po_id):
 def po_tag(user_id, po_id, title, txt, sync, tag_id_list, cid):
     #print id, title, txt, sync, tag_id_list, cid
     #pass
+    from model.po import Po
+    po = Po.mc_get(po_id)
+    if po:
+        po_tag_id_list_new(po, tag_id_list, cid)
+        po.name_ =  title
+        po.save()
+        po.txt_set(txt)
+        if sync:
+            po_show_new(po)
+
     rss_po_pop(user_id, po_id)
 
 def po_rm(user_id, po_id):
