@@ -33,11 +33,11 @@ class Index(LoginBase):
                 current_user_id, PAGE_LIMIT/2, 0
             )
             t = [
-0,
-"推荐",
-rec_read_log_count_by_user_id(current_user_id),
-po_json(current_user_id, po_id_list, 47) ,
-1
+                0,
+                "推荐",
+                rec_read_log_count_by_user_id(current_user_id),
+                po_json(current_user_id, po_id_list, 47) ,
+                1
             ]
             item_list.append(t)
 

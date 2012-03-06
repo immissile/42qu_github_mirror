@@ -10,7 +10,7 @@ PAGE_LIMIT = 12
 @urlmap('/j/read/(\d+)-(\-?\d+)')
 class Read(JLoginZsiteBase):
     def get(self, tag_id, n):
-        zsite_id = self.zsite_id        
+        zsite_id = self.zsite_id
         current_user_id = self.current_user_id
 
         tag_id = int(tag_id)
@@ -27,8 +27,7 @@ class Read(JLoginZsiteBase):
         li = id_list_getter(limit, offset)
         page = str(page) or 0
         self.finish({
-'li':po_json(current_user_id, li, 47),
-'page':page
-
+            'li':po_json(current_user_id, li, 47),
+            'page':page
         })
 
