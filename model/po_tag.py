@@ -409,7 +409,7 @@ def tag_cid_count(tag_id, cid=None):
         return redis.hget(key, cid)
 
 def po_id_list_by_tag_id_cid(tag_id, cid, limit, offset):
-    id_list = redis.zrange( REDIS_TAG_CID%(tag_id, cid), offset, limit+offset-1 )
+    id_list = redis.zrevrange( REDIS_TAG_CID%(tag_id, cid), offset, limit+offset-1 )
     return id_list
 
 def po_tag_by_cid(cid, tag_id, user_id, limit=25, offset=0):
