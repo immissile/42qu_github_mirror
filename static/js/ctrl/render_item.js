@@ -81,7 +81,7 @@ $.template(
         '<div class="readauthor">'+
             '来自'+
             '{{if link}}'+
-            '<a class="aH read_author" href="${link}" target="_blank">{{html user_name}}</a>'+
+            '<a class="TPH read_author" href="${link}" target="_blank">{{user_name}}</a>'+
             '{{else}}'+
             '<span class="read_author">银河系</span>'+
             '{{/if}}'+
@@ -173,13 +173,16 @@ function note_li(feed_index, result){
         "/j/po/json/"+id,
         function(r){
             r.id=id
+            /*
             if(user[0]){
                 user_link=user[0].href+id
             }else{
                 user_link = 0
             }
-            r.user_name=user.html()
-            r.link = user_link
+            */
+            //r.user_name=user.html()
+            //r.link = user_link
+
             r.time = $.timeago(r.create_time)
             r.fav = $('#fav'+id)[0].className
             txt_body = $.tmpl('note_txt',r)
