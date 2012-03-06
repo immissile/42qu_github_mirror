@@ -40,6 +40,9 @@ float:left;
     _vertical-align:1px;
     _margin-right:-4px;
 }
+#secret{
+margin-left:60px;
+}
 #po_btn .btnw{
     margin-top:-1px;
     margin-left:16px;
@@ -116,4 +119,14 @@ background:#FeFeFF;
 font-family:Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;
 }
 
+.zsite_tag_name a{
+    margin-right:14px;
+    color:#000;
+}
+.zsite_tag_name select{
+    text-align:center;
+    padding:10px;
+    vertical-align:3px;
+    height:43px;
+}
 

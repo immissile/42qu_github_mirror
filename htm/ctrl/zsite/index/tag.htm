@@ -1,5 +1,5 @@
 <%!
-from tornado.escape import json_encode 
+from zkit.escape import json_encode 
 from model.motto import motto_get
 from model.zsite_fav import zsite_fav_get
 from model.po_tag import tag_author_list
@@ -10,8 +10,8 @@ from cgi import escape
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/site_rec_new.htm" import="site_rec_render"/>
 <%def name="htm_head()">
-<script src="${js.ctrl_side_tag_search}"></script>
-##<script src="${js.ctrl_zsite_feed}"></script>
+<script src="${js.ctrl_zsite_feed}"></script>
+##<script src="${js.ctrl_side_tag_search}"></script>
 <script src="${js.ctrl_tag}"></script>
 <script src="${js.ctrl_render_item}"></script>
 ${css.ctrl_zsite_com|n}
@@ -44,7 +44,7 @@ txt = motto_get(zsite.id)
     </div>
 
     <div class="com_side">
-
+%if current_user_id:
         <div id="tagbar">\
 <span class="xatxt">\
 <a class="xa fav_txt" id="follow_a${zsite_id}" href="javascript:follow_a(${zsite_id});void(0)">\
@@ -54,16 +54,15 @@ txt = motto_get(zsite.id)
 关注\
             %endif
 </a>\
-<a class="xa" href="javascript:void(0)">投递</a>\
-<a class="xa" href="javascript:void(0)">提问</a>\
+<a class="xa" href="/po/note">投递</a>\
+<a class="xa" href="javascript:sns_share();void(0)">分享</a>\
 </span>\
 <a class="xa xatagset" href="javascript:click_sets();void(0)"><span></span></a>\
             <div class="pop_block">
-                <a href="javascript:void(0)" class="pop_link">管理此标签</a>
+                <a href="javascript:pop_manage();void(0)" class="pop_link">管理此标签</a>
             </div>
         </div>
-
-
+%endif
 
         <form class="search" action="http://zuroc.42qu.com/q">
         <input type="text" style="color:#999" placeholder="搜索此话题下内容 ..." name="q" id="search" autocomplete="off"><input type="submit" class="search_btn" value=""></form>
@@ -71,9 +70,10 @@ txt = motto_get(zsite.id)
         <div class="tag_author_list">
 
 <%
-from model.zsite_json import zsite_json
-site_list = zsite_json(current_user_id, [current_user]) 
-#site_list = tag_author_list(zsite_id)
+#from model.zsite_json import zsite_json
+#site_list = zsite_json(current_user_id, [current_user]) 
+site_list = tag_author_list(zsite_id)
+
 %>
         %if site_list:
         <script type="text/x-json" id="site_data">

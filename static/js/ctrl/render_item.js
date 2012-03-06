@@ -20,26 +20,36 @@ $.template(
 '<div class="com_main" id="com_main_${$data[0]}">'+
     '<div id="feeds"><div id="feed_index">'+
         '<div class="main_nav">'+
-            '<a class="now" href="/cid/${$data[0]}">'+
+            '<span class="now">'+
                 '${$data[1]}'+
-            '</a>'+
+            '</span>'+
             '<span class="R">共 ${$data[2]} 篇</span>'+
         '</div>'+
         '<div id="item_list_${$data[0]}" class="tag_item_list"></div>'+
-        '{{if $data[4]}}<div class="tag_cid_page">'+
-            '<a href="javascript:tag_cid_page(${$data[0]},-${$data[4]})" id="tag_cid_page${$data[0]}">更多 ...</a>'+
+        '{{if $data[4]}}<div class="tag_cid_page" id="tag_cid_page${$data[0]}">'+
+            '<a class="more" href="javascript:tag_cid_page(${$data[0]},-${$data[4]})">更多 ...</a>'+
         '</div>{{/if}}'+
     '</div></div>'+
 '</div>'
 )
 
 function tag_cid_page(cid, page){
+    var tag_cid = $('#tag_cid_page'+cid).html('<div class="readloading"></div>'),
+    item_list_cid = $('#item_list_'+cid);
+
     $.get('/j/tag/'+cid+'-'+page,function(data){
-        if(String(page).substring(0,1)!=='-'){
-            $('#item_list_'+cid+'>.readl').remove()
+
+
+        if(page>0){
+            item_list_cid.html('')
         }
-        _render_note('#com_main_'+cid,'#item_list_'+cid, data.li)
-        $('.tag_cid_page').html(data.page)
+        _render_note('#com_main_'+cid,'#item_list_'+cid, data.li);
+        var p=data.page
+        if(!p){
+            tag_cid.css('border',0)
+        };
+        tag_cid.html(p||'')
+
     })
 }
 
@@ -60,7 +70,7 @@ function _render_note(feed_index, elem, data){
         this.href="//"+this.rel+HOST_SUFFIX
     })
     result.appendTo(elem);
-    note_li($(feed_index))
+    note_li($(feed_index), result)
     return result
 }
 
@@ -69,7 +79,7 @@ $.template(
     'note_txt',
     '<pre class="prebody">{{html txt}}'+
         '<div class="readauthor">'+
-            '<a target="_blank" href="/${link}">${time}</a>'+
+            '来自'+
             '{{if link}}'+
             '<span class="split">,</span>'+
             '{{html user_name}}'+
@@ -91,9 +101,9 @@ $.template(
         '</span></span>'+
     '</div>'
 )
+var READX;
 
-
-function note_li(feed_index){
+function note_li(feed_index, result){
     var feeds=$(feed_index[0].parentNode), 
         scrollTop,
         oldtop=-1,
@@ -116,26 +126,39 @@ function note_li(feed_index){
         txt_opt=txt_loading.find('#main_nav_opt'),
         txt_body;
 
-
-    function readx(){
+    function readx(noscroll){
+        if(oldtop<0)return;
         txt_loading.remove()
-        feed_index.show() 
-        winj.scrollTop(oldtop)
+        feeds.show()
+        //feed_index.show()
+        //$('.com_main').show()
+        if(!noscroll){ 
+            winj.scrollTop(oldtop)
+        }
         oldtop=-1
-
         txt_body.replaceWith(read_loading)
     }
 
-    $('.readx').live('click',readx)
+
     $(document).bind("keyup",function(e){
-        if(e.keyCode == 27 && oldtop>=0){
-            readx()
+        if(e.keyCode == 27){
+            READX()
         }
     })
+    $('.readx').live('click', function(){READX()})
 
-    $('.reada').live('click',function(){
-        scrollTop = feeds.offset().top-28
-        feed_index.hide();
+    READX = readx
+
+    result.find('.reada').click(function(){
+        if(READX){
+            READX(1)
+        }
+        READX = readx
+
+        scrollTop = feeds.offset().top-14
+        feeds.hide()
+        //feed_index.hide();
+        //$('.com_main').hide()
         var p = this.parentNode,
             self=$(p), 
             title=self.find('.title').addClass('c9'), 
@@ -143,11 +166,15 @@ function note_li(feed_index){
             user=$(p.parentNode).find('.TPH'),
             user_link
             ;
-        feeds.append(txt_loading);
+        //feeds.append(txt_loading);
+        feeds.after(txt_loading)
         oldtop=winj.scrollTop();
         winj.scrollTop(scrollTop);
         txt_title.html(title.html())
-        $('.readpad:not(:last)').remove()
+        var style1 = {'position':'fixed',"top":0},style2 = {'position':'absolute',"marginTop":0}
+        scroll_to_fixed('#main_nav_txt',8,style1,style2)
+
+
         $.get(
         "/j/po/json/"+id,
         function(r){
@@ -164,7 +191,11 @@ function note_li(feed_index){
             
             txt_body = $.tmpl('note_txt',r)
             read_loading.replaceWith(txt_body)
-            txt_opt.html(txt_body.find('.fdopt').html());
+            var fdopt = txt_body.find('.fdopt'),
+                readauthor = txt_body.find('.readauthor')
+            txt_opt.html(fdopt.html())
+            fdopt.replaceWith(readauthor.html())
+            readauthor.remove()
             winj.scrollTop(scrollTop)
         })
 

@@ -10,7 +10,7 @@ from zkit.page import page_limit_offset
 from model.zsite_fav import zsite_fav_get_and_touch
 from model.rec_read import po_json_by_rec_read
 from model.po_tag import tag_cid_count
-from tornado.escape import json_encode 
+from zkit.escape import json_encode 
 from model.po_tag import REDIS_REC_CID_DICT, po_tag_by_cid 
 #from model.po_tag import po_tag
 
@@ -79,17 +79,22 @@ class Link(LoginBase):
     def get(self, id):
         self.redirect(link_by_id(id))
 
-PAGE_LIMIT_TAG = 25
 
 def render_tag_site(self, n=1):
     zsite = self.zsite
     zsite_id = self.zsite_id
     current_user_id = self.current_user_id
 
-    limit = 3 
+    tc = tag_cid_count(zsite_id)
+
+    if len(tc) == 1:
+        limit = 12
+    else:
+        limit = 5 
+
     tag_cid_json_list = []
 
-    for cid, count in tag_cid_count(zsite_id):
+    for cid, count in tc:
         if count>limit:
             page = limit
         else:
@@ -107,8 +112,8 @@ page
 
 
     self.render(
-'/ctrl/zsite/index/tag.htm',
-tag_cid_json_list = json_encode(tag_cid_json_list)
+        '/ctrl/zsite/index/tag.htm',
+        tag_cid_json_list = json_encode(tag_cid_json_list)
     )
 #    zsite = self.zsite
 #    zsite_id = zsite.id

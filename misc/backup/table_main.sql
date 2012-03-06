@@ -971,11 +971,17 @@ DROP TABLE IF EXISTS `rss_po_id`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rss_po_id` (
-  `id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `po_id` int(10) unsigned NOT NULL,
   `state` int(10) unsigned NOT NULL,
+  `tag_id_list` blob NOT NULL,
+  `rss_po_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `admin_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `user_cid` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `po_id` (`po_id`)
+  KEY `po_id` (`po_id`),
+  KEY `Index_3` (`rss_po_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `rss_update`;
@@ -1096,6 +1102,36 @@ CREATE TABLE `tag_alias` (
   KEY `tag_id` (`tag_id`),
   KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `tag_exp`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tag_exp` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
+  `tag_id` int(11) unsigned NOT NULL,
+  `txt` text NOT NULL,
+  `time` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `Index_2` (`user_id`,`tag_id`) USING BTREE,
+  KEY `Index_3` (`tag_id`),
+  KEY `Index_4` (`user_id`,`time`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `tag_exp_admin`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tag_exp_admin` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `tag_id` int(10) unsigned NOT NULL,
+  `tag_exp_id` int(10) unsigned NOT NULL,
+  `state` int(10) unsigned NOT NULL DEFAULT '10',
+  `admin_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `time` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `Index_2` (`state`),
+  KEY `Index_3` (`tag_id`,`state`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `top_notice`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

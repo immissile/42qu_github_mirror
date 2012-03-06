@@ -93,6 +93,7 @@ padding-bottom:14px;
 width:250px;
 font-family:'Trebuchet MS',Helvetica,sans-serif;
 margin-top:55px;
+min-height:100px;
 }
 .H .site{
 margin-left:-32px
@@ -189,6 +190,7 @@ width:520px;
 */
 #main_nav_txt{
 overflow:hidden;
+width:720px;
 }
 .prebody a img
 {
@@ -254,7 +256,7 @@ border:1px dotted #ccc;width:715px;height:80px;
 padding:2px 3px;
 margin-bottom:7px;
 }
-.tag_cid_page a{
+.tag_cid_page a, .tag_cid_page .more{
 color:#999;
 }
 .tag_cid_page a:hover{
@@ -267,6 +269,10 @@ border-top:1px solid #eee;
 .tag_cid_page a{
 padding:0 10px 1px;
 margin:0;
+}
+.tag_cid_page .more{
+margin-left:21px;
+padding:0;
 }
 .main_nav .now{
 padding-left:21px;
@@ -282,11 +288,15 @@ background:url(/img/gif/adot.gif) no-repeat scroll -1px 2px;
 display:inline-block;
 text-align:center;
 padding: 2px 0;
-color:#333;
+color:#666;
 width:146px;
 font-size:12px;
 border:1px solid #ccc;
 margin-top:-1px;
+}
+.pop_link:hover{
+background:#f9f9ff;
+color:#000;
 }
 .pop_block{
 position:absolute;
@@ -295,14 +305,80 @@ z-index:100;
 left: 134px;
 width:146px;
 display:none;
+margin-top:-4px;
 }
 .readpad{
 border:1px solid #e9e9e9;
 box-shadow:2px 2px 1px #F3F3F3;
 margin-bottom:32px;
+position:relative;
 }
 .fdbar{
 border-top:1px solid #e9e9e9;
 margin:7px 0 0;
 padding:9px 20px 10px;
+}
+
+.readloading{
+background:url(/img/gif/loading_bar.gif) no-repeat scroll 50% 50% transparent; 
+height:46px;
+}
+
+
+.pop_wrap{
+width:450px;
+min-height:240px;
+overflow:auto;
+padding:16px;
+}
+.pop_title{
+font-size:16px;
+color:#444;
+margin:0 0 16px 0;
+}
+.pop_txt{
+border:1px dotted #ccc;
+font-size:14px;
+padding:8px;
+width:96%;
+height:130px;
+color:#000;
+margin-bottom:16px;
+}
+.pop_submit_a{
+background: -moz-linear-gradient(center top , #FCFCFF, #F6F6FF) repeat 0 0;
+border: 1px solid #E0E0E0;
+box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 0 rgba(150, 150, 255, 0.1);
+color: #666666 !important;
+display: block;
+font-size: 14px;
+padding: 4px 14px;
+text-shadow: 0 1px 0 #FFFFFF;
+cursor:pointer;
+width:36px;
+text-align:center;
+}
+.pop_submit_a:active{
+box-shadow:0 1px 2px rgba(0, 0, 0, 0.3) inset;
+}
+.pop_share{
+width:288px;
+height:auto;
+padding:12px 12px 22px;
+}
+.share_img{
+width:16px;
+height:16px;
+display:inline-block;
+margin-right:6px;
+vertical-align:-3px;
+}
+.share_a{
+display:inline-block;
+margin-right:22px;
+}
+.share_title{
+color:#444;
+font-size:14px;
+margin-bottom:12px;
 }

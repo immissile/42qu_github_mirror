@@ -28,18 +28,65 @@ REDIS_REC_TAG_ID_SCORE = 'RecTagIdScore'      #所有热门主题 id score的缓
 REDIS_REC_TAG_NEW = 'Rec/%s'                  #话题下的新内容 set
 REDIS_REC_TAG_OLD = 'Rec&%s'                  #话题下的老内容
 REDIS_REC_PO_SCORE = 'RecPoScore'             #话题的积分 hset
-REDIS_REC_PO_TIMES = 'RecTimes'                  #老话题的被推荐次数 
-REDIS_REC_LAST_TIME = 'RecLastTime'            #上次推荐话题的时间
+REDIS_REC_PO_TIMES = 'RecTimes'               #老话题的被推荐次数 
+REDIS_REC_LAST_TIME = 'RecLastTime'           #上次推荐话题的时间
 
 mc_rec_is_empty = McCache("Rec!%s")
 
 REDIS_REC_USER_TAG_LIMIT = 512
 REDIS_REC_PO_SHOW_TIMES = 10
 
-def rec_read_user_topic_score_incr(user_id, tag_id, score=1):
+inf = float('inf')
+ninf = float('-inf')
+
+def rec_read_user_topic_score_fav(user_id, tag_id):
+    rec_read_user_topic_score_incr(user_id, tag_id, score=inf, tag_score=1)
+
+def rec_read_po_tag_rm(po_id, tag_id_list):
+    p = redis.pipeline()
+    for tag_id in tag_id_list:
+        p.zrem(REDIS_REC_TAG_OLD%tag_id, po_id) 
+        p.srem(REDIS_REC_TAG_NEW%tag_id, po_id) 
+    p.execute()
+
+def rec_read_po_read_rm(po_id, tag_id_list):
+    from model.po_pos import po_viewed_list
+    p = redis.pipeline()
+    for i in po_viewed_list(po_id):
+        p.zrem(REDIS_REC_USER_LOG%i, po_id)
+    p.execute()
+
+@mq_client
+def mq_rec_read_po_rm(po_id, tag_id_list):
+    rec_read_po_rm(po_id, tag_id_list)
+
+def rec_read_user_topic_score_fav_rm(user_id, tag_id):
+    rec_read_user_topic_score_incr(user_id, tag_id, score=ninf, tag_score=-1)
+
+#In [14]: redis.zrevrange("Rec@10220175",0,0,True,int)
+#[('10234454', 103)]
+#
+#In [15]: redis.zrevrange("Rec@10220175,1",0,0,True,int)
+#[]
+
+def rec_read_user_topic_score_incr(user_id, tag_id, score=1, tag_score=None):
     key = REDIS_REC_USER_TAG%user_id
-    redis.zincrby(key, tag_id, score)
-    redis.zincrby(REDIS_REC_TAG, tag_id, score)
+
+    if score == inf:
+        score_list = redis.zrevrange(key, 0, 0, True, int)
+        if score_list:
+            score = max(1,score_list[0][1])
+        else:
+            score = 1
+        redis.zadd(key, tag_id, score)
+    elif score == ninf:
+        redis.zrem(key, tag_id)
+    else:
+        redis.zincrby(key, tag_id, score)
+
+    if tag_score is None:
+        tag_score = score
+    redis.zincrby(REDIS_REC_TAG, tag_id, tag_score)
 
     # zrank <  REDIS_REC_USER_TAG_LIMIT的时候 
     # 并且不在读完的redis时候 , 进入候选的推荐主题
@@ -55,7 +102,7 @@ def rec_read_new(po_id, tag_id):
     else:
         redis.sadd(REDIS_REC_TAG_NEW%tag_id, po_id)
 
-#@mq_client
+@mq_client
 def mq_rec_topic_has_new(tag_id):
     rec_topic_has_new(tag_id)
 
@@ -146,6 +193,14 @@ def rec_read_more(user_id, limit):
 
     mc_rec_is_empty.set(user_id, "", 600)
     return []
+
+def rec_read_log_by_user_id_auto_more(user_id, limit, offset):
+    rec_read(user_id, limit)
+    return rec_read_log_by_user_id(user_id, limit, 0)
+
+def rec_read_log_count_by_user_id(user_id):
+    key = REDIS_REC_USER_LOG%user_id
+    return redis.zcard(key) 
 
 def rec_read_log_by_user_id(user_id, limit, offset):
     key = REDIS_REC_USER_LOG%user_id
@@ -303,11 +358,17 @@ def rec_read(user_id, limit):
 
 if __name__ == '__main__':
     pass
-    from model.zsite import Zsite
-    for i in Zsite.mc_get_list( redis.zrange(REDIS_REC_TAG,0,-1) ):
-        print i.name
-    user_id = 10000000
-    print po_json_by_rec_read(user_id, 7)
+    #user_id = 10000000 
+    #key = REDIS_REC_USER_TAG%user_id
+    #rec_read_user_topic_score_fav(user_id, 10225249)
+    #print redis.zrevrange(key, 0, 0, True, int)
+    #rec_read_user_topic_score_fav_rm(user_id, 10225249)
+    #print redis.zrevrange(key, 0, 0, True, int)
+#    from model.zsite import Zsite
+#    for i in Zsite.mc_get_list( redis.zrange(REDIS_REC_TAG,0,-1) ):
+#        print i.name
+#    user_id = 10000000
+#    print po_json_by_rec_read(user_id, 7)
 #rec_topic_choice = RecTagPicker(user_id)
 #for i in xrange(10):
 #    print rec_topic_choice.choice()
@@ -315,4 +376,6 @@ if __name__ == '__main__':
 #key = REDIS_REC_USER_TAG%user_id
 #redis.delete(key)
 #print rec_read_more(user_id, 7)
-
+    limit = 7
+    offset = 0
+    print rec_read_log_by_user_id_auto_more(10000000, limit, offset)

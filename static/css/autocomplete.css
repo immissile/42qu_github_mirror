@@ -24,6 +24,7 @@ ul.token-input-list {
 
 ul.token-input-list li input {
     border: 0;
+    font-size:12px;
     width: 100px;
     padding:2px 8px;
     background-color: white;
@@ -45,7 +46,7 @@ li.token-input-token {
 li.token-input-token p {
     display:inline-block;
     margin: 0;
-    line-height:21px;
+    line-height:20px;
     height:21px;
     border:1px solid #ececec;
     border-left:0;

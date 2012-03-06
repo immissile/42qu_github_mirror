@@ -20,7 +20,7 @@ function autocomplete_tag(id, default_tag_list, only_search, idPrefix){
                         list.push(t)
                     }
                 }
-                if(ctrl && !only_search)list.unshift({id:'-'+word,name:$('#token-input-tag_id_list').val(),num:0})
+                if(ctrl && !only_search)list.unshift({id:'-'+word,name:$('#token-input-'+id.substring(1)).val(),num:0})
                 return list
             },
             hintText:only_search?null:'',
@@ -118,16 +118,9 @@ function autocomplete_tag_hero(id){
                     '<li class="' + style + '">',item.name
                 ]
                 if(alias){
-                    if(item.cid==1){
-                        s.push(
-                            '<span class="drop_item_alias">( @' + alias + ' )</span>'
-                        )
-                    } else if(item.cid==6){
-                        s.push(
-                            '<span class="drop_item_alias"> , 又称 ' + alias + '</span>'
-                        )
- 
-                    }
+                    s.push(
+                        $('<span class="drop_item_alias"></span>').text(alias).html()
+                    )
                 }
                 if(num){
                     s.push( 
@@ -184,3 +177,4 @@ function token_search_decoration(){
     })
 }
 
+>>>>>>> other

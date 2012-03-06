@@ -3,7 +3,7 @@
 from model.career import career_current
 from config import SITE_DOMAIN, FS_URL 
 from model.ico import pic_url_with_default,PIC_DEFAULT
-from tornado.escape import json_encode 
+from zkit.escape import json_encode 
 %>
 <%namespace file="/ctrl/_util/user.htm" import="user_career_link, po_link"/>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -22,7 +22,7 @@ from tornado.escape import json_encode
 </a>
 </div>\
 
-<div class="feedP"><div class="feedS"><div class="sdw sdwb"><div class="sd">\
+<div class="feedP"><div class="feedS"><div class="sdw sdwb"><div class="sd"><div>\
 <div id="feedrec">
 <a class="feedx" href="javascript:feedrecx();void(0)"></a>\
 <div class="feedtab">\
@@ -31,7 +31,7 @@ from tornado.escape import json_encode
 <div id="item_list"></div>
 ##<div class="readl c"><a href="/read">更多 ...</a></div>
 </div>
-</div></div></div></div>
+</div></div></div></div></div>
 </div>
 
 <script src="${js.ctrl_render_item}"></script>
