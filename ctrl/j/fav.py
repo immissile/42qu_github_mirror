@@ -7,28 +7,37 @@ from model.zsite_url import zsite_by_domain
 from model.zsite_fav import zsite_fav_new, zsite_fav_rm
 from model.cid import CID_SITE, CID_COM, CID_TAG
 
+@urlmap('/j/fav/rm/(\d+)')
 @urlmap('/j/fav/rm')
 class FavRm(JLoginBase):
-    def post(self):
+    def post(self, to_id=0):
         current_user = self.current_user
         current_user_id = self.current_user_id
 
-        host = self.request.host
-        zsite = zsite_by_domain(host)
+        if to_id:
+            zsite = Zsite.mc_get(to_id)
+        else:
+            host = self.request.host
+            zsite = zsite_by_domain(host)
 
         if zsite and zsite.cid in (CID_SITE, CID_COM, CID_TAG):
             zsite_fav_rm(zsite, current_user_id)
 
         self.finish('{}')
 
+@urlmap('/j/fav/(\d+)')
 @urlmap('/j/fav')
 class Fav(JLoginBase):
-    def get(self):
+    def get(self, to_id=0):
         current_user = self.current_user
         current_user_id = self.current_user_id
 
-        host = self.request.host
-        zsite = zsite_by_domain(host)
+        if to_id:
+            zsite = Zsite.mc_get(to_id)
+        else:
+            host = self.request.host
+            zsite = zsite_by_domain(host)
+
         zsite_id = zsite.id
         cid = zsite.cid
 
