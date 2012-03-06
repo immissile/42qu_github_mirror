@@ -132,6 +132,7 @@ function note_li(feed_index, result){
         //feed_index.show()
         //$('.com_main').show()
         txt_body.replaceWith(read_loading)
+//console.info(oldtop)
         winj.scrollTop(oldtop)
         oldtop=-1
     }
@@ -146,6 +147,7 @@ function note_li(feed_index, result){
 
 
     result.find('.reada').click(function(){
+        oldtop=winj.scrollTop();
 
         scrollTop = feeds.offset().top-14
         feeds.hide()
@@ -160,7 +162,7 @@ function note_li(feed_index, result){
             ;
         //feeds.append(txt_loading);
         feeds.after(txt_loading)
-        oldtop=winj.scrollTop();
+//console.info(oldtop)
         winj.scrollTop(scrollTop);
         txt_title.html(title.html())
         var style1 = {'position':'fixed',"top":0},style2 = {'position':'absolute',"marginTop":0}
