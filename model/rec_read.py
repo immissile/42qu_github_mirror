@@ -194,6 +194,10 @@ def rec_read_more(user_id, limit):
     mc_rec_is_empty.set(user_id, "", 600)
     return []
 
+def rec_read_log_by_user_id_auto_more(user_id, limit, offset):
+    rec_read(user_id, limit)
+    return rec_read_log_by_user_id(user_id, limit, 0)
+
 def rec_read_log_by_user_id(user_id, limit, offset):
     key = REDIS_REC_USER_LOG%user_id
     return redis.zrevrange(key, offset, offset+limit-1)
@@ -368,4 +372,6 @@ if __name__ == '__main__':
 #key = REDIS_REC_USER_TAG%user_id
 #redis.delete(key)
 #print rec_read_more(user_id, 7)
-
+    limit = 7
+    offset = 0
+    print rec_read_log_by_user_id_auto_more(10000000, limit, offset)
