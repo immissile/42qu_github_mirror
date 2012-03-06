@@ -175,5 +175,10 @@ function token_search_decoration(){
             show_token_input()
         }
     })
+    $('#token-input-search').focus(function(){
+        $(this).css('color','#000')
+    }).blur(function(){
+        $(this).css('color','#999')
+    })
 }
 
