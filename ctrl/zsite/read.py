@@ -21,9 +21,9 @@ class Index(LoginBase):
             li, page = render_zsite_site(self, n, '/read-%s')
             self.render("/ctrl/zsite/site/read.htm", li=li, page=page)
         else:
-            zsite_id = 137110
-            item_list = po_tag(zsite_id, current_user_id, 15, 0 )
-            self.render(item_list=item_list)
+#            zsite_id = 137110
+#            item_list = po_tag(zsite_id, current_user_id, 15, 0 )
+            self.render()
 
 
 
