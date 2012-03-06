@@ -555,14 +555,20 @@ function scroll_to_fixed(id, size, style1, style2){
     }
 }
 
-function star_fav(id,url){
+function star_fav(id,type){
     if(!islogin())return;
+    var num,url
+    if(type===0){
+        num = 1
+        url = ''
+    }else{
+        num = 0
+        url = 'rm/'
+    }
     $.postJSON(
-        url,
+        '/j/fav/' + url + id,
         function(){
-            var style = url.substr(-2)=='rm'?'0':'1',
-            newurl =  url.substr(-2)=='rm'?'/j/fav':'/j/fav/rm'
-            $("#star_fav"+id).attr('class','sitefav'+style).attr('href','javascript:star_fav('+id+',"'+newurl+'");void(0)')
+            $("#star_fav"+id).attr('class','sitefav'+num).attr('href','javascript:star_fav('+id+','+num+');void(0)')
         }
     )
 }

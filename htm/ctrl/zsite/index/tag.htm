@@ -8,8 +8,10 @@ from cgi import escape
 
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
+
 <%namespace file="/ctrl/_util/site_rec_new.htm" import="site_rec_render"/>
 <%def name="htm_head()">
+<script src="${js.ctrl_popreply}"></script>
 ##<script src="${js.ctrl_zsite_feed}"></script>
 ##<script src="${js.ctrl_side_tag_search}"></script>
 <script src="${js.ctrl_tag}"></script>
@@ -99,9 +101,9 @@ site_info">
 id="site_name_a" href="${$data[1]}">${$data[2]}</a></span>
 <a id="star_fav${$data[0]}"
 {{if $data[7] === true}}
-href="javascript:star_fav(${$data[0]},'/j/fav/rm');void(0)"
+href="${$data[1]}/i" target="_blank"
 {{else}}
-href="javascript:star_fav(${$data[0]},'/j/fav');void(0)"
+href="javascript:star_fav(${$data[0]},${$data[7]});void(0)"
 {{/if}}
 class="sitefav${$data[7]}"></a>
 <div class="site_bio">

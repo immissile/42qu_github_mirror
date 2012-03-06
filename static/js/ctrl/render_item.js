@@ -49,7 +49,7 @@ function tag_cid_page(cid, page){
             tag_cid.css('border',0)
         };
         tag_cid.html(p||'')
-
+        $(window).scrollTop(90)
     })
 }
 
@@ -193,6 +193,13 @@ function note_li(feed_index, result){
             fdopt.replaceWith(readauthor.html())
             readauthor.remove()
             winj.scrollTop(scrollTop)
+            var nav_txt =$('#main_nav_txt'), do_width = function(){
+                nav_txt.css('width',$('.readpad').width())
+            }
+            nav_txt.resize(do_width)
+            do_width()
+
+
         })
 
         return false; 
