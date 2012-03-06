@@ -43,7 +43,14 @@ ${css.ctrl_po_note|n}
 </div>
 
 <div class="com_side">
+%if po:
+<div class="po_btnw c">\
+<button type="submit" class="po_btn">保存</button>\
+<a id="rm" class="rmpo" href="/po/rm/${po.id}?${_xsrf}">删除</a>\
+</div>
+%else:
 <button class="po_btn" type="submit">发布</button>
+%endif
 <input type="text" class="c9" placeholder="添加标签 , 分享给感兴趣的人 ..." name="q" id="search" autocomplete="off">\
 
 <input type="checkbox"
