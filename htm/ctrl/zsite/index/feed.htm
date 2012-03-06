@@ -10,6 +10,11 @@ from zkit.escape import json_encode
 <%namespace file="/ctrl/_util/buzz.htm" import="buzz_show"/>
 ##<%namespace file="/ctrl/_util/site_rec_new.htm" import="site_rec_render"/>
 ##<%namespace file="/ctrl/_util/friend_rec.htm" import="friend_rec_render"/>
+<%def name="htm_head()">
+${css.ctrl_index|n}
+${css.ctrl_tag_side|n}
+<script src="${js.ctrl_index_search}"></script>
+</%def>
 
 <%def name="rec_read_render(rec_item_list)">
 %if rec_item_list:
@@ -182,8 +187,6 @@ href="/${id}" target="_blank">${create_time}</a>{{if rt_list.length  && rt_list[
 </%text>
 </script>
 
-${css.ctrl_tag_side|n}
-<script src="${js.ctrl_index_search}"></script>
 
 <div class="Iwp">
     <div class="Lwp">
