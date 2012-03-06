@@ -20,6 +20,7 @@ CID_ZSITE_TUPLE_CN = {
     CID_SITE:'站点',
     CID_USER:'用户',
     CID_COM:'公司',
+    CID_TAG:'标签',
 }
 
 # Pic
