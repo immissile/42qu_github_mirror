@@ -49,7 +49,7 @@ function tag_cid_page(cid, page){
             tag_cid.css('border',0)
         };
         tag_cid.html(p||'')
-
+        $(window).scrollTop(90)
     })
 }
 

@@ -76,8 +76,8 @@ font-size:13px;
 }
 div.token-input-dropdown{
 width:246px;
-box-shadow:-1px 1px 1px #eee;
-border:1px solid #eee;
+border:1px solid #ddd;
+border-width:0 1px 1px;
 }
 div.token-input-dropdown p{
 padding:0 3px;
