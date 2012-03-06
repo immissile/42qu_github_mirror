@@ -42,6 +42,7 @@ def main():
 
 if __name__ == '__main__':
     main()
+#    print RssPo.where(state=RSS_POED, rss_id=198).count()
 ###    from model.po import Po,feed_rm
 ###    from model.rss import RssPoId
 ###    for i in RssPo.where(user_id=10000082):
