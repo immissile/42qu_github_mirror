@@ -81,7 +81,7 @@ $.template(
         '<div class="readauthor">'+
             '来自'+
             '{{if link}}'+
-            '<a class="TPH read_author" href="${link}" target="_blank">{{user_name}}</a>'+
+            '<a class="TPH read_author" href="${link}" target="_blank">${user_name}</a>'+
             '{{else}}'+
             '<span class="read_author">银河系</span>'+
             '{{/if}}'+
