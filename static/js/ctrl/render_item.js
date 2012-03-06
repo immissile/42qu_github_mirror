@@ -129,8 +129,9 @@ function note_li(feed_index, result){
     function readx(noscroll){
         if(oldtop<0)return;
         txt_loading.remove()
+        feeds.show()
         //feed_index.show()
-        $('.com_main').show()
+        //$('.com_main').show()
         if(!noscroll){ 
             winj.scrollTop(oldtop)
         }
@@ -155,8 +156,9 @@ function note_li(feed_index, result){
         READX = readx
 
         scrollTop = feeds.offset().top-14
+        feeds.hide()
         //feed_index.hide();
-        $('.com_main').hide()
+        //$('.com_main').hide()
         var p = this.parentNode,
             self=$(p), 
             title=self.find('.title').addClass('c9'), 
@@ -164,7 +166,8 @@ function note_li(feed_index, result){
             user=$(p.parentNode).find('.TPH'),
             user_link
             ;
-        feeds.append(txt_loading);
+        //feeds.append(txt_loading);
+        feeds.after(txt_loading)
         oldtop=winj.scrollTop();
         winj.scrollTop(scrollTop);
         txt_title.html(title.html())
