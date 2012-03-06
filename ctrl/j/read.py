@@ -4,6 +4,8 @@
 from ctrl._urlmap.j import urlmap
 from model.rec_read import rec_read_log_by_user_id, rec_read_log_count_by_user_id
 from model.po_json import po_json
+from _handler import JLoginBase, JLoginZsiteBase
+from zkit.page import page_limit_offset
 
 PAGE_LIMIT = 12 
 
@@ -19,7 +21,7 @@ class Read(JLoginZsiteBase):
             id_list_getter = lambda limit, offset: rec_read_log_by_user_id(current_user_id, limit, offset)
 
         page, limit, offset = page_limit_offset(
-            'javascript:tag_cid_page(%s,%%s)'%cid,
+            'javascript:tag_cid_page(%s,%%s)'%tag_id,
             count,
             n,
             PAGE_LIMIT
