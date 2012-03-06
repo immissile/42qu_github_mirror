@@ -147,15 +147,8 @@ function note_li(feed_index, result){
 
 
     result.find('.reada').click(function(){
-<<<<<<< local
         oldtop=winj.scrollTop();
 
-=======
-        if(READX){
-            READX(1)
-        }
-        READX = readx
->>>>>>> other
         scrollTop = feeds.offset().top-14
         feeds.hide()
         //feed_index.hide();
