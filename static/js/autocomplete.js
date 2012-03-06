@@ -177,4 +177,3 @@ function token_search_decoration(){
     })
 }
 
->>>>>>> other
