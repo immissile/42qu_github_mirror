@@ -73,7 +73,7 @@ txt = motto_get(zsite.id)
 <%
 #from model.zsite_json import zsite_json
 #site_list = zsite_json(current_user_id, [current_user]) 
-site_list = tag_author_list(zsite_id)
+site_list = tag_author_list(zsite_id, current_user_id)
 
 %>
         %if site_list:

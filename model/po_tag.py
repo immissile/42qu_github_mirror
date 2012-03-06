@@ -251,9 +251,9 @@ def po_tag(tag_id, user_id, limit=25, offset=0):
 
 
 
-def tag_author_list(zsite_id):
+def tag_author_list(zsite_id, current_user_id):
     zsite_list = filter(lambda x:x, zsite_author_list(zsite_id))
-    return zsite_json(zsite_id, zsite_list)
+    return zsite_json(current_user_id, zsite_list)
 
 def po_tag_rm_by_po(po):
     po_id = po.id
