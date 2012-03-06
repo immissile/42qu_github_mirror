@@ -239,8 +239,10 @@ ${rec_read_render(rec_item_list)}\
 </div>
 <div class="Rwp">
 
-<form class="search" action="http://zuroc.42qu.com/q" style="margin:0 0 26px;">
-<input type="text" style="color:#999" placeholder="搜索 话题 或 人物 ..." name="q" id="search" autocomplete="off"><input type="submit" class="search_btn" value=""></form>
+<form class="search" action="/q">
+<input type="text" placeholder="搜索 话题 或 人物 ..." name="q" id="search" autocomplete="off">\
+<input type="submit" class="search_btn">\
+</form>
         ${buzz_show(current_user_id)}
 <%doc>
         ##${site_rec_render()}
