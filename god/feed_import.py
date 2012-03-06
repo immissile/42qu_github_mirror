@@ -10,7 +10,7 @@ from model.douban import is_rt_by_title
 from model.po_tag import tag_list_by_po_id
 from zkit.page import page_limit_offset
 from model.po import Po, po_rm
-from tornado.escape import json_encode
+from zkit.escape import json_encode
 from yajl import dumps
 from model.zsite import Zsite
 from zkit.page import limit_offset, Page

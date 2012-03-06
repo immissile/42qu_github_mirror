@@ -10,7 +10,7 @@ from zkit.page import page_limit_offset
 from model.zsite_fav import zsite_fav_get_and_touch
 from model.rec_read import po_json_by_rec_read
 from model.po_tag import tag_cid_count
-from tornado.escape import json_encode 
+from zkit.escape import json_encode 
 from model.po_tag import REDIS_REC_CID_DICT, po_tag_by_cid 
 #from model.po_tag import po_tag
 

@@ -6,7 +6,7 @@ from model.cid import CID_SITE
 from model.zsite_fav import zsite_fav_get_and_touch
 from ctrl.zsite.index import render_zsite_site
 from model.rec_read import rec_read_log_by_user_id_auto_more, rec_read_log_count_by_user_id
-from tornado.escape import json_encode 
+from zkit.escape import json_encode 
 from model.po_json import po_json
 #from model.po_tag import po_tag
 
