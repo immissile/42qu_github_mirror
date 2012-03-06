@@ -198,6 +198,10 @@ def rec_read_log_by_user_id_auto_more(user_id, limit, offset):
     rec_read(user_id, limit)
     return rec_read_log_by_user_id(user_id, limit, 0)
 
+def rec_read_log_count_by_user_id(user_id):
+    key = REDIS_REC_USER_LOG%user_id
+    return redis.zcard(key) 
+
 def rec_read_log_by_user_id(user_id, limit, offset):
     key = REDIS_REC_USER_LOG%user_id
     return redis.zrevrange(key, offset, offset+limit-1)
