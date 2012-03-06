@@ -13,7 +13,6 @@ from zkit.escape import json_encode
 <%def name="htm_head()">
 ${css.ctrl_index|n}
 ${css.ctrl_tag_side|n}
-<script src="${js.ctrl_index_search}"></script>
 </%def>
 
 <%def name="rec_read_render(rec_item_list)">
@@ -241,7 +240,7 @@ ${rec_read_render(rec_item_list)}\
 
 <form class="search" action="/q">
 <input type="text" placeholder="搜索 话题 或 人物 ..." name="q" id="search" autocomplete="off">\
-<input type="submit" class="search_btn">\
+<input type="submit" class="search_btn" value="">\
 </form>
         ${buzz_show(current_user_id)}
 <%doc>
