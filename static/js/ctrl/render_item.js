@@ -132,11 +132,11 @@ function note_li(feed_index, result){
         feeds.show()
         //feed_index.show()
         //$('.com_main').show()
+        txt_body.replaceWith(read_loading)
         if(!noscroll){ 
             winj.scrollTop(oldtop)
         }
         oldtop=-1
-        txt_body.replaceWith(read_loading)
     }
 
 
