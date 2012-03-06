@@ -28,8 +28,8 @@ REDIS_REC_TAG_ID_SCORE = 'RecTagIdScore'      #所有热门主题 id score的缓
 REDIS_REC_TAG_NEW = 'Rec/%s'                  #话题下的新内容 set
 REDIS_REC_TAG_OLD = 'Rec&%s'                  #话题下的老内容
 REDIS_REC_PO_SCORE = 'RecPoScore'             #话题的积分 hset
-REDIS_REC_PO_TIMES = 'RecTimes'                  #老话题的被推荐次数 
-REDIS_REC_LAST_TIME = 'RecLastTime'            #上次推荐话题的时间
+REDIS_REC_PO_TIMES = 'RecTimes'               #老话题的被推荐次数 
+REDIS_REC_LAST_TIME = 'RecLastTime'           #上次推荐话题的时间
 
 mc_rec_is_empty = McCache("Rec!%s")
 
@@ -42,6 +42,23 @@ ninf = float('-inf')
 def rec_read_user_topic_score_fav(user_id, tag_id):
     rec_read_user_topic_score_incr(user_id, tag_id, score=inf, tag_score=1)
 
+def rec_read_po_tag_rm(po_id, tag_id_list):
+    p = redis.pipeline()
+    for tag_id in tag_id_list:
+        p.zrem(REDIS_REC_TAG_OLD%tag_id, po_id) 
+        p.srem(REDIS_REC_TAG_NEW%tag_id, po_id) 
+    p.execute()
+
+def rec_read_po_read_rm(po_id, tag_id_list):
+    from model.po_pos import po_viewed_list
+    p = redis.pipeline()
+    for i in po_viewed_list(po_id):
+        p.zrem(REDIS_REC_USER_LOG%i, po_id)
+    p.execute()
+
+@mq_client
+def mq_rec_read_po_rm(po_id, tag_id_list):
+    rec_read_po_rm(po_id, tag_id_list)
 
 def rec_read_user_topic_score_fav_rm(user_id, tag_id):
     rec_read_user_topic_score_incr(user_id, tag_id, score=ninf, tag_score=-1)
@@ -85,7 +102,7 @@ def rec_read_new(po_id, tag_id):
     else:
         redis.sadd(REDIS_REC_TAG_NEW%tag_id, po_id)
 
-#@mq_client
+@mq_client
 def mq_rec_topic_has_new(tag_id):
     rec_topic_has_new(tag_id)
 
@@ -176,6 +193,14 @@ def rec_read_more(user_id, limit):
 
     mc_rec_is_empty.set(user_id, "", 600)
     return []
+
+def rec_read_log_by_user_id_auto_more(user_id, limit, offset):
+    rec_read(user_id, limit)
+    return rec_read_log_by_user_id(user_id, limit, 0)
+
+def rec_read_log_count_by_user_id(user_id):
+    key = REDIS_REC_USER_LOG%user_id
+    return redis.zcard(key) 
 
 def rec_read_log_by_user_id(user_id, limit, offset):
     key = REDIS_REC_USER_LOG%user_id
@@ -333,13 +358,12 @@ def rec_read(user_id, limit):
 
 if __name__ == '__main__':
     pass
-    user_id = 10000000 
-    key = REDIS_REC_USER_TAG%user_id
-    rec_read_user_topic_score_fav(user_id, 10225249)
-    print redis.zrevrange(key, 0, 0, True, int)
-    rec_read_user_topic_score_fav_rm(user_id, 10225249)
-    print redis.zrevrange(key, 0, 0, True, int)
-
+    #user_id = 10000000 
+    #key = REDIS_REC_USER_TAG%user_id
+    #rec_read_user_topic_score_fav(user_id, 10225249)
+    #print redis.zrevrange(key, 0, 0, True, int)
+    #rec_read_user_topic_score_fav_rm(user_id, 10225249)
+    #print redis.zrevrange(key, 0, 0, True, int)
 #    from model.zsite import Zsite
 #    for i in Zsite.mc_get_list( redis.zrange(REDIS_REC_TAG,0,-1) ):
 #        print i.name
@@ -352,4 +376,6 @@ if __name__ == '__main__':
 #key = REDIS_REC_USER_TAG%user_id
 #redis.delete(key)
 #print rec_read_more(user_id, 7)
-
+    limit = 7
+    offset = 0
+    print rec_read_log_by_user_id_auto_more(10000000, limit, offset)

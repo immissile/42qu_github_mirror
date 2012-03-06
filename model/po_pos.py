@@ -30,12 +30,12 @@ def po_pos_get(user_id, po_id):
         return p.pos, p.state
     return -1, STATE_MUTE
 
-mc_po_viewed_list = McLimitA('PoViewedList.%s', 128)
+mc_po_viewed_list = McCacheA('PoViewedList.%s')
 
 @mc_po_viewed_list('{po_id}')
-def po_viewed_list(po_id, limit, offset):
-    qs = PoPos.where(po_id=po_id).order_by('id desc')
-    return [i.user_id for i in qs]
+def po_viewed_list(po_id):
+    qs = PoPos.where(po_id=po_id).order_by('id desc').col_list(col="user_id")
+    return qs 
 
 def po_buzz_list(po_id):
     qs = PoPos.where(po_id=po_id, state=STATE_BUZZ)
@@ -101,9 +101,4 @@ def po_pos_state(user_id, po_id, state):
 
 if __name__ == '__main__':
     pass
-    po = Po.get(517)
-    print po_pos_get(10000000, po.id)
-    print po_pos_get(10000000, po.id)
-    po_pos_set(10000000, po)
-    print po_pos_get(10000000, po.id)
-    print po_pos_get(10000000, po.id)
+    print po_viewed_list(10235773)
