@@ -312,9 +312,16 @@ def _po_tag_id_cid_new(po, tag_id_list, cid):
             for tag_id in tag_id_list:
                 old_key = REDIS_TAG_CID%(tag_id, old_cid)
                 p.zrem(old_key, po_id)
+
+                count_key = REDIS_TAG_CID_COUNT%tag_id
+                p.hincrby(count_key, old_cid, -1)
+
                 if cid in REDIS_REC_CID_DICT:
                     new_key = REDIS_TAG_CID%(tag_id, cid)
                     p.zadd(new_key, po_id, score)
+
+                    p.hincrby(count_key, cid, 1)
+
             p.execute()
 
 
@@ -412,6 +419,19 @@ def po_tag_by_cid(cid, tag_id, user_id, limit=25, offset=0):
 
 if __name__ == '__main__':
     pass
+    for i in redis.keys('TagCid=*'):
+        redis.delete(i)
+    for i in redis.keys('TagCid:*'):
+        p , tid, cid = i.split(':')
+        key = REDIS_TAG_CID_COUNT%tid
+        redis.hset(key, cid, redis.zcard(i))
+
+    print redis.hgetall(REDIS_TAG_CID_COUNT%10231732)
+
+
+#    for k, v  in redis.hgetall(REDIS_PO_ID2TAG_CID).iteritems():
+#        print k,v 
+#    print tag_cid_count(10231732)
 #    for k, v  in redis.hgetall(REDIS_PO_ID2TAG_CID).iteritems():
 #        tag_id_list = tag_id_list_by_po_id(k)
 #        po = Po.mc_get(k)
