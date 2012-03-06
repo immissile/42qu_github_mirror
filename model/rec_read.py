@@ -51,6 +51,11 @@ def rec_read_po_tag_rm(po_id, tag_id_list):
 
 def rec_read_po_rm(po_id, tag_id_list):
     rec_read_po_tag_rm(po_id, tag_id_list)
+    from model.po_pos import po_viewed_list
+    p = redis.pipeline()
+    for i in po_viewed_list(po_id):
+        p.zrem(REDIS_REC_USER_LOG%i, po_id)
+    p.execute()
 
 @mq_client
 def mq_rec_read_po_rm(po_id, tag_id_list):
