@@ -84,10 +84,11 @@ class RssGidEdit(Base):
     def post(self, id):
         rss = Rss.mc_get(id)
         next = self.get_argument('next', None) or '/rss/index'
-        url = self.get_argument('url', None)
-        link = self.get_argument('link', None)
-        user_id = self.get_argument('user_id', None)
-        name = self.get_argument('name', None)
+        #url = self.get_argument('url', None)
+        #link = self.get_argument('link', None)
+        #user_id = self.get_argument('user_id', None)
+        #name = self.get_argument('name', None)
+        url , link , user_id , name , auto = _rss_post_argument(self)
 
         if url:
             rss.url = url
@@ -100,6 +101,8 @@ class RssGidEdit(Base):
 
         if user_id:
             rss.user_id = user_id
+
+        rss.auto = int(bool(auto))
 
         rss.save()
 
