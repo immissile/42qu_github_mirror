@@ -134,8 +134,9 @@ text-align:left;
 text-align:left;
 border-bottom:0;
 padding:0;
-width:720px;
+width:719px;
 overflow:hidden;
+box-shadow:0 1px 1px #f3f3f3;
 }
 #main_nav_title{
 color:#000;
