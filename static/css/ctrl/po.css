@@ -163,3 +163,20 @@ padding-bottom: 16px;
 margin-bottom: 16px; 
 margin-top: -16px;
 }
+.fav,.fav:hover,.faved,.faving{
+vertical-align:0;
+width:28px;
+padding-right:20px;
+line-height:15px;
+background-position:32px -15px;
+}
+.fav:hover{
+background-position:32px 1px;
+}
+.faved{
+background-position:32px -31px;
+}
+.faved:hover{
+background-position:32px -47px;
+}
+

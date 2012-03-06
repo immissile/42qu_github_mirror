@@ -173,9 +173,8 @@ margin:0 0 14px;
 color:#999;
 }
 .main_nav{
-color:#ccc;
+color:#999;
 padding: 7px 2px;
-border-bottom: 1px dotted #ccc;
 }
 .main_nav a{
     color:#999;
@@ -190,11 +189,12 @@ margin-left:-12px;
     color:#333;
 }
 .main_nav .now{
-    color:#666;
+    color:#333;
 }
 .readpad .fdbar{
 margin-bottom:0;
 padding-top:7px;
+margin-top:14px;
 }
 .fdbar .readx{
     float:left;

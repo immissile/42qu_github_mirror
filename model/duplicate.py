@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-from _db import McModel
+import _env
 from zkit.txt_cleanup import feature_md5
-from kyotocabinet import *
+from kyotocabinet import DB
 from array import array
 from collections import defaultdict
+import sys
 
-class DB_Kyoto(object):
+class DbKyoto(object):
     def __init__(self, db_file):
         self.db = DB()
         self.db_file = db_file
@@ -41,7 +41,7 @@ class DB_Kyoto(object):
 
 class Duplicator(object):
     def __init__(self, db_path):
-        self.db = DB_Kyoto(db_path)
+        self.db = DbKyoto(db_path)
 
     def set_record(self, txt, id):
         return self.db.set(txt, id)
@@ -61,12 +61,13 @@ class Duplicator(object):
 
         #print feature_list
         feature_list_len = float(len(feature_list))
-        min_same_count = int(feature_list_len*0.618)+1
+
+        min_same_count = min(int(feature_list_len*0.618)+1, feature_list_len)
 
         result = []
         for id, same_count in self.__find_duplicate__(feature_list).iteritems():
             #print same_count
-            if same_count > min_same_count:
+            if same_count >= min_same_count:
                 result.append((id, same_count/feature_list_len))
 
         return result

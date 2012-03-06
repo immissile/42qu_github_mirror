@@ -5,7 +5,8 @@
     width:90%;
 }
 .redis_cid{
-    width:60%;
+    margin-right:32px;
+    margin-top:8px;
 }
 .redis_cid span{
     float:left;
@@ -14,31 +15,59 @@
 }
 #title{
     padding:7px;
-    width:90%;
-    display:block;
-    margin:14px 0;
+    width:70%;
+    margin:14px 0 14px 23px;
 }
 .check{
     font-size:16px;
-    margin-top:14px
+    margin-top:14px;
+    float:left;
+    margin-bottom:14px;
+    border:1px dotted #ccc;
+    padding:6px;
 }
-.check label{
+.label_sync{
     margin-right:32px
 }
 #txt
 {
     width:90%;
-    height:500px;
     padding:3px 7px;
+    line-height:23px;
 }
 #okbtn{
     padding:7px 30px;
     margin-top:14px;    
+    margin-left:14px;
 }
 #nobtn{
-    float:right;
-    margin-right:10%
+    margin-top:11px;
+    margin-left:32px
 }
-.btnbar{
-padding-bottom:256px;
-} 
+ul.token-input-list{
+    display:inline-block;
+}
+.ul_label{
+vertical-align:13px;
+margin-right:10px;
+}
+
+#okbtn,#nobtn{
+display:inline-block;
+padding:6px 26px;
+border:1px solid #ccc;
+background:-moz-linear-gradient(center top , #FCFCFF, #F6F6FF) repeat;
+box-shadow:0 1px 0 #FFFFFF inset, 0 1px 0 rgba(150, 150, 255, 0.1);
+color:#333 !important;
+text-shadow:0 1px 0 #FFF;
+font-size:14px;
+background:#fff\9;
+filter:progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff',EndColorStr='#f3f3f3');
+background-image:-webkit-gradient(linear,0 0,0 100%,from(#fff),to(#f3f3f3));
+}
+#nobtn{
+padding:3px 14px;
+}
+#okbtn:active,#nobtn:active{
+box-shadow:0 1px 2px rgba(0, 0, 0, 0.3) inset;
+}

@@ -1,4 +1,5 @@
-function autocomplete_tag(id, default_tag_list, idPrefix){
+function autocomplete_tag(id, default_tag_list, only_search, idPrefix){
+    //only_search = (typeof(only_search)=="undefined")?0:only_search
     var elem=$(id), t, i, 
         o = {
             onResult: function (results, word) {
@@ -19,21 +20,38 @@ function autocomplete_tag(id, default_tag_list, idPrefix){
                         list.push(t)
                     }
                 }
-                if(ctrl)list.unshift({id:'-'+word,name:word,num:0})
+                if(ctrl && !only_search)list.unshift({id:'-'+word,name:$('#token-input-'+id.substring(1)).val(),num:0})
                 return list
             },
+            hintText:only_search?null:'',
             propertyToSearch: "name",
+            onAdd: function (item) {
+                if(only_search){
+                    window.location.href = 'http://42qu.com'
+                }
+            },
             resultsFormatter: function(item){
                 if(String(item.id).substring(0,1)=='-'){
-                    return '<li class="dropdown_add">添加 '+item.name+' 标签</li>'
+                    return '<li class="dropdown_add">添加 '+$('#token-input-'+id.substring(1)).val()+' 标签</li>'
                 }
-                var num = item.num-0;
+                var num = item.num-0, ctxt;
+                switch(item.cid){
+                    case 0:
+                        ctxt = '个回答'
+                        break
+                    case 1:
+                        ctxt = '人关注'
+                        break
+                    case 2:
+                        ctxt = '个粉丝'
+                        break
+                }
                 var s=[
                     '<li>',item.name
                 ]
                 if(num){
                     s.push( 
-                        '<span class="drop_follow_num">'+item.num+'人关注</span>'
+                        '<span class="drop_follow_num">' + item.num + ctxt + '</span>'
                     )
                 }
                 s.push('</li>')
@@ -41,8 +59,8 @@ function autocomplete_tag(id, default_tag_list, idPrefix){
             },
             tokenFormatter: function(item){
                  return '<li class="token-input-token"><p>'+item.name+'</p>'+'<input type="hidden" name="tag_id_list" value="'+item.id+'"></li>' 
-            }
-
+            },
+            animateDropdown: false
         }
     if(idPrefix){
         o.idPrefix = idPrefix
@@ -56,3 +74,106 @@ function autocomplete_tag(id, default_tag_list, idPrefix){
         }
     }
 }
+
+function autocomplete_tag_hero(id){
+    var elem=$(id), t, i, 
+        o = {
+            onResult: function (results) {
+                var list = [],
+                    i=0; 
+                for(;i<results.length;++i){
+                    t = results[i]
+                    for(var j=0;j<t[1].length;++j){
+                        var item = t[1][j]
+                        list.push({
+                            id:item[0],
+                            name:item[2],
+                            num:Number(item[1]),
+                            alias:item[3],
+                            cid:t[0]
+                        })
+                    }
+                }
+                return list
+            },
+            hintText:'',
+            propertyToSearch: "name",
+            onAdd: function (item) {
+                elem.tokenInput("clear")
+                window.location.href = 'http://' + item.id + '.42qu.com'
+            },
+            resultsFormatter: function(item){
+                var num = item.num-0, ctxt, alias=item.alias;
+                switch(item.cid){
+                    case 1: 
+                        ctxt = '个粉丝'
+                        style = 'search_hero_li'
+                        break
+                    case 6:
+                        ctxt = '人关注'
+                        style = 'search_tag_li'
+                        break
+               }
+                var s=[
+                    '<li class="' + style + '">',item.name
+                ]
+                if(alias){
+                    s.push(
+                        '<span class="drop_item_alias">'+$('<p>').text(alias).html()+"</span>"
+                    )
+                }
+                if(num){
+                    s.push( 
+                        '<span class="drop_follow_num">' + item.num + ctxt + '</span>'
+                    )
+                }
+                s.push('</li>')
+                s = s.join('')
+                if(alias){
+                    s = find_value_and_highlight_term(s,alias,$('#token-input-search').val())
+                }
+                return s
+            },
+            animateDropdown: false
+        }
+    elem.tokenInput("http://api"+HOST_SUFFIX+"/tip",o)
+}
+
+function find_value_and_highlight_term(template, value, term) {
+        return template.replace(new RegExp("(?![^&;]+;)(?!<[^<>]*)(" + RegExp.escape(value) + ")(?![^<>]*>)(?![^&;]+;)", "g"), highlight_term(value, term));
+    }
+
+function highlight_term(value, term) {
+        return value.replace(new RegExp("(?![^&;]+;)(?!<[^<>]*)(" + RegExp.escape(term) + ")(?![^<>]*>)(?![^&;]+;)", "gi"), "<b>$1</b>");
+    }
+ 
+
+function token_search_decoration(){
+    function show_placeholder(){
+        if(!$('#token-input-search').val().length>0){
+            $('.token-input-list').hide()
+            $('#search').show()
+            $('#token-input-search').unbind('blur')
+        }
+        if(document.activeElement.id!='token-input-search'){
+            $('.token-input-dropdown').hide()
+        }
+    }
+    function show_token_input(){
+        $('#token-input-search').focus().blur(show_placeholder).focus(function(){
+            if($('#token-input-search').val().length>0)
+            $('.token-input-dropdown').show()}
+        )
+    }
+    show_placeholder()
+    $('#search').bind('click',function(){
+        $(".token-input-list").show()
+        $(this).hide()
+        if(navigator.userAgent.indexOf("MSIE")>0) { 
+            setTimeout(show_token_input,10)
+        }else{
+            show_token_input()
+        }
+    })
+}
+

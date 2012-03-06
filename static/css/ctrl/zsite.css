@@ -318,6 +318,7 @@ background:url(/img/gif/icons/gif/black/to_size/close.gif) no-repeat 50% 50%;
 margin-bottom:10px;
 margin-top:-6px;
 }
+/*
 .fav:hover , .faving,  .faved{
 padding-right:17px;
 background:url(/img/gif/icons/gif/orange/to_size/check.gif) no-repeat 100% 5px;
@@ -329,6 +330,7 @@ background-image:url(/img/gif/icons/gif/black/to_size/check.gif);
 .faving{
 background:url(/img/gif/loading12.gif) no-repeat 100% 1px;
 }
+*/
 .share_sync{
 float:right;
 font-size:16px;

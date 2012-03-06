@@ -1,0 +1,95 @@
+<%inherit file="_base.htm" />
+<%!
+from yajl import dumps
+from model.feed_import import FEED_IMPORT_STATE_REVIEWED, FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR, FEED_IMPORT_STATE_REVIEWED_SYNC, FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC , FEED_IMPORT_STATE_POED, FEED_IMPORT_STATE_RM 
+from zkit.time_format import friendly_time
+
+STATE2CN = {
+    FEED_IMPORT_STATE_RM : "忽略",  
+    FEED_IMPORT_STATE_REVIEWED:"通过", 
+    FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR:"删除作者", 
+    FEED_IMPORT_STATE_REVIEWED_SYNC:"同步", 
+    FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC:"删除作者并同步" ,
+    FEED_IMPORT_STATE_POED:"已生成" 
+}
+
+%>
+
+<style>
+.log_line{
+border-bottom:1px dotted #e9e9e9;
+line-height:32px;
+}
+.log_tag_id{
+display:none;
+}
+.log_num{
+color:#999;
+margin-right:6px;
+}
+.log_admin_name{
+margin-right:12px;
+}
+.log_tags{
+background:#f3f3f3;
+margin-right:16px;
+color:#666;
+border-right:1px solid #ddd;
+}
+.tag_split{
+border-right:1px solid #ddd;
+margin-right:4px;
+}
+.log_title{
+color:#444;
+font-weight:700;
+}
+.log_title_a{
+font-weight:700;
+}
+.log_state{
+margin-right:12px;
+color:#666;
+}
+.log_time{
+color:#999;
+font-size:12px;
+}
+.log_jump{
+display:inline-block;
+width:18px;
+height:18px;
+background:url(http://s4.42qu.us/img/gif/icons/gif/light_gray/to_size/arrow1_ne.gif) 50% 50% no-repeat;
+vertical-align:-2px;
+margin-right:16px;
+}
+.log_jump:hover{
+background:url(http://s4.42qu.us/img/gif/icons/gif/red/to_size/arrow1_ne.gif) 50% 50% no-repeat;
+}
+</style>
+
+%for pos, i in enumerate(feed_list,1):
+<%
+admin = i.admin
+%>
+<div class="log_line">
+<span class="log_num">${pos}</span>
+<a href="${admin.link}" target="_blank" class="log_admin_name">${admin.name}</a>
+    <span class="log_tags">
+    %for tag in i.tag_list:
+<span class="tag_split"></span><span class="log_tag_id">${tag.id}</span><span class="log_tag_name">${tag.name}</span>
+    %endfor
+    </span>
+
+%if i.state < FEED_IMPORT_STATE_POED:
+    <a class="log_title_a" href="/feed_import/edit/${i.id}" target="_blank">${i.title}</a><a href="${i.url}" target="_blank" class="log_jump"></a>
+%else:
+    <span class="log_title">${i.title}</span><a href="${i.url}" target="_blank" class="log_jump"></a>
+%endif
+
+<span class="log_state">[ ${STATE2CN.get(i.state,"???")} ]</span>
+<span class="log_time">${friendly_time(i.time)}</span>
+</div>
+%endfor
+
+${page|n}

@@ -3,13 +3,17 @@
 from model.career import career_current
 from config import SITE_DOMAIN, FS_URL 
 from model.ico import pic_url_with_default,PIC_DEFAULT
-from tornado.escape import json_encode 
+from zkit.escape import json_encode 
 %>
 <%namespace file="/ctrl/_util/user.htm" import="user_career_link, po_link"/>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%namespace file="/ctrl/_util/buzz.htm" import="buzz_show"/>
 ##<%namespace file="/ctrl/_util/site_rec_new.htm" import="site_rec_render"/>
 ##<%namespace file="/ctrl/_util/friend_rec.htm" import="friend_rec_render"/>
+<%def name="htm_head()">
+${css.ctrl_index|n}
+${css.ctrl_tag_side|n}
+</%def>
 
 <%def name="rec_read_render(rec_item_list)">
 %if rec_item_list:
@@ -22,7 +26,7 @@ from tornado.escape import json_encode
 </a>
 </div>\
 
-<div class="feedP"><div class="feedS"><div class="sdw sdwb"><div class="sd">\
+<div class="feedP"><div class="feedS"><div class="sdw sdwb"><div class="sd"><div>\
 <div id="feedrec">
 <a class="feedx" href="javascript:feedrecx();void(0)"></a>\
 <div class="feedtab">\
@@ -31,8 +35,9 @@ from tornado.escape import json_encode
 <div id="item_list"></div>
 ##<div class="readl c"><a href="/read">更多 ...</a></div>
 </div>
-</div></div></div></div>
+</div></div></div></div></div>
 </div>
+
 <script src="${js.ctrl_render_item}"></script>
 <script>_render_note('#feedrec', '#item_list', ${json_encode(rec_item_list)|n}) </script>
 %endif
@@ -181,6 +186,7 @@ href="/${id}" target="_blank">${create_time}</a>{{if rt_list.length  && rt_list[
 </%text>
 </script>
 
+
 <div class="Iwp">
     <div class="Lwp">
         <div class="feed_li feedL" id="feed_self">
@@ -232,8 +238,10 @@ ${rec_read_render(rec_item_list)}\
 </div>
 <div class="Rwp">
 
-
-<a class="gask" href="http://zuroc.42qu.com/10204513">有空 ?  来写42区小功能吧!</a>
+<form class="search" action="/q">
+<input type="text" placeholder="搜索 标签 或 人物 ..." name="q" id="search" autocomplete="off">\
+<input type="submit" class="search_btn" value="">\
+</form>
         ${buzz_show(current_user_id)}
 <%doc>
         ##${site_rec_render()}

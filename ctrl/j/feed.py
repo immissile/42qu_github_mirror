@@ -18,7 +18,7 @@ from model.zsite import Zsite
 from model.po_video import CID_VIDEO, video_link_autoplay
 from model.event import Event
 from zkit.time_format import friendly_time
-from model.fav import fav_add, fav_rm
+from model.fav import fav_new, fav_rm
 from cgi import escape
 from ctrl.j.po import post_reply
 from model.zsite import zsite_name_id_dict
@@ -27,6 +27,7 @@ from model.po_pos import po_pos_mark
 from model.event import EVENT_STATE_END , event_joiner_feedback_normal_count , event_joiner_feedback_good_count
 from model.zsite_site import zsite_id_list_by_user_id
 from model.site_feed import site_po_iter
+from model.career import career_current_str
 
 @urlmap('/j/site/feed/(\d+)')
 class SiteFeed(JLoginBase):
@@ -48,7 +49,7 @@ class SiteFeed(JLoginBase):
 class Fav(JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
-        fav_add(current_user_id, id)
+        fav_new(current_user_id, id)
         self.finish('{}')
 
 
@@ -167,6 +168,13 @@ class PoJson(Base):
                 'reply_count':po.reply_count,
                 'create_time':po.create_time
             }
+            user = po.user
+            if user:
+                result['link'] = user.link
+                result['user_name'] = " ".join((
+                    user.name,
+                    career_current_str(user.id)
+                ))
             po_pos_mark(current_user_id, po)
         else:
             result = {}

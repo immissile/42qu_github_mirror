@@ -46,3 +46,19 @@ class At(Base):
         return _get(self, lambda user_id:follow_name_dict_url_dict_by_from_id_cid(user_id, CID_USER))
 
 
+from model.autocomplete_query import autocomplete
+
+@urlmap('/tip')
+class Tip(Base):
+
+    def get(self):
+        q = self.get_argument('q',None)
+        if q:
+            result = autocomplete(q)
+            result = dumps(result) 
+        else:
+            result = []
+
+        self.finish(jsonp(self,result))
+        
+    post = get

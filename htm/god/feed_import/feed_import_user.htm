@@ -1,0 +1,18 @@
+<%inherit file="/god/_base.htm" />
+<%!
+from yajl import dumps
+from cgi import escape
+from model.feed_import import FeedImport, FEED_IMPORT_STATE_INIT
+from model.po_tag import REDIS_REC_CID_TUPLE
+
+%>
+<%def name="htm_head()">
+</%def>
+
+%for i in user_list:
+<div>
+<a href="/feed_import/user/${i.id}">${i.name}</a>
+${i.feed_import_count}
+</div>
+%endfor
+

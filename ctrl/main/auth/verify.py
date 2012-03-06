@@ -3,7 +3,7 @@ from ctrl.main._handler import Base, LoginBase, XsrfGetBase
 from cgi import escape
 from ctrl._urlmap.auth import urlmap
 from model.cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD, CID_USER, CID_VERIFY_COM_HR, CID_VERIFY_LOGIN_MAIL
-from model.user_mail import mail_by_user_id, user_id_by_mail, user_mail_active_by_user_id,mail_by_user_id
+from model.user_mail import mail_by_user_id, user_id_by_mail, user_mail_active_by_user
 from model.user_session import user_session, user_session_rm
 from model.verify import verify_mail_new, verifyed
 from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE, ZSITE_STATE_NO_PASSWORD
@@ -56,9 +56,12 @@ class VerifyLoginMail(LoginBase):
     def get(self, id, ck):
         user_id, cid = verifyed(id, ck, delete=False)
         if user_id and CID_VERIFY_LOGIN_MAIL == cid:
-            user_mail_active_by_user_id(user_id)
+            user = self.current_user
+            user_mail_active_by_user(user)
+            self.redirect('%s/i/account/mail/success'%user.link)
+        else:
+            self.redirect('/')
 
-        self.redirect('%s/i/account/mail/success'%self.current_user.link)
 
 @urlmap('/auth/verify/mail/(\d+)/(.+)')
 class VerifyMail(VerifyBase):
@@ -69,7 +72,7 @@ class VerifyMail(VerifyBase):
             user = Zsite.mc_get(user_id)
             if user.state == ZSITE_STATE_APPLY or user.state == ZSITE_STATE_NO_PASSWORD:
                 user.state = ZSITE_STATE_ACTIVE
-                user_mail_active_by_user_id(user_id)
+                user_mail_active_by_user(user)
                 user.save()
             self.__dict__['_current_user'] = user
 

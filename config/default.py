@@ -12,6 +12,10 @@ json.load = yajl.load
 
 
 import _env
+from zkit.escape import json_encode 
+from tornado import escape
+escape.json_encode = json_encode
+
 from mysql import DB_MAIN_TABLE, DB_GOOGLE_TABLE
 import zkit.cookie_morsel 
 from hmako.lookup import TemplateLookup
@@ -34,6 +38,7 @@ def prepare(o):
     o.NGINX_LOGROTATE_DIR = "/var/log/nginx"
     o.PRIVILEGE_SUPER = set((
         10000000, #张沈鹏 
+        10001299, #于鹏
         10014918, #Zsp 007
         10001542, #010001542
         10184259, #10184259
@@ -51,6 +56,9 @@ def prepare(o):
 #        10000212, #张近东
 #        10001637, #陶紫旺
     ))
+
+    o.ZSITE_DOUBAN_ID = 10216239
+    o.ZSITE_UCD_CHINA_ID = 10109232 
 
     o.SITE_DOMAIN = '42qu.test'
     o.SITE_NAME = '42区'
@@ -138,6 +146,24 @@ def prepare(o):
     o.GREADER_PASSWORD = ''
     o.GREADER_USERNAME = ''
 
+    o.KAIXIN_CONSUMER_KEY = ''
+    o.KAIXIN_CONSUMER_SECRET = ''
+
+    o.FANFOU_CONSUMER_KEY = ''
+    o.FANFOU_CONSUMER_SECRET = ''
+
+    o.SLIDESHARE_KEY = ''
+    o.SLIDESHARE_SECRET = ''
+    o.SLIDESHARE_USERNAME = ''
+    o.SLIDESHARE_PASSWORD = ''
+
+    o.UPYUN_PATH_BUILDER = 'test/%s'
+    o.UPYUN_USERNAME = ''
+    o.UPYUN_PWD = ''
+    o.UPYUN_SPACENAME = ''
+    o.UPYUN_API_URL = ''  
+    o.UPYUN_DOMAIN = ''
+    o.UPYUN_DIRNAME = ''
     
 
     return o
@@ -178,7 +204,7 @@ def finish(o):
     o.RPC_URL = '//RPC.%s' % o.SITE_DOMAIN
     o.RPC_HTTP = 'http:%s' % o.RPC_URL
 
-    o.DUMPLICATE_DB_PREFIX = '%s/%s.dumplicate.%%s.kch'%(o.FILE_PATH , o.SITE_DOMAIN)
+    o.DUMPLICATE_DB_PREFIX = '%s/dumplicate.%s.%%s.kch'%(o.ZDATA_PATH , o.SITE_DOMAIN)
     o.SENDER_NAME = o.SITE_DOMAIN
 
     HTM_PATH = join(_env.PREFIX, 'htm')
@@ -217,6 +243,14 @@ def finish(o):
             'tables': DB_GOOGLE_TABLE,
         },
     }
+
+    if o.DEBUG:
+        import logging
+        logging.basicConfig(
+            level=logging.DEBUG,
+            format='%(message)s\n',
+            datefmt='%H:%M:%S',
+        )
     return o
 
 def load(self, *args):

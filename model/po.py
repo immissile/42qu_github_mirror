@@ -110,7 +110,8 @@ class Po(McModel, ReplyMixin):
 
     @attrcache
     def user(self):
-        return Zsite.mc_get(self.user_id)
+        if self.user_id:
+            return Zsite.mc_get(self.user_id)
 
     @attrcache
     def target(self):
@@ -250,7 +251,7 @@ class Po(McModel, ReplyMixin):
 
     def can_admin(self, user_id):
         if user_id is not None and self.user_id:
-            return self.user_id == user_id
+            return self.user_id == int(user_id)
 
     def reply_new(self, user, txt, state=STATE_ACTIVE):
         reply_id = super(Po, self).reply_new(user, txt, state)
@@ -261,8 +262,14 @@ class Po(McModel, ReplyMixin):
             mc_feed_tuple.delete(id)
             from po_pos import po_pos_state_buzz
             from buzz_reply import  mq_buzz_po_reply_new
-            po_pos_state_buzz(user_id, self)
+
+            if not po_pos_state_buzz(user_id, self):
+                from model.po_tag import po_score_incr
+                po_score_incr(self, user_id, 2)
+
             mq_buzz_po_reply_new(user_id, reply_id, id, self.user_id)
+
+
         return reply_id
 
 
@@ -367,11 +374,7 @@ def po_rm(user_id, id):
                 from model.po_recommend import po_recommend_rm_reply
                 po_recommend_rm_reply(id, user_id)
 
-            from model.po_recommend import mq_rm_rec_po_by_po_id
-            mq_rm_rec_po_by_po_id(user_id, id)
 
-            from po_by_tag  import tag_rm_by_po
-            tag_rm_by_po(po)
 
             return _po_rm(user_id, po)
 
@@ -381,10 +384,19 @@ def _po_rm(user_id, po):
     po.save()
     id = po.id
     feed_rm(id)
+
+    from model.po_recommend import mq_rm_rec_po_by_po_id
+    mq_rm_rec_po_by_po_id(user_id, id)
+
     from zsite_tag import zsite_tag_rm_by_po
     zsite_tag_rm_by_po(po)
+
+    from po_tag import po_tag_rm_by_po
+    po_tag_rm_by_po(po)
+
     from rank import rank_rm_all
     rank_rm_all(id)
+
     from po_question import mc_answer_id_get, answer_count
     rid = po.rid
     if rid:
@@ -528,7 +540,7 @@ if __name__ == '__main__':
     po.save()
 
     #rm_all_po_and_reply_and_tag_by_user_id(10001299)
-    pass
+    #pass
     #for po in Po.where(cid = CID_NOTE,state=STATE_ACTIVE):
     #    print po.txt
     #    raw_input()

@@ -8,7 +8,7 @@ from zkit.htm2txt import htm2txt
 from model.po import po_note_new, Po
 from model.po_pic import po_pic_new
 from model.state import STATE_RM, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
-from model.rss import rss_po_id, RSS_RT_PO, RssPoId
+from model.rss import rss_po_id_new, RSS_RT_PO, RssPoId
 from model.po_show import po_show_new
 from model.zsite import Zsite
 from model.cid import CID_SITE
@@ -20,6 +20,7 @@ import re
     
 def htm2po_by_po(pre):
     txt = pre.txt.rstrip()
+
     if not txt:
         return
 
@@ -30,7 +31,7 @@ def htm2po_by_po(pre):
     else:
         group_id = pre.site_id
 
-    rp = RssPoId.get(pre.id)
+    rp = RssPoId.get(rss_po_id=pre.id)
     if rp:
         po = Po.mc_get(rp.po_id)
         if po:
@@ -38,15 +39,17 @@ def htm2po_by_po(pre):
             po.save()
     else:
         po = po_note_new(
-            pre.user_id, pre.title, '', STATE_RM, group_id
+            pre.user_id, 
+            pre.title, '', STATE_RM, group_id
         )
 
     if not po:
         return
+
     po_id = po.id
 
     if not rp:
-        rss_po_id(pre.id, po_id)
+        rss_po_id_new(zsite, pre.id, po_id)
 
     txt = txt_img_fetch(txt)
 
@@ -62,7 +65,6 @@ def htm2po_by_po(pre):
     if po.zsite_id != po.user_id:
         zsite_tag_new_by_tag_id(po)
 
-    po.feed_new()
     if pre.state == RSS_RT_PO:
         po_show_new(po)
 

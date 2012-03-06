@@ -106,6 +106,9 @@ DB_MAIN_TABLE = (
     'product_show',
     'po_meta',
     'po_meta_user',
+    'part_time_job',
+    'tag_alias',
+    'vps',
 )
 
 DB_GOOGLE_TABLE = (

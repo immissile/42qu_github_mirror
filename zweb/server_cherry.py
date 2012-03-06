@@ -23,12 +23,6 @@ def timeit_middleware(func):
 def WSGIServer(port, application):
     from weberror.evalexception import EvalException
     application = EvalException(application, )
-    import logging
-    logging.basicConfig(
-        level=logging.DEBUG,
-        format='%(message)s\n',
-        datefmt='%H:%M:%S',
-    )
     application = timeit_middleware(application)
     logging.info('\nGAME BEGIN\n\n')
     

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from time import time
-from _db import cursor_by_table, Model, McModel, McLimitA, McCache, McCacheA, McCacheM
+from _db import cursor_by_table, Model, McModel, McLimitA, McCache, McCacheA, McCacheM, redis
 from po import Po
 
 STATE_BUZZ = 1
@@ -30,12 +30,12 @@ def po_pos_get(user_id, po_id):
         return p.pos, p.state
     return -1, STATE_MUTE
 
-mc_po_viewed_list = McLimitA('PoViewedList.%s', 128)
+mc_po_viewed_list = McCacheA('PoViewedList.%s')
 
 @mc_po_viewed_list('{po_id}')
-def po_viewed_list(po_id, limit, offset):
-    qs = PoPos.where(po_id=po_id).order_by('id desc')
-    return [i.user_id for i in qs]
+def po_viewed_list(po_id):
+    qs = PoPos.where(po_id=po_id).order_by('id desc').col_list(col="user_id")
+    return qs 
 
 def po_buzz_list(po_id):
     qs = PoPos.where(po_id=po_id, state=STATE_BUZZ)
@@ -57,6 +57,10 @@ def _po_pos(user_id, po, state, sql):
     pos = po.reply_id_last
     po_id = po.id
     pos_old, _ = po_pos_get(user_id, po_id)
+    #print pos_old
+    if pos_old == -1:
+        from po_tag import po_score_incr 
+        po_score_incr(po, user_id, 1)
     if pos > pos_old:
         PoPos.raw_sql(
             sql,
@@ -81,22 +85,20 @@ def po_pos_state_buzz(user_id, po):
     po_id = po.id
     if not po_pos_state(user_id, po_id, STATE_BUZZ):
         po_pos_set(user_id, po)
+        return False
+    return True 
 
 def po_pos_state_mute(user_id, po_id):
     po_pos_state(user_id, po_id, STATE_MUTE)
 
 def po_pos_state(user_id, po_id, state):
     pos, state_old = po_pos_get(user_id, po_id)
-    if pos >= 0 and state_old != state:
-        PoPos.raw_sql('update po_pos set state=%s where user_id=%s and po_id=%s', state, user_id, po_id)
-        mc_po_pos.delete('%s_%s' % (user_id, po_id))
+    if pos >= 0:
+        if state_old != state:
+            PoPos.raw_sql('update po_pos set state=%s where user_id=%s and po_id=%s', state, user_id, po_id)
+            mc_po_pos.delete('%s_%s' % (user_id, po_id))
         return True
 
 if __name__ == '__main__':
     pass
-    po = Po.get(517)
-    print po_pos_get(10000000, po.id)
-    print po_pos_get(10000000, po.id)
-    po_pos_set(10000000, po)
-    print po_pos_get(10000000, po.id)
-    print po_pos_get(10000000, po.id)
+    print po_viewed_list(10235773)

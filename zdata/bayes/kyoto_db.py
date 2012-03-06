@@ -11,7 +11,7 @@ from zdata.config import KYOTO_DB_PATH
 
 MAX_INT = (1<<32)-1
 
-class DB_Kyoto(object):
+class DbKyoto(object):
     def __init__(self, db_file):
         #from train import TAG2ID, WORD2ID#, BAYES_RANK
         #self.ider = WORD2ID

@@ -19,6 +19,7 @@ CID_DOUBAN_FEED_TOPIC = 1013
 DOUBAN_USER_FEED_VOTE_LIKE = 1
 DOUBAN_USER_FEED_VOTE_REC = 2
 
+REC_MIN_RANK = 1500
 
 
 DOUBAN_REC_CID = {
@@ -159,6 +160,7 @@ def douban_rec_new(id, user_id, cid , htm, time):
     o.time = time
     o.save()
 
+
 def douban_feed_new(
     cid , rid , rec , like , title  , htm, time, user_id=0, topic_id=0
 ):
@@ -176,7 +178,7 @@ def douban_feed_new(
 
     if not o.state:
         state = 0
-        if int(rec)+int(like) > 20 :
+        if int(rec)+int(like) > REC_MIN_RANK :
             state = DOUBAN_FEED_STATE_TO_REIVEW
         o.state = state
     o.time = time
@@ -241,11 +243,20 @@ if __name__ == '__main__':
     #print is_rt_by_title(txt)
     #kv_int.set(KV_IMPORT_DOUBAN,0)
     #douban_feed_to_review_iter()
-    for i in DoubanFeed.where('state = %s',DOUBAN_FEED_STATE_TO_REIVEW):
+    from zweb.orm import ormiter
+    count = 0
+    for i in ormiter(DoubanFeed):
         total = i.rec + i.like
-        if total < 2000:
+    
+        if total > REC_MIN_RANK:
+            count += 1
+            i.state = DOUBAN_FEED_STATE_TO_REIVEW
+        else:
             i.state = 0
-            i.save()
+        print i.id
+        i.save()
+
+
 #        else:
 #            print title_normal_rt(i.title)
 #    for i in DoubanFeed.where():
@@ -276,28 +287,28 @@ if __name__ == '__main__':
     #is_douban_count = 0
     #not_douban_count = 0
 
-    for i in sorted(DoubanFeed.where(state=DOUBAN_FEED_STATE_TO_REIVEW), key=lambda x:-x.rec-x.like):
-        txt = '\n'.join([i.title, i.htm])
-        is_douban = False
-
-        for word in ('豆瓣', '豆邮', '豆友', '?start=', '>http://www.douban.'):
-            if word in txt:
-                is_douban = True
-                break
-
-#        if is_douban:
-#            is_douban_count += 1
-#        else:
-#            not_douban_count += 1
-
-        if not is_douban:
-
-            if i.cid == CID_DOUBAN_FEED_TOPIC:
-                link = 'http://www.douban.com/group/topic/%s'%i.rid
-            elif i.cid == CID_DOUBAN_FEED_NOTE:
-                link = 'http://www.douban.com/note/%s'%i.rid
-
-            print '%60s %5s %5s %s %s'%( link, i.rec, i.like, title_normal_rt(i.title), len(i.htm))
+#    for i in sorted(DoubanFeed.where(state=DOUBAN_FEED_STATE_TO_REIVEW), key=lambda x:-x.rec-x.like):
+#        txt = '\n'.join([i.title, i.htm])
+#        is_douban = False
+#
+#        for word in ('豆瓣', '豆邮', '豆友', '?start=', '>http://www.douban.'):
+#            if word in txt:
+#                is_douban = True
+#                break
+#
+##        if is_douban:
+##            is_douban_count += 1
+##        else:
+##            not_douban_count += 1
+#
+#        if not is_douban:
+#
+#            if i.cid == CID_DOUBAN_FEED_TOPIC:
+#                link = 'http://www.douban.com/group/topic/%s'%i.rid
+#            elif i.cid == CID_DOUBAN_FEED_NOTE:
+#                link = 'http://www.douban.com/note/%s'%i.rid
+#
+#            print '%60s %5s %5s %s %s'%( link, i.rec, i.like, title_normal_rt(i.title), len(i.htm))
 
     #print is_douban_count, not_douban_count
 

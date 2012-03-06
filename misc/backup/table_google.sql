@@ -103,8 +103,11 @@ CREATE TABLE `feed_import` (
   `rid` int(10) unsigned NOT NULL DEFAULT '0',
   `url` varbinary(1024) NOT NULL,
   `tag_id_list` varbinary(1024) NOT NULL,
+  `cid` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `rank` int(10) unsigned NOT NULL DEFAULT '0',
+  `po_meta_user_id` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `Index_2` (`state`)
+  KEY `Index_2` (`zsite_id`,`state`,`rank`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `google_rank`;
@@ -135,7 +138,6 @@ CREATE TABLE `rss_po` (
   `txt` mediumblob NOT NULL,
   `state` int(10) unsigned NOT NULL,
   `link` varbinary(1000) NOT NULL,
-  `pic_list` blob NOT NULL,
   `site_id` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `Index_3` (`rss_uid`) USING BTREE,

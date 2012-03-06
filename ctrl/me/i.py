@@ -207,6 +207,8 @@ class Url(LoginBase):
     def post(self):
 
         current_user_id = self.current_user_id
+        current_user = self.current_user
+
         url = self.get_argument('url', None)
         if url:
             if url_by_id(current_user_id):
@@ -215,6 +217,8 @@ class Url(LoginBase):
                 error_url = url_valid(url)
             if error_url is None:
                 url_new(current_user_id, url)
+                from model.autocomplete_user import autocomplete_user_url_new
+                autocomplete_user_url_new(current_user, url)
                 self.redirect(SITE_URL)
         else:
             error_url = '个性域名不能为空'
@@ -405,6 +409,8 @@ class AccountMail(LoginBase):
     def post(self):
         errtip = Errtip()
         user_id = self.current_user_id
+        user = self.current_user
+
         password = self.get_argument('password', None)
         mail = self.get_argument('mail', None)
         if not mail:
@@ -419,9 +425,9 @@ class AccountMail(LoginBase):
             password = ''
 
         if not errtip:
-            from model.user_mail import user_mail_new, user_mail_by_state, MAIL_VERIFIED, user_mail_active_by_user_id
+            from model.user_mail import user_mail_new, user_mail_by_state, MAIL_VERIFIED, user_mail_active_by_user
             if mail in user_mail_by_state(user_id, MAIL_VERIFIED):
-                user_mail_active_by_user_id(user_id, mail)
+                user_mail_active_by_user(user, mail)
                 return self.redirect('/i/account/mail/success')
 
             if user_mail_new(user_id, mail):
