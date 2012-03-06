@@ -538,11 +538,14 @@ RegExp.escape = function(text) {
 
 function scroll_to_fixed(id, size, style1, style2){
     if(!IE6){
-        var elem = $(id);
+        var elem = $(id) 
         if(elem[0]){
             elem.css('position','absolute')
-            var top = elem.offset().top, win=$(window).scroll(function() {
-                if(win.scrollTop() >= top+size){
+            var wrap = elem.parent(),wraptop = wrap.offset().top,
+            top = elem.offset().top, win=$(window).scroll(function() {
+                var scroll = win.scrollTop(),
+                limit =  wraptop + wrap.height()
+                if((scroll >= top+size) && (scroll<limit-80)){
                     elem.css(style1)
                 }else{
                     elem.css(style2)
@@ -551,3 +554,16 @@ function scroll_to_fixed(id, size, style1, style2){
         }
     }
 }
+
+function star_fav(id,url){
+    if(!islogin())return;
+    $.postJSON(
+        url,
+        function(){
+            var style = url.substr(-2)=='rm'?'0':'1',
+            newurl =  url.substr(-2)=='rm'?'/j/fav':'/j/fav/rm'
+            $("#star_fav"+id).attr('class','sitefav'+style).attr('href','javascript:star_fav('+id+',"'+newurl+'");void(0)')
+        }
+    )
+}
+

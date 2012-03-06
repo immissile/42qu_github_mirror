@@ -191,6 +191,7 @@ width:520px;
 #main_nav_txt{
 overflow:hidden;
 width:720px;
+box-shadow:0 1px 1px #f3f3f3;
 }
 .prebody a img
 {
@@ -381,4 +382,11 @@ margin-right:22px;
 color:#444;
 font-size:14px;
 margin-bottom:12px;
+}
+.read_author{
+color:#222;
+margin-left:6px;
+}
+.read_author:hover{
+color:#d20;
 }

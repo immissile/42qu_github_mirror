@@ -134,11 +134,14 @@ text-align:left;
 text-align:left;
 border-bottom:0;
 padding:0;
+width:719px;
+overflow:hidden;
+box-shadow:0 1px 1px #f3f3f3;
 }
 #main_nav_title{
 color:#000;
 font-weight:bold;
-margin-top:14px;
+margin-bottom:20px;
 }
 #main_nav_opt{
 float:right;
@@ -191,6 +194,9 @@ margin-left:-12px;
 .main_nav .now{
     color:#333;
 }
+.readpad{
+position:relative;
+}
 .readpad .fdbar{
 margin-bottom:0;
 padding-top:7px;
@@ -206,4 +212,11 @@ margin-right:1px;
 }
 #feeds .readauthor .split{
 margin:0 3px;
+}
+.read_author{
+color:#222;
+margin-left:6px;
+}
+.read_author:hover{
+color:#d20;
 }
