@@ -55,6 +55,9 @@ def fav_rm(user_id, po_id):
         mc_fav_cid.set('%s_%s' % (user_id, po_id), 0)
         mc_flush_by_user_id(user_id, cid)
         mc_flush_by_po_id(po_id)
+        
+        from po_tag import po_score_incr
+        po_score_incr(po, user_id, -7)
 
 def fav_rm_by_po(po):
     po_id = po.id
