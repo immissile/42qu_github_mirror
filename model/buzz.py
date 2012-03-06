@@ -66,7 +66,7 @@ def buzz_new(from_id, to_id, cid, rid):
     return b
 
 def buzz_po_fav_new(from_id, po_id):
-    for i in ormiter(Follow, 'to_id=%s and from_id!=%s' % (from_id, to_id)):
+    for i in ormiter(Follow, 'to_id=%s and from_id!=%s' % (from_id, from_id)):
         buzz_new(from_id, i.from_id, CID_BUZZ_PO_FAV, po_id)
     
 mq_buzz_po_fav_new = mq_client(buzz_po_fav_new)
