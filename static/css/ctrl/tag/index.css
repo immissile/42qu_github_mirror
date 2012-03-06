@@ -383,3 +383,10 @@ color:#444;
 font-size:14px;
 margin-bottom:12px;
 }
+.read_author{
+color:#222;
+margin-left:6px;
+}
+.read_author:hover{
+color:#d20;
+}

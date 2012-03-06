@@ -554,3 +554,16 @@ function scroll_to_fixed(id, size, style1, style2){
         }
     }
 }
+
+function star_fav(id,url){
+    if(!islogin())return;
+    $.postJSON(
+        url,
+        function(){
+            var style = url.substr(-2)=='rm'?'0':'1',
+            newurl =  url.substr(-2)=='rm'?'/j/fav':'/j/fav/rm'
+            $("#star_fav"+id).attr('class','sitefav'+style).attr('href','javascript:star_fav('+id+',"'+newurl+'");void(0)')
+        }
+    )
+}
+

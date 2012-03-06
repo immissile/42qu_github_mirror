@@ -1,9 +1,3 @@
-
-
-
-
-
-
 function sitefav(){
     if(!islogin())return;
     $.postJSON(

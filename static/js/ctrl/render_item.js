@@ -81,9 +81,9 @@ $.template(
         '<div class="readauthor">'+
             '来自'+
             '{{if link}}'+
-            '<span class="split">,</span>'+
-            '{{html user_name}}'+
-            '<a class="aH" href="${link}" target="_blank"></a>'+
+            '<a class="aH read_author" href="${link}" target="_blank">{{html user_name}}</a>'+
+            '{{else}}'+
+            '<span class="read_author">银河系</span>'+
             '{{/if}}'+
         '</div>'+
     '</pre>'+
@@ -188,7 +188,6 @@ function note_li(feed_index, result){
             r.link = user_link
             r.time = $.timeago(r.create_time)
             r.fav = $('#fav'+id)[0].className
-            
             txt_body = $.tmpl('note_txt',r)
             read_loading.replaceWith(txt_body)
             var fdopt = txt_body.find('.fdopt'),

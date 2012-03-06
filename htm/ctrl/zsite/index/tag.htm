@@ -96,11 +96,11 @@ class="site_avatar" src="${$data[3]}"></a></div></div><div class="
 site_info">
 <span class="site_name"><a target="_top"
 id="site_name_a" href="${$data[1]}">${$data[2]}</a></span>
-<a id="rec_id${$data[0]}"
+<a id="star_fav${$data[0]}"
 {{if $data[7] === true}}
-href="${$data[1]}/i" target="_blank"
+href="javascript:star_fav(${$data[0]},'/j/fav/rm');void(0)"
 {{else}}
-href="javascript:void(0)"
+href="javascript:star_fav(${$data[0]},'/j/fav');void(0)"
 {{/if}}
 class="sitefav${$data[7]}"></a>
 <div class="site_bio">
