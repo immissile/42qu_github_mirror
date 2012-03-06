@@ -31,6 +31,7 @@ def rss_po():
     for pre in RssPo.where(state=RSS_RT_PO):
         po = htm2po_by_po(pre)
         if po:
+            po.feed_new()
             feed_rt(0, po.id)
         pre.state = RSS_POED
         pre.save()
@@ -42,6 +43,11 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+#    from model.po import Po
+#    po = Po.mc_get(10252040)
+#    po.feed_new()
+#    feed_rt(0, 10252040)
 #    print RssPo.where(state=RSS_POED, rss_id=198).count()
 ###    from model.po import Po,feed_rm
 ###    from model.rss import RssPoId
@@ -51,3 +57,4 @@ if __name__ == '__main__':
 ###            po = Po.mc_get( rss_po.po_id  )
 ###            feed_rm(po.id)
 ###            print po.id
+    #print RssPo.where(state=RSS_POED, rss_id=197).count()
