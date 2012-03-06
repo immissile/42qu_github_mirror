@@ -134,6 +134,8 @@ text-align:left;
 text-align:left;
 border-bottom:0;
 padding:0;
+width:720px;
+overflow:hidden;
 }
 #main_nav_title{
 color:#000;
@@ -190,6 +192,9 @@ margin-left:-12px;
 }
 .main_nav .now{
     color:#333;
+}
+.readpad{
+position:relative;
 }
 .readpad .fdbar{
 margin-bottom:0;
