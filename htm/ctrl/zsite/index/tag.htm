@@ -103,7 +103,7 @@ id="site_name_a" href="${$data[1]}">${$data[2]}</a></span>
 {{if $data[7] === true}}
 href="${$data[1]}/i" target="_blank"
 {{else}}
-href="javascript:star_fav(${$data[0]},'http:${$data[1]}/j/fav');void(0)"
+href="javascript:star_fav(${$data[0]},${$data[7]});void(0)"
 {{/if}}
 class="sitefav${$data[7]}"></a>
 <div class="site_bio">

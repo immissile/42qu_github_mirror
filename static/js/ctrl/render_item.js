@@ -154,7 +154,6 @@ function note_li(feed_index, result){
             READX(1)
         }
         READX = readx
-
         scrollTop = feeds.offset().top-14
         feeds.hide()
         //feed_index.hide();
@@ -196,6 +195,13 @@ function note_li(feed_index, result){
             fdopt.replaceWith(readauthor.html())
             readauthor.remove()
             winj.scrollTop(scrollTop)
+            var nav_txt =$('#main_nav_txt'), do_width = function(){
+                nav_txt.css('width',$('.readpad').width())
+            }
+            nav_txt.resize(do_width)
+            do_width()
+
+
         })
 
         return false; 

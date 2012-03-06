@@ -256,3 +256,5 @@ $(".buzzX").click(function(){
     }
     $(this).parents('.buzz_box').hide() 
 })
+
+
