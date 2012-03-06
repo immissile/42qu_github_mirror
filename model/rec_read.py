@@ -28,8 +28,8 @@ REDIS_REC_TAG_ID_SCORE = 'RecTagIdScore'      #所有热门主题 id score的缓
 REDIS_REC_TAG_NEW = 'Rec/%s'                  #话题下的新内容 set
 REDIS_REC_TAG_OLD = 'Rec&%s'                  #话题下的老内容
 REDIS_REC_PO_SCORE = 'RecPoScore'             #话题的积分 hset
-REDIS_REC_PO_TIMES = 'RecTimes'                  #老话题的被推荐次数 
-REDIS_REC_LAST_TIME = 'RecLastTime'            #上次推荐话题的时间
+REDIS_REC_PO_TIMES = 'RecTimes'               #老话题的被推荐次数 
+REDIS_REC_LAST_TIME = 'RecLastTime'           #上次推荐话题的时间
 
 mc_rec_is_empty = McCache("Rec!%s")
 
@@ -42,6 +42,19 @@ ninf = float('-inf')
 def rec_read_user_topic_score_fav(user_id, tag_id):
     rec_read_user_topic_score_incr(user_id, tag_id, score=inf, tag_score=1)
 
+def rec_read_po_tag_rm(po_id, tag_id_list):
+    p = redis.pipeline()
+    for tag_id in tag_id_list:
+        p.zrem(REDIS_REC_TAG_OLD%tag_id, po_id) 
+        p.srem(REDIS_REC_TAG_NEW%tag_id, po_id) 
+    p.execute()
+
+def rec_read_po_rm(po_id, tag_id_list):
+    rec_read_po_tag_rm(po_id, tag_id_list)
+
+@mq_client
+def mq_rec_read_po_rm(po_id, tag_id_list):
+    rec_read_po_rm(po_id, tag_id_list)
 
 def rec_read_user_topic_score_fav_rm(user_id, tag_id):
     rec_read_user_topic_score_incr(user_id, tag_id, score=ninf, tag_score=-1)
@@ -85,7 +98,7 @@ def rec_read_new(po_id, tag_id):
     else:
         redis.sadd(REDIS_REC_TAG_NEW%tag_id, po_id)
 
-#@mq_client
+@mq_client
 def mq_rec_topic_has_new(tag_id):
     rec_topic_has_new(tag_id)
 

@@ -258,8 +258,11 @@ def tag_author_list(zsite_id):
 def po_tag_rm_by_po(po):
     po_id = po.id
     user_id = po.user_id
-    _tag_rm_by_user_id_list(po, user_id, tag_id_list_by_po_id(po_id))
+    tag_id_list = tag_id_list_by_po_id(po_id)
+    _tag_rm_by_user_id_list(po, user_id, tag_id_list)
     mc_flush_by_po_id(po_id)
+    from model.rec_read import rec_read_po_rm
+    rec_read_po_rm(po_id, tag_id_list)
 
 def _tag_rm_by_user_id_list(po, user_id, id_list):
 
