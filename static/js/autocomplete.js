@@ -119,7 +119,7 @@ function autocomplete_tag_hero(id){
                 ]
                 if(alias){
                     s.push(
-                        $('<span class="drop_item_alias"></span>').text(alias).html()
+                        '<span class="drop_item_alias">'+$('<p>').text(alias).html()+"</span>"
                     )
                 }
                 if(num){
