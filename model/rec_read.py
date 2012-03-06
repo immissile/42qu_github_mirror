@@ -49,8 +49,7 @@ def rec_read_po_tag_rm(po_id, tag_id_list):
         p.srem(REDIS_REC_TAG_NEW%tag_id, po_id) 
     p.execute()
 
-def rec_read_po_rm(po_id, tag_id_list):
-    rec_read_po_tag_rm(po_id, tag_id_list)
+def rec_read_po_read_rm(po_id, tag_id_list):
     from model.po_pos import po_viewed_list
     p = redis.pipeline()
     for i in po_viewed_list(po_id):
@@ -351,13 +350,12 @@ def rec_read(user_id, limit):
 
 if __name__ == '__main__':
     pass
-    user_id = 10000000 
-    key = REDIS_REC_USER_TAG%user_id
-    rec_read_user_topic_score_fav(user_id, 10225249)
-    print redis.zrevrange(key, 0, 0, True, int)
-    rec_read_user_topic_score_fav_rm(user_id, 10225249)
-    print redis.zrevrange(key, 0, 0, True, int)
-
+    #user_id = 10000000 
+    #key = REDIS_REC_USER_TAG%user_id
+    #rec_read_user_topic_score_fav(user_id, 10225249)
+    #print redis.zrevrange(key, 0, 0, True, int)
+    #rec_read_user_topic_score_fav_rm(user_id, 10225249)
+    #print redis.zrevrange(key, 0, 0, True, int)
 #    from model.zsite import Zsite
 #    for i in Zsite.mc_get_list( redis.zrange(REDIS_REC_TAG,0,-1) ):
 #        print i.name
