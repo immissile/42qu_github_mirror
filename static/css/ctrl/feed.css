@@ -214,11 +214,11 @@ margin-right:1px;
 #feeds .readauthor .split{
 margin:0 3px;
 }
-.read_author{
+.fdbar .read_author{
 color:#222;
 margin-left:6px;
 }
-.read_author:hover{
+.fdbar .read_author:hover{
 color:#d20;
 }
 .prebody img{

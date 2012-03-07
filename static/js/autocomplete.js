@@ -26,6 +26,7 @@ function autocomplete_tag(id, default_tag_list, only_search, idPrefix){
             hintText:only_search?null:'',
             propertyToSearch: "name",
             onAdd: function (item) {
+                elem.tokenInput("clear")
                 if(only_search){
                     window.location.href = 'http://42qu.com'
                 }
