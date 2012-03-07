@@ -100,9 +100,18 @@ $.template(
             '</a>'+
         '</span></span>'+
     '</div>'
-)
+);
 
-function note_li(feed_index, result){
+(function(){
+var READPAD_NAV;
+function readpad_nav_resize(){
+    if(READPAD_NAV){
+        READPAD_NAV.width(READPAD_NAV[0].parentNode.offsetWidth)
+    }
+};
+$(window).resize(readpad_nav_resize);
+
+note_li = function (feed_index, result){
     var feeds=$(feed_index[0].parentNode), 
         scrollTop,
         oldtop=-1,
@@ -124,6 +133,7 @@ function note_li(feed_index, result){
         read_loading=txt_loading.find('#read_loading'),
         txt_opt=txt_loading.find('#main_nav_opt'),
         txt_body;
+    READPAD_NAV = txt_loading.find('#main_nav_txt');
 
     function readx(){
         if(oldtop<0)return;
@@ -193,11 +203,7 @@ function note_li(feed_index, result){
             fdopt.replaceWith(readauthor.html())
             readauthor.remove()
             winj.scrollTop(scrollTop)
-            var nav_txt =$('#main_nav_txt'), do_width = function(){
-                nav_txt.css('width',$('.readpad').width())
-            }
-            nav_txt.resize(do_width)
-            do_width()
+            readpad_nav_resize()
 
 
         })
@@ -207,8 +213,13 @@ function note_li(feed_index, result){
 
 
 
-
+/*            var nav_txt =$('#main_nav_txt'), do_width = function(){
+                nav_txt.css('width',$('.readpad').width())
+            }
+            do_width()
+            nav_txt.resize(do_width)
+*/
 };
 
 
-
+})();
