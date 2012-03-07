@@ -16,7 +16,7 @@ from operator import itemgetter
 from model.career import career_dict
 from model.zsite import Zsite
 from model.po_video import CID_VIDEO, video_link_autoplay
-from model.po_tag import tag_id_name_list_by_po_id
+from model.po_tag import tag_name_id_list_by_po_id
 from model.event import Event
 from zkit.time_format import friendly_time
 from model.fav import fav_new, fav_rm
@@ -164,7 +164,7 @@ class PoJson(Base):
         po = Po.mc_get(id)
         current_user_id = self.current_user_id
         if po.can_view(self.current_user_id):
-            tag_list = tag_id_name_list_by_po_id(id)
+            tag_list = tag_name_id_list_by_po_id(id)
 
             result = {
                 'txt':po.htm,

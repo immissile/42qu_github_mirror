@@ -345,7 +345,7 @@ def tag_list_by_po_id(po_id):
     zsite_id_list = tag_id_list_by_po_id(po_id)
     return Zsite.mc_get_list(zsite_id_list)
 
-def tag_id_name_list_by_po_id(po_id):
+def tag_name_id_list_by_po_id(po_id):
     return [
         (i.id, i.name) for i in tag_list_by_po_id(po_id)
     ]
@@ -461,7 +461,7 @@ if __name__ == '__main__':
 #print id
 #print  autocomplete_tag.id_list_by_str("乔布")
 
-#    print tag_id_name_list_by_po_id(10244967)
+#    print tag_name_id_list_by_po_id(10244967)
 #
 #    for i in redis.keys('TagCid=*'):
 #        redis.delete(i)
