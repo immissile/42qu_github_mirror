@@ -139,7 +139,7 @@ def po_post(self):
             tag_cid = REDIS_REC_CID_NOTE 
         else: 
             tag_cid = REDIS_REC_CID_TALK 
-        po_tag_new_by_autocompelte(po, tag_id_list, tag_cid)
+        po_tag_new_by_autocompelte(po, tag_id_list, tag_cid, po.user_id)
 
     return po
 
