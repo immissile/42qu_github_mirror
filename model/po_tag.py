@@ -425,7 +425,7 @@ def po_tag_by_cid(cid, tag_id, user_id, limit=25, offset=0):
 
 if __name__ == '__main__':
     pass
-    print tag_id_name_list_by_po_id(10252266)
+    print tag_id_name_list_by_po_id(10244967)
 
 #    for i in redis.keys('TagCid=*'):
 #        redis.delete(i)

@@ -27,7 +27,8 @@ function autocomplete_tag(id, default_tag_list, only_search, idPrefix){
             propertyToSearch: "name",
             onAdd: function (item) {
                 if(only_search){
-                    window.location.href = "//"+item.id+HOST_SUFFIX 
+                    //TODO 关键词, 注意urlencode
+                    window.location.href = "//"+HOST 
                 }
             },
             resultsFormatter: function(item){
@@ -100,8 +101,7 @@ function autocomplete_tag_hero(id){
             propertyToSearch: "name",
             onAdd: function (item) {
                 elem.tokenInput("clear")
-                //TODO 关键词, 注意urlencode
-                window.location.href = '//' + HOST
+                window.location.href = '//' + item.id + HOST_SUFFIX
             },
             resultsFormatter: function(item){
                 var num = item.num-0, ctxt, alias=item.alias;
