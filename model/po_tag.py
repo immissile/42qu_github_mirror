@@ -199,6 +199,7 @@ def tag_alias_new(id, name):
     tag_alias.tag_id = id
     tag_alias.save()
 
+    #print "!!!"
     _tag_alias_new(id, name)
     redis.hset(REDIS_ALIAS_NAME2ID, name, id)
     autocomplete_tag.append_alias(name, id)
@@ -434,9 +435,17 @@ def po_tag_by_cid(cid, tag_id, user_id, limit=25, offset=0):
 
 
 if __name__ == '__main__':
-    print tag_id_list_by_po_id(10244973)
-    print tag_id_list_by_str_list(["是","12"])
+    #print tag_id_list_by_po_id(10244973)
+    #print tag_id_list_by_str_list(["是","12"])
     pass
+    name = "乔布斯"
+    oid = redis.hdel(REDIS_ALIAS_NAME2ID, name)
+    id = '10232898'
+    tag_alias_new(id, name)
+    from model.autocomplete import  autocomplete_tag
+    print id
+    print  autocomplete_tag.id_list_by_str("乔布")
+
 #    print tag_id_name_list_by_po_id(10244967)
 #
 #    for i in redis.keys('TagCid=*'):

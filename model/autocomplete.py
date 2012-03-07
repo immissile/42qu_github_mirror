@@ -60,8 +60,9 @@ class AutoComplete:
         if value:
             value_name, value_rank = value.rsplit('`', 1)
             if value_name != name:
+                ZSET_CID = self.ZSET_CID
                 for i in self._key(value):
-                    redis.zrem(i, id)
+                    redis.zrem(ZSET_CID%i, id)
                 _append = True
             elif int(rank) != int(value_rank):
                 _append = True
@@ -82,27 +83,31 @@ class AutoComplete:
         if not tag_name:
             return
 
-        ZSET_CID = self.ZSET_CID
 
         for sub_tag in tag_name.split(' '):
             for pos in xrange(1, len(sub_tag)+1):
                 key = sub_tag[:pos]
-                yield ZSET_CID%key
+                yield key
 
             pylist = pinyin_list_by_str(sub_tag)
             for py in pylist:
-                yield ZSET_CID%py
+                yield py
 
             for pos in xrange(2, len(pylist)+1):
-                yield ZSET_CID%''.join(pylist[:pos])
+                yield ''.join(pylist[:pos])
 
     def pop_alias(self, name, id):
+        ZSET_CID = self.ZSET_CID
         for i in self._key(name):
-            redis.zrem(i, id)
+            redis.zrem(ZSET_CID%i, id)
 
     def _append(self, name, id, rank=1):
+        cache = self.CACHE
+        ZSET_CID = self.ZSET_CID
         for i in self._key(name):
-            redis.zadd(i, id, rank)
+            key = cache%i
+            redis.delete(key)
+            redis.zadd(ZSET_CID%i, id, rank)
 
     def add(self, name, id, rank=1):
         name = name.lower().strip()
