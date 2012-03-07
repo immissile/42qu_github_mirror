@@ -136,7 +136,8 @@ QQ群 : 211707205
 
     mail = "epal@qq.com"
     #mail = 'zsp007@gmail.com'
-
+    print subject
+    print text
     sendmail(
         subject,
         text, mail
