@@ -166,7 +166,8 @@ class PoJson(Base):
             result = {
                 'txt':po.htm,
                 'reply_count':po.reply_count,
-                'create_time':po.create_time
+                'create_time':po.create_time,
+                '':
             }
             user = po.user
             if user:

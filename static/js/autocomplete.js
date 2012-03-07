@@ -27,7 +27,7 @@ function autocomplete_tag(id, default_tag_list, only_search, idPrefix){
             propertyToSearch: "name",
             onAdd: function (item) {
                 if(only_search){
-                    window.location.href = 'http://42qu.com'
+                    window.location.href = 
                 }
             },
             resultsFormatter: function(item){
@@ -100,7 +100,8 @@ function autocomplete_tag_hero(id){
             propertyToSearch: "name",
             onAdd: function (item) {
                 elem.tokenInput("clear")
-                window.location.href = 'http://' + item.id + '.42qu.com'
+                //TODO 关键词, 注意urlencode
+                window.location.href = '//' + HOST
             },
             resultsFormatter: function(item){
                 var num = item.num-0, ctxt, alias=item.alias;

@@ -337,6 +337,11 @@ def tag_list_by_po_id(po_id):
     zsite_id_list = tag_id_list_by_po_id(po_id)
     return Zsite.mc_get_list(zsite_id_list)
 
+def tag_id_name_list_by_po_id(po_id):
+    return [
+        (i.id, i.name) for i in tag_list_by_po_id(po_id)
+    ] 
+
 def tag_id_list_by_str_list(tag_list):
     tag_id_list = []
     for i in tag_list:
@@ -420,14 +425,16 @@ def po_tag_by_cid(cid, tag_id, user_id, limit=25, offset=0):
 
 if __name__ == '__main__':
     pass
-    for i in redis.keys('TagCid=*'):
-        redis.delete(i)
-    for i in redis.keys('TagCid:*'):
-        p , tid, cid = i.split(':')
-        key = REDIS_TAG_CID_COUNT%tid
-        redis.hset(key, cid, redis.zcard(i))
+    print tag_id_name_list_by_po_id(10252266)
 
-    print redis.hgetall(REDIS_TAG_CID_COUNT%10231732)
+#    for i in redis.keys('TagCid=*'):
+#        redis.delete(i)
+#    for i in redis.keys('TagCid:*'):
+#        p , tid, cid = i.split(':')
+#        key = REDIS_TAG_CID_COUNT%tid
+#        redis.hset(key, cid, redis.zcard(i))
+#
+#    print redis.hgetall(REDIS_TAG_CID_COUNT%10231732)
 
 
 #    for k, v  in redis.hgetall(REDIS_PO_ID2TAG_CID).iteritems():
