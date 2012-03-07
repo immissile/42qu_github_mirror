@@ -126,6 +126,11 @@ def _follow_new(from_id, to_id):
     )
     follow_cursor.connection.commit()
     mc_flush(from_id, to_id, cid)
+    if cid == CID_USER:
+        from model.autocomplete_user import autocomplete_user
+        autocomplete_user.rank_update(
+            to_id, follow_count_by_to_id(to_id)
+        )
     return True
 
 def mc_flush(from_id, to_id, cid):
