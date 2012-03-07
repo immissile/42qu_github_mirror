@@ -25,12 +25,6 @@ function autocomplete_tag(id, default_tag_list, only_search, idPrefix){
             },
             hintText:only_search?null:'',
             propertyToSearch: "name",
-            onAdd: function (item) {
-                elem.tokenInput("clear")
-                if(only_search){
-                    window.location.href = 'http://42qu.com'
-                }
-            },
             resultsFormatter: function(item){
                 if(String(item.id).substring(0,1)=='-'){
                     return '<li class="dropdown_add">添加 '+$('#token-input-'+id.substring(1)).val()+' 标签</li>'
@@ -58,10 +52,22 @@ function autocomplete_tag(id, default_tag_list, only_search, idPrefix){
                 s.push('</li>')
                 return s.join('') 
             },
-            tokenFormatter: function(item){
-                 return '<li class="token-input-token"><p>'+item.name+'</p>'+'<input type="hidden" name="tag_id_list" value="'+item.id+'"></li>' 
+
+            onAdd: function (item) {
+                elem.tokenInput("clear")
+                if(only_search){
+                    window.location.href = 'http://42qu.com'
+                }
             },
+ 
             animateDropdown: false
+        }
+
+        if(!only_search){
+            o.tokenFormatter=function(item){
+                 return '<li class="token-input-token"><p>'+item.name+'</p>'+'<input type="hidden" name="tag_id_list" value="'+item.id+'"></li>' 
+ 
+            }
         }
     if(idPrefix){
         o.idPrefix = idPrefix
