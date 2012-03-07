@@ -61,7 +61,7 @@ class TagPo(JLoginBase):
         
         po_tag_new_by_autocompelte(po, tag_id_list, admin_id=user_id)
 
-        self.finish('')
+        self.finish('{}')
 
 
 

@@ -355,10 +355,20 @@ def tag_id_list_by_str_list(tag_list):
             tag_id_list.append(i)
     return unique(map(int, tag_id_list))
 
+class PoTagLog(Model):
+    pass
 
 def po_tag_new_by_autocompelte(po, tag_list, cid=0, admin_id=0):
     id_list = tag_id_list_by_str_list(tag_list)
-    return po_tag_id_list_new(po, id_list, cid)
+    po_id = po.id
+    old_id_list = tag_id_list_by_po_id(po_id)
+   
+    if set(id_list) != set(old_id_list):
+        po_tag_id_list_new(po, id_list, cid)
+        PoTagLog.raw_sql(
+"insert delayed into po_tag_log (po_id, admin_id, tag_id_list) values (%s, %s, %s)",
+po_id, admin_id, " ".join(map(str, id_list))
+        )  
 
 #def po_tag_id_new(po, tag_id, cid):
 #    if cid:
@@ -424,7 +434,8 @@ def po_tag_by_cid(cid, tag_id, user_id, limit=25, offset=0):
 
 
 if __name__ == '__main__':
-    tag_alias_new(10232898, "乔布斯" )
+    print tag_id_list_by_po_id(10244973)
+    print tag_id_list_by_str_list(["是","12"])
     pass
 #    print tag_id_name_list_by_po_id(10244967)
 #
