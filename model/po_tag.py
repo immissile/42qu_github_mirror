@@ -425,8 +425,8 @@ def po_tag_by_cid(cid, tag_id, user_id, limit=25, offset=0):
 
 if __name__ == '__main__':
     pass
-    print tag_id_name_list_by_po_id(10244967)
-
+#    print tag_id_name_list_by_po_id(10244967)
+#
 #    for i in redis.keys('TagCid=*'):
 #        redis.delete(i)
 #    for i in redis.keys('TagCid:*'):
@@ -434,19 +434,19 @@ if __name__ == '__main__':
 #        key = REDIS_TAG_CID_COUNT%tid
 #        redis.hset(key, cid, redis.zcard(i))
 #
-#    print redis.hgetall(REDIS_TAG_CID_COUNT%10231732)
-
-
-#    for k, v  in redis.hgetall(REDIS_PO_ID2TAG_CID).iteritems():
-#        print k,v 
-#    print tag_cid_count(10231732)
+##    print redis.hgetall(REDIS_TAG_CID_COUNT%10231732)
+#
+#
+##    for k, v  in redis.hgetall(REDIS_PO_ID2TAG_CID).iteritems():
+##        print k,v 
+##    print tag_cid_count(10231732)
 #    for k, v  in redis.hgetall(REDIS_PO_ID2TAG_CID).iteritems():
 #        tag_id_list = tag_id_list_by_po_id(k)
 #        po = Po.mc_get(k)
 #        _po_tag_id_cid_new(po, tag_id_list, 2)
-        #print po.id, k,v, tag_id_list
-
-        #_po_tag_id_cid_new(po, tag_id_list, cid)
+#        #print po.id, k,v, tag_id_list
+#
+#        _po_tag_id_cid_new(po, tag_id_list, cid)
 
 #Print tag_cid_count(10225558)
 
