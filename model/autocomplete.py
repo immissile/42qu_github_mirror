@@ -153,13 +153,13 @@ class AutoComplete:
 
             id_list = list(map(int, id_list))
 
-            id = self.id_by_name(query)
-            if id:
-                id = int(id)
-                if len(id_list) > 5:
-                    id_list.insert(4, id)
-                else:
-                    id_list.append(id)
+            #id = self.id_by_name(query)
+            #if id:
+            #    id = int(id)
+            #    if len(id_list) > 5:
+            #        id_list.insert(4, id)
+            #    else:
+            #        id_list.append(id)
  
             id_list = unique(id_list)
             
