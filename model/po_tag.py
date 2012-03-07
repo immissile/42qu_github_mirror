@@ -485,3 +485,4 @@ if __name__ == '__main__':
 
 #    print tag_id_list_by_str_list(['张沈鹏'])
 
+    print redis.hget(REDIS_ALIAS_NAME2ID, "乔布斯")
