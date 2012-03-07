@@ -262,7 +262,8 @@ def tag_author_list(zsite_id, current_user_id):
 def po_tag_rm_by_po(po):
     po_id = po.id
     user_id = po.user_id
-    tag_id_list = tag_id_list_by_po_id(po_id)
+    tag_id_list = tag_id_list_by_po_id(po_id) 
+    #tag_id_list = (10222295,)
     if tag_id_list:
         _tag_rm_by_user_id_list(po, user_id, tag_id_list)
         from model.rec_read import rec_read_po_read_rm
@@ -282,26 +283,29 @@ def _tag_rm_by_user_id_list(po, user_id, id_list):
         user_rank = zsite_list_get(user_id, tag_id, CID_TAG)
         if not user_rank and user_rank.rank:
             user_rank.rank -= 1
+            if user_rank.rank < 1:
+                user_rank.rank = 1
             user_rank.save()
 
     cid = tag_cid_by_po_id(po_id)
 
     if cid:
-        p = redis.pipeline()
 
         for tag_id in id_list:
             #将分数放到相应的ranged set里面
+
+
             key = REDIS_TAG_CID%(tag_id, cid)
+            count = max(redis.zcard(key) - 1, 0)
+
+            p = redis.pipeline()
             p.zrem(key, po_id)
-
-            key = REDIS_TAG_CID_COUNT%tag_id
-            p.hincrby(key, cid, -1)
-
             for i in (REDIS_REC_TAG_NEW, REDIS_REC_TAG_OLD):
                 key = i%tag_id
                 p.zrem(key, po_id)
-
-        p.execute()
+            
+            p.hset(REDIS_TAG_CID_COUNT%tag_id, cid, count) 
+            p.execute()
 
 def _po_tag_id_cid_new(po, tag_id_list, cid):
     po_id = po.id
@@ -422,7 +426,10 @@ def tag_cid_count(tag_id, cid=None):
         count_dict = redis.hgetall(key)
         r = []
         for k, v in count_dict.iteritems():
-            r.append((int(k), int(v)))
+            v = int(v)
+            k = int(k)
+            if v:
+                r.append((k, v))
         r.sort(key=itemgetter(0))
         return r
     else:
@@ -442,9 +449,10 @@ if __name__ == '__main__':
     #print tag_id_list_by_str_list(["是","12"])
     pass
     #name = "乔布斯"
-    from model.po import Po, po_rm
-    for  i in Po.where(user_id=10000101):
-        po_rm(i.user_id, i)
+    #from model.po import Po, po_rm
+    #for  i in Po.where(user_id=10000101):
+    #    po_tag_rm_by_po(i)
+    print tag_cid_count(10222295)
 
 #oid = redis.hdel(REDIS_ALIAS_NAME2ID, name)
 #id = '10232898'
