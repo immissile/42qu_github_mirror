@@ -176,8 +176,6 @@ note_li = function (feed_index, result){
 //console.info(oldtop)
         winj.scrollTop(scrollTop);
         txt_title.html(title.html())
-        var style1 = {position:'fixed',"top":0},style2 = {position:'absolute',marginTop:0}
-        scroll_to_fixed('#main_nav_txt',8,style1,style2)
 
 
         $.get(
@@ -206,6 +204,7 @@ note_li = function (feed_index, result){
             winj.scrollTop(scrollTop)
             readpad_nav_resize()
 
+            scroll_to_fixed(READPAD_NAV,8,{position:'fixed',"top":0},{position:'absolute',marginTop:0})
 
         })
 
