@@ -41,7 +41,7 @@ class Query(LoginBase):
             if id:
                 from model.zsite import Zsite
                 site = Zsite.mc_get(id)
-                self.redirect(site.link)
+                return self.redirect(site.link)
         self.finish("TODO")        
 
 @urlmap('/feed')
