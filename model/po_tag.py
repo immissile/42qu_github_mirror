@@ -282,8 +282,8 @@ def _tag_rm_by_user_id_list(po, user_id, id_list):
         user_rank = zsite_list_get(user_id, tag_id, CID_TAG)
         if not user_rank and user_rank.rank:
             user_rank.rank -= 1
-            if user_rank.rank < 1:
-                user_rank.rank = 1
+            if user_rank.rank < 0:
+                user_rank.rank = 0
             user_rank.save()
 
     cid = tag_cid_by_po_id(po_id)
