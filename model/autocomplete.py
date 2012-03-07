@@ -102,11 +102,11 @@ class AutoComplete:
             redis.zrem(ZSET_CID%i, id)
 
     def _append(self, name, id, rank=1):
-        cache = self.CACHE
+        CACHE = self.CACHE
         ZSET_CID = self.ZSET_CID
         for i in self._key(name):
-            key = cache%i
-            redis.delete(key)
+            redis.delete(CACHE%i)
+            #print ZSET_CID%i, id, rank
             redis.zadd(ZSET_CID%i, id, rank)
 
     def add(self, name, id, rank=1):
@@ -123,19 +123,21 @@ class AutoComplete:
         name_key = '`'.join(name_list)
         id_list = self._get_cache(name_key)
 
-        #id_list = None #TODO REMOVE
+        id_list = None #TODO REMOVE
         ZSET_CID = self.ZSET_CID
 
         if id_list is None:
             mkey = ZSET_CID%name_key
 
-            if not redis.exists(mkey):
+            if len(name_list)>1 and not redis.exists(mkey):
                 p = redis.pipeline()
                 p.zinterstore(mkey, map(ZSET_CID.__mod__, name_list), 'MAX')
                 p.expire(mkey, EXPIRE)
                 p.execute()
 
             id_list = redis.zrevrange(mkey, 0, 10)
+            #print redis.zrevrange(mkey, 0, 10,True)
+            #print id_list
             self._set_cache(name_key, id_list)
 
         return id_list[:limit]
@@ -145,6 +147,7 @@ class AutoComplete:
         query = query.strip().lower()
         result = []
         id_list = self.id_list_by_str(query, limit)
+        #print id_list
         if id_list:
             for id, name_rank in zip(id_list, redis.hmget(self.ID2NAME, id_list)):
                 name, rank = name_rank.rsplit('`', 1)
@@ -157,12 +160,39 @@ class AutoComplete:
                 )
         return result
 
+    def rank_update(self, id , rank):
+        name_rank = redis.hget(self.ID2NAME, id)
+        if name_rank:
+            name, _rank = name_rank.rsplit('`', 1)
+            self.append(name, id, rank)
+            for i in tag_alias_by_id_query(id):
+                self.append_alias(i, id , rank)
+
 from po_tag import tag_alias_by_id_query
 autocomplete_tag = AutoComplete('tag', tag_alias_by_id_query)
 
 
 if __name__ == '__main__':
     pass
+    from model.zsite import Zsite
+    from model.cid import CID_TAG, CID_USER
+    from zweb.orm import ormiter
+    from model.follow import follow_count_by_to_id
+    from model.zsite_fav import zsite_fav_count_by_zsite
+
+    for i in ormiter(Zsite, 'cid=%s'%CID_TAG):
+        count = zsite_fav_count_by_zsite(i)
+        print i.id
+        autocomplete_tag.rank_update(i.id, count)
+   
+    from model.autocomplete_user import autocomplete_user 
+    for i in ormiter(Zsite, 'cid=%s'%CID_USER):
+        count = follow_count_by_to_id(i.id)
+        print i.id
+        autocomplete_user.rank_update(i.id, count)
+
+    print autocomplete_tag.id_rank_name_list_by_str('乔', 14)
+
     #autocomplete_tag = AutoComplete('tag')
     #autocomplete_tag.append('Facebook/F8', 76514)
     #autocomplete_tag.append('flask', 76515)
@@ -172,7 +202,7 @@ if __name__ == '__main__':
 
     #from zkit.pprint import pprint
     #pprint(autocomplete_tag.id_rank_name_list_by_str('baidu'))
-    print autocomplete_tag.id_rank_name_list_by_str('f')
+    #print autocomplete_tag.id_rank_name_list_by_str('f')
     #print redis.keys('tag`baidu')
     #from timeit import timeit
     #def f():

@@ -8,7 +8,15 @@ from model.zsite_url import url_by_id
 from model.user_mail import mail_by_user_id
 from model.follow import follow_count_by_to_id
 
-def tag_alias_by_id_query(id, query):
+def tag_alias_by_id_query(id, query=None):
+    if query is None:
+        mail = mail_by_user_id(id)
+        return [
+            url_by_id(id),
+            mail,
+            mail.rsplit("@",1)[0],
+        ]
+
     url = url_by_id(id)
     if query in url.lower():
         return url

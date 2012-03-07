@@ -4,8 +4,9 @@ from model.zsite_list import zsite_list_new, STATE_RM, STATE_ACTIVE, zsite_list_
 from model.zsite import Zsite
 from model.buzz import mq_buzz_site_fav
 from model.cid import CID_TAG
-from model.autocomplete import autocomplete_tag
 from model.rec_read import rec_read_user_topic_score_fav , rec_read_user_topic_score_fav_rm 
+from model.autocomplete import autocomplete_tag
+from model.cid import CID_TAG
 
 def zsite_fav_rm(zsite, owner_id):
     fav = zsite_fav_get(zsite, owner_id)
@@ -27,8 +28,7 @@ def zsite_fav_new(zsite, owner_id):
     zsite_id = zsite.id
     cid = zsite.cid
 
-    if cid == CID_TAG:
-        rec_read_user_topic_score_fav(owner_id, zsite_id)
+
         #tag_tag.tag_fav(zsite.cid)
 
     zsite = zsite_list_new(
@@ -39,6 +39,12 @@ def zsite_fav_new(zsite, owner_id):
         STATE_ACTIVE
     )
     mq_buzz_site_fav(owner_id, zsite_id)
+    
+    if cid == CID_TAG:
+        rec_read_user_topic_score_fav(owner_id, zsite_id)
+        autocomplete_tag.rank_update(
+            zsite_id, zsite_fav_count_by_zsite(zsite)
+        )
 
 
 def zsite_fav_touch(zsite, owner_id):

@@ -222,7 +222,7 @@ def tag_alias_by_id(id):
     tag_alias_list = TagAlias.where(tag_id=id).col_list(col='name')
     return tag_alias_list
 
-def tag_alias_by_id_query(id, query):
+def tag_alias_by_id_query(id, query=None):
     #根据 id 和 name 返回别名 (自动补全提示的时候, 如果输入的字符串 lower以后不在tag的名称里面, 那么就查找这个tag的所有别名 , 找到一个包含这个name的别名)
     #name 百度
     #query baidu
@@ -230,9 +230,12 @@ def tag_alias_by_id_query(id, query):
     #id - alias_list 
     #for i in alias_list : if i.find(query) >= 0  : return i
     alias_list = redis.smembers(REDIS_ALIAS%id)
-    for i in alias_list:
-        if query in i:
-            return i
+    if query is None:
+        return alias_list
+    else:
+        for i in alias_list:
+            if query in i:
+                return i
 
 def tag_by_str(s):
     id_list = []
