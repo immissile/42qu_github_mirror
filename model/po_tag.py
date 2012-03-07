@@ -426,9 +426,10 @@ def tag_cid_count(tag_id, cid=None):
         count_dict = redis.hgetall(key)
         r = []
         for k, v in count_dict.iteritems():
+            v = int(v)
             k = int(k)
-            if k:
-                r.append((k, int(v)))
+            if v:
+                r.append((k, v))
         r.sort(key=itemgetter(0))
         return r
     else:
@@ -448,9 +449,10 @@ if __name__ == '__main__':
     #print tag_id_list_by_str_list(["是","12"])
     pass
     #name = "乔布斯"
-    from model.po import Po, po_rm
-    for  i in Po.where(user_id=10000101):
-        po_tag_rm_by_po(i)
+    #from model.po import Po, po_rm
+    #for  i in Po.where(user_id=10000101):
+    #    po_tag_rm_by_po(i)
+    print tag_cid_count(10222295)
 
 #oid = redis.hdel(REDIS_ALIAS_NAME2ID, name)
 #id = '10232898'
