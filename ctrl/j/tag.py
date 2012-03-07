@@ -9,6 +9,7 @@ from json import dumps
 from model.po_tag import po_tag_by_cid, tag_cid_count, po_tag_new_by_autocompelte 
 from model.tag_exp import tag_exp_new, tag_exp_state_txt_by_user_id_tag_id, tag_exp_new_apply_for_admin
 from model.po import Po
+from model.po_tag import tag_id_name_list_by_po_id
 
 PAGE_LIMIT = 12 
 
@@ -60,9 +61,15 @@ class TagPo(JLoginBase):
         tag_id_list = self.get_arguments('tag_id_list', []) 
         user_id = self.current_user_id
         po = Po.mc_get(id) 
-        po_tag_new_by_autocompelte(po, tag_id_list, admin_id=user_id)
 
-        self.finish('{}')
+        result = {}
+
+        if po:
+            po_tag_new_by_autocompelte(po, tag_id_list, admin_id=user_id)
+            tag_list = tag_id_name_list_by_po_id(id)
+            result['tag_list'] = tag_list
+
+        self.finish(result)
 
 
 
