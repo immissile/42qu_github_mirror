@@ -12,6 +12,7 @@ from model.rec_read import po_json_by_rec_read
 from model.po_tag import tag_cid_count
 from zkit.escape import json_encode 
 from model.po_tag import REDIS_REC_CID_DICT, po_tag_by_cid 
+
 #from model.po_tag import po_tag
 
 def render_zsite_site(self, n=1, page_template='/-%s'):
@@ -31,7 +32,12 @@ def render_zsite_site(self, n=1, page_template='/-%s'):
     page = page
     return li, page
 
-
+@urlmap('/q')
+class Query(LoginBase):
+    def get(self):
+        q = self.get_argument('q','')
+        if q:
+            zsite = Zsite.get(name=name, cid=CID_TAG)
 
 @urlmap('/feed')
 class Feed(LoginBase):

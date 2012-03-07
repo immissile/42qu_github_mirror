@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 # -`- coding: utf-8 -`-
 
+from array import array
+
 from _db import redis
 from zkit.zitertools import lineiter
-from array import array
+from zkit.algorithm.unique import unique
 
 REDIS_ZSET_CID = '%s`'
 REDIS_ID2NAME = 'ACId2Name:%s'
+REDIS_NAME2ID = 'ACName2Id:%s'
 REDIS_CACHE = 'ACCache:%s'
 
 
@@ -20,13 +23,14 @@ class AutoComplete:
     def __init__(self, name, alias_by_id_query):
         self.ZSET_CID = '%s%%s'%(REDIS_ZSET_CID%name)
         self.ID2NAME = '%s'%(REDIS_ID2NAME%name)
+        self.NAME2ID = '%s'%(REDIS_NAME2ID%name)
         self.CACHE = '%s%%s'%(REDIS_CACHE%name)
         self.alias_by_id_query = alias_by_id_query
 
     def _set_cache(self, key, id_list):
         key = self.CACHE%key
         result = array('I')
-        result.fromlist(list(map(int, id_list)))
+        result.fromlist(id_list)
         redis.setex(
             key, result.tostring(), EXPIRE
         )
@@ -45,6 +49,7 @@ class AutoComplete:
         from zkit.fanjian import ftoj
         name = ftoj(name.decode('utf-8', 'ignore'))
         self._append(name, id, rank)
+        self._name2id_set(name,id )
 
     def append(self, name, id , rank=1):
         from zkit.fanjian import ftoj
@@ -73,8 +78,16 @@ class AutoComplete:
             self._append(name, id, rank)
             tag_name = name.replace('`', "'").strip()
             redis.hset(ID2NAME, id, '%s`%s'%(tag_name, rank))
+            self._name2id_set(name,id )
 
+    def _name2id_set(self, name, id):
+        NAME2ID = self.NAME2ID
+        if not redis.hget(NAME2ID, name):
+            redis.hset(NAME2ID, name, id)
 
+    def id_by_name(self, name):
+        return redis.hget(self.NAME2ID, name)
+         
     def _key(self, name):
         from zkit.pinyin import pinyin_list_by_str
 
@@ -135,10 +148,21 @@ class AutoComplete:
                 p.expire(mkey, EXPIRE)
                 p.execute()
 
+
             id_list = redis.zrevrange(mkey, 0, 10)
+
+            id_list = list(map(int, id_list))
+
+            id = self.id_by_name(query)
+            if id:
+                id_list.insert(0, int(id))
+ 
+            id_list = unique(id_list)
+            
+            self._set_cache(name_key, id_list)
+            
             #print redis.zrevrange(mkey, 0, 10,True)
             #print id_list
-            self._set_cache(name_key, id_list)
 
         return id_list[:limit]
 
