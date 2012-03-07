@@ -221,6 +221,7 @@ margin-left:6px;
 color:#d20;
 }
 .prebody img{
+max-width:100%;
 display:block;
 margin:auto;
 }
