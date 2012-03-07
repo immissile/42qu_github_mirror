@@ -1,5 +1,5 @@
 HOST_SUFFIX=location.host.slice(location.host.indexOf("."));
-HOST = HOST_SUFFIX.slice(1)
+HOST = HOST_SUFFIX.slice(1);
 
 (function( jQuery ){
 

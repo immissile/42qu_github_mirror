@@ -167,7 +167,6 @@ class PoJson(Base):
                 'txt':po.htm,
                 'reply_count':po.reply_count,
                 'create_time':po.create_time,
-                '':
             }
             user = po.user
             if user:

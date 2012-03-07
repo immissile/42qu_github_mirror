@@ -27,7 +27,7 @@ function autocomplete_tag(id, default_tag_list, only_search, idPrefix){
             propertyToSearch: "name",
             onAdd: function (item) {
                 if(only_search){
-                    window.location.href = 
+                    window.location.href = "//"+item.id+HOST_SUFFIX 
                 }
             },
             resultsFormatter: function(item){
