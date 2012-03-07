@@ -175,12 +175,21 @@ autocomplete_tag = AutoComplete('tag', tag_alias_by_id_query)
 if __name__ == '__main__':
     pass
     from model.zsite import Zsite
-    from model.cid import CID_TAG
+    from model.cid import CID_TAG, CID_USER
     from zweb.orm import ormiter
+    from model.follow import follow_count_by_to_id
     from model.zsite_fav import zsite_fav_count_by_zsite
+
     for i in ormiter(Zsite, 'cid=%s'%CID_TAG):
         count = zsite_fav_count_by_zsite(i)
+        print i.id
         autocomplete_tag.rank_update(i.id, count)
+   
+    from model.autocomplete_user import autocomplete_user 
+    for i in ormiter(Zsite, 'cid=%s'%CID_USER):
+        count = follow_count_by_to_id(i.id)
+        print i.id
+        autocomplete_user.rank_update(i.id, count)
 
     print autocomplete_tag.id_rank_name_list_by_str('乔', 14)
 
