@@ -184,7 +184,7 @@ def tag_by_name(name):
         id = tag_new(name)
     return id
 
-def tag_alias_new(id, name, rank=1):
+def tag_alias_new(id, name):
     from model.autocomplete import  autocomplete_tag
     #添加别名
     low = name.lower()
@@ -424,6 +424,7 @@ def po_tag_by_cid(cid, tag_id, user_id, limit=25, offset=0):
 
 
 if __name__ == '__main__':
+    tag_alias_new(10232898, "乔布斯" )
     pass
 #    print tag_id_name_list_by_po_id(10244967)
 #
@@ -472,5 +473,4 @@ if __name__ == '__main__':
 #print po_tag_id_cid(10232177, 1, 1, 0)
 
 #    print tag_id_list_by_str_list(['张沈鹏'])
-
 
