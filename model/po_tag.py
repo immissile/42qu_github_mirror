@@ -351,8 +351,9 @@ def tag_id_list_by_str_list(tag_list):
     return unique(map(int, tag_id_list))
 
 
-def po_tag_new_by_autocompelte(po, tag_list, cid=0):
-    return po_tag_id_list_new(po, tag_id_list_by_str_list(tag_list), cid)
+def po_tag_new_by_autocompelte(po, tag_list, cid=0, admin_id=0):
+    id_list = tag_id_list_by_str_list(tag_list)
+    return po_tag_id_list_new(po, id_list, cid)
 
 #def po_tag_id_new(po, tag_id, cid):
 #    if cid:
