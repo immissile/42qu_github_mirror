@@ -49,7 +49,7 @@ function tag_cid_page(cid, page){
             tag_cid.css('border',0)
         };
         tag_cid.html(p||'')
-        $(window).scrollTop(90)
+        if(!page<0)$(window).scrollTop(142)
     })
 }
 
@@ -145,11 +145,16 @@ note_li = function (feed_index, result){
         txt_opt=txt_loading.find('#main_nav_opt'),
         txt_body;
 
+    function close_token(){
+        if($('.po_tag_list')[0])$('.po_tag_list').remove()
+        if($('.tag_edit_btn')[0])$('.tag_edit_btn').remove()
+        $('.main_nav').find('ul.token-input-list').remove()           
+    }
+
 
     function readx(){
         if(oldtop<0)return;
-        if($('.po_tag_list')[0])$('.po_tag_list').show()
-        $('ul.token-input-list').hide()
+        close_token()
         txt_loading.remove()
         feeds.show()
         //feed_index.show()
@@ -170,6 +175,7 @@ note_li = function (feed_index, result){
 
 
     result.find('.reada').click(function(){
+
         READPAD_NAV = txt_loading.find('#main_nav_txt');
         oldtop=winj.scrollTop();
 
@@ -217,26 +223,25 @@ note_li = function (feed_index, result){
             $.tmpl('po_tag_list',r).appendTo('#main_nav_in')
             $('.po_single_tag,.po_tag_pic').mouseover(function(){$(this).parent().find('.po_tag_pic').addClass('po_tag_pic_on');$(this).parent().find('.po_single_tag').addClass('po_single_tag_on')}).mouseout(function(){$('.po_tag_pic').removeClass('po_tag_pic_on');$('.po_single_tag').removeClass('po_single_tag_on')})
             $('.tag_list_edit_a').click(function(){
-                $('.po_tag_list').hide()
+                $('.po_tag_list').remove()
                 $('.tag_edit_btn').show().click(function(){
                     var tag_id_list=[]
                     $("input[name='tag_id_list']").each(function(){
                         tag_id_list.push($(this).val())
                     })
                     $.postJSON(
-                        '/j/tag/po/',
-                        {tad_id_list:tag_id_list},
+                        '/j/tag/po/'+id,
+                        {tad_id_list:$.toJSON(tag_id_list)},
                         function(data){
-                            $()$.tmpl('po_tag_list',data)
-                            $(this).show()
+                            $.tmpl('po_tag_list',data).appendTo('#main_nav_in')
+                            close_token()
                         }
                     )
                 })
-                autocomplete_tag('#search', r.tag_list||[], 0, 'po_')
+                autocomplete_tag('#search', r.tag_list||[], 0)
             })
             winj.scrollTop(scrollTop)
             readpad_nav_resize()
-
             scroll_to_fixed(READPAD_NAV,8,{position:'fixed',"top":0},{position:'absolute',marginTop:0})
 
         })

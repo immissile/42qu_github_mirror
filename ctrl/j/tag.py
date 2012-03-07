@@ -61,7 +61,7 @@ class TagPo(JLoginBase):
         tag_id_list = self.get_arguments('tag_id_list', []) 
         user_id = self.current_user_id
         po = Po.mc_get(id) 
-
+        print 'dasdasddasdasd',tag_id_list
         result = {}
 
         if po:
@@ -70,7 +70,5 @@ class TagPo(JLoginBase):
             result['tag_list'] = tag_list
         
         self.finish(result)
-
-
 
 
