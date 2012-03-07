@@ -439,12 +439,12 @@ if __name__ == '__main__':
     #print tag_id_list_by_str_list(["是","12"])
     pass
     name = "乔布斯"
-    oid = redis.hdel(REDIS_ALIAS_NAME2ID, name)
+    #oid = redis.hdel(REDIS_ALIAS_NAME2ID, name)
     id = '10232898'
     tag_alias_new(id, name)
-    from model.autocomplete import  autocomplete_tag
-    print id
-    print  autocomplete_tag.id_list_by_str("乔布")
+    #from model.autocomplete import  autocomplete_tag
+    #print id
+    #print  autocomplete_tag.id_list_by_str("乔布")
 
 #    print tag_id_name_list_by_po_id(10244967)
 #
@@ -494,4 +494,4 @@ if __name__ == '__main__':
 
 #    print tag_id_list_by_str_list(['张沈鹏'])
 
-    print redis.hget(REDIS_ALIAS_NAME2ID, "乔布斯")
+    #print redis.hget(REDIS_ALIAS_NAME2ID, "乔布斯")
