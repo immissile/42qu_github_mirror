@@ -229,6 +229,7 @@ note_li = function (feed_index, result){
                         '/j/tag/po/',
                         {tad_id_list:tag_id_list},
                         function(data){
+                            $()$.tmpl('po_tag_list',data)
                             $(this).show()
                         }
                     )
