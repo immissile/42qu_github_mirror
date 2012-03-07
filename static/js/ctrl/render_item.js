@@ -139,7 +139,7 @@ function note_li(feed_index, result){
 
 
     $(document).bind("keyup",function(e){
-        if(e.keyCode == 27){
+        if(e.keyCode == 27&&!$("#fancybox-wrap").is(':visible')){
             readx()
         }
     })

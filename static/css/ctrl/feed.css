@@ -221,3 +221,7 @@ margin-left:6px;
 .read_author:hover{
 color:#d20;
 }
+.prebody img{
+display:block;
+margin:auto;
+}
