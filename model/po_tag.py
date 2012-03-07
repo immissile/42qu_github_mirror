@@ -184,7 +184,7 @@ def tag_by_name(name):
         id = tag_new(name)
     return id
 
-def tag_alias_new(id, name, rank=1):
+def tag_alias_new(id, name):
     from model.autocomplete import  autocomplete_tag
     #添加别名
     low = name.lower()
@@ -337,6 +337,11 @@ def tag_list_by_po_id(po_id):
     zsite_id_list = tag_id_list_by_po_id(po_id)
     return Zsite.mc_get_list(zsite_id_list)
 
+def tag_name_id_list_by_po_id(po_id):
+    return [
+        (i.name,i.id) for i in tag_list_by_po_id(po_id)
+    ] 
+
 def tag_id_list_by_str_list(tag_list):
     tag_id_list = []
     for i in tag_list:
@@ -350,10 +355,20 @@ def tag_id_list_by_str_list(tag_list):
             tag_id_list.append(i)
     return unique(map(int, tag_id_list))
 
+class PoTagLog(Model):
+    pass
 
 def po_tag_new_by_autocompelte(po, tag_list, cid=0, admin_id=0):
     id_list = tag_id_list_by_str_list(tag_list)
-    return po_tag_id_list_new(po, id_list, cid)
+    po_id = po.id
+    old_id_list = tag_id_list_by_po_id(po_id)
+   
+    if set(id_list) != set(old_id_list):
+        po_tag_id_list_new(po, id_list, cid)
+        PoTagLog.raw_sql(
+"insert delayed into po_tag_log (po_id, admin_id, tag_id_list) values (%s, %s, %s)",
+po_id, admin_id, " ".join(map(str, id_list))
+        )  
 
 #def po_tag_id_new(po, tag_id, cid):
 #    if cid:
@@ -419,27 +434,31 @@ def po_tag_by_cid(cid, tag_id, user_id, limit=25, offset=0):
 
 
 if __name__ == '__main__':
+    print tag_id_list_by_po_id(10244973)
+    print tag_id_list_by_str_list(["是","12"])
     pass
-    for i in redis.keys('TagCid=*'):
-        redis.delete(i)
-    for i in redis.keys('TagCid:*'):
-        p , tid, cid = i.split(':')
-        key = REDIS_TAG_CID_COUNT%tid
-        redis.hset(key, cid, redis.zcard(i))
-
-    print redis.hgetall(REDIS_TAG_CID_COUNT%10231732)
-
-
-#    for k, v  in redis.hgetall(REDIS_PO_ID2TAG_CID).iteritems():
-#        print k,v 
-#    print tag_cid_count(10231732)
+#    print tag_id_name_list_by_po_id(10244967)
+#
+#    for i in redis.keys('TagCid=*'):
+#        redis.delete(i)
+#    for i in redis.keys('TagCid:*'):
+#        p , tid, cid = i.split(':')
+#        key = REDIS_TAG_CID_COUNT%tid
+#        redis.hset(key, cid, redis.zcard(i))
+#
+##    print redis.hgetall(REDIS_TAG_CID_COUNT%10231732)
+#
+#
+##    for k, v  in redis.hgetall(REDIS_PO_ID2TAG_CID).iteritems():
+##        print k,v 
+##    print tag_cid_count(10231732)
 #    for k, v  in redis.hgetall(REDIS_PO_ID2TAG_CID).iteritems():
 #        tag_id_list = tag_id_list_by_po_id(k)
 #        po = Po.mc_get(k)
 #        _po_tag_id_cid_new(po, tag_id_list, 2)
-        #print po.id, k,v, tag_id_list
-
-        #_po_tag_id_cid_new(po, tag_id_list, cid)
+#        #print po.id, k,v, tag_id_list
+#
+#        _po_tag_id_cid_new(po, tag_id_list, cid)
 
 #Print tag_cid_count(10225558)
 
@@ -465,5 +484,4 @@ if __name__ == '__main__':
 #print po_tag_id_cid(10232177, 1, 1, 0)
 
 #    print tag_id_list_by_str_list(['张沈鹏'])
-
 
