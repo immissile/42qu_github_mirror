@@ -28,11 +28,6 @@ def zsite_fav_new(zsite, owner_id):
     zsite_id = zsite.id
     cid = zsite.cid
 
-    if cid == CID_TAG:
-        rec_read_user_topic_score_fav(owner_id, zsite_id)
-        autocomplete_tag.rank_update(
-            zsite_id, zsite_fav_count_by_zsite(zsite)
-        )
 
         #tag_tag.tag_fav(zsite.cid)
 
@@ -44,6 +39,12 @@ def zsite_fav_new(zsite, owner_id):
         STATE_ACTIVE
     )
     mq_buzz_site_fav(owner_id, zsite_id)
+    
+    if cid == CID_TAG:
+        rec_read_user_topic_score_fav(owner_id, zsite_id)
+        autocomplete_tag.rank_update(
+            zsite_id, zsite_fav_count_by_zsite(zsite)
+        )
 
 
 def zsite_fav_touch(zsite, owner_id):
