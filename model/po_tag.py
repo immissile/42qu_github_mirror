@@ -1,7 +1,6 @@
 #coding:utf-8
 from _db import  McModel, Model, McLimitA, McNum, McCacheA, redis
 from model.po_json import po_json, Po
-from po import Po
 from cid import CID_NOTE, CID_TAG, CID_USER
 from zsite import Zsite , zsite_new
 from model.ico import ico_url_bind
