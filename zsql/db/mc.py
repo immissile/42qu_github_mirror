@@ -243,6 +243,7 @@ class McNum(object):
         mk = self.mc_key % '_'.join(map(str, key))
         num = mc.get(mk)
         if num is None:
+            #print "self.get_num", key, self.get_num(*key)
             num = self.get_num(*key) or 0
             mc.set(mk, num, self.timeout)
         return num
