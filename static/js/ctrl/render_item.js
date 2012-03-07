@@ -106,7 +106,7 @@ $.template(
 var READPAD_NAV;
 function readpad_nav_resize(){
     if(READPAD_NAV){
-        READPAD_NAV.width(READPAD_NAV[0].parentNode.offsetWidth)
+        READPAD_NAV.width(READPAD_NAV[0].parentNode.offsetWidth-2)
     }
 };
 $(window).resize(readpad_nav_resize);
@@ -133,7 +133,7 @@ note_li = function (feed_index, result){
         read_loading=txt_loading.find('#read_loading'),
         txt_opt=txt_loading.find('#main_nav_opt'),
         txt_body;
-    READPAD_NAV = txt_loading.find('#main_nav_txt');
+
 
     function readx(){
         if(oldtop<0)return;
@@ -157,6 +157,7 @@ note_li = function (feed_index, result){
 
 
     result.find('.reada').click(function(){
+        READPAD_NAV = txt_loading.find('#main_nav_txt');
         oldtop=winj.scrollTop();
 
         scrollTop = feeds.offset().top-14
@@ -175,7 +176,7 @@ note_li = function (feed_index, result){
 //console.info(oldtop)
         winj.scrollTop(scrollTop);
         txt_title.html(title.html())
-        var style1 = {'position':'fixed',"top":0},style2 = {'position':'absolute',"marginTop":0}
+        var style1 = {position:'fixed',"top":0},style2 = {position:'absolute',marginTop:0}
         scroll_to_fixed('#main_nav_txt',8,style1,style2)
 
 
