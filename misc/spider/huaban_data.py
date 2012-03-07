@@ -1,7 +1,7 @@
 #coding:utf-8
 import _env
 from zkit.pprint import pprint
-from json import loads
+from yajl import loads, dumps
 #{
 #  u'board_id': 5,
 #  u'comment_count': 0,
@@ -32,14 +32,25 @@ from json import loads
 #  u'via_user_id': 113388
 #}
 
+result = []
 with open("/mnt/zdata/data/huaban.js") as huaban:
     for line in huaban:
         for pin in loads(line)['board']['pins']:
-            txt = pin['raw_text']
             like_count = pin['like_count']
-            link = pin['link']
-            orig_source = pin['orig_source']
-            key = pin['file']['key']
-            img = "http://img.hb.aicdn.com/%s"%key
-            print img
+            if like_count:
+                result.append(pin)
+                #break
+        #break
+
+result.sort(key=lambda x:-x['like_count'])
+
+for pin in result:
+    txt = pin['raw_text']
+    like_count = pin['like_count']
+    link = pin['link']
+    orig_source = pin['orig_source']
+    key = pin['file']['key']
+    type = pin['file']['type'].split("/",1)[1]
+    img = "http://img.hb.aicdn.com/%s"%key
+    print dumps([orig_source,  like_count, type, key, link])
 
