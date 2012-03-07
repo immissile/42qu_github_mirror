@@ -344,7 +344,7 @@ def tag_list_by_po_id(po_id):
 def tag_id_name_list_by_po_id(po_id):
     return [
         (i.id, i.name) for i in tag_list_by_po_id(po_id)
-    ] 
+    ]
 
 def tag_id_list_by_str_list(tag_list):
     tag_id_list = []
@@ -366,13 +366,13 @@ def po_tag_new_by_autocompelte(po, tag_list, cid=0, admin_id=0):
     id_list = tag_id_list_by_str_list(tag_list)
     po_id = po.id
     old_id_list = tag_id_list_by_po_id(po_id)
-   
+
     if set(id_list) != set(old_id_list):
         po_tag_id_list_new(po, id_list, cid)
         PoTagLog.raw_sql(
-"insert delayed into po_tag_log (po_id, admin_id, tag_id_list) values (%s, %s, %s)",
-po_id, admin_id, " ".join(map(str, id_list))
-        )  
+'insert delayed into po_tag_log (po_id, admin_id, tag_id_list) values (%s, %s, %s)',
+po_id, admin_id, ' '.join(map(str, id_list))
+        )
 
 #def po_tag_id_new(po, tag_id, cid):
 #    if cid:
@@ -441,13 +441,17 @@ if __name__ == '__main__':
     #print tag_id_list_by_po_id(10244973)
     #print tag_id_list_by_str_list(["是","12"])
     pass
-    name = "乔布斯"
-    #oid = redis.hdel(REDIS_ALIAS_NAME2ID, name)
-    id = '10232898'
-    tag_alias_new(id, name)
-    #from model.autocomplete import  autocomplete_tag
-    #print id
-    #print  autocomplete_tag.id_list_by_str("乔布")
+    #name = "乔布斯"
+    from model.po import Po, po_rm
+    for  i in Po.where(user_id=10000101):
+        po_rm(i.user_id, i)
+
+#oid = redis.hdel(REDIS_ALIAS_NAME2ID, name)
+#id = '10232898'
+#tag_alias_new(id, name)
+#from model.autocomplete import  autocomplete_tag
+#print id
+#print  autocomplete_tag.id_list_by_str("乔布")
 
 #    print tag_id_name_list_by_po_id(10244967)
 #
@@ -497,4 +501,4 @@ if __name__ == '__main__':
 
 #    print tag_id_list_by_str_list(['张沈鹏'])
 
-    #print redis.hget(REDIS_ALIAS_NAME2ID, "乔布斯")
+#print redis.hget(REDIS_ALIAS_NAME2ID, "乔布斯")
