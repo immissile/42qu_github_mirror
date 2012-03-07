@@ -161,7 +161,7 @@ class AutoComplete:
             #    else:
             #        id_list.append(id)
  
-            id_list = unique(id_list)
+            #id_list = unique(id_list)
             
             self._set_cache(name_key, id_list)
             
