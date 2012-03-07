@@ -27,6 +27,7 @@ function autocomplete_tag(id, default_tag_list, only_search, idPrefix){
             propertyToSearch: "name",
             onAdd: function (item) {
                 if(only_search){
+                    elem.tokenInput("clear")
                     //TODO 关键词, 注意urlencode
                     window.location.href = "//"+HOST 
                 }
@@ -58,10 +59,14 @@ function autocomplete_tag(id, default_tag_list, only_search, idPrefix){
                 s.push('</li>')
                 return s.join('') 
             },
-            tokenFormatter: function(item){
-                 return '<li class="token-input-token"><p>'+item.name+'</p>'+'<input type="hidden" name="tag_id_list" value="'+item.id+'"></li>' 
-            },
             animateDropdown: false
+        }
+
+        if(!only_search){
+            o.tokenFormatter=function(item){
+                 return '<li class="token-input-token"><p>'+item.name+'</p>'+'<input type="hidden" name="tag_id_list" value="'+item.id+'"></li>' 
+ 
+            }
         }
     if(idPrefix){
         o.idPrefix = idPrefix

@@ -111,6 +111,16 @@ function readpad_nav_resize(){
 };
 $(window).resize(readpad_nav_resize);
 
+$.template(
+    'po_tag_list',
+    '<span class="po_tag_list">'+
+        '{{each tag_list}}'+
+            '<span><span class="po_tag_pic"></span><a class="po_single_tag" target="_blank" href="http://${$value[1]}${HOST_SUFFIX}">${$value[0]}</a></span>'+
+        '{{/each}}'+
+    '<a class="tag_list_edit_a" href="javascript:void(0)">编辑</a></span>'
+);
+
+
 note_li = function (feed_index, result){
     var feeds=$(feed_index[0].parentNode), 
         scrollTop,
@@ -122,6 +132,7 @@ note_li = function (feed_index, result){
         '<div id="main_nav_in">'+
             '<div id="main_nav_opt"></div>'+
             '<a href="javascript:void(0)" title="快捷键 ESC" class="readx"></a>'+
+            '<input id="search" style="display:none;"/><a class="tag_edit_btn" href="javascript:void(0)">完成</a>'+
         '</div>'+
     '</div>'+
     '<div id="main_nav_title" class="readtitle"></div>'+
@@ -137,6 +148,8 @@ note_li = function (feed_index, result){
 
     function readx(){
         if(oldtop<0)return;
+        if($('.po_tag_list')[0])$('.po_tag_list').show()
+        $('ul.token-input-list').hide()
         txt_loading.remove()
         feeds.show()
         //feed_index.show()
@@ -201,6 +214,26 @@ note_li = function (feed_index, result){
             txt_opt.html(fdopt.html())
             fdopt.replaceWith(readauthor.html())
             readauthor.remove()
+            $.tmpl('po_tag_list',r).appendTo('#main_nav_in')
+            $('.po_single_tag,.po_tag_pic').mouseover(function(){$(this).parent().find('.po_tag_pic').addClass('po_tag_pic_on');$(this).parent().find('.po_single_tag').addClass('po_single_tag_on')}).mouseout(function(){$('.po_tag_pic').removeClass('po_tag_pic_on');$('.po_single_tag').removeClass('po_single_tag_on')})
+            $('.tag_list_edit_a').click(function(){
+                $('.po_tag_list').hide()
+                $('.tag_edit_btn').show().click(function(){
+                    var tag_id_list=[]
+                    $("input[name='tag_id_list']").each(function(){
+                        tag_id_list.push($(this).val())
+                    })
+                    $.postJSON(
+                        '/j/tag/po/',
+                        {tad_id_list:tag_id_list},
+                        function(data){
+                            $()$.tmpl('po_tag_list',data)
+                            $(this).show()
+                        }
+                    )
+                })
+                autocomplete_tag('#search', r.tag_list||[], 0, 'po_')
+            })
             winj.scrollTop(scrollTop)
             readpad_nav_resize()
 
