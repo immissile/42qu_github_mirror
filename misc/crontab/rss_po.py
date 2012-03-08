@@ -24,7 +24,7 @@ def rss_po():
 
             if rss_id in rss_feed_new:
                 po.feed_new()
-            elif po.user_id: #批量导入的文章, 标注状态位, 同时就不发邮件了
+            elif po.user_id: #批量导入的文章, 标注状态位, 就不发回复提醒邮件了
                 po_pos_set(po.user_id, po)
 
         pre.state = RSS_POED
