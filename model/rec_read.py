@@ -156,8 +156,9 @@ def rec_read_by_user_id_tag_id(user_id, tag_id):
             p.zremrangebyscore(key_to_rec, '-inf', 0)
             p.expire(key_to_rec, ONE_DAY)
             p.execute()
-            #print redis.zcard(key_readed)
-            #print 'exists_key_to_rec = True'
+            exists_key_to_rec = True #方便没有的时候跳出循环
+
+        #print 'redis.zcard(key_readed)', redis.zcard(key_to_rec)
 
         if po_id:
             redis.zadd(key_readed, po_id, now)
@@ -174,7 +175,7 @@ def rec_read_by_user_id_tag_id(user_id, tag_id):
             if redis.hget(REDIS_REC_PO_TIMES, po_id) >= REDIS_REC_PO_SHOW_TIMES:
                 redis.srem(key_tag_new, po_id)
                 _user_tag_old_rank(po_id, tag_id)
-            #else:
+        #else:
                 #redis.zincrby(key, po_id, 1)
         else:
             k = random()
@@ -382,4 +383,4 @@ if __name__ == '__main__':
     limit = 7
     offset = 0
     #print rec_read_log_by_user_id_auto_more(10000000, limit, offset)
-    print rec_read_by_user_id_tag_id(10184263, 10227250)
+    #print rec_read_by_user_id_tag_id(10184264, 10227250)
