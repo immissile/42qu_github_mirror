@@ -383,4 +383,4 @@ if __name__ == '__main__':
     limit = 7
     offset = 0
     #print rec_read_log_by_user_id_auto_more(10000000, limit, offset)
-    print rec_read_by_user_id_tag_id(10184262, 10227250)
+    print rec_read_by_user_id_tag_id(10184263, 10227250)
