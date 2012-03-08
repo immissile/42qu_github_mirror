@@ -5,13 +5,13 @@ from htm2po.htm2po import htm2po_by_po
 from model.rss import RssPo, RSS_PRE_PO, RSS_POED, RSS_RT_PO, RSS_SYNC
 from zkit.single_process import single_process
 from model.feed import feed_rt
-from po_pos import po_pos_set
+from model.po_pos import po_pos_set
 
 def rss_po():
     rss_feed_new = set()
     rss_feed = set()
 
-    for pre in RssPo.where(state=RSS_PRE_PO).order_by("id desc"):
+    for pre in RssPo.where(state=RSS_PRE_PO).order_by('id desc'):
         #print pre.id, pre.title, pre.link
         po = htm2po_by_po(pre)
         if po:
