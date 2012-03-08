@@ -17,7 +17,7 @@ from cgi import escape
 <script>
 ITEM_LIST = ${item_list|n}
 </script>
-<script src="${js.ctrl_side_tag_search}"></script>
+##<script src="${js.ctrl_side_tag_search}"></script>
 <script src="${js.ctrl_popreply}"></script>
 <script src="${js.ctrl_tag}"></script>
 <script src="${js.ctrl_render_item}"></script>
@@ -38,8 +38,8 @@ ${css.ctrl_read|n}
     </div>
 
     <div class="com_side">
-        <form class="search" action="http://zuroc.42qu.com/q">
-        <input type="text" style="color:#999" placeholder="搜索 标签 或 人物 ..." name="q" id="search" autocomplete="off"><input type="submit" class="search_btn" value="">
+        <form class="search" action="/q">
+        <input type="text" class="c9" placeholder="搜索 标签 或 人物 ..." name="q" id="search" autocomplete="off"><input type="submit" class="search_btn" value="">
         </form>
     </div>
 </div>

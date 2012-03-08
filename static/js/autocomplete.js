@@ -80,7 +80,6 @@ function autocomplete_tag(id, default_tag_list, only_search, idPrefix){
         }
     }
 }
-
 function autocomplete_tag_hero(id){
     var elem=$(id), t, i, 
         o = {
@@ -108,22 +107,24 @@ function autocomplete_tag_hero(id){
             hintText:'',
             propertyToSearch: "name",
             onAdd: function (item) {
+                var href; 
                 elem.tokenInput("clear")
                 if(item.id==0){
-                    window.location.href = '/q?q='+item.name
-                    return
+                    href = '/q?q='+encodeURIComponent(item.name)
+                }else{
+                    href = '//' + item.id + HOST_SUFFIX
                 }
-                window.location.href = '//' + item.id + HOST_SUFFIX
+                location.href = href 
             },
             onReady: function(){
-                $('.search').submit(function(){
-                    elem.tokenInput("add", {id: 0, name: $('#token-input-'+id.substring(1)).val(),num:0,alias:'',cid:0 }); 
+                elem.parents('form').submit(function(){
+                    elem.val($('#token-input-'+id.substring(1)).val())
                 })
             },
             resultsFormatter: function(item){
                 var num = item.num-0, ctxt, alias=item.alias;
                 if(item.id===0){
-                    return '<li class="dropdown_add">查看 '+$('#token-input-'+id.substring(1)).val()+' 搜索结果</li>'
+                    return '<li class="dropdown_add">搜索 '+htmlescape($('#token-input-'+id.substring(1)).val())+'</li>'
                 }
 
                 switch(item.cid){
@@ -141,7 +142,7 @@ function autocomplete_tag_hero(id){
                 ]
                 if(alias){
                     s.push(
-                        '<span class="drop_item_alias">'+$('<p>').text(alias).html()+"</span>"
+                        '<span class="drop_item_alias">'+htmlescape(alias)+"</span>"
                     )
                 }
                 if(num){

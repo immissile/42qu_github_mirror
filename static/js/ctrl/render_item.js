@@ -115,7 +115,7 @@ $.template(
     'po_tag_list',
     '<span class="po_tag_list">'+
         '{{each tag_list}}'+
-            '<span><span class="po_tag_pic"></span><a class="po_single_tag" target="_blank" href="http://${$value[1]}${HOST_SUFFIX}">${$value[0]}</a></span>'+
+            '<span class="po_tagw"><span class="po_tag_pic"></span><a class="po_tag_one" target="_blank" href="http://${$value[1]}${HOST_SUFFIX}">${$value[0]}</a></span>'+
         '{{/each}}'+
     '<a class="tag_list_edit_a" href="javascript:void(0)">编辑</a></span>'
 );
@@ -132,7 +132,7 @@ note_li = function (feed_index, result){
         '<div id="main_nav_in">'+
             '<div id="main_nav_opt"></div>'+
             '<a href="javascript:void(0)" title="快捷键 ESC" class="readx"></a>'+
-            '<input id="search" type="hidden"><a class="tag_edit_btn" href="javascript:void(0)">完成</a>'+
+            '<span id="readtag"></span>'+
         '</div>'+
     '</div>'+
     '<div id="main_nav_title" class="readtitle"></div>'+
@@ -143,18 +143,20 @@ note_li = function (feed_index, result){
         main_nav_txt=txt_loading.find('#main_nav_txt'),
         read_loading=txt_loading.find('#read_loading'),
         txt_opt=txt_loading.find('#main_nav_opt'),
-        txt_body;
+        txt_body,
+        readtag = txt_loading.find("#readtag");
 
+            //'<input id="search" type="hidden"><a class="tag_edit_btn" href="javascript:void(0)">完成</a>'+
+            /*
     function close_token(){
         if($('.po_tag_list')[0])$('.po_tag_list').remove()
         if($('.tag_edit_btn')[0])$('.tag_edit_btn').remove()
         $('.main_nav').find('ul.token-input-list').remove()           
-    }
+    }*/
 
 
     function readx(){
         if(oldtop<0)return;
-        close_token()
         txt_loading.remove()
         feeds.show()
         //feed_index.show()
@@ -195,7 +197,7 @@ note_li = function (feed_index, result){
 //console.info(oldtop)
         winj.scrollTop(scrollTop);
         txt_title.html(title.html())
-
+        readtag.html( '')
 
         $.get(
         "/j/po/json/"+id,
@@ -213,6 +215,7 @@ note_li = function (feed_index, result){
 
             r.time = $.timeago(r.create_time)
             r.fav = $('#fav'+id)[0].className
+            readtag.html( $.tmpl('po_tag_list',r))
             txt_body = $.tmpl('note_txt',r)
             read_loading.replaceWith(txt_body)
             var fdopt = txt_body.find('.fdopt'),
@@ -220,8 +223,11 @@ note_li = function (feed_index, result){
             txt_opt.html(fdopt.html())
             fdopt.replaceWith(readauthor.html())
             readauthor.remove()
-            $.tmpl('po_tag_list',r).appendTo('#main_nav_in')
-            $('.po_single_tag,.po_tag_pic').mouseover(function(){$(this).parent().find('.po_tag_pic').addClass('po_tag_pic_on');$(this).parent().find('.po_single_tag').addClass('po_single_tag_on')}).mouseout(function(){$('.po_tag_pic').removeClass('po_tag_pic_on');$('.po_single_tag').removeClass('po_single_tag_on')})
+
+/*
+            $('.po_tag_one,.po_tag_pic').mouseover(function(){$(this).parent().find('.po_tag_pic').addClass('po_tag_pic_on');$(this).parent().find('.po_tag_one').addClass('po_tag_one_on')}).mouseout(function(){$('.po_tag_pic').removeClass('po_tag_pic_on');$('.po_tag_one').removeClass('po_tag_one_on')})
+
+*/
             $('.tag_list_edit_a').click(function(){
                 $('.po_tag_list').remove()
                 $('.tag_edit_btn').show().click(function(){
@@ -233,8 +239,10 @@ note_li = function (feed_index, result){
                         '/j/tag/po/'+id,
                         {tad_id_list:$.toJSON(tag_id_list)},
                         function(data){
-                            $.tmpl('po_tag_list',data).appendTo('#main_nav_in')
-                            close_token()
+                            readtag.html(
+                                $.tmpl('po_tag_list',data)
+                            )
+                            //close_token()
                         }
                     )
                 })

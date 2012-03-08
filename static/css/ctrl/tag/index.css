@@ -409,7 +409,7 @@ height:23px;
 vertical-align:-6px;
 width:17px;
 }
-.po_single_tag{
+.po_tag_one{
 display:inline-block;
 margin: 0;
 line-height:21px;
@@ -421,11 +421,11 @@ border-right:1px solid #ddd;
 padding:0 6px 0 2px;
 margin-right:8px;
 }
-.main_nav .po_single_tag_on{
+.main_nav .po_tag_one_on{
 background:#F3FCFF;
 color:#d20;
 }
-.main_nav .po_single_tag:hover{
+.main_nav .po_tag_one:hover{
 color:#d20;
 }
 .po_tag_pic_on{
