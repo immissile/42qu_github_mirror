@@ -14,8 +14,32 @@ from cgi import escape
 <%namespace file="/ctrl/_util/site_rec_new.htm" import="site_rec_render"/>
 <%def name="htm_head()">
 
-</%def>
 <script>
 ITEM_LIST = ${item_list|n}
 </script>
+##<script src="${js.ctrl_side_tag_search}"></script>
+<script src="${js.ctrl_popreply}"></script>
+<script src="${js.ctrl_tag}"></script>
+<script src="${js.ctrl_render_item}"></script>
+${css.ctrl_zsite_com|n}
+${css.ctrl_hero|n}
+${css.ctrl_index|n}
+${css.ctrl_tag_side|n}
+${css.ctrl_tag_index|n}
+${css.ctrl_read|n}
 
+</%def>
+
+
+<div class="G">
+    <div class="com_wrap">
+        <div id="tag_cid"></div>
+        <script>_render_tag_cid('#tag_cid',ITEM_LIST)</script>
+    </div>
+
+    <div class="com_side">
+        <form class="search" action="/q">
+        <input type="text" class="c9" placeholder="搜索 标签 或 人物 ..." name="q" id="search" autocomplete="off"><input type="submit" class="search_btn" value="">
+        </form>
+    </div>
+</div>

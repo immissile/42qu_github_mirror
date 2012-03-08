@@ -61,16 +61,14 @@ class TagPo(JLoginBase):
         tag_id_list = self.get_arguments('tag_id_list', []) 
         user_id = self.current_user_id
         po = Po.mc_get(id) 
-
+        #print 'dasdasddasdasd',tag_id_list
         result = {}
 
         if po:
             po_tag_new_by_autocompelte(po, tag_id_list, admin_id=user_id)
             tag_list = tag_name_id_list_by_po_id(id)
             result['tag_list'] = tag_list
-
+        
         self.finish(result)
-
-
 
 

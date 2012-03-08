@@ -184,7 +184,7 @@ def rec_read_by_user_id_tag_id(user_id, tag_id):
 
     return po_id
 
-def po_json_by_rec_read(user_id, limit=8):
+def po_json_by_rec_read(user_id, limit=7):
     id_list = rec_read_more(user_id, limit)
     return po_json(user_id , id_list, 47)
 

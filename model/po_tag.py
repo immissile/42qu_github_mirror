@@ -346,8 +346,8 @@ def tag_list_by_po_id(po_id):
 
 def tag_name_id_list_by_po_id(po_id):
     return [
-        (i.id, i.name) for i in tag_list_by_po_id(po_id)
-    ]
+        (i.name,i.id) for i in tag_list_by_po_id(po_id)
+    ] 
 
 def tag_id_list_by_str_list(tag_list):
     tag_id_list = []

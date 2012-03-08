@@ -27,6 +27,7 @@ function autocomplete_tag(id, default_tag_list, only_search, idPrefix){
             propertyToSearch: "name",
             onAdd: function (item) {
                 if(only_search){
+                    elem.tokenInput("clear")
                     //TODO 关键词, 注意urlencode
                     window.location.href = "//"+HOST 
                 }
@@ -58,10 +59,14 @@ function autocomplete_tag(id, default_tag_list, only_search, idPrefix){
                 s.push('</li>')
                 return s.join('') 
             },
-            tokenFormatter: function(item){
-                 return '<li class="token-input-token"><p>'+item.name+'</p>'+'<input type="hidden" name="tag_id_list" value="'+item.id+'"></li>' 
-            },
             animateDropdown: false
+        }
+
+        if(!only_search){
+            o.tokenFormatter=function(item){
+                 return '<li class="token-input-token"><p>'+item.name+'</p>'+'<input type="hidden" name="tag_id_list" value="'+item.id+'"></li>' 
+ 
+            }
         }
     if(idPrefix){
         o.idPrefix = idPrefix
@@ -75,17 +80,18 @@ function autocomplete_tag(id, default_tag_list, only_search, idPrefix){
         }
     }
 }
-
 function autocomplete_tag_hero(id){
     var elem=$(id), t, i, 
         o = {
-            onResult: function (results) {
+            onResult: function (results,word) {
                 var list = [],
-                    i=0; 
+                    i=0,
+                    ctrl=1; 
                 for(;i<results.length;++i){
                     t = results[i]
                     for(var j=0;j<t[1].length;++j){
                         var item = t[1][j]
+                        if(word==item[2])ctrl=0;
                         list.push({
                             id:item[0],
                             name:item[2],
@@ -95,16 +101,32 @@ function autocomplete_tag_hero(id){
                         })
                     }
                 }
+                if(ctrl)list.unshift({id:0,name:$('#token-input-'+id.substring(1)).val(),num:0,alias:'',cid:0})
                 return list
             },
             hintText:'',
             propertyToSearch: "name",
             onAdd: function (item) {
+                var href; 
                 elem.tokenInput("clear")
-                window.location.href = '//' + item.id + HOST_SUFFIX
+                if(item.id==0){
+                    href = '/q?q='+encodeURIComponent(item.name)
+                }else{
+                    href = '//' + item.id + HOST_SUFFIX
+                }
+                location.href = href 
+            },
+            onReady: function(){
+                elem.parents('form').submit(function(){
+                    elem.val($('#token-input-'+id.substring(1)).val())
+                })
             },
             resultsFormatter: function(item){
                 var num = item.num-0, ctxt, alias=item.alias;
+                if(item.id===0){
+                    return '<li class="dropdown_add">搜索 '+htmlescape($('#token-input-'+id.substring(1)).val())+'</li>'
+                }
+
                 switch(item.cid){
                     case 1: 
                         ctxt = '个粉丝'
@@ -120,7 +142,7 @@ function autocomplete_tag_hero(id){
                 ]
                 if(alias){
                     s.push(
-                        '<span class="drop_item_alias">'+$('<p>').text(alias).html()+"</span>"
+                        '<span class="drop_item_alias">'+htmlescape(alias)+"</span>"
                     )
                 }
                 if(num){
