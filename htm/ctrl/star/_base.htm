@@ -1,2 +1,5 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
-
+<%def name="htm_head()">
+${css.star_index|n}
+</%def>
+${next.body()}
