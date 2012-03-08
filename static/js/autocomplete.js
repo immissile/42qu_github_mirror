@@ -22,6 +22,7 @@ function add_prefix(idPrefix){
 }
 
 function autocomplete_tag(id, default_tag_list, idPrefix){
+    idPrefix = idPrefix || "token-input"
     var elem=$(id), t, i, 
         o = {
             onResult: function (results, word) {
@@ -49,7 +50,7 @@ function autocomplete_tag(id, default_tag_list, idPrefix){
             propertyToSearch: "name",
             resultsFormatter: function(item){
                 if(String(item.id).substring(0,1)=='-'){
-                    return '<li class="dropdown_add">添加 '+$('#token-input-'+id.substring(1)).val()+' 标签</li>'
+                    return '<li class="dropdown_add">添加 '+htmlescape($('#token-input-'+id.substring(1)).val())+' 标签</li>'
                 }
                 var num = item.num-0,
                 s=[
@@ -64,8 +65,7 @@ function autocomplete_tag(id, default_tag_list, idPrefix){
                 return s.join('') 
             },
             tokenFormatter: function(item){
-                 var pre = idPrefix?idPrefix:"token-input"
-                 return '<li class="'+pre+'-token"><p>'+item.name+'</p>'+'<input type="hidden" name="tag_id_list" value="'+item.id+'"></li>' 
+                 return '<li class="'+idPrefix+'-token"><p>'+htmlescape(item.name)+'</p>'+'<input type="hidden" name="tag_id_list" value="'+item.id+'"></li>' 
             },
             animateDropdown: false
         }
@@ -83,12 +83,12 @@ function autocomplete_tag(id, default_tag_list, idPrefix){
     }
 }
 function autocomplete_tag_hero(id,idPrefix){
+    idPrefix = idPrefix||'token-input'
     var elem=$(id), t, i,
-        pre = idPrefix?idPrefix:'token-input',
         input,
         o = {
             onReady: function(){
-                input = $('#'+pre+'-'+id.substring(1))
+                input = $('#'+idPrefix+'-'+id.substring(1))
                 elem.parents('form').submit(function(){
                     elem.val(input.val())
                 })
@@ -172,23 +172,23 @@ function autocomplete_tag_hero(id,idPrefix){
     function token_search_decoration(){
         function show_placeholder(){
             if(!input.val().length>0){
-                $('.'+pre+'-list').hide()
+                $('.'+idPrefix+'-list').hide()
                 elem.show()
                 input.unbind('blur')
             }
-            if(document.activeElement.id!=pre+'-search'){
-                $('.'+pre+'-dropdown').hide()
+            if(document.activeElement.id!=idPrefix+'-search'){
+                $('.'+idPrefix+'-dropdown').hide()
             }
         }
         function show_token_input(){
             input.focus().blur(show_placeholder).focus(function(){
                 if(input.val().length>0)
-                $('.'+pre+'-dropdown').show()}
+                $('.'+idPrefix+'-dropdown').show()}
             )
         }
         show_placeholder()
         elem.bind('click',function(){
-            $('.'+pre+'-list').show()
+            $('.'+idPrefix+'-list').show()
             $(this).hide()
             if(navigator.userAgent.indexOf("MSIE")>0) { 
                 setTimeout(show_token_input,10)
@@ -196,7 +196,7 @@ function autocomplete_tag_hero(id,idPrefix){
                 show_token_input()
             }
         })
-        $input.focus(function(){
+        input.focus(function(){
             $(this).css('color','#000')
         }).blur(function(){
             $(this).css('color','#999')

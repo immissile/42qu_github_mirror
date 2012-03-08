@@ -35,7 +35,8 @@ $.template(
 
 function tag_cid_page(cid, page){
     var tag_cid = $('#tag_cid_page'+cid).html('<div class="readloading"></div>'),
-    item_list_cid = $('#item_list_'+cid);
+    item_list_cid = $('#item_list_'+cid),
+    com_main_cid = '#com_main_'+cid;
 
     $.get('/j/tag/'+cid+'-'+page,function(data){
 
@@ -43,13 +44,13 @@ function tag_cid_page(cid, page){
         if(page>0){
             item_list_cid.html('')
         }
-        _render_note('#com_main_'+cid,'#item_list_'+cid, data.li);
+        _render_note(com_main_cid,'#item_list_'+cid, data.li);
         var p=data.page
         if(!p){
             tag_cid.css('border',0)
         };
         tag_cid.html(p||'')
-        if(!page<0)$(window).scrollTop($('#com_main'+cid).offset().top-6)
+        if(!page<0)$(window).scrollTop($(com_main_cid).offset().top-6)
     })
 }
 
@@ -240,7 +241,7 @@ note_li = function (feed_index, result){
                     })
                     $.postJSON(
                         '/j/tag/po/'+id,
-                        {tad_id_list:$.toJSON(tag_id_list)},
+                        {tag_id_list:$.toJSON(tag_id_list)},
                         function(data){
                             readtag.html(
                                 $.tmpl('po_tag_list',data)
