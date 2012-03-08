@@ -45,6 +45,12 @@ application.add_handlers(
     handlers(_urlmap.com, _urlmap.auth, _urlmap.j)
 )
 
+import _urlmap.star
+application.add_handlers(
+    'star\.%s'%RE_SITE_DOMAIN,
+    handlers(_urlmap.star, _urlmap.auth, _urlmap.j)
+)
+
 import _urlmap.main
 application.add_handlers(
     RE_SITE_DOMAIN,
