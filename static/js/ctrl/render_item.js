@@ -132,7 +132,7 @@ note_li = function (feed_index, result){
         '<div id="main_nav_in">'+
             '<div id="main_nav_opt"></div>'+
             '<a href="javascript:void(0)" title="快捷键 ESC" class="readx"></a>'+
-            '<input id="search" style="display:none;"/><a class="tag_edit_btn" href="javascript:void(0)">完成</a>'+
+            '<input id="search" type="hidden"><a class="tag_edit_btn" href="javascript:void(0)">完成</a>'+
         '</div>'+
     '</div>'+
     '<div id="main_nav_title" class="readtitle"></div>'+
