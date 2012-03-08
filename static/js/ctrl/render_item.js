@@ -51,7 +51,7 @@ function tag_cid_page(cid, page){
             tag_cid.css('border',0)
         };
         tag_cid.html(p||'')
-        if(!page<0)$(window).scrollTop($(com_main_cid).offset().top-6)
+        if(!page<0)$(window).scroll($(com_main_cid).offset().top-6)
     })
 }
 
