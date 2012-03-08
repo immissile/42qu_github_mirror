@@ -7,3 +7,4 @@ import meet._url
 import site._url
 import com._url
 import tag._url
+import star._url

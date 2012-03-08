@@ -280,7 +280,7 @@ def _tag_rm_by_user_id_list(po, user_id, id_list):
         mc_flush_by_zsite_id(tag_id)
 
         user_rank = zsite_list_get(user_id, tag_id, CID_TAG)
-        if not user_rank and user_rank.rank:
+        if user_rank and user_rank.rank:
             user_rank.rank -= 1
             if user_rank.rank < 0:
                 user_rank.rank = 0
