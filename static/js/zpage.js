@@ -212,13 +212,12 @@ jQuery.extend({
      * "\"Where are we going?\", she asked."
      */
     quoteString :  function( string ) {
-        return '"' + string.replace(/\\n/g, "\\n")
-                          .replace(/\\"/g, '\\"')
-                          .replace(/\\/g, "\\\\")
-                          .replace(/\\r/g, "\\r")
-                          .replace(/\\t/g, "\\t")
-                          .replace(/\\b/g, "\\b")
-                          .replace(/\\f/g, "\\f") + '"';
+        return '"' + string.replace(/\\/g, "\\\\")
+                          .replace(/\n/g, "\\n")
+                          .replace(/"/g, '\\"')
+                          .replace(/\r/g, "\\r")
+                          .replace(/\t/g, "\\t")
+                          .replace(/\f/g, "\\f") + '"';
     }
 
 })

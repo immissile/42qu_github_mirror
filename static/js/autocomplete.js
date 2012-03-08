@@ -117,8 +117,7 @@ function autocomplete_tag_hero(id){
             },
             onReady: function(){
                 $('.search').submit(function(){
-                    elem.tokenInput("add", {id: 0, name: $('#token-input-'+id.substring(1)).val(),num:0,alias:'',cid:0)
-}); 
+                    elem.tokenInput("add", {id: 0, name: $('#token-input-'+id.substring(1)).val(),num:0,alias:'',cid:0 }); 
                 })
             },
             resultsFormatter: function(item){
