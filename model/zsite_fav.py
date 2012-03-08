@@ -31,20 +31,22 @@ def zsite_fav_new(zsite, owner_id):
 
         #tag_tag.tag_fav(zsite.cid)
 
-    zsite = zsite_list_new(
+    zsite_list_new(
         zsite_id,
         owner_id,
         cid,
         1,
         STATE_ACTIVE
     )
+
     mq_buzz_site_fav(owner_id, zsite_id)
-    
+
     if cid == CID_TAG:
         rec_read_user_topic_score_fav(owner_id, zsite_id)
         autocomplete_tag.rank_update(
             zsite_id, zsite_fav_count_by_zsite(zsite)
         )
+    
 
 
 def zsite_fav_touch(zsite, owner_id):
@@ -104,7 +106,15 @@ def zsite_fav_rm_all_by_zsite_id(zsite_id):
         #zsite_fav_rm(zsite,fav.owner_id)
 
 if __name__ == '__main__':
-    zsite_fav_rm_all_by_ziste_id(561)
+    zsite = Zsite.mc_get(10227833)
+    print zsite.name
+    print zsite_fav_count_by_zsite(zsite)
+    autocomplete_tag.rank_update(
+        zsite.id, zsite_fav_count_by_zsite(zsite)
+    )
+    zsite_fav_rm(zsite, 10008640)
+    zsite_fav_new(zsite, 10008640)
+    #zsite_fav_rm_all_by_ziste_id(561)
     #from zsite_url import id_by_url
     #zsite_id = id_by_url('dongxi')
     #from model.zsite import Zsite

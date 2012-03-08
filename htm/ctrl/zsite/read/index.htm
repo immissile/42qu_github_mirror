@@ -31,16 +31,7 @@ ${css.ctrl_tag_index|n}
 
 
 <div class="G">
-<div class="com_wrap">
-    <h1>${zsite.name}
-<%
-txt = motto_get(zsite.id)
-%>
-%if txt:
-<div class="tagtxt">${txt}</div>
-%endif
-    </h1>
-
+    <div class="com_wrap">
         <div id="tag_cid"></div>
         <script>_render_tag_cid('#tag_cid',ITEM_LIST)</script>
     </div>
