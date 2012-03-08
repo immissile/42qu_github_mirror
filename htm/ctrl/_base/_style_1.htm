@@ -4,27 +4,6 @@ from model.zsite_url import host
 from model.notice import notice_unread as _notice_unread
 %>
 
-<%def name="h_nav_notice()">
-%if current_user_id:
-<%
-    link = current_user.link
-%>\
-<%
-notice_unread = _notice_unread.get(current_user_id)
-%>\
-<div class="D">\
-<a class="DA notice" href="${link}/notice">消息\
-    %if notice_unread:
-<%
-if notice_unread > 99:
-    notice_unread = "99+"
-%>\
-<span href="${link}/notice">${notice_unread}</span>\
-    %endif
-</a>\
-</div>\
-%endif
-</%def>
 
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>\
 <%inherit file="_base.htm" />\
@@ -54,38 +33,7 @@ ${request_host}\
 %if htm:
 ${htm|n}\
 %endif
-%if current_user_id:
-<%
-link = current_user.link
-%>
-<div class="D_nav">\
-<div class="D">\
-<a class="DA" id="da6" href="javascript:void(0)">更多</a>\
-<div>\
-<a href="//hero.${SITE_DOMAIN}">人物</a>\
-<a href="//meet.${SITE_DOMAIN}">活动</a>\
-<a href="//com.${SITE_DOMAIN}">招聘</a>\
-<a href="//site.${SITE_DOMAIN}">站点</a>\
-<a href="//help.${SITE_DOMAIN}">帮助</a>\
-<a href="/logout?${_xsrf}">退出</a>\
-</div>\
-</div>\
-${h_nav_notice()}\
-<div class="D">\
-<a class="DA" id="da5" href="javascript:void(0)">我的</a>\
-<div>\
-<a href="${link}">主页</a>\
-<a href="${link}/i">资料</a>\
-<a href="${link}/following">关注</a>\
-<a href="${link}/wall">留言</a>\
-<a href="${link}/fav">收藏</a>\
-<a href="${link}/po">发布</a>\
-<a href="${link}/money/bill">账目</a>\
-</div>\
-</div>\
-<%include file="_menu.htm" />
-</div>\
-%endif
+<%include file="_nav.htm" />\
 </div>\
 </div>\
 </%def>

@@ -64,34 +64,7 @@ ${request_host}\
 %if htm:
 ${htm|n}\
 %endif
-%if current_user_id:
-<%
-link = current_user.link
-%>
-<div class="D_nav">\
-<div class="D">\
-<a class="DA" id="da6" href="javascript:void(0)">更多</a>\
-<div>\
-    <a href="${link}/i">资料</a>\
-    <a href="${link}/money/bill">账目</a>\
-    <a href="//help.${SITE_DOMAIN}">帮助</a>\
-    <a href="/logout?${_xsrf}">退出</a>\
-</div>\
-</div>\
-${h_nav_notice()}\
-<div class="D">\
-<a class="DA" id="da5" href="javascript:void(0)">我的</a>\
-<div>\
-    <a href="${link}">主页</a>\
-    <a href="${link}/following">关注</a>\
-    <a href="${link}/wall">留言</a>\
-    <a href="${link}/fav">收藏</a>\
-    <a href="${link}/po">发布</a>\
-</div>\
-</div>\
-<%include file="_menu.htm" />
-</div>\
-%endif
+<%include file="_nav.htm" />\
 </div>\
 </div>\
 </%def>
