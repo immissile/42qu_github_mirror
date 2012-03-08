@@ -5,6 +5,7 @@ from htm2po.htm2po import htm2po_by_po
 from model.rss import RssPo, RSS_PRE_PO, RSS_POED, RSS_RT_PO, RSS_SYNC
 from zkit.single_process import single_process
 from model.feed import feed_rt
+from po_pos import po_pos_set
 
 def rss_po():
     rss_feed_new = set()
@@ -23,7 +24,8 @@ def rss_po():
 
             if rss_id in rss_feed_new:
                 po.feed_new()
-
+            elif po.user_id: #批量导入的文章, 标注状态位, 同时就不发邮件了
+                po_pos_set(po.user_id, po)
 
         pre.state = RSS_POED
         pre.save()
