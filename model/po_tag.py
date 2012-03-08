@@ -276,7 +276,7 @@ def _tag_rm_by_user_id_list(po, user_id, id_list):
 
     for tag_id in id_list:
 
-        PoZsiteTag.where(zsite_id=tag_id).delete()
+        PoZsiteTag.where(zsite_id=tag_id, po_id=po_id).delete()
         mc_flush_by_zsite_id(tag_id)
 
         user_rank = zsite_list_get(user_id, tag_id, CID_TAG)
@@ -376,6 +376,7 @@ def po_tag_new_by_autocompelte(po, tag_list, cid=0, admin_id=0):
 'insert delayed into po_tag_log (po_id, admin_id, tag_id_list) values (%s, %s, %s)',
 po_id, admin_id, ' '.join(map(str, id_list))
         )
+        mc_flush_by_po_id(po_id)
 
 #def po_tag_id_new(po, tag_id, cid):
 #    if cid:
