@@ -33,12 +33,13 @@ $.template(
 '</div>'
 )
 
+TAG_CID_URL = '/j/tag/'
 function tag_cid_page(cid, page){
     var tag_cid = $('#tag_cid_page'+cid).html('<div class="readloading"></div>'),
     item_list_cid = $('#item_list_'+cid),
     com_main_cid = '#com_main_'+cid;
 
-    $.get('/j/tag/'+cid+'-'+page,function(data){
+    $.get(TAG_CID_URL+cid+'-'+page,function(data){
 
 
         if(page>0){
