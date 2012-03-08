@@ -211,9 +211,10 @@ def rec_read_log_by_user_id(user_id, limit, offset):
     return redis.zrevrange(key, offset, offset+limit-1)
 
 def rec_limit_by_time(user_id, limit):
-    now = int(time())
+    now = time_new_offset()
     last = redis.hget(REDIS_REC_LAST_TIME, user_id) or 0
     times = int((now - int(last) + 59)//60)
+    redis.hset(REDIS_REC_LAST_TIME, user_id, now)
     return min(times, limit)
 
 
@@ -362,10 +363,11 @@ def rec_read(user_id, limit):
 
 if __name__ == '__main__':
     pass
-    from model.po_tag import PoZsiteTag
-    for i in redis.zrange(REDIS_REC_TAG,0, -1):
-        redis.zadd(REDIS_REC_TAG, i, PoZsiteTag.where(zsite_id=i).count()) 
-    redis.delete(REDIS_REC_TAG_ID_SCORE)
+    print time_new_offset()
+    #from model.po_tag import PoZsiteTag
+    #for i in redis.zrange(REDIS_REC_TAG,0, -1):
+    #    redis.zadd(REDIS_REC_TAG, i, PoZsiteTag.where(zsite_id=i).count()) 
+    #redis.delete(REDIS_REC_TAG_ID_SCORE)
     
     #user_id = 10000000 
     #key = REDIS_REC_USER_TAG%user_id
