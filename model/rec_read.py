@@ -140,23 +140,22 @@ def rec_read_by_user_id_tag_id(user_id, tag_id):
             po_id = redis.srandmember(key_tag_new)
             #print 'srandmember' , po_id
             if po_id:
+                from_new = True
                 last = redis.zrevrange(key_readed, 0 , 0 , True)
                 if last and (last[0][1] - now) < ONE_HOUR:
                     cache_key_to_rec = True
-                else:
-                    from_new = True
             else:
                 cache_key_to_rec = True
 
 
         if cache_key_to_rec:
             #生成缓存 有效期1天 推荐文章
-            #p = redis.pipeline()
-            p = redis
+            p = redis.pipeline()
+            #p = redis
             p.zunionstore(key_to_rec, {key_readed:-1, REDIS_REC_TAG_OLD%tag_id:1})
             p.zremrangebyscore(key_to_rec, '-inf', 0)
             p.expire(key_to_rec, ONE_DAY)
-            #p.execute()
+            p.execute()
             #print redis.zcard(key_readed)
             #print 'exists_key_to_rec = True'
 
@@ -175,8 +174,8 @@ def rec_read_by_user_id_tag_id(user_id, tag_id):
             if redis.hget(REDIS_REC_PO_TIMES, po_id) >= REDIS_REC_PO_SHOW_TIMES:
                 redis.srem(key_tag_new, po_id)
                 _user_tag_old_rank(po_id, tag_id)
-            else:
-                redis.zincrby(key, po_id, 1)
+            #else:
+                #redis.zincrby(key, po_id, 1)
         else:
             k = random()
             if k < 0.01:
