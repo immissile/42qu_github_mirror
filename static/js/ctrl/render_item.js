@@ -49,7 +49,7 @@ function tag_cid_page(cid, page){
             tag_cid.css('border',0)
         };
         tag_cid.html(p||'')
-        if(!page<0)$(window).scrollTop(142)
+        if(!page<0)$(window).scrollTop($('#com_main'+cid).offset().top-6)
     })
 }
 
@@ -113,11 +113,18 @@ $(window).resize(readpad_nav_resize);
 
 $.template(
     'po_tag_list',
+    '<input type="hidden" id="tag_search" /><a class="tag_edit_btn" href="javascript:void(0)">完成</a>'+
     '<span class="po_tag_list">'+
         '{{each tag_list}}'+
-            '<span class="po_tagw"><span class="po_tag_pic"></span><a class="po_tag_one" target="_blank" href="http://${$value[1]}${HOST_SUFFIX}">${$value[0]}</a></span>'+
+            '<a class="po_tagw" target="_blank" href="http://${$value[1]}${HOST_SUFFIX}"><span class="po_tag_pic"></span><span class="po_tag_one" >${$value[0]}</span></a>'+
         '{{/each}}'+
-    '<a class="tag_list_edit_a" href="javascript:void(0)">编辑</a></span>'
+    '<a class="tag_list_edit_a" href="javascript:void(0)">'+
+    '{{if tag_list.length}}'+
+        '编辑'+
+    '{{else}}'+
+        '添加标签'+
+    '{{/if}}'+
+    '</a></span>'
 );
 
 
@@ -146,7 +153,7 @@ note_li = function (feed_index, result){
         txt_body,
         readtag = txt_loading.find("#readtag");
 
-            //'<input id="search" type="hidden"><a class="tag_edit_btn" href="javascript:void(0)">完成</a>'+
+            //'<input id="search" type="hidden">'+
             /*
     function close_token(){
         if($('.po_tag_list')[0])$('.po_tag_list').remove()
@@ -224,11 +231,7 @@ note_li = function (feed_index, result){
             fdopt.replaceWith(readauthor.html())
             readauthor.remove()
 
-/*
-            $('.po_tag_one,.po_tag_pic').mouseover(function(){$(this).parent().find('.po_tag_pic').addClass('po_tag_pic_on');$(this).parent().find('.po_tag_one').addClass('po_tag_one_on')}).mouseout(function(){$('.po_tag_pic').removeClass('po_tag_pic_on');$('.po_tag_one').removeClass('po_tag_one_on')})
-
-*/
-            $('.tag_list_edit_a').click(function(){
+           $('.tag_list_edit_a').click(function(){
                 $('.po_tag_list').remove()
                 $('.tag_edit_btn').show().click(function(){
                     var tag_id_list=[]
@@ -246,7 +249,7 @@ note_li = function (feed_index, result){
                         }
                     )
                 })
-                autocomplete_tag('#search', r.tag_list||[], 0)
+                autocomplete_tag('#tag_search', r.tag_list||[],'tag')
             })
             winj.scrollTop(scrollTop)
             readpad_nav_resize()

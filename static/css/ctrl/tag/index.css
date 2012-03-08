@@ -449,13 +449,6 @@ margin:2px 0 0 3px;
 #main_nav_in li.token-input-input-token{
 line-height:26px;
 }
-.tag_edit_btn{
-display:none;
-vertical-align:-2px;
-margin-left:0;
-padding:4px 14px;
-border-width:1px 1px 1px 0;
-}
 #po_search{
 vertical-align:1px;
 }

@@ -1,4 +1,3 @@
 $(function(){
-    autocomplete_tag("#search", [], 1)
-    token_search_decoration()
+    autocomplete_tag_hero("#search")
 })

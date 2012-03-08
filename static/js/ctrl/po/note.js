@@ -35,7 +35,7 @@ $(function(){
     $("#txt").bind("keydown",insertTab);
 
 
-    autocomplete_tag('#search', window.TAG_LIST||[], 0);
+    autocomplete_tag('#search', window.TAG_LIST||[]);
     function show_placeholder(){
         if(!$('#token-input-search').val().length>0 && !$('.token-input-token').length>0){
             $('.token-input-list').hide()
