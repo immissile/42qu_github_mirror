@@ -7,7 +7,7 @@ from model.po_json import po_json
 from _handler import JLoginBase, JLoginZsiteBase
 from zkit.page import page_limit_offset
 
-PAGE_LIMIT = 12 
+PAGE_LIMIT = 50 
 
 @urlmap('/j/read/(\d+)-(\-?\d+)')
 class Read(JLoginZsiteBase):
