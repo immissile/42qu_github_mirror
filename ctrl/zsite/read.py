@@ -10,7 +10,6 @@ from zkit.escape import json_encode
 from model.po_json import po_json
 #from model.po_tag import po_tag
 
-PAGE_LIMIT = 50
 
 @urlmap('/read')
 @urlmap('/read-(\d+)')
@@ -30,14 +29,14 @@ class Index(LoginBase):
 #            item_list = po_tag(zsite_id, current_user_id, 15, 0 )
             item_list = []
             po_id_list = rec_read_log_by_user_id_auto_more(
-                current_user_id, PAGE_LIMIT/2, 0
+                current_user_id, 14, 0
             )
             t = [
                 0,
                 "推荐",
                 rec_read_log_count_by_user_id(current_user_id),
                 po_json(current_user_id, po_id_list, 47) ,
-                1
+                len(po_id_list)
             ]
             item_list.append(t)
 

@@ -140,25 +140,25 @@ def rec_read_by_user_id_tag_id(user_id, tag_id):
             po_id = redis.srandmember(key_tag_new)
             #print 'srandmember' , po_id
             if po_id:
+                from_new = True
                 last = redis.zrevrange(key_readed, 0 , 0 , True)
                 if last and (last[0][1] - now) < ONE_HOUR:
                     cache_key_to_rec = True
-                else:
-                    from_new = True
             else:
                 cache_key_to_rec = True
 
 
         if cache_key_to_rec:
             #生成缓存 有效期1天 推荐文章
-            #p = redis.pipeline()
-            p = redis
+            p = redis.pipeline()
+            #p = redis
             p.zunionstore(key_to_rec, {key_readed:-1, REDIS_REC_TAG_OLD%tag_id:1})
             p.zremrangebyscore(key_to_rec, '-inf', 0)
             p.expire(key_to_rec, ONE_DAY)
-            #p.execute()
-            #print redis.zcard(key_readed)
-            #print 'exists_key_to_rec = True'
+            p.execute()
+            exists_key_to_rec = True #方便没有的时候跳出循环
+
+        #print 'redis.zcard(key_readed)', redis.zcard(key_to_rec)
 
         if po_id:
             redis.zadd(key_readed, po_id, now)
@@ -175,8 +175,8 @@ def rec_read_by_user_id_tag_id(user_id, tag_id):
             if redis.hget(REDIS_REC_PO_TIMES, po_id) >= REDIS_REC_PO_SHOW_TIMES:
                 redis.srem(key_tag_new, po_id)
                 _user_tag_old_rank(po_id, tag_id)
-            else:
-                redis.zincrby(key, po_id, 1)
+        #else:
+                #redis.zincrby(key, po_id, 1)
         else:
             k = random()
             if k < 0.01:
@@ -211,9 +211,10 @@ def rec_read_log_by_user_id(user_id, limit, offset):
     return redis.zrevrange(key, offset, offset+limit-1)
 
 def rec_limit_by_time(user_id, limit):
-    now = int(time())
+    now = time_new_offset()
     last = redis.hget(REDIS_REC_LAST_TIME, user_id) or 0
     times = int((now - int(last) + 59)//60)
+    redis.hset(REDIS_REC_LAST_TIME, user_id, now)
     return min(times, limit)
 
 
@@ -362,6 +363,12 @@ def rec_read(user_id, limit):
 
 if __name__ == '__main__':
     pass
+    print time_new_offset()
+    #from model.po_tag import PoZsiteTag
+    #for i in redis.zrange(REDIS_REC_TAG,0, -1):
+    #    redis.zadd(REDIS_REC_TAG, i, PoZsiteTag.where(zsite_id=i).count()) 
+    #redis.delete(REDIS_REC_TAG_ID_SCORE)
+    
     #user_id = 10000000 
     #key = REDIS_REC_USER_TAG%user_id
     #rec_read_user_topic_score_fav(user_id, 10225249)
@@ -380,7 +387,7 @@ if __name__ == '__main__':
 #key = REDIS_REC_USER_TAG%user_id
 #redis.delete(key)
 #print rec_read_more(user_id, 7)
-    limit = 7
-    offset = 0
+    #limit = 7
+    #offset = 0
     #print rec_read_log_by_user_id_auto_more(10000000, limit, offset)
-    print rec_read_by_user_id_tag_id(10184262, 10227250)
+    #print rec_read_by_user_id_tag_id(10184264, 10227250)

@@ -59,8 +59,8 @@ class TagManageApply(JLoginZsiteBase):
 class TagPo(JLoginBase):
     def post(self, id):
         tag_id_list = self.get_argument('tag_id_list', '[]') 
-        print 'dasdasddasdasd',tag_id_list
-        tag_id_list = loads(tag_id_list)
+        #print 'dasdasddasdasd',tag_id_list
+        tag_id_list = map(str,loads(tag_id_list))
         user_id = self.current_user_id
         po = Po.mc_get(id) 
         result = {}
