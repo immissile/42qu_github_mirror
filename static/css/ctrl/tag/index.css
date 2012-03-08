@@ -396,17 +396,15 @@ margin-left:0;
 width:972px;
 }
 .po_tag_list{
-margin-left:22px;
-vertical-align:-8px;
+margin-left:12px;
 overflow:hidden;
-display:inline-block;
 }
 .po_tag_pic{
 background:url(/img/png/label.png) no-repeat 0 0;
 cursor:pointer;
 display:inline-block;
 height:23px;
-vertical-align:-6px;
+vertical-align:-7px;
 width:17px;
 }
 .po_tag_one{
@@ -419,7 +417,8 @@ border-left:0;
 border-bottom:1px solid #D9D8DA;
 border-right:1px solid #ddd;
 padding:0 6px 0 2px;
-margin-right:8px;
+margin-right:6px;
+font-size:12px;
 }
 .main_nav .po_tag_one_on{
 background:#F3FCFF;
@@ -436,6 +435,9 @@ margin-left:10px;
 }
 .main_nav .tag_list_edit_a:hover{
 color:#d20;
+}
+.tag_list_add_a{
+margin-left:0px;
 }
 #main_nav_in ul.token-input-list{
 width:400px;

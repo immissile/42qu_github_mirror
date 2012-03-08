@@ -20,39 +20,42 @@ background:#006;
 
 .tag-delete-token{
     width:17px;
-    height:19px;
     background:url(/img/png/label.png) no-repeat -35px 0;
     display:inline-block;
-    height:23px;
-    vertical-align:-6px;
+    height:24px;
+    vertical-align:-8px;
     cursor:pointer;
 }
 ul.tag-list {
     overflow: hidden;
-    height: 27px !important;
+    height: 28px !important;
     border: 1px solid #DDDDDD;
     cursor: text;
     min-height: 1px;
     z-index: 999;
-    line-height: 27px;
+    line-height: 28px;
     display:inline-block;
     margin: 0;
-    padding: 1px 5px;
+    padding: 2px 5px;
     vertical-align: middle;
-    font-size: 13px;
+    font-size: 12px;
     width: 406px;
     color:#999;
-    margin:0 0 2px 22px;
+    margin:0 0 1px 22px;
     background-color: #fff;
     list-style-type: none;
     clear: left;
+    box-shadow:0 1px 0 #FFFFFF inset, 0 1px 0 rgba(150, 150, 255, 0.1);
 }
 
 ul.tag-list li input {
     border: 0;
     font-size:12px;
+    line-height:24px;
+    display:inline-block;
+    height:24px;
     width: 100px;
-    padding:2px 8px;
+    padding:0 8px;
     background-color: white;
     margin: 0;
     -webkit-appearance: caret;
@@ -63,9 +66,10 @@ li.tag-token {
     color:#000;
     background:#fff;
     display:inline-block;
-    margin:1px 3px 0;
+    margin:2px 3px;
     cursor:default;
-    line-height:25px;
+    line-height:24px;
+    height:24px;
 }
 
 li.tag-token p {
@@ -78,6 +82,7 @@ li.tag-token p {
     border-bottom:1px solid #D9D8DA;
     border-right:1px solid #ddd;
     padding:0 6px;
+    font-size:12px;
 }
 
 li.tag-token span b{
@@ -181,11 +186,13 @@ color:#d20;
 
 .tag_edit_btn{
 display:none;
+height:24px;
+line-height:24px;
 margin:0;
-padding:4.5px 14px;
+padding:4px 14px;
 border:1px solid #e0e0e0;
 border-width:1px 1px 1px 0;
-vertical-align:-1px;
+vertical-align:-2px;
 background:-moz-linear-gradient(center top , #FCFCFF, #F6F6FF) repeat;
 box-shadow:0 1px 0 #FFFFFF inset, 0 1px 0 rgba(150, 150, 255, 0.1);
 color:#666666 !important;

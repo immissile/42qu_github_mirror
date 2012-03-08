@@ -119,11 +119,10 @@ $.template(
         '{{each tag_list}}'+
             '<a class="po_tagw" target="_blank" href="http://${$value[1]}${HOST_SUFFIX}"><span class="po_tag_pic"></span><span class="po_tag_one" >${$value[0]}</span></a>'+
         '{{/each}}'+
-    '<a class="tag_list_edit_a" href="javascript:void(0)">'+
     '{{if tag_list.length}}'+
-        '编辑'+
+       '<a class="tag_list_edit_a" href="javascript:void(0)">编辑</a>'+
     '{{else}}'+
-        '添加标签'+
+        '<a class="tag_list_edit_a tag_list_add_a" href="javascript:void(0)">添加标签</a>'+
     '{{/if}}'+
     '</a></span>'
 );
@@ -232,9 +231,10 @@ note_li = function (feed_index, result){
             fdopt.replaceWith(readauthor.html())
             readauthor.remove()
 
-           $('.tag_list_edit_a').click(function(){
+           var tags = r
+           function _(){
                 $('.po_tag_list').remove()
-                $('.tag_edit_btn').show().click(function(){
+                $('.tag_edit_btn').show().css('display','inline-block').click(function(){
                     var tag_id_list=[]
                     $("input[name='tag_id_list']").each(function(){
                         tag_id_list.push($(this).val())
@@ -246,12 +246,15 @@ note_li = function (feed_index, result){
                             readtag.html(
                                 $.tmpl('po_tag_list',data)
                             )
+                            tags = data
+                            $('.tag_list_edit_a').click(_)
                             //close_token()
                         }
                     )
                 })
-                autocomplete_tag('#tag_search', r.tag_list||[],'tag')
-            })
+                autocomplete_tag('#tag_search', tags.tag_list||[],'tag')
+            }
+            $('.tag_list_edit_a').click(_)
             winj.scrollTop(scrollTop)
             readpad_nav_resize()
             scroll_to_fixed(READPAD_NAV,8,{position:'fixed',"top":0},{position:'absolute',marginTop:0})
