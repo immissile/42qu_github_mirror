@@ -10,7 +10,7 @@ from model.po_tag import po_tag_by_cid, tag_cid_count, po_tag_new_by_autocompelt
 from model.tag_exp import tag_exp_new, tag_exp_state_txt_by_user_id_tag_id, tag_exp_new_apply_for_admin
 from model.po import Po
 from model.po_tag import tag_name_id_list_by_po_id
-
+from json import loads
 PAGE_LIMIT = 12 
 
 @urlmap('/j/tag/(\d+)-(\-?\d+)')
@@ -58,7 +58,8 @@ class TagManageApply(JLoginZsiteBase):
 @urlmap("/j/tag/po/(\d+)")
 class TagPo(JLoginBase):
     def post(self, id):
-        tag_id_list = self.get_arguments('tag_id_list', []) 
+        tag_id_list = self.get_argument('tag_id_list', '[]') 
+        tag_id_list = loads(tag_id_list)
         user_id = self.current_user_id
         po = Po.mc_get(id) 
         #print 'dasdasddasdasd',tag_id_list

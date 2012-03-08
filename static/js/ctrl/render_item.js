@@ -203,7 +203,6 @@ note_li = function (feed_index, result){
         feeds.after(txt_loading)
 //console.info(oldtop)
         winj.scrollTop(scrollTop);
-        txt_title.html(title.html())
         readtag.html( '')
 
         $.get(
@@ -225,6 +224,7 @@ note_li = function (feed_index, result){
             readtag.html( $.tmpl('po_tag_list',r))
             txt_body = $.tmpl('note_txt',r)
             read_loading.replaceWith(txt_body)
+            txt_title.html(title.html())
             var fdopt = txt_body.find('.fdopt'),
                 readauthor = txt_body.find('.readauthor')
             txt_opt.html(fdopt.html())
