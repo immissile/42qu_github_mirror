@@ -1,4 +1,4 @@
-#tagbar .xatxt .xa{
+#tagbar .xatxt .xa, .tag_edit_btn{
 display:inline-block;
 margin-left:7px;
 padding:3px 14px;
@@ -20,6 +20,9 @@ vertical-align: -4px;
 width: 39px;
 }
 #tagbar .xatxt .xa:active{
+box-shadow:0 1px 2px rgba(0, 0, 0, 0.3) inset;
+}
+.tag_edit_btn:active{
 box-shadow:0 1px 2px rgba(0, 0, 0, 0.3) inset;
 }
 #tagbar .xatagset {
@@ -58,14 +61,12 @@ border: 1px solid #DDDDDD;
 height: 26px !important;
 line-height: 26px;
 vertical-align: middle;
-padding: 1px 3px;
+padding: 1px 5px;
 font-size: 13px;
-padding-left: 8px;
-width: 209px;
+width: 207px;
 color:#999;
 margin:0;
 display:inline-block;
-padding-left:3px;
 }
 #token-input-search{
 height:auto;

@@ -7,7 +7,7 @@ from json import loads
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
 from model.days import int_by_string
 
-API_KEY = '00d9bb33af90bf5c028d319b0eb23e14'
+API_KEY = '0b28ac78faf4254c217a056af0dc6fe4'
 
 URL_REC = 'http://api.douban.com/people/%%s/recommendations?alt=json&apikey=%s'%API_KEY
 

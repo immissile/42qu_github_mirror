@@ -49,8 +49,13 @@ for pin in result:
     like_count = pin['like_count']
     link = pin['link']
     orig_source = pin['orig_source']
+    file = pin['file']
     key = pin['file']['key']
-    type = pin['file']['type'].split("/",1)[1]
+    if type in file:
+        type = pin['file']['type'].split("/",1)[1]
+    else:
+        type = None
     img = "http://img.hb.aicdn.com/%s"%key
-    print dumps([orig_source,  like_count, type, key, link])
+#    print dumps([orig_source,  like_count, type, key, link])
+    print img
 
