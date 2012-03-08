@@ -208,3 +208,48 @@ box-shadow:0 1px 2px rgba(0, 0, 0, 0.3) inset;
 .tag_list_edit_a{
 font-size:12px;
 }
+.po_tag_list{
+margin-left:12px;
+line-height:29px;
+overflow:hidden;
+}
+.po_tag_pic{
+background:url(/img/png/label.png) no-repeat 0 0;
+cursor:pointer;
+display:inline-block;
+height:23px;
+vertical-align:-7px;
+width:17px;
+}
+.po_tag_one{
+display:inline-block;
+margin: 0;
+line-height:21px;
+height:21px;
+border:1px solid #ececec;
+border-left:0;
+border-bottom:1px solid #D9D8DA;
+border-right:1px solid #ddd;
+padding:0 6px 0 2px;
+margin-right:6px;
+font-size:12px;
+}
+.main_nav .po_tag_one_on{
+background:#F3FCFF;
+color:#d20;
+}
+.main_nav .po_tag_one:hover{
+color:#d20;
+}
+.po_tag_pic_on{
+background:url(/img/png/label.png) no-repeat -17px 0;
+}
+.tag_list_edit_a{
+margin-left:10px;
+}
+.main_nav .tag_list_edit_a:hover{
+color:#d20;
+}
+.tag_list_add_a{
+margin-left:0px;
+}
