@@ -17,8 +17,8 @@ __metaclass__ = type
 
 REDIS_REC_USER_TAG = 'Rec@%s'                 #用户 - 主题 - 分数 zset
 REDIS_REC_USER_TAG_CAN_REC = 'Rec?%s'         #用户 - 可以推荐的主题 - 分数 string 
-REDIS_REC_USER_TAG_READED = 'Rec(%s'          #用户 - 主题 - 已经读过的文章
-REDIS_REC_USER_PO_TO_REC = 'Rec)%s'           #用户 - 主题 - 可以推荐的文章的缓存
+REDIS_REC_USER_TAG_READED = 'Rec(%s-%s'          #用户 - 主题 - 已经读过的文章
+REDIS_REC_USER_PO_TO_REC = 'Rec)%s-%s'           #用户 - 主题 - 可以推荐的文章的缓存
 REDIS_REC_TAG_USER_IS_EMPTY = 'Rec~%s'        #主题 - 已经读完了的用户 set
 
 REDIS_REC_USER_LOG = 'Rec+%s'                 #用exist判断文章是否已经读过 zset
@@ -31,7 +31,7 @@ REDIS_REC_PO_SCORE = 'RecPoScore'             #话题的积分 hset
 REDIS_REC_PO_TIMES = 'RecTimes'               #老话题的被推荐次数 
 REDIS_REC_LAST_TIME = 'RecLastTime'           #上次推荐话题的时间
 
-mc_rec_is_empty = McCache("Rec!%s")
+mc_rec_is_empty = McCache('Rec!%s')
 
 REDIS_REC_USER_TAG_LIMIT = 512
 REDIS_REC_PO_SHOW_TIMES = 10
@@ -45,8 +45,8 @@ def rec_read_user_topic_score_fav(user_id, tag_id):
 def rec_read_po_tag_rm(po_id, tag_id_list):
     p = redis.pipeline()
     for tag_id in tag_id_list:
-        p.zrem(REDIS_REC_TAG_OLD%tag_id, po_id) 
-        p.srem(REDIS_REC_TAG_NEW%tag_id, po_id) 
+        p.zrem(REDIS_REC_TAG_OLD%tag_id, po_id)
+        p.srem(REDIS_REC_TAG_NEW%tag_id, po_id)
     p.execute()
 
 def rec_read_po_read_rm(po_id, tag_id_list):
@@ -75,7 +75,7 @@ def rec_read_user_topic_score_incr(user_id, tag_id, score=1, tag_score=None):
     if score == inf:
         score_list = redis.zrevrange(key, 0, 0, True, int)
         if score_list:
-            score = max(1,score_list[0][1])
+            score = max(1, score_list[0][1])
         else:
             score = 1
         redis.zadd(key, tag_id, score)
@@ -120,8 +120,9 @@ def rec_read_by_user_id_tag_id(user_id, tag_id):
     po_id = 0
     from_new = False
     now = time_new_offset()
-    key_to_rec = REDIS_REC_USER_PO_TO_REC%tag_id
-    key_readed = REDIS_REC_USER_TAG_READED%tag_id
+    ut_id = (user_id, tag_id)
+    key_to_rec = REDIS_REC_USER_PO_TO_REC%ut_id
+    key_readed = REDIS_REC_USER_TAG_READED%ut_id
     exists_key_to_rec = redis.exists(key_to_rec)
     cache_key_to_rec = False
 
@@ -137,6 +138,7 @@ def rec_read_by_user_id_tag_id(user_id, tag_id):
         else:
             key_tag_new = REDIS_REC_TAG_NEW%tag_id
             po_id = redis.srandmember(key_tag_new)
+            #print 'srandmember' , po_id
             if po_id:
                 last = redis.zrevrange(key_readed, 0 , 0 , True)
                 if last and (last[0][1] - now) < ONE_HOUR:
@@ -149,12 +151,14 @@ def rec_read_by_user_id_tag_id(user_id, tag_id):
 
         if cache_key_to_rec:
             #生成缓存 有效期1天 推荐文章
-            p = redis.pipeline()
-            p.zunionstore(key_to_rec, {key_readed:-1, REDIS_REC_USER_TAG%tag_id:1})
-            p.expire(key_to_rec, ONE_DAY)
+            #p = redis.pipeline()
+            p = redis
+            p.zunionstore(key_to_rec, {key_readed:-1, REDIS_REC_TAG_OLD%tag_id:1})
             p.zremrangebyscore(key_to_rec, '-inf', 0)
-            p.execute()
-            exists_key_to_rec = True
+            p.expire(key_to_rec, ONE_DAY)
+            #p.execute()
+            #print redis.zcard(key_readed)
+            #print 'exists_key_to_rec = True'
 
         if po_id:
             redis.zadd(key_readed, po_id, now)
@@ -191,7 +195,7 @@ def rec_read_more(user_id, limit):
     if rec_read(user_id, limit):
         return rec_read_log_by_user_id(user_id, limit, 0)
 
-    mc_rec_is_empty.set(user_id, "", 600)
+    mc_rec_is_empty.set(user_id, '', 600)
     return []
 
 def rec_read_log_by_user_id_auto_more(user_id, limit, offset):
@@ -200,7 +204,7 @@ def rec_read_log_by_user_id_auto_more(user_id, limit, offset):
 
 def rec_read_log_count_by_user_id(user_id):
     key = REDIS_REC_USER_LOG%user_id
-    return redis.zcard(key) 
+    return redis.zcard(key)
 
 def rec_read_log_by_user_id(user_id, limit, offset):
     key = REDIS_REC_USER_LOG%user_id
@@ -378,4 +382,5 @@ if __name__ == '__main__':
 #print rec_read_more(user_id, 7)
     limit = 7
     offset = 0
-    print rec_read_log_by_user_id_auto_more(10000000, limit, offset)
+    #print rec_read_log_by_user_id_auto_more(10000000, limit, offset)
+    print rec_read_by_user_id_tag_id(10184262, 10227250)
