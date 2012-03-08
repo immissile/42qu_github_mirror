@@ -362,6 +362,11 @@ def rec_read(user_id, limit):
 
 if __name__ == '__main__':
     pass
+    from model.po_tag import PoZsiteTag
+    for i in redis.zrange(REDIS_REC_TAG,0, -1):
+        redis.zadd(REDIS_REC_TAG, i, PoZsiteTag.where(zsite_id=i).count()) 
+    redis.delete(REDIS_REC_TAG_ID_SCORE)
+    
     #user_id = 10000000 
     #key = REDIS_REC_USER_TAG%user_id
     #rec_read_user_topic_score_fav(user_id, 10225249)
@@ -380,7 +385,7 @@ if __name__ == '__main__':
 #key = REDIS_REC_USER_TAG%user_id
 #redis.delete(key)
 #print rec_read_more(user_id, 7)
-    limit = 7
-    offset = 0
+    #limit = 7
+    #offset = 0
     #print rec_read_log_by_user_id_auto_more(10000000, limit, offset)
     #print rec_read_by_user_id_tag_id(10184264, 10227250)
