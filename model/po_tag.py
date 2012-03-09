@@ -397,6 +397,12 @@ po_id, admin_id, ' '.join(map(str, id_list))
 
 def po_tag_id_list_new(po, tag_id_list, cid=0):
     cid = int(cid)
+    if not cid:
+        cid = redis.hget(REDIS_PO_ID2TAG_CID, po_id)
+    elif cid and cid in REDIS_REC_CID_DICT:
+        #将po放在相应的po_id=>cid中
+        redis.hset(REDIS_PO_ID2TAG_CID, po_id, cid)
+
 
     po_id = po.id
     new_tag_id_list = set(map(int, tag_id_list))
@@ -414,9 +420,6 @@ def po_tag_id_list_new(po, tag_id_list, cid=0):
     for tag_id in to_add:
         _zsite_tag_po_new(tag_id, po, cid)
 
-    if cid:
-        #将po放在相应的po_id=>cid中
-        redis.hset(REDIS_PO_ID2TAG_CID, po_id, cid)
 
 
 def tag_cid_count(tag_id, cid=None):
