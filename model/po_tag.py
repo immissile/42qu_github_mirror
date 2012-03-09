@@ -397,6 +397,8 @@ po_id, admin_id, ' '.join(map(str, id_list))
 
 def po_tag_id_list_new(po, tag_id_list, cid=0):
     cid = int(cid)
+    po_id = po.id
+
     if not cid:
         cid = redis.hget(REDIS_PO_ID2TAG_CID, po_id)
     elif cid and cid in REDIS_REC_CID_DICT:
@@ -404,7 +406,6 @@ def po_tag_id_list_new(po, tag_id_list, cid=0):
         redis.hset(REDIS_PO_ID2TAG_CID, po_id, cid)
 
 
-    po_id = po.id
     new_tag_id_list = set(map(int, tag_id_list))
     old_tag_id_list = set(tag_id_list_by_po_id(po_id))
 
