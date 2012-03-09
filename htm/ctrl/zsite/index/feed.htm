@@ -65,7 +65,7 @@ _ico = pic_url_with_default(current_user_id,219)
 <div>
 {{each rt_list}}
 {{if $value.txt[1]!=""}}
-<p><a target="_blank" class='fcmname c0 TPH'  href="${$value.link}">${$value.name}</a>{{if rt_list.length==1}} 推荐{{/if}} : ${$value.txt[1]} <a class="zsite_reply" href="/po/${$value.txt[0]}" target="_blank"></a></p> 
+<p><a target="_blank" class='fcmname c0 TPH'  href="${$value.link}">${$value.name}</a>{{if rt_list.length==1}} 推荐{{/if}} : ${$value.txt[1]} <a class="zsite_reply" href="/po/${$value.txt[0]}" onclick="return recreply(this);"></a></p> 
 {{/if}}
 {{/each}}
 </div>
@@ -88,7 +88,7 @@ _ico = pic_url_with_default(current_user_id,219)
 <div class='rel'>
 {{each rt_list}}
 {{if $value.txt[1]!=""}}
-<p><a target="_blank" class='fcmname c0 TPH'  href="${$value.link}">${$value.name}</a>{{if rt_list.length==1}} 推荐{{/if}} : ${$value.txt[1]} <a class="zsite_reply" href="/po/${$value.txt[0]}" target="_blank"></a></p> 
+<p><a target="_blank" class='fcmname c0 TPH'  href="${$value.link}">${$value.name}</a>{{if rt_list.length==1}} 推荐{{/if}} : ${$value.txt[1]} <a class="zsite_reply" href="/po/${$value.txt[0]}" onclick="return recreply(this);"></a></p> 
 {{/if}}
 {{/each}}
 
@@ -158,7 +158,7 @@ class="TPH" target="_blank" href="${zsite_link}">${zsite_name} {{if unit||title}
         {{/if}}
     </div>
     <div class="fdbar">
-    <span class="L"><span class="fdopt"><a
+    <span class="R"><span class="fdopt"><a
 rel="${id}" href="javascript:void(0)"
 class="{{if fav}}faved{{else}}fav{{/if}} fav${id}"
 ></a><span
@@ -172,8 +172,13 @@ class="mr3">${reply_count}</span>{{/if}}评论</a></span>
 
 {{if cid!=72}}{{if site_id}}<a href="//${site_url}"
 target="_blank">${site_name}</a><span
-class="split">,</span>{{/if}}{{/if}}<a
-href="/${id}" target="_blank">${create_time}</a>{{if rt_list.length  && rt_list[0].txt[2] == 0 }}<span class="split">,</span>广播{{/if}}
+class="split">,</span>{{/if}}{{/if}}
+<!--<a href="/${id}" target="_blank">${create_time}</a>
+{{if rt_list.length  && rt_list[0].txt[2] == 0 }}<span class="split">,</span>广播{{/if}}
+-->
+
+<span class="po_tag_list"><input type="hidden" id="tag_search" /><a class="tag_edit_btn" href="javascript:void(0)">完成</a><span class="po_tag_list">{{each tag_list}}<a class="po_tagw" target="_blank" href="http://${$value[1]}${HOST_SUFFIX}"><span class="po_tag_pic"></span><span class="po_tag_one" >${$value[0]}&#8204;</span></a>{{/each}}{{if tag_list.length}}<a class="tag_list_edit_a" href="javascript:void(0)">编辑</a>{{else}}<a class="tag_list_edit_a tag_list_add_a" href="javascript:void(0)">添加标签</a>{{/if}}</a></span>
+</span>
 
 
     </div>
@@ -185,7 +190,6 @@ href="/${id}" target="_blank">${create_time}</a>{{if rt_list.length  && rt_list[
 {{/if}}
 </%text>
 </script>
-
 
 <div class="Iwp">
     <div class="Lwp">

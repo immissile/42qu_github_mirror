@@ -16,4 +16,6 @@ JS = [
 'ctrl/com/isotope.js',
 'jquery.tokeninput.js',
 'autocomplete.js',
+'ctrl/popreply.js',
+'ctrl/render_item.js'
 ]

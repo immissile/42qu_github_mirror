@@ -37,7 +37,7 @@ ul.tag-list {
     display:inline-block;
     margin: 0;
     padding: 2px 5px;
-    vertical-align: middle;
+    vertical-align: top;
     font-size: 12px;
     width: 406px;
     color:#999;
@@ -192,7 +192,7 @@ margin:0;
 padding:4px 14px;
 border:1px solid #e0e0e0;
 border-width:1px 1px 1px 0;
-vertical-align:-2px;
+vertical-align:0;
 background:-moz-linear-gradient(center top , #FCFCFF, #F6F6FF) repeat;
 box-shadow:0 1px 0 #FFFFFF inset, 0 1px 0 rgba(150, 150, 255, 0.1);
 color:#666666 !important;
@@ -252,4 +252,10 @@ color:#d20;
 }
 .tag_list_add_a{
 margin-left:0px;
+}
+.txt_title_a{
+color:#000;
+}
+.txt_title_a:hover{
+color:#000;
 }

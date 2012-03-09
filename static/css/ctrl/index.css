@@ -167,7 +167,9 @@ vertical-align: 3px;
 color:#999;
 }
 #feeds .fdbar{
-margin-top:10px
+margin-top:10px;
+overflow:auto;
+text-align:left;
 }
 .zname a:hover{
 color:#d20
