@@ -193,22 +193,10 @@ color:#d20;
 .main_nav .now{
     color:#333;
 }
-.readpad{
-position:relative;
-overflow:auto;
-}
-.readpad .fdbar{
-margin-bottom:0;
-padding-top:7px;
-margin-top:14px;
-}
 .fdbar .readx{
     float:left;
     margin-left:1px;
     margin-top:11px;
-}
-.readpad .fdbar .fdopt{
-margin-right:1px;
 }
 #feeds .readauthor .split{
 margin:0 3px;
