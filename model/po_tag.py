@@ -448,8 +448,8 @@ if __name__ == '__main__':
     for i in Zsite.where(cid=CID_TAG):
         name = i.name
         if name in exist or name.startswith("-"):
-            #i.name = ""
-            #i.save()
+            i.name = ""
+            i.save()
             print i.id, i.name
         else:
             exist.add(name)
