@@ -208,6 +208,17 @@ if __name__ == '__main__':
     from zweb.orm import ormiter
     from model.follow import follow_count_by_to_id
     from model.zsite_fav import zsite_fav_count_by_zsite
+    from model.po_tag import _tag_alias_new
+
+    
+    
+    for i in ormiter(Zsite, 'cid=%s'%CID_TAG):
+        for j in i.name.split("/"):
+            j = j.strip()
+            if j != i.name:
+                for k in Zsite.where(cid=CID_TAG, name=j):
+                    k.name = ""
+                    k.save()
 
     for i in ormiter(Zsite, 'cid=%s'%CID_TAG):
         count = zsite_fav_count_by_zsite(i)
@@ -215,7 +226,8 @@ if __name__ == '__main__':
         for j in i.name.split("/"):
             j = j.strip()
             if j != i.name:
-                autocomplete_tag.append_alias(j, i.id, count)
+                _tag_alias_new(i.id, j)
+                #autocomplete_tag.append_alias(j, i.id, count)
 
     #from model.autocomplete_user import autocomplete_user 
     #for i in ormiter(Zsite, 'cid=%s'%CID_USER):
