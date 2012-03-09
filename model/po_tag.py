@@ -175,6 +175,7 @@ def _tag_alias_new(id, name):
     low = name.lower()
     redis.sadd(REDIS_ALIAS%id, low)
     redis.hset(REDIS_ALIAS_NAME2ID, name, id)
+    from model.autocomplete import  autocomplete_tag
     autocomplete_tag.append_alias(name, id)
 
 
