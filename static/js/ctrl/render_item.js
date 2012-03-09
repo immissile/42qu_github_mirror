@@ -203,11 +203,11 @@ note_li = function (feed_index, result){
             user_link
             ;
         //feeds.append(txt_loading);
+        readtag.html( '')
+        txt_title.html('')
         feeds.after(txt_loading)
 //console.info(oldtop)
         winj.scrollTop(scrollTop);
-        readtag.html( '')
-
         $.get(
         "/j/po/json/"+id,
         function(r){
