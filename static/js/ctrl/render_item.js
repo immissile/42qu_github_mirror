@@ -2,18 +2,19 @@ $.template(
     'note_li',
     '<div class="readl c">'+
         '<div id="reado${$data[0]}" class="reado">'+
-            '<a rel="${$data[0]}" href="javascript:void(0)" id="fav${$data[0]}" class="fav${$data[0]} fav{{if $data[5]}}ed{{/if}}"></a>'+
+            '<a rel="${$data[0]}" href="javascript:void(0)" id="fav${$data[0]}" class="fav${$data[0]} fav{{if $data[3]}}ed{{/if}}"></a>'+
             '<span class="reada">'+
                 '<span class="title">${$data[1]}</span>'+
                 '<span class="rtip">${$data[2]}</span>'+
             '</span>'+
         '</div>'+
+    '</div>'
+)
+/*
         '{{if $data[3]}}<div class="zname">'+
             '<a href="#" rel="${$data[3]}" class="TPH" target="_blank">${$data[4]}</a>'+
         '</div>{{/if}}'+
-    '</div>'
-)
-
+*/
 
 $.template(
     'tag_cid',

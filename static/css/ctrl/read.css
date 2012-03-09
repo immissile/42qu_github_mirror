@@ -273,8 +273,7 @@ padding-bottom:12px;
 margin-bottom:32px;
 }
 .readpad .fdbar{
-margin-bottom:0;
-margin-top:14px;
+margin:14px 0 0 0;
 padding:9px 23px 10px 20px;
 }
 .readpad .fdbar .fdopt{
@@ -282,4 +281,18 @@ margin-right:1px;
 }
 .readpad .zsite_reply{
 margin-left:14px;
+}
+#main_nav_title{
+margin-top:72px;
+margin-bottom:12px;
+}
+#read_loading{
+padding:72px 0 71px;
+}
+#main_nav_in .readx{
+vertical-align:-5px;
+}
+#main_nav_in{
+padding:10px 20px;
+border-bottom:1px solid #eee;
 }
