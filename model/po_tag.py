@@ -177,6 +177,8 @@ def _tag_alias_new(id, name):
 
 
 def tag_by_name(name):
+    if name.startswith("-"):
+        name = name[1:]
     low = name.lower()
     id = redis.hget(REDIS_ALIAS_NAME2ID, low)
     if not id:
@@ -352,14 +354,11 @@ def tag_name_id_list_by_po_id(po_id):
 def tag_id_list_by_str_list(tag_list):
     tag_id_list = []
     for i in tag_list:
-        i_ = i.startswith('-')
-        if i_:
-            i = i[1:]
-        if i_ or not i.isdigit():
+        if i.isdigit():
+            tag_id_list.append(i)
+        else:
             for id in tag_by_str(i):
                 tag_id_list.append(id)
-        else:
-            tag_id_list.append(i)
     return unique(map(int, tag_id_list))
 
 class PoTagLog(Model):
@@ -448,11 +447,14 @@ if __name__ == '__main__':
     exist = set()
     for i in Zsite.where(cid=CID_TAG):
         name = i.name
-        if name in exist:
-            print i
+        if name in exist or name.startswith("-"):
+            #i.name = ""
+            #i.save()
+            print i.id, i.name
         else:
             exist.add(name)
-        print 
+
+#        print 
     #print tag_id_list_by_po_id(10244973)
     #print tag_id_list_by_str_list(["是","12"])
     pass
