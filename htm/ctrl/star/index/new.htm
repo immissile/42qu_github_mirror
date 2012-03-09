@@ -8,21 +8,21 @@ function select_end_time(id, value){
     select_date(id, value, year, year+100)
 }
 </script>
-<%htm:form className="fullscreen">
+<%htm:form  enctype="multipart/form-data">
 <div>
-    名称 <input name="name" type="text">
+    名称 <input name="name" type="text" value="${name or ''}">
 </div>
 <div>
-    图片 <input name="name" type="file">
+    图片 <input name="pic" type="file">${errtip.pic|n}
 </div>
 <div>
-    金额 <input name="price" type="text">
+    启动金额 <input name="donate_min" type="text" value="${donate_min or ''}">
 </div>
 <div>
-    结束日期 <script>select_end_time("end_time", 0)</script>
+    结束日期 <script>select_end_time("end_time", ${end_time or 0})</script>
 </div>
 <div>
-    概要 <textarea name="txt"></textarea>
+    一句话概要 <textarea name="txt">${txt or ''}</textarea>
 </div>
 <button type="submit">创建</button>
 </%htm:form>
