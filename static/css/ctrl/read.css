@@ -37,7 +37,7 @@ ul.tag-list {
     display:inline-block;
     margin: 0;
     padding: 2px 5px;
-    vertical-align: middle;
+    vertical-align: top;
     font-size: 12px;
     width: 406px;
     color:#999;
@@ -66,8 +66,8 @@ li.tag-token {
     color:#000;
     background:#fff;
     display:inline-block;
-    margin:2px 3px;
     cursor:default;
+    margin:3px 6px 2px 0;
     line-height:23px;
     height:24px;
 }
@@ -185,14 +185,14 @@ color:#d20;
 }
 
 .tag_edit_btn{
-display:none;
+display:inline-block;
 height:24px;
 line-height:24px;
 margin:0;
 padding:4px 14px;
 border:1px solid #e0e0e0;
 border-width:1px 1px 1px 0;
-vertical-align:-2px;
+vertical-align:0;
 background:-moz-linear-gradient(center top , #FCFCFF, #F6F6FF) repeat;
 box-shadow:0 1px 0 #FFFFFF inset, 0 1px 0 rgba(150, 150, 255, 0.1);
 color:#666666 !important;
@@ -212,6 +212,9 @@ font-size:12px;
 margin-left:12px;
 line-height:29px;
 overflow:hidden;
+}
+.ml0{
+margin-left:0;
 }
 .po_tag_pic{
 background:url(/img/png/label.png) no-repeat 0 0;
@@ -233,9 +236,10 @@ border-right:1px solid #ddd;
 padding:0 6px 0 2px;
 margin-right:6px;
 font-size:12px;
+background:#fcfdfd;
 }
 .main_nav .po_tag_one_on{
-background:#F3FCFF;
+background:#fcfdfd;
 color:#d20;
 }
 .main_nav .po_tag_one:hover{
@@ -256,3 +260,7 @@ margin-left:0px;
 .main_nav_txt_fix{
 line-height:30px
 }
+.txt_title_a{
+color:#000;
+}
+.tag_list_add_a{font-size:14px}

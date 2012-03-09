@@ -285,7 +285,7 @@ function feed_load_maker(FEED_ATTR_BASE ){
         73: FEED_ATTR_BASE
 	}
 	for (var i in FEED_ATTR) {
-		FEED_ATTR[i] = (FEED_ATTR[i] + "").split(' ')
+		FEED_ATTR[i] = (FEED_ATTR[i] + " tag_list").split(' ')
 	}
     function _(result){
         var t = {}, attr = FEED_ATTR[result[3]], j=0;

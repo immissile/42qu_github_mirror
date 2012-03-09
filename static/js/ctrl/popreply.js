@@ -93,3 +93,12 @@ $(function(){
         return false
     })
 })
+
+function recreply(elem){
+    popreply(
+        "reply",
+        '',
+        elem.href
+    )
+    return false
+}

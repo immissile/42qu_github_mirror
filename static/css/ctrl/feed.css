@@ -179,7 +179,7 @@ color:#999;
 padding: 7px 2px;
 }
 .main_nav a{
-    color:#999;
+color:#999;
 }
 #feeds .readpad .split{
 margin:0 14px;
@@ -188,7 +188,7 @@ margin:0 14px;
 margin-left:-12px;
 }
 .main_nav a:hover{
-    color:#333;
+color:#d20;
 }
 .main_nav .now{
     color:#333;
@@ -225,3 +225,4 @@ max-width:100%;
 display:block;
 margin:auto;
 }
+

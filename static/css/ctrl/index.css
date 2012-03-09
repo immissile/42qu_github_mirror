@@ -167,7 +167,9 @@ vertical-align: 3px;
 color:#999;
 }
 #feeds .fdbar{
-margin-top:10px
+margin-top:10px;
+overflow:auto;
+text-align:left;
 }
 .zname a:hover{
 color:#d20
@@ -501,4 +503,9 @@ margin-bottom:16px;
 .fdbar .TPH{
 color:#222;
 }
-
+ul.tag-list{
+margin-left:0;
+}
+.feed_li .po_tag_list{
+margin-left:0;
+}
