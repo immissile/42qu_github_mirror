@@ -1,6 +1,12 @@
 <%inherit file="../_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%namespace file="../_util.htm" import="star_li"/>
+
+<%!
+from model.ico import fs_url_jpg
+%>
+
+
 <script src="${js.date}"></script>
 <script>
 function select_end_time(id, value){
@@ -8,18 +14,24 @@ function select_end_time(id, value){
     select_date(id, value, year, year+100)
 }
 </script>
-<%htm:form  enctype="multipart/form-data">
+<%htm:form action="/new" enctype="multipart/form-data">
 <div>
-    名称 <input name="name" type="text" value="${name or ''}">
+    名称 <input autocomplete="off"  name="name" type="text" value="${name or ''}">${errtip.name|n}
 </div>
 <div>
+    %if pic_id:
+<input type="hidden" name="pic_id" value="${pic_id}">
+<div>
+    <img src="${fs_url_jpg(211, pic_id)}">
+</div>
+    %endif
     图片 <input name="pic" type="file">${errtip.pic|n}
 </div>
 <div>
-    启动金额 <input name="donate_min" type="text" value="${donate_min or ''}">
+    启动金额 <input autocomplete="off" name="donate_min" type="text" value="${donate_min or ''}">${errtip.donate_min|n}
 </div>
 <div>
-    结束日期 <script>select_end_time("end_time", ${end_time or 0})</script>
+    结束日期 <script>select_end_time("end_time", ${end_time or 0})</script>${errtip.end_time|n}
 </div>
 <div>
     一句话概要 <textarea name="txt">${txt or ''}</textarea>
