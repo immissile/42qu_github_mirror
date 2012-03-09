@@ -110,7 +110,7 @@ $.template(
 var READPAD_NAV;
 function readpad_nav_resize(){
     if(READPAD_NAV){
-        READPAD_NAV.width(READPAD_NAV[0].parentNode.offsetWidth-2)
+        READPAD_NAV.width($(READPAD_NAV[0].parentNode).width())
     }
 };
 $(window).resize(readpad_nav_resize);
