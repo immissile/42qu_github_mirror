@@ -90,7 +90,9 @@ class PoJsonBase(Base):
             reply_list.append(po) 
         elif cid == CID_REC:
             if po.name_:
-                reply_list.append(po) 
+                reply_list.append(po)
+            else: 
+                r['name'] = po.name
         else:
             r['name'] = po.name
         r['result'] = _po_reply_result(self, po, id, reply_list)
