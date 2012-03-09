@@ -445,6 +445,14 @@ def po_tag_by_cid(cid, tag_id, user_id, limit=25, offset=0):
 
 
 if __name__ == '__main__':
+    exist = set()
+    for i in Zsite.where(cid=CID_TAG):
+        name = i.name
+        if name in exist:
+            print i
+        else:
+            exist.add(name)
+        print 
     #print tag_id_list_by_po_id(10244973)
     #print tag_id_list_by_str_list(["是","12"])
     pass
@@ -452,7 +460,8 @@ if __name__ == '__main__':
     #from model.po import Po, po_rm
     #for  i in Po.where(user_id=10000101):
     #    po_tag_rm_by_po(i)
-    print tag_cid_count(10222295)
+    #print tag_cid_count(10222295)
+
 
 #oid = redis.hdel(REDIS_ALIAS_NAME2ID, name)
 #id = '10232898'
