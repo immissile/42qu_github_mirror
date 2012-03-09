@@ -270,6 +270,7 @@ box-shadow:2px 2px 1px #F3F3F3;
 position:relative;
 overflow:auto;
 padding-bottom:12px;
+margin-bottom:32px;
 }
 .readpad .fdbar{
 margin-bottom:0;
