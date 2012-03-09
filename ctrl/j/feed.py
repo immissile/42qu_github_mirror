@@ -133,11 +133,8 @@ class Feed(JLoginBase):
 
                     if after:
                         i.extend(after)
-
-                    if cid == CID_NOTE:
-                        tag_list =  tag_name_id_list_by_po_id(id)
-                        i.append(tag_list)
-
+                    tag_list = tag_name_id_list_by_po_id(id)
+                    i.append(tag_list)
                     t.append(i[1:])
 
                 unit, title = c_dict[zsite_id]

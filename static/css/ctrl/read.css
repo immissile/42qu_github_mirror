@@ -213,6 +213,9 @@ margin-left:12px;
 line-height:29px;
 overflow:hidden;
 }
+.ml0{
+margin-left:0;
+}
 .po_tag_pic{
 background:url(/img/png/label.png) no-repeat 0 0;
 cursor:pointer;
@@ -233,9 +236,10 @@ border-right:1px solid #ddd;
 padding:0 6px 0 2px;
 margin-right:6px;
 font-size:12px;
+background:#fcfdfd;
 }
 .main_nav .po_tag_one_on{
-background:#F3FCFF;
+background:#fcfdfd;
 color:#d20;
 }
 .main_nav .po_tag_one:hover{

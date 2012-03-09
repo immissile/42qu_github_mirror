@@ -93,7 +93,7 @@ $.template(
     '</pre>'+
     '<div class="fdbar">'+
         '<a href="javascript:void(0)" class="readx" title="快捷键 ESC"></a>'+
-        '<span><span class="fdopt">'+
+        '<span class="R"><span class="fdopt">'+
             '<a class="${fav} fav${id}" href="javascript:void(0)" rel="${id}"></a>'+
                 '<span class="split">-</span>'+
             '<a href="javascript:share(${id});void(0)" class="vote">推荐</a>'+
@@ -278,3 +278,4 @@ note_li = function (feed_index, result){
 
 
 })();
+
