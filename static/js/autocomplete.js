@@ -65,7 +65,7 @@ function autocomplete_tag(id, default_tag_list, idPrefix){
                 return s.join('') 
             },
             tokenFormatter: function(item){
-                 return '<li class="'+idPrefix+'-token"><p>'+htmlescape(item.name)+'</p>'+'<input type="hidden" name="tag_id_list" value="'+item.id+'"></li>' 
+                 return '<li class="'+idPrefix+'-token"><p>'+htmlescape(item.name)+'&#8204;</p>'+'<input type="hidden" name="tag_id_list" value="'+item.id+'"></li>' 
             },
             animateDropdown: false
         }

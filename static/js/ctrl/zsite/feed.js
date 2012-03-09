@@ -94,6 +94,7 @@ $(".bzlive").live("click",function(){
                 t.site_name = site_dict[site_id];
                 t.site_url = site_id+HOST_SUFFIX
             }
+            t.tag_list = t.tag_list||[]
 			data.item.push(t)	
 		}
 		return data
