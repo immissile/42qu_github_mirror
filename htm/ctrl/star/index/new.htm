@@ -1,9 +1,13 @@
 <%inherit file="../_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%namespace file="../_util.htm" import="star_li"/>
-
-
-
+<script src="${js.date}"></script>
+<script>
+function select_end_time(id, value){
+    var date=new Date(), year=date.getFullYear();
+    select_date(id, value, year, year+100)
+}
+</script>
 <%htm:form className="fullscreen">
 <div>
     名称 <input name="name" type="text">
@@ -15,7 +19,7 @@
     金额 <input name="price" type="text">
 </div>
 <div>
-    结束日期 <input name="price" type="text">
+    结束日期 <script>select_end_time("end_time", 0)</script>
 </div>
 <button type="submit">创建</button>
 </%htm:form>

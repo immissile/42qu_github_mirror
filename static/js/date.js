@@ -16,14 +16,14 @@ function select_span(span, name, value, year_begin, year_end, no_empty, month_be
 
     var r=[
         '<input type="hidden" value="0" name="'+name+'">'
-    ], i, span, day_option='<option value="0">- 日 -</option>';
-    if(year_begin>year_end){
-        i=year_begin; 
+    ], i, span, day_option='<option value="0">- 日 -</option>', diff=year_begin>year_end?-1:1;
+    if(year_begin!=year_end){
+        i=year_begin;
         r.push('<select id="'+name+'_year"class="'+name+'_year date_year" name="year">')
         if(!no_empty){
             r.push('<option value="0000">- 年 -</option>')
         }
-        for(;i>year_end;--i){
+        for(;i!=year_end;i+=diff){
             r.push('<option value="'+i+'">'+i+'</option>')
         }
         r.push('</select>')
