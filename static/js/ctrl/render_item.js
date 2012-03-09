@@ -318,5 +318,6 @@ $('.tag_list_edit_a').live('click',function(){
                 }
             )
         })
-    autocomplete_tag('#'+search[0].id, tags.tag_list||[],'tag')
+        autocomplete_tag('#'+search[0].id, tags.tag_list||[],'tag')
+        wrap.find("input:last").focus()
 })
