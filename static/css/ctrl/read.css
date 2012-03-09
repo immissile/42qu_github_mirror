@@ -66,8 +66,8 @@ li.tag-token {
     color:#000;
     background:#fff;
     display:inline-block;
-    margin:2px 3px;
     cursor:default;
+    margin:3px 6px 2px 0;
     line-height:23px;
     height:24px;
 }
