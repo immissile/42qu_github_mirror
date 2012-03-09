@@ -457,15 +457,17 @@ def po_tag_by_cid(cid, tag_id, user_id, limit=25, offset=0):
 
 
 if __name__ == '__main__':
-    exist = set()
-    for i in Zsite.where(cid=CID_TAG):
-        name = i.name
-        if name in exist or name.startswith("-"):
-            i.name = ""
-            i.save()
-            print i.id, i.name
-        else:
-            exist.add(name)
+    print redis.hget(REDIS_ALIAS_NAME2ID, "黑客")
+
+#    exist = set()
+#    for i in Zsite.where(cid=CID_TAG):
+#        name = i.name
+#        if name in exist or name.startswith("-"):
+#            i.name = ""
+#            i.save()
+#            print i.id, i.name
+#        else:
+#            exist.add(name)
 
 #        print 
     #print tag_id_list_by_po_id(10244973)
