@@ -38,7 +38,7 @@ ${css.ctrl_tag_side|n}
 </div></div></div></div></div>
 </div>
 
-<script src="${js.ctrl_render_item}"></script>
+
 <script>_render_note('#feedrec', '#item_list', ${json_encode(rec_item_list)|n}) </script>
 %endif
 </%def>
@@ -296,7 +296,7 @@ ${rec_read_render(rec_item_list)}\
 
 <%def name="htm_foot()">
 <script>init_user()</script>
-<script src="${js.ctrl_popreply}"></script>
+
 <script src="${js.ctrl_zsite_feed}"></script>
 </%def>
 
