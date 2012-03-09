@@ -400,7 +400,16 @@ def po_tag_id_list_new(po, tag_id_list, cid=0):
     po_id = po.id
 
     if not cid:
-        cid = redis.hget(REDIS_PO_ID2TAG_CID, po_id)
+        cid = redis.hget(REDIS_PO_ID2TAG_CID, po_id) or 0
+
+        if not cid:
+            if po.cid == CID_NOTE:
+                txt = po.txt
+                if len(txt) > 420:
+                    cid = REDIS_REC_CID_NOTE 
+                else: 
+                    cid = REDIS_REC_CID_TALK 
+
     elif cid and cid in REDIS_REC_CID_DICT:
         #将po放在相应的po_id=>cid中
         redis.hset(REDIS_PO_ID2TAG_CID, po_id, cid)

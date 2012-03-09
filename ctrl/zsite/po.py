@@ -135,11 +135,7 @@ def po_post(self):
     if cid == CID_NOTE and po:
         tag_id_list = self.get_arguments('tag_id_list', [])
 
-        if len(txt) > 420:
-            tag_cid = REDIS_REC_CID_NOTE 
-        else: 
-            tag_cid = REDIS_REC_CID_TALK 
-        po_tag_new_by_autocompelte(po, tag_id_list, tag_cid, user_id)
+        po_tag_new_by_autocompelte(po, tag_id_list, admin_id = user_id)
 
     return po
 
