@@ -8,6 +8,7 @@ CID_SITE = 3
 CID_COM = 4
 CID_BOOK = 5
 CID_TAG = 6
+CID_STAR = 7
 
 CID_ZSITE_TUPLE = (
     CID_USER,
@@ -22,6 +23,7 @@ CID_ZSITE_TUPLE_CN = {
     CID_COM:'公司',
     CID_BOOK:'图书',
     CID_TAG:'标签',
+    CID_STAR:"计划", 
 }
 
 # Pic
