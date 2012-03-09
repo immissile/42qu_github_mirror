@@ -66,8 +66,11 @@ class AutoComplete:
             value_name, value_rank = value.rsplit('`', 1)
             if value_name != name:
                 ZSET_CID = self.ZSET_CID
-                for i in self._key(value):
-                    redis.zrem(ZSET_CID%i, id)
+                p = redis.pipeline()
+                for i in self._key(value_name):
+                    p.delete(CACHE%i)
+                    p.zrem(ZSET_CID%i, id)
+                p.execute()
                 _append = True
             elif int(rank) != int(value_rank):
                 _append = True
@@ -80,6 +83,8 @@ class AutoComplete:
                 tag_name = name.replace('`', "'").strip()
                 redis.hset(ID2NAME, id, '%s`%s'%(tag_name, rank))
                 self._name2id_set(name,id )
+            else:
+                redis.hdel(NAME2ID, name)
 
     def _name2id_set(self, name, id):
         NAME2ID = self.NAME2ID
