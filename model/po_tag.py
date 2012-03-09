@@ -165,9 +165,9 @@ def tag_new(name):
     from model.autocomplete import  autocomplete_tag
     autocomplete_tag.append(name, id)
     #2. 更新别名库
-
-    for i in map(utf8_ftoj, map(str.strip, name.split('/'))):
-        _tag_alias_new(id, i)
+    if "/" in name:
+        for i in map(utf8_ftoj, map(str.strip, name.split('/'))):
+            _tag_alias_new(id, i)
 
     return id
 
