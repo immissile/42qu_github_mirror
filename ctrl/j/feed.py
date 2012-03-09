@@ -136,10 +136,7 @@ class Feed(JLoginBase):
 
                     if cid == CID_NOTE:
                         tag_list =  tag_name_id_list_by_po_id(id)
-                    else:
-                        tag_list = [] #TODO 
-
-                    i.append(tag_list)
+                        i.append(tag_list)
 
                     t.append(i[1:])
 
