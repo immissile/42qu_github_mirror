@@ -75,10 +75,11 @@ class AutoComplete:
             _append = True
 
         if _append:
-            self._append(name, id, rank)
-            tag_name = name.replace('`', "'").strip()
-            redis.hset(ID2NAME, id, '%s`%s'%(tag_name, rank))
-            self._name2id_set(name,id )
+            if name:
+                self._append(name, id, rank)
+                tag_name = name.replace('`', "'").strip()
+                redis.hset(ID2NAME, id, '%s`%s'%(tag_name, rank))
+                self._name2id_set(name,id )
 
     def _name2id_set(self, name, id):
         NAME2ID = self.NAME2ID
@@ -210,16 +211,19 @@ if __name__ == '__main__':
 
     for i in ormiter(Zsite, 'cid=%s'%CID_TAG):
         count = zsite_fav_count_by_zsite(i)
-        print i.id
         autocomplete_tag.rank_update(i.id, count)
-   
-    from model.autocomplete_user import autocomplete_user 
-    for i in ormiter(Zsite, 'cid=%s'%CID_USER):
-        count = follow_count_by_to_id(i.id)
-        print i.id
-        autocomplete_user.rank_update(i.id, count)
+        for j in i.name.split("/"):
+            j = j.strip()
+            if j != i.name:
+                autocomplete_tag.append_alias(j, i.id, count)
 
-    print autocomplete_tag.id_rank_name_list_by_str('乔', 14)
+    #from model.autocomplete_user import autocomplete_user 
+    #for i in ormiter(Zsite, 'cid=%s'%CID_USER):
+    #    count = follow_count_by_to_id(i.id)
+    #    print i.id
+    #    autocomplete_user.rank_update(i.id, count)
+
+    #print autocomplete_tag.id_rank_name_list_by_str('乔', 14)
 
     #autocomplete_tag = AutoComplete('tag')
     #autocomplete_tag.append('Facebook/F8', 76514)
