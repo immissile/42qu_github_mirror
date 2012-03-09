@@ -185,7 +185,7 @@ color:#d20;
 }
 
 .tag_edit_btn{
-display:none;
+display:inline-block;
 height:24px;
 line-height:24px;
 margin:0;

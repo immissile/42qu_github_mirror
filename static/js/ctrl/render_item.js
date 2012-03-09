@@ -117,15 +117,14 @@ $(window).resize(readpad_nav_resize);
 
 $.template(
     'po_tag_list',
-    '<input type="hidden" id="tag_search" /><a class="tag_edit_btn" href="javascript:void(0)">完成</a>'+
     '<span class="po_tag_list">'+
         '{{each tag_list}}'+
             '<a class="po_tagw" target="_blank" href="http://${$value[1]}${HOST_SUFFIX}"><span class="po_tag_pic"></span><span class="po_tag_one" >${$value[0]}&#8204;</span></a>'+
         '{{/each}}'+
-    '{{if tag_list.length}}'+
-       '<a class="tag_list_edit_a" href="javascript:void(0)">编辑</a>'+
+'<a rel="${id}" href="javascript:void(0)" class="tag_list_edit_a'+
+    '{{if tag_list.length}}">编辑'+
     '{{else}}'+
-        '<a class="tag_list_edit_a tag_list_add_a" href="javascript:void(0)">添加标签</a>'+
+        ' tag_list_add_a">添加标签'+
     '{{/if}}'+
     '</a></span>'
 );
@@ -235,7 +234,7 @@ note_li = function (feed_index, result){
             txt_opt.html(fdopt.html())
             fdopt.replaceWith(readauthor.html())
             readauthor.remove()
-
+/*
            var tags = r
            function _(){
                 $('.po_tag_list').remove()
@@ -260,6 +259,7 @@ note_li = function (feed_index, result){
                 autocomplete_tag('#tag_search', tags.tag_list||[],'tag')
             }
             $('.tag_list_edit_a').click(_)
+*/
             winj.scrollTop(scrollTop)
             readpad_nav_resize()
             scroll_to_fixed(READPAD_NAV,8,{position:'fixed',"top":0},{position:'absolute',marginTop:0})
@@ -282,3 +282,41 @@ note_li = function (feed_index, result){
 
 })();
 
+$('.tag_list_edit_a').live('click',function(){
+    var self = $(this),
+        id=this.rel,
+        list_span=$(this.parentNode),
+        wrap=$(list_span[0].parentNode),
+        tags = {
+            tag_list:list_span.find('.po_tagw').map(function(){
+                return [[$(this).text(),this.href.split(".")[0].split("/")[2]]]
+            }).get()
+        },
+        search = $(
+            '<input type="hidden" id="tag_search'+id+
+            '"><a class="tag_edit_btn" href="javascript:void(0)">完成</a>'
+        );
+
+        list_span.replaceWith(search);
+
+        $(search[1]).click(function(){
+            $.postJSON(
+                '/j/tag/po/'+id,
+                {
+                    tag_id_list:$.toJSON(
+                        wrap.find("input[name='tag_id_list']").map(function(){
+                            return this.value
+                        }).get()
+                    )
+                },
+                function(data){
+                    data.id=id
+                    wrap.html(
+                        $.tmpl('po_tag_list',data)
+                    )
+                    tags = data
+                }
+            )
+        })
+    autocomplete_tag('#'+search[0].id, tags.tag_list||[],'tag')
+})

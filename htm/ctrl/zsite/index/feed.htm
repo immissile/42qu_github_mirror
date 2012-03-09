@@ -177,14 +177,18 @@ class="split">,</span>{{/if}}{{/if}}
 
 {{if cid==62}}
 <span class="tag_list_wrap">
-<input type="hidden" id="tag_search${id}">
-<a class="tag_edit_btn" href="javascript:void(0)">完成</a>
 <span class="po_tag_list ml0">
 {{each tag_list}}<a 
     class="po_tagw" target="_blank" href="http://${$value[1]}${HOST_SUFFIX}"><span 
     class="po_tag_pic"></span><span 
     class="po_tag_one" >${$value[0]}&#8204;</span></a>{{/each}}
-{{if tag_list.length}}<a class="tag_list_edit_a" href="javascript:void(0)">编辑</a>{{else}}<a class="tag_list_edit_a tag_list_add_a" href="javascript:void(0)">添加标签</a>{{/if}}
+<a
+rel="${id}"
+href="javascript:void(0)"
+class="tag_list_edit_a
+{{if tag_list.length}}
+">编辑{{else}}
+ tag_list_add_a">添加标签{{/if}}</a>
 </a></span>
 </span>
 {{/if}}
@@ -200,40 +204,6 @@ class="split">,</span>{{/if}}{{/if}}
 </%text>
 </script>
 
-<script>
-$(function(){
-    $('.tag_list_edit_a').live('click',function(){
-        var self = $(this),
-            list_span = $(this).parent(),
-            tags = {tag_list:list_span.find('.po_tagw').map(function(){
-                return [[$(this).text(),this.href.split(".")[0].split("/")[2]]]
-            }).get()},
-            wrap = self.parent().parent(),
-            id = wrap.parent().parent().find('.fdtxt').attr('id').substr(5)
-        self.parent().remove()
-        wrap.find('.tag_edit_btn').show().css('display','inline-block').click(function(){
-            var tag_id_list=[]
-            wrap.find("input[name='tag_id_list']").each(function(){
-                tag_id_list.push($(this).val())
-            })
-            $.postJSON(
-                '/j/tag/po/'+id,
-                {tag_id_list:$.toJSON(tag_id_list)},
-                function(data){
-                    wrap.html(
-                        $.tmpl('po_tag_list',data)
-                    )
-                    wrap.find('#tag_search').attr('id','tag_search'+id)
-                    tags = data
-                    //close_token()
-                }
-            )
-        })
-        autocomplete_tag('#tag_search'+id, tags.tag_list||[],'tag')
-
-})
-})
-</script>
 
 <div class="Iwp">
     <div class="Lwp">

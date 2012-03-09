@@ -4,11 +4,13 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-tornado.escape
+<script src="${js.ctrl_render_item}"></script>
+<script src="${js.ctrl_popreply}"></script>
 """
 
 TO_STRING = """
-zkit.escape
+zzzzcvs
+zzzzcvs
 """
 
 def run():
