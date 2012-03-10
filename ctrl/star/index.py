@@ -9,6 +9,7 @@ from model.cid import CID_STAR
 from zkit.jsdict import JsDict
 from model.po_pic import pic_list, pic_list_edit
 from ctrl._util.po import update_pic
+from ctrl._util.star import can_admin
 
 def _upload_pic(self, errtip):
     files = self.request.files
@@ -94,17 +95,10 @@ class New(LoginBase):
             )
             self.redirect("/po/%s"%zsite.id)
 
-class StarBase(LoginBase):
-    def zsite(self, id):
-        zsite = zsite_star_get(id)
-        if zsite:
-            star = zsite.star
-            if star and star.can_admin(self.current_user_id):
-                return zsite 
-        self.redirect("/")
 
 @urlmap('/new/(\d+)')
-class NewId(StarBase):
+class NewId(LoginBase):
+    @can_admin
     def get(self, id):
         zsite = self.zsite(id)
         if not zsite:
@@ -124,6 +118,7 @@ class NewId(StarBase):
             errtip=errtip,
         )
     
+    @can_admin
     def post(self, id):
         zsite = self.zsite(id)
         if not zsite:
@@ -183,11 +178,10 @@ class NewId(StarBase):
 
 
 @urlmap('/po/(\d+)')
-class PoId(StarBase):
+class PoId(LoginBase):
+    @can_admin
     def get(self, id):
-        zsite = self.zsite(id)
-        if not zsite:
-            return
+        zsite = self.zsite
 
         star = zsite.star
         po_id = star.po_id
@@ -202,10 +196,9 @@ class PoId(StarBase):
             pic_list=pic_list_edit(star.id, star.po_id)
         )
 
+    @can_admin
     def post(self, id):
-        zsite = self.zsite()
-        if not zsite:
-            return
+        zsite = self.zsite
 
         star = zsite.star
         po_id = star.po_id

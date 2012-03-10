@@ -11,3 +11,5 @@ import com
 import tag
 import read
 import buzz
+
+import star
