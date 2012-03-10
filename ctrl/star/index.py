@@ -3,7 +3,7 @@ from _handler import Base, LoginBase, XsrfGetBase
 from ctrl._urlmap.star import urlmap
 from zkit.errtip import Errtip
 from zkit.pic import picopen
-from model.zsite_star import star_ico_new, zsite_star_new, zsite_star_get, txt_new, star_pic_bind
+from model.zsite_star import star_ico_new, zsite_star_new, zsite_star_get, txt_new, star_pic_bind, zsite_star_po_note_new
 from model.days import ymd2days, today_days, days2ymd
 from model.cid import CID_STAR
 from zkit.jsdict import JsDict
@@ -208,11 +208,25 @@ class PoId(LoginBase):
         name = self.get_argument('name', '')
         txt = self.get_argument('txt', '', strip=False).rstrip()
 
-        if not po_id:
-            update_pic(form, zsite_id, po_id, id)
+        po = Po.mc_get(po_id or zsite_id)
 
-        self.render(
-            zsite=zsite,
-            po=JsDict(),
-        )
+        if po:
+            if name:
+                po.name_ = name
+            if txt:
+                po.txt_set(txt)
+            po.save()
+        else:
+            po = zsite_star_po_note_new(zsite_id, name, txt)
+            if po:
+                update_pic(
+                    form, zsite_id, zsite_id, 0
+                )
+                star.po_id = zsite_id
+                star.save()
+
+        if po:
+            return self.redirect(zsite.link) 
+
+        self.get()
 

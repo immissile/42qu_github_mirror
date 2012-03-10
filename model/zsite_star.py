@@ -61,6 +61,18 @@ def zsite_star_get(id):
 #def po_note_new_for_zsite_star(user_id, name, txt, state=STATE_ACTIVE, zsite_id=0):
 #    pass
 
+from model.po import po_new, CID_NOTE, STATE_ACTIVE
+
+def zsite_star_po_note_new(id, name, txt):
+    if not name and not txt:
+        return
+    po = po_new( CID_NOTE, id, name, STATE_ACTIVE )
+    if po:
+        po.txt_set(txt)
+
+    return po
+
+
 
 if __name__ == "__main__":
     pass
