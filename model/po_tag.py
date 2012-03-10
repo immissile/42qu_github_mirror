@@ -366,6 +366,11 @@ def tag_id_list_by_str_list(tag_list):
 class PoTagLog(Model):
     pass
 
+def po_tag_rollback(id):
+    log = PoTagLog.get(id)
+    if log:
+        PoZsiteTag
+
 def po_tag_new_by_autocompelte(po, tag_list, cid=0, admin_id=0):
     id_list = tag_id_list_by_str_list(tag_list)
     po_id = po.id
@@ -459,12 +464,13 @@ def po_tag_by_cid(cid, tag_id, user_id, limit=25, offset=0):
 
 
 if __name__ == '__main__':
+    pass
 #    print redis.hget(REDIS_ALIAS_NAME2ID, "黑客")
-    po = Po.mc_get(10249420)
-    tag_list = ['10227250', '10234173', ]
-    po_tag_new_by_autocompelte(po, tag_list)
-    tag_list = ['10227250', '10234173', '10231340']
-    po_tag_new_by_autocompelte(po, tag_list)
+#    po = Po.mc_get(10249420)
+#    tag_list = ['10227250', '10234173', ]
+#    po_tag_new_by_autocompelte(po, tag_list)
+#    tag_list = ['10227250', '10234173', '10231340']
+#    po_tag_new_by_autocompelte(po, tag_list)
     #print po
 
 
