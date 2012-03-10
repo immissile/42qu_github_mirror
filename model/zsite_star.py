@@ -69,8 +69,7 @@ def zsite_star_po_note_new(id, name, txt):
     po = po_new( CID_NOTE, id, name, STATE_ACTIVE )
     if po:
         po.txt_set(txt)
-
-    return po
+        return po
 
 
 

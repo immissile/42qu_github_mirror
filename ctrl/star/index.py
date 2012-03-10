@@ -10,6 +10,7 @@ from zkit.jsdict import JsDict
 from model.po_pic import pic_list, pic_list_edit
 from ctrl._util.po import update_pic
 from ctrl._util.star import can_admin
+from model.po import Po
 
 def _upload_pic(self, errtip):
     files = self.request.files
@@ -220,7 +221,7 @@ class PoId(LoginBase):
             po = zsite_star_po_note_new(zsite_id, name, txt)
             if po:
                 update_pic(
-                    form, zsite_id, zsite_id, 0
+                    self.request.arguments, zsite_id, zsite_id, 0
                 )
                 star.po_id = zsite_id
                 star.save()
