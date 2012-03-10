@@ -8,6 +8,7 @@ from model.days import ymd2days, today_days, days2ymd
 from model.cid import CID_STAR
 from zkit.jsdict import JsDict
 from model.po_pic import pic_list, pic_list_edit
+from ctrl._util.po import update_pic
 
 def _upload_pic(self, errtip):
     files = self.request.files
@@ -187,8 +188,13 @@ class PoId(StarBase):
         zsite = self.zsite(id)
         if not zsite:
             return
+
         star = zsite.star
-        po=JsDict()
+        po_id = star.po_id
+        if po_id:
+            po = Po.mc_get(po_id)
+        else:
+            po=JsDict()
         po.name_ = "项目介绍"
         self.render(
             zsite=zsite,
@@ -200,6 +206,16 @@ class PoId(StarBase):
         zsite = self.zsite()
         if not zsite:
             return
+
+        star = zsite.star
+        po_id = star.po_id
+
+        name = self.get_argument('name', '')
+        txt = self.get_argument('txt', '', strip=False).rstrip()
+
+        #if not po_id:
+            #update_pic(form, , po_id, id)
+
         self.render(
             zsite=zsite,
             po=JsDict(),

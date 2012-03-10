@@ -7,7 +7,7 @@ from model.po_tag import tag_list_by_po_id
 %>
 
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-<%def name="head(po)">
+<%def name="head(po, js_url_prefix='/j/po/upload')">
 <%
 po_id = po.id
 if po_id:
@@ -18,8 +18,8 @@ else:
 %>
 
 <script>
-UPLOADURL = "/j/po/upload${suffix}"
-DELETEURL = "/j/po/upload/rm${suffix}"
+UPLOADURL = "${js_url_prefix}${suffix}"
+DELETEURL = "${js_url_prefix}/rm${suffix}"
 </script>
 
 <script src="${js.ctrl_po_note}"></script>

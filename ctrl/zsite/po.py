@@ -6,7 +6,7 @@ from model.feed import feed_merge_iter, MAXINT, Feed, mc_feed_tuple, PAGE_LIMIT,
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_EVENT, CID_EVENT_FEEDBACK, CID_SITE, CID_REC, CID_TAG
 from model.po import Po, po_rm, po_word_new, po_note_new, po_state_set
 from model.state import STATE_PO_ZSITE_SHOW_THEN_REVIEW, STATE_SECRET, STATE_ACTIVE
-from model.po_pic import pic_list, pic_list_edit, mc_pic_id_list
+from model.po_pic import pic_list_edit
 from model.po_pos import po_pos_get, po_pos_set
 from model.po_question import po_question_new, answer_word2note
 from model.zsite import Zsite
@@ -19,33 +19,7 @@ from model.zsite_url import link
 from model.zsite_site import zsite_id_by_zsite_user_id
 from model.po_tag import po_tag_new_by_autocompelte , REDIS_REC_CID_NOTE , REDIS_REC_CID_TALK 
 from json import loads
-
-def update_pic(form, user_id, po_id, id):
-    pl = pic_list(user_id, id)
-    for pic in pl:
-        seq = pic.seq
-
-        title = 'tit%s' % seq
-        if title in form:
-            title = form[title][0]
-        else:
-            title = ''
-
-        align = 'pos%s' % seq
-        if align in form:
-            align = int(form[align][0])
-            if align not in (-1, 0, 1):
-                align = 0
-        else:
-            align = 0
-
-        pic.title = title.strip()
-        align = int(align)
-
-
-        pic.align = align
-        pic.po_id = po_id
-        pic.save()
+from ctrl._util.po import update_pic
 
 @urlmap('/po/rss/(\d+)')
 class PoRss(ZsiteBase):
@@ -128,9 +102,6 @@ def po_post(self):
 
     if po or self_id == 0:
         update_pic(arguments, user_id, po_id, self_id)
-        mc_pic_id_list.delete(
-            '%s_%s' % (user_id, self_id)
-        )
 
     if cid == CID_NOTE and po:
         tag_id_list = self.get_arguments('tag_id_list', [])
