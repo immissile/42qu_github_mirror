@@ -11,6 +11,7 @@ from model.po_pic import pic_list, pic_list_edit
 from ctrl._util.po import update_pic
 from ctrl._util.star import can_admin
 from model.po import Po
+from model.zsite_star import zsite_star_list_for_show
 
 def _upload_pic(self, errtip):
     files = self.request.files
@@ -31,7 +32,10 @@ def _upload_pic(self, errtip):
 @urlmap('/')
 class Index(Base):
     def get(self):
-        self.render()
+        star_list = zsite_star_list_for_show()
+        self.render(
+            star_list = star_list
+        )
 
 @urlmap('/new')
 class New(LoginBase):

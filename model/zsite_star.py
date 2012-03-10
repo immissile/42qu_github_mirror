@@ -2,7 +2,7 @@
 
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM, McCacheA
 from model.cid import CID_STAR
-from model.zsite import zsite_new, Zsite
+from model.zsite import zsite_new, Zsite, ZSITE_STATE_APPLY
 from model.txt import txt_new
 
 #CREATE TABLE `zpage`.`zsite_star` (
@@ -71,7 +71,11 @@ def zsite_star_po_note_new(id, name, txt):
         po.txt_set(txt)
         return po
 
+def zsite_star_list_for_show():
+    return zsite_star_list_for_apply()
 
+def zsite_star_list_for_apply():
+    return ZsiteStar.where(state=ZSITE_STATE_APPLY, cid=CID_STAR)
 
 if __name__ == "__main__":
     pass
