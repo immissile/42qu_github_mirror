@@ -224,7 +224,7 @@ if __name__ == '__main__':
                 redis.zrem(i, j)
                 redis.hdel(REDIS_ID2NAME%'tag',j)
  
-    for i in redis.key(REDIS_CACHE%"*"):
+    for i in redis.keys(REDIS_CACHE%"*"):
         redis.delete(i)
     #    redis.delete(i)
  
