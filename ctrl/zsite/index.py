@@ -93,10 +93,12 @@ class Link(LoginBase):
     def get(self, id):
         self.redirect(link_by_id(id))
 
+from model.zsite import Zsite
 from model.zsite_star import ZsiteStar
 
 def render_zsite_star(self, n=1):
-    self.zsite.star = ZsiteStar.mc_get(self.zsite_id)
+    self.zsite.star = star = ZsiteStar.mc_get(self.zsite_id)
+    star.user = Zsite.mc_get(star.user_id)
     self.render(
         '/ctrl/zsite/index/star.htm',
     )

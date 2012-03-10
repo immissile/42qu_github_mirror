@@ -1,0 +1,19 @@
+<%inherit file="/ctrl/star/_base.htm" />
+
+${zsite.name}
+
+
+<%
+star = zsite.star
+user = star.user
+%>
+<div class="star_li">
+    <div><a href="${zsite.link}">${zsite.name}</a></div>
+    <div><img src="${star.pic_url}"></div>
+    <div>${zsite.txt}</div>
+    <div><a href="${user.link}">${user.name}</a></div>
+    <div>进度 : ${star.donate_percent_max_100}%</div>
+    <div>期望 : ${star.donate_min} 元</div>
+    <div>当前 : ${star.donate_now} 元</div>
+    <div>剩余时间 : ${star.remain_days}</div>
+</div>
