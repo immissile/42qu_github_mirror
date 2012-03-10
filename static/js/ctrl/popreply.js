@@ -1,5 +1,4 @@
 function popreply(cid, title_html, href, counter){
-    if(!counter[0])counter=0;
     var content = $(
         '<div class="fcmpop" id="reply_reply_pop"><a target="_blank" id="reply_name"></a><div id="reply_reply_body" class="reply_reply_loading"></div><textarea></textarea><div class="tr"><span class="btnw"><button type="submit" class="button">回复</button></span></div></div>'
         ),
@@ -74,7 +73,7 @@ function popreply(cid, title_html, href, counter){
         content:content, 
         onComplete:function(){
             textarea.focus()
-            if(count||!counter){ 
+            if(count){ 
                 $.getJSON( '/j/po-'+cid+'/json/'+id, _)
             }
         }
