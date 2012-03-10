@@ -255,7 +255,9 @@ margin-left:10px;
 color:#d20;
 }
 .tag_list_add_a{
-margin-left:0px;
+font-size:14px
+margin-left:0;
+color:#070;
 }
 .main_nav_txt_fix{
 line-height:30px
@@ -263,4 +265,3 @@ line-height:30px
 .txt_title_a{
 color:#000;
 }
-.tag_list_add_a{font-size:14px}
