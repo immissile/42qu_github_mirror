@@ -374,7 +374,7 @@ def po_tag_rollback(id):
         if po:
             old = PoTagLog.where(po_id=po_id).where("id<%s"id).order_by("id desc")[0]
             if old:
-                po_tag_id_list_new(po, old.tag_id_list.split(), 0)
+                po_tag_id_list_new(po, filter(bool,old.tag_id_list.split()), 0)
 
 
 def po_tag_new_by_autocompelte(po, tag_list, cid=0, admin_id=0):
@@ -428,7 +428,7 @@ def po_tag_id_list_new(po, tag_id_list, cid=0):
         redis.hset(REDIS_PO_ID2TAG_CID, po_id, cid)
 
 
-    new_tag_id_list = set(filter(bool,map(int, tag_id_list)))
+    new_tag_id_list = set(map(int, tag_id_list))
     old_tag_id_list = set(tag_id_list_by_po_id(po_id))
 
     to_add = new_tag_id_list - old_tag_id_list
