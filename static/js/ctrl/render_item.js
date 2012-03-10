@@ -204,7 +204,7 @@ note_li = function (feed_index, result){
             user_link
             ;
 
-        p.addClass('c9')
+        self.addClass('c9')
         //feeds.append(txt_loading);
 
         readtag.html( '')
