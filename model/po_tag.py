@@ -175,7 +175,7 @@ def tag_new(name):
 def _tag_alias_new(id, name):
     low = name.lower()
     redis.sadd(REDIS_ALIAS%id, low)
-    redis.hset(REDIS_ALIAS_NAME2ID, name, id)
+    redis.hset(REDIS_ALIAS_NAME2ID, low, id)
     from model.autocomplete import  autocomplete_tag
     autocomplete_tag.append_alias(name, id)
 
@@ -372,9 +372,9 @@ def po_tag_log_rollback(id):
         po_id = log.po_id
         po = Po.mc_get(po_id)
         if po:
-            old = PoTagLog.where(po_id=po_id).where("id<%s",id).where("admin_id!=%s",log.admin_id).order_by("id desc")[0]
+            old = PoTagLog.where(po_id=po_id).where('id<%s', id).where('admin_id!=%s', log.admin_id).order_by('id desc')[0]
             if old:
-                po_tag_id_list_new(po, filter(bool,old.tag_id_list.split()), 0)
+                po_tag_id_list_new(po, filter(bool, old.tag_id_list.split()), 0)
 
 
 def po_tag_new_by_autocompelte(po, tag_list, cid=0, admin_id=0):
@@ -471,13 +471,14 @@ def po_tag_by_cid(cid, tag_id, user_id, limit=25, offset=0):
 
 if __name__ == '__main__':
     pass
+    #tag_alias_new(10228176, 'Apple')
 
-    for i in PoTagLog.where():
-        if not i.tag_id_list:
-            print i.id, i.admin_id
-
-    po_tag_log_rollback(217)
- 
+#    for i in PoTagLog.where():
+#        if not i.tag_id_list:
+#            print i.id, i.admin_id
+#
+#    po_tag_log_rollback(217)
+# 
 #    print redis.hget(REDIS_ALIAS_NAME2ID, "黑客")
 #    po = Po.mc_get(10249420)
 #    tag_list = ['10227250', '10234173', ]
