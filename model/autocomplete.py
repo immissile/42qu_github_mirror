@@ -22,8 +22,8 @@ class AutoComplete:
 
     def __init__(self, name, alias_by_id_query):
         self.ZSET_CID = '%s%%s'%(REDIS_ZSET_CID%name)
-        self.ID2NAME = '%s'%(REDIS_ID2NAME%name)
-        self.NAME2ID = '%s'%(REDIS_NAME2ID%name)
+        self.ID2NAME = REDIS_ID2NAME%name
+        self.NAME2ID = REDIS_NAME2ID%name
         self.CACHE = '%s%%s'%(REDIS_CACHE%name)
         self.alias_by_id_query = alias_by_id_query
 
@@ -215,22 +215,34 @@ if __name__ == '__main__':
     from model.po_tag import _tag_alias_new
 
     
-    
-    for i in ormiter(Zsite, 'cid=%s'%CID_TAG):
-        for j in i.name.split("/"):
-            j = j.strip()
-            if j != i.name:
-                for k in Zsite.where(cid=CID_TAG, name=j):
-                    k.name = ""
-                    k.save()
+    for  i in redis.keys("tag`*"):
+        for j in redis.zrevrange(i,0, -1):
+            from model.zsite import Zsite
+            zsite = Zsite.mc_get(j)
+            key = redis.hget(REDIS_ID2NAME%'tag',j)
+            if not zsite.name:
+                redis.zrem(i, j)
+                redis.hdel(REDIS_ID2NAME%'tag',j)
+ 
+    for i in redis.key(REDIS_CACHE%"*"):
+        redis.delete(i)
+    #    redis.delete(i)
+ 
+   # for i in ormiter(Zsite, 'cid=%s'%CID_TAG):
+   #     for j in i.name.split("/"):
+   #         j = j.strip()
+   #         if j != i.name:
+   #             for k in Zsite.where(cid=CID_TAG, name=j):
+   #                 k.name = ""
+   #                 k.save()
 
-    for i in ormiter(Zsite, 'cid=%s'%CID_TAG):
-        count = zsite_fav_count_by_zsite(i)
-        autocomplete_tag.rank_update(i.id, count)
-        for j in i.name.split("/"):
-            j = j.strip()
-            if j != i.name:
-                _tag_alias_new(i.id, j)
+   # for i in ormiter(Zsite, 'cid=%s'%CID_TAG):
+   #     count = zsite_fav_count_by_zsite(i)
+   #     autocomplete_tag.rank_update(i.id, count)
+   #     for j in i.name.split("/"):
+   #         j = j.strip()
+   #         if j != i.name:
+   #             _tag_alias_new(i.id, j)
                 #autocomplete_tag.append_alias(j, i.id, count)
 
     #from model.autocomplete_user import autocomplete_user 
