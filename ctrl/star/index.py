@@ -189,7 +189,9 @@ class PoId(LoginBase):
             po = Po.mc_get(po_id)
         else:
             po=JsDict()
-        po.name_ = "项目介绍"
+
+        po.name_ = "%s 项目介绍"%zsite.name
+
         self.render(
             zsite=zsite,
             po=po,
@@ -199,15 +201,15 @@ class PoId(LoginBase):
     @can_admin
     def post(self, id):
         zsite = self.zsite
-
+        zsite_id = zsite.id
         star = zsite.star
         po_id = star.po_id
 
         name = self.get_argument('name', '')
         txt = self.get_argument('txt', '', strip=False).rstrip()
 
-        #if not po_id:
-            #update_pic(form, , po_id, id)
+        if not po_id:
+            update_pic(form, zsite_id, po_id, id)
 
         self.render(
             zsite=zsite,
