@@ -1,10 +1,16 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
+<%!
+from config import SITE_DOMAIN
+
+HTTP = "//star.%s"%SITE_DOMAIN
+%>
+
 <%def name="htm_head()">
 ${css.star_index|n}
 </%def>
 <div class="starnav">
-<a href="/">浏览</a>
-<a href="/new">创建</a>
+<a href="${HTTP}">浏览</a>
+<a href="${HTTP}/new">创建</a>
 </div>
 ${next.body()}
 
