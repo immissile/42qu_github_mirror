@@ -4,6 +4,7 @@ from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM, Mc
 from model.cid import CID_STAR
 from model.zsite import zsite_new, Zsite, ZSITE_STATE_APPLY
 from model.txt import txt_new
+from model.days import today_days
 
 #CREATE TABLE `zpage`.`zsite_star` (
 #  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -20,6 +21,22 @@ class ZsiteStar(McModel):
     def pic_id(self):
         from model.ico import ico96 
         return ico96.get(self.id)
+
+    @property
+    def remain_days(self):
+        days =  self.end_days - today_days() 
+        return days 
+
+    @property
+    def pic_url(self):
+        from model.ico import pic211_url
+        return pic211_url(self.id)
+
+    @property
+    def donate_percent_max_100(self):
+        if self.donate_min:
+            return self.donate_now//self.donate_min
+        return 100
 
     def can_admin(self, user_id):
         return self.user_id == user_id
@@ -74,8 +91,16 @@ def zsite_star_po_note_new(id, name, txt):
 def zsite_star_list_for_show():
     return zsite_star_list_for_apply()
 
+def zsite_star_id_list_for_apply():
+    return Zsite.where(state=ZSITE_STATE_APPLY, cid=CID_STAR).order_by('id desc').col_list(col='id')
+
 def zsite_star_list_for_apply():
-    return ZsiteStar.where(state=ZSITE_STATE_APPLY, cid=CID_STAR)
+    ul = Zsite.mc_get_list(
+        zsite_star_id_list_for_apply()
+    )
+    ZsiteStar.mc_bind(ul, "star", "id")
+    Zsite.mc_bind([i.star for i in ul], "user", "user_id") 
+    return ul 
 
 if __name__ == "__main__":
     pass

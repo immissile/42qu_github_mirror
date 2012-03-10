@@ -32,9 +32,9 @@ def _upload_pic(self, errtip):
 @urlmap('/')
 class Index(Base):
     def get(self):
-        star_list = zsite_star_list_for_show()
+        star_list_new = zsite_star_list_for_show()
         self.render(
-            star_list = star_list
+            star_list_new = star_list_new
         )
 
 @urlmap('/new')
