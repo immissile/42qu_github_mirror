@@ -14,6 +14,7 @@ function select_end_time(id, value){
     select_date(id, value, year, year+100)
 }
 </script>
+
 <%htm:form action="/new${'/%s'%zsite.id if zsite else ''}" enctype="multipart/form-data">
 <div>
     名称 <input autocomplete="off"  name="name" type="text" value="${name or ''}">${errtip.name|n}
@@ -36,6 +37,9 @@ function select_end_time(id, value){
 <div>
     一句话概要 <textarea name="txt">${txt or ''}</textarea>
 </div>
-<button type="submit">创建</button>
+%if zsite:
+<a href="/po/${zsite.id}">编辑详细介绍</a>
+%endif
+<button type="submit">确定</button>
 </%htm:form>
 
