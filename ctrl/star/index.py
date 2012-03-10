@@ -71,7 +71,14 @@ class New(LoginBase):
                 end_time = end_time
             )
         else:
-            zsite = zsite_star_new(name,  txt, donate_min, end_days, pic_id)
+            zsite = zsite_star_new(
+                user_id, 
+                name,  
+                txt, 
+                donate_min, 
+                end_days, 
+                pic_id
+            )
             self.redirect("/po/%s"%zsite.id)
 
 
