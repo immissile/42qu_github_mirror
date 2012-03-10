@@ -166,7 +166,15 @@ class NewId(StarBase):
  
         zsite.save()
         star.save()
-        return self._render(zsite, errtip)
+        if errtip:
+            return self._render(zsite, errtip)
+        elif star.po_id:
+            path = zsite.link
+        else:
+            path = "/po/%s"%id
+            
+        self.redirect(path)
+
 
 @urlmap('/po/(\d+)')
 class PoId(StarBase):
