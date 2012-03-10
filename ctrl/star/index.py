@@ -5,7 +5,8 @@ from zkit.errtip import Errtip
 from zkit.pic import picopen
 from model.zsite_star import star_ico_new, zsite_star_new
 from model.days import ymd2days, today_days
-
+from model.cid import CID_STAR
+from model.zsite import Zsite
 
 @urlmap('/')
 class Index(Base):
@@ -84,6 +85,18 @@ class New(LoginBase):
 
 @urlmap('/po/(\d+)')
 class PoId(Base):
-    def get(self):
-        pass
+    def get(self, id):
+        zsite = Zsite.mc_get(id)
+        if zsite.cid != CID_STAR:
+            self.redirect("/")
+
+        self.render(zsite=zsite)
+
+    def post(self, id):
+        zsite = Zsite.mc_get(id)
+        if zsite.cid != CID_STAR:
+            self.redirect("/")
+
+        self.render(zsite=zsite)
+
 
