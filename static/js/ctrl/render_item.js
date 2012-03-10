@@ -301,6 +301,7 @@ $('.tag_list_edit_a').live('click',function(){
         list_span.replaceWith(search);
 
         $(search[1]).click(function(){
+            $(this).text("稍等").unbind('click')
             $.postJSON(
                 '/j/tag/po/'+id,
                 {
