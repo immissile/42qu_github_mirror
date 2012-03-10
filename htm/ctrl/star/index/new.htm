@@ -14,7 +14,7 @@ function select_end_time(id, value){
     select_date(id, value, year, year+100)
 }
 </script>
-<%htm:form action="/new" enctype="multipart/form-data">
+<%htm:form action="/new${'/%s'%zsite.id if zsite else ''}" enctype="multipart/form-data">
 <div>
     名称 <input autocomplete="off"  name="name" type="text" value="${name or ''}">${errtip.name|n}
 </div>
@@ -38,3 +38,4 @@ function select_end_time(id, value){
 </div>
 <button type="submit">创建</button>
 </%htm:form>
+

@@ -48,6 +48,9 @@ def date_to_days(s):
 def ymd2days(ymd):
     return (datetime.date(ymd//10000, (ymd%10000)//100, ymd%100) - DATE_BEGIN).days
 
+def days2ymd(days):
+    t = days2today(days)
+    return t.year*10000 + t.month*100 + t.day
 
 def minute2date(minute):
     return datetime.timedelta(minute/ONE_DAY_MINUTE)+DATE_BEGIN

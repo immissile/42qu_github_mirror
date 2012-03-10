@@ -2,7 +2,7 @@
 
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM, McCacheA
 from model.cid import CID_STAR
-from model.zsite import zsite_new
+from model.zsite import zsite_new, Zsite
 from model.txt import txt_new
 
 #CREATE TABLE `zpage`.`zsite_star` (
@@ -15,8 +15,11 @@ from model.txt import txt_new
 #)
 #ENGINE = MyISAM;
 
-class ZsiteStar(Model):
-    pass
+class ZsiteStar(McModel):
+    @property
+    def pic_id(self):
+        from model.ico import ico96 
+        return ico96.get(self.id)
 
 def star_ico_new(user_id, pic):
     from model.ico import site_ico_new
@@ -25,7 +28,6 @@ def star_ico_new(user_id, pic):
 def zsite_star_new(
     user_id, name,  txt, donate_min, end_days, pic_id
 ):
-    from model.ico import site_ico_bind
     zsite = zsite_new(name, CID_STAR)
     id = zsite.id
     txt_new(id, txt)
@@ -37,7 +39,19 @@ def zsite_star_new(
     )
     zs.save()
     site_id = zs.id
-    site_ico_bind(user_id, pic_id, site_id)
+    star_pic_bind(user_id, pic_id, id)
+    return zsite
+
+def star_pic_bind(user_id, pic_id, id):
+    from model.ico import site_ico_bind
+    site_ico_bind(user_id, pic_id, id)
+
+
+def zsite_star_get(id):
+    zsite = Zsite.mc_get(id)
+    if not zsite or zsite.cid != CID_STAR:
+        return
+    zsite.star = ZsiteStar.mc_get(id)
     return zsite
 
 if __name__ == "__main__":
