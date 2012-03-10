@@ -105,9 +105,7 @@ class New(LoginBase):
 class NewId(LoginBase):
     @can_admin
     def get(self, id):
-        zsite = self.zsite(id)
-        if not zsite:
-            return
+        zsite = self.zsite
         return self._render(zsite)
 
     def _render(self, zsite, errtip=Errtip()):
@@ -125,9 +123,7 @@ class NewId(LoginBase):
     
     @can_admin
     def post(self, id):
-        zsite = self.zsite(id)
-        if not zsite:
-            return
+        zsite = self.zsite
         
         errtip = Errtip() 
         user_id = self.current_user_id

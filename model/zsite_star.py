@@ -5,7 +5,6 @@ from model.cid import CID_STAR
 from model.zsite import zsite_new, Zsite, ZSITE_STATE_APPLY
 from model.txt import txt_new
 from model.days import today_days
-
 #CREATE TABLE `zpage`.`zsite_star` (
 #  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
 #  `donate_min` INTEGER UNSIGNED NOT NULL,
@@ -21,6 +20,7 @@ class ZsiteStar(McModel):
     def pic_id(self):
         from model.ico import ico96 
         return ico96.get(self.id)
+
 
     @property
     def remain_days(self):
@@ -83,7 +83,7 @@ from model.po import po_new, CID_NOTE, STATE_ACTIVE
 def zsite_star_po_note_new(id, name, txt):
     if not name and not txt:
         return
-    po = po_new( CID_NOTE, id, name, STATE_ACTIVE )
+    po = po_new( CID_NOTE, id, name, STATE_ACTIVE , id=id)
     if po:
         po.txt_set(txt)
         return po

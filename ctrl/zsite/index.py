@@ -95,12 +95,13 @@ class Link(LoginBase):
 
 from model.zsite import Zsite
 from model.zsite_star import ZsiteStar
-
+from model.po import Po
 def render_zsite_star(self, n=1):
     self.zsite.star = star = ZsiteStar.mc_get(self.zsite_id)
     star.user = Zsite.mc_get(star.user_id)
     self.render(
         '/ctrl/zsite/index/star.htm',
+        po = Po.mc_get(star.po_id)
     )
 
 def render_zsite_tag(self, n=1):

@@ -1,4 +1,9 @@
 <%inherit file="/ctrl/star/_base.htm" />
+<%!
+from config import SITE_DOMAIN
+
+HTTP = "//star.%s"%SITE_DOMAIN
+%>
 
 ${zsite.name}
 
@@ -6,7 +11,11 @@ ${zsite.name}
 <%
 star = zsite.star
 user = star.user
+can_admin = star.can_admin(current_user_id)
 %>
+%if can_admin:
+<a href="${HTTP}/new/${star.id}">编辑</a>
+%endif
 <div class="star_li">
     <div><a href="${zsite.link}">${zsite.name}</a></div>
     <div><img src="${star.pic_url}"></div>
@@ -17,3 +26,7 @@ user = star.user
     <div>当前 : ${star.donate_now} 元</div>
     <div>剩余时间 : ${star.remain_days}</div>
 </div>
+%if po:
+<pre class="prebody"><div class="c">${po.htm|n}</div></pre>\
+%endif
+
