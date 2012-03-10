@@ -82,21 +82,39 @@ class New(LoginBase):
             )
             self.redirect("/po/%s"%zsite.id)
 
+class StarBase(Base):
+    def zsite(self, id):
+        zsite = Zsite.mc_get(id)
+        if not zsite or zsite.cid != CID_STAR:
+            self.redirect("/")
+        return zsite
+
+@urlmap('/new/(\d+)')
+class NewId(StarBase):
+    def get(self, id):
+        zsite = self.zsite(id)
+        if not zsite:
+            return
+        self.render(zsite=zsite)
+    
+    def post(self, id):
+        zsite = self.zsite(id)
+        if not zsite:
+            return
+        self.render(zsite=zsite)
+
 
 @urlmap('/po/(\d+)')
-class PoId(Base):
+class PoId(StarBase):
     def get(self, id):
-        zsite = Zsite.mc_get(id)
-        if zsite.cid != CID_STAR:
-            self.redirect("/")
-
+        zsite = self.zsite(id)
+        if not zsite:
+            return
         self.render(zsite=zsite)
 
     def post(self, id):
-        zsite = Zsite.mc_get(id)
-        if zsite.cid != CID_STAR:
-            self.redirect("/")
-
+        zsite = self.zsite()
+        if not zsite:
+            return
         self.render(zsite=zsite)
-
 
