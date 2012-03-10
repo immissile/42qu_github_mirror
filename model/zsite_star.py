@@ -22,7 +22,9 @@ def star_ico_new(user_id, pic):
     from model.ico import site_ico_new
     return site_ico_new(user_id, pic)
 
-def zsite_star_new(user_id, name,  txt, donate_min, end_days, pic_id):
+def zsite_star_new(
+    user_id, name,  txt, donate_min, end_days, pic_id
+):
     from model.ico import site_ico_bind
     zsite = zsite_new(name, CID_STAR)
     id = zsite.id
