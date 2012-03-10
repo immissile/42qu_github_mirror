@@ -372,7 +372,7 @@ def po_tag_rollback(id):
         po_id = log.po_id
         po = Po.mc_get(po_id)
         if po:
-            old = PoTagLog.where(po_id=po_id).where("id<%s"id).order_by("id desc")[0]
+            old = PoTagLog.where(po_id=po_id).where("id<%s",id).order_by("id desc")[0]
             if old:
                 po_tag_id_list_new(po, filter(bool,old.tag_id_list.split()), 0)
 
