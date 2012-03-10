@@ -235,23 +235,23 @@ if __name__ == '__main__':
    #         if j != i.name:
    #             _tag_alias_new(i.id, j)
                 #autocomplete_tag.append_alias(j, i.id, count)
-    i = Zsite.get(name="apple", cid=CID_TAG)
-    print i.id
-    i.name = ""
-    i.save()
-    autocomplete_tag.append('', i.id , rank=0)
+    #i = Zsite.get(name="apple", cid=CID_TAG)
+    #print i.id
+    #i.name = ""
+    #i.save()
+    #autocomplete_tag.append('', i.id , rank=0)
 
-    for  i in redis.keys("tag`*"):
-        for j in redis.zrevrange(i,0, -1):
-            from model.zsite import Zsite
-            zsite = Zsite.mc_get(j)
-            key = redis.hget(REDIS_ID2NAME%'tag',j)
-            if not zsite.name:
-                redis.zrem(i, j)
-                redis.hdel(REDIS_ID2NAME%'tag',j)
+    #for  i in redis.keys("tag`*"):
+    #    for j in redis.zrevrange(i,0, -1):
+    #        from model.zsite import Zsite
+    #        zsite = Zsite.mc_get(j)
+    #        key = redis.hget(REDIS_ID2NAME%'tag',j)
+    #        if not zsite.name:
+    #            redis.zrem(i, j)
+    #            redis.hdel(REDIS_ID2NAME%'tag',j)
  
-    for i in redis.keys(REDIS_CACHE%"*"):
-        redis.delete(i)
+    #for i in redis.keys(REDIS_CACHE%"*"):
+    #    redis.delete(i)
 
     #from model.autocomplete_user import autocomplete_user 
     #for i in ormiter(Zsite, 'cid=%s'%CID_USER):
