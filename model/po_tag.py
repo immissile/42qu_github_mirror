@@ -471,6 +471,8 @@ def po_tag_by_cid(cid, tag_id, user_id, limit=25, offset=0):
 
 if __name__ == '__main__':
     pass
+
+
 #    print redis.hget(REDIS_ALIAS_NAME2ID, "黑客")
 #    po = Po.mc_get(10249420)
 #    tag_list = ['10227250', '10234173', ]
