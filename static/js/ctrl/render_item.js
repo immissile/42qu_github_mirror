@@ -86,10 +86,11 @@ $.template(
         '<div class="readauthor">'+
             '来自'+
             '{{if link}}'+
-            '<a class="TPH read_author" href="${link}" target="_blank">${user_name}</a><a href="/po/${id}" class="zsite_reply bzreply"><span class="count"></span></a>'+
+            '<a class="TPH read_author" href="${link}" target="_blank">${user_name}</a>'+
             '{{else}}'+
-            '<span class="read_author">银河系</span><a href="/po/${id}" class="zsite_reply bzreply"><span class="count"></span></a>'+
+            '<span class="read_author">银河系</span>'+
             '{{/if}}'+
+            '<a href="/po/${id}" class="zsite_reply" onclick="return recreply(this)"></a>'+
         '</div>'+
     '</pre>'+
     '<div class="fdbar">'+
