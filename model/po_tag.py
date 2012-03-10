@@ -369,7 +369,13 @@ class PoTagLog(Model):
 def po_tag_rollback(id):
     log = PoTagLog.get(id)
     if log:
-        PoZsiteTag
+        po_id = log.po_id
+        po = Po.mc_get(po_id)
+        if po:
+            old = PoTagLog.where(po_id=po_id).where("id<%s"id).order_by("id desc")[0]
+            if old:
+                po_tag_id_list_new(po, old.tag_id_list.split(), 0)
+
 
 def po_tag_new_by_autocompelte(po, tag_list, cid=0, admin_id=0):
     id_list = tag_id_list_by_str_list(tag_list)
@@ -422,7 +428,7 @@ def po_tag_id_list_new(po, tag_id_list, cid=0):
         redis.hset(REDIS_PO_ID2TAG_CID, po_id, cid)
 
 
-    new_tag_id_list = set(map(int, tag_id_list))
+    new_tag_id_list = set(filter(bool,map(int, tag_id_list)))
     old_tag_id_list = set(tag_id_list_by_po_id(po_id))
 
     to_add = new_tag_id_list - old_tag_id_list
