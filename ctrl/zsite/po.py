@@ -155,8 +155,7 @@ class PoBase(LoginBase):
             pic_list=pic_list_edit(user_id, 0),
         )
 
-    def post(self):
-        po = self.po_post()
+    def _link(self, po):
         if po:
             if po.cid == CID_EVENT_FEEDBACK:
                 link = '/%s#po%s'%(po.rid, po.id)
@@ -166,6 +165,11 @@ class PoBase(LoginBase):
                 link = '/po/tag/%s' % po.id
         else:
             link = self.request.uri
+        return link
+
+    def post(self):
+        po = self.po_post()
+        link  = self._link(po)
         self.redirect(link)
 
 
