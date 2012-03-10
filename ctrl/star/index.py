@@ -82,3 +82,8 @@ class New(LoginBase):
             self.redirect("/po/%s"%zsite.id)
 
 
+@urlmap('/po/(\d+)')
+class PoId(Base):
+    def get(self):
+        pass
+
