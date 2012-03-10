@@ -53,9 +53,9 @@ def zsite_star_get(id):
         return
     zsite.star = ZsiteStar.mc_get(id)
     return zsite
-
-def po_note_new_for_zsite_star(user_id, name, txt, state=STATE_ACTIVE, zsite_id=0):
-    pass
+#
+#def po_note_new_for_zsite_star(user_id, name, txt, state=STATE_ACTIVE, zsite_id=0):
+#    pass
 
 
 if __name__ == "__main__":
