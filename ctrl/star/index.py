@@ -6,6 +6,8 @@ from zkit.pic import picopen
 from model.zsite_star import star_ico_new, zsite_star_new, zsite_star_get, txt_new, star_pic_bind
 from model.days import ymd2days, today_days, days2ymd
 from model.cid import CID_STAR
+from zkit.jsdict import JsDict
+from model.po_pic import pic_list, pic_list_edit
 
 def _upload_pic(self, errtip):
     files = self.request.files
@@ -91,12 +93,14 @@ class New(LoginBase):
             )
             self.redirect("/po/%s"%zsite.id)
 
-class StarBase(Base):
+class StarBase(LoginBase):
     def zsite(self, id):
         zsite = zsite_star_get(id)
-        if not zsite:
-            self.redirect("/")
-        return zsite
+        if zsite:
+            star = zsite.star
+            if star and star.can_admin(self.current_user_id):
+                return zsite 
+        self.redirect("/")
 
 @urlmap('/new/(\d+)')
 class NewId(StarBase):
@@ -166,6 +170,7 @@ class NewId(StarBase):
  
         zsite.save()
         star.save()
+
         if errtip:
             return self._render(zsite, errtip)
         elif star.po_id:
@@ -182,11 +187,21 @@ class PoId(StarBase):
         zsite = self.zsite(id)
         if not zsite:
             return
-        self.render(zsite=zsite)
+        star = zsite.star
+        po=JsDict()
+        po.name_ = "项目介绍"
+        self.render(
+            zsite=zsite,
+            po=po,
+            pic_list=pic_list_edit(star.id, star.po_id)
+        )
 
     def post(self, id):
         zsite = self.zsite()
         if not zsite:
             return
-        self.render(zsite=zsite)
+        self.render(
+            zsite=zsite,
+            po=JsDict(),
+        )
 

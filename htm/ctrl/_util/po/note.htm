@@ -9,8 +9,9 @@ from model.po_tag import tag_list_by_po_id
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="head(po)">
 <%
-if po:
-    suffix = '/%s' % po.id
+po_id = po.id
+if po_id:
+    suffix = '/%s' % po_id
 else:
     suffix = ''
 
@@ -31,7 +32,9 @@ ${css.ctrl_po_note|n}
 </%def>
 
 <%def name="po_note(po, can_rm=True, can_secret=True)">
-
+<%
+po_id = po.id
+%>
 <%htm:form enctype="multipart/form-data" id="po_form">
 <div class="com_wrap">
 <div class="com_main">
@@ -41,7 +44,7 @@ ${css.ctrl_po_note|n}
 </div>
 
 <div class="com_side">
-%if can_rm and po:
+%if can_rm and po_id:
 <div class="po_btnw c">\
 <button type="submit" class="po_btn">保存</button>\
 <a id="rm" class="rmpo" href="/po/rm/${po.id}?${_xsrf}">删除</a>\
@@ -111,9 +114,9 @@ for pic in pic_list:
 %>\
 <script>
 $('#update_item').tmpl(${dumps(pic_json_list)|n}).appendTo("#uploaded")
-%if po:
+%if po_id:
 <%
-tag_list = tag_list_by_po_id(po.id)
+tag_list = tag_list_by_po_id(po_id)
 %>
 %if tag_list:
 TAG_LIST = ${json_encode([(i.name,i.id) for i in tag_list])|n}

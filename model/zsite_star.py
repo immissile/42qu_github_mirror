@@ -21,6 +21,9 @@ class ZsiteStar(McModel):
         from model.ico import ico96 
         return ico96.get(self.id)
 
+    def can_admin(self, user_id):
+        return self.user_id == user_id
+    
 def star_ico_new(user_id, pic):
     from model.ico import site_ico_new
     return site_ico_new(user_id, pic)
@@ -35,6 +38,7 @@ def zsite_star_new(
         id = id,
         donate_min = donate_min,
         po_id = 0,
+        user_id = user_id,
         end_days = end_days
     )
     zs.save()
