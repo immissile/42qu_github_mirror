@@ -203,6 +203,8 @@ note_li = function (feed_index, result){
             user=$(p.parentNode).find('.TPH'),
             user_link
             ;
+
+        p.addClass('c9')
         //feeds.append(txt_loading);
 
         readtag.html( '')
