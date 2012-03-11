@@ -232,7 +232,7 @@ note_li = function (feed_index, result){
             readtag.html( $.tmpl('po_tag_list',r))
             txt_body = $.tmpl('note_txt',r)
             read_loading.replaceWith(txt_body)
-            txt_title.html(title)
+            txt_title.html(title).css('marginTop', main_nav_txt.height()+27)
             var fdopt = txt_body.find('.fdopt'),
                 readauthor = txt_body.find('.readauthor')
             txt_opt.html(fdopt.html())
@@ -319,7 +319,6 @@ $('.tag_list_edit_a').live('click',function(){
                     wrap.html(
                         $.tmpl('po_tag_list',data)
                     )
-                    txt_title.css('marginTop', main_nav_txt.height()+27)
                     tags = data
                 }
             )
