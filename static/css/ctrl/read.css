@@ -174,7 +174,9 @@ font-size: 12px;
 padding: 0 10px;
 line-height:22px;
 }
-
+.po_tagw{
+display:inline-block;
+}
 
 .po_tagw:hover .po_tag_pic{
 background:url(/img/png/label.png) no-repeat -17px 0;
