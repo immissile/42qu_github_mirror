@@ -319,6 +319,7 @@ $('.tag_list_edit_a').live('click',function(){
                     wrap.html(
                         $.tmpl('po_tag_list',data)
                     )
+                    txt_title.css('marginTop', main_nav_txt.height()+27)
                     tags = data
                 }
             )
