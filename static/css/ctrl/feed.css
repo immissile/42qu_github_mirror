@@ -207,9 +207,9 @@ margin:auto;
 }
 .broadcast{
 display:inline-block;
-width:22px;
-height:22px;
-background:url(/img/png/broadcast.png) no-repeat 0 0;
-margin-right:8px;
-vertical-align:-5px;
+width:9px;
+height:10px;
+background:url(/img/gif/sysg.png) no-repeat 0 0;
+margin-right:7px;
+vertical-align:-1px;
 }
