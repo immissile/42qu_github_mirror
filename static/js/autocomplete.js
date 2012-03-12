@@ -43,7 +43,9 @@ function autocomplete_tag(id, default_tag_list, idPrefix){
                         list.push(t)
                     }
                 }
-                if(ctrl)list.unshift({id:'-'+word,name:$('#token-input-'+id.substring(1)).val(),num:0})
+                if(ctrl){
+                    var input_val = $('#token-input-'+id.substring(1)).val()
+                }list.unshift({id:'-'+input_val,name:input_val,num:0})
                 return list
             },
             hintText:'',

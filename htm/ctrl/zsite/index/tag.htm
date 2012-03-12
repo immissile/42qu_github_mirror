@@ -16,11 +16,7 @@ from cgi import escape
 ##<script src="${js.ctrl_side_tag_search}"></script>
 <script src="${js.ctrl_tag}"></script>
 
-${css.ctrl_zsite_com|n}
-${css.ctrl_hero|n}
-${css.ctrl_index|n}
 ${css.ctrl_tag_index|n}
-${css.ctrl_tag_side|n}
 
 </%def>
 
@@ -31,7 +27,7 @@ is_faved = zsite_fav_get(zsite,current_user_id)
 
 
 <div class="G">
-<div class="com_wrap">
+<div class="Zw">
     <h1>${zsite.name}
 <%
 txt = motto_get(zsite.id)
@@ -45,7 +41,7 @@ txt = motto_get(zsite.id)
         <script>_render_tag_cid('#tag_cid',${tag_cid_json_list|n})</script>
     </div>
 
-    <div class="com_side">
+    <div class="Zs">
 %if current_user_id:
         <div id="tagbar">\
 <span class="xatxt">\

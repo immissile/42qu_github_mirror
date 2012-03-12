@@ -12,7 +12,7 @@ from zkit.escape import json_encode
 ##<%namespace file="/ctrl/_util/friend_rec.htm" import="friend_rec_render"/>
 <%def name="htm_head()">
 ${css.ctrl_index|n}
-${css.ctrl_tag_side|n}
+${css.ctrl_tag_search|n}
 </%def>
 
 <%def name="rec_read_render(rec_item_list)">
@@ -174,7 +174,7 @@ class="mr3">${reply_count}</span>{{/if}}评论</a></span>
 target="_blank">${site_name}</a><span
 class="split">,</span>{{/if}}{{/if}}
 
-
+{{if rt_list.length  && rt_list[0].txt[2] == 0 }}<span class="broadcast" title="全站转发"></span>{{/if}}
 {{if cid==62}}
 <span class="tag_list_wrap">
 <span class="po_tag_list">

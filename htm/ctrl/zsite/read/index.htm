@@ -21,25 +21,22 @@ ITEM_LIST = ${item_list|n}
 
 <script src="${js.ctrl_tag}"></script>
 
-${css.ctrl_zsite_com|n}
-${css.ctrl_hero|n}
-${css.ctrl_index|n}
-${css.ctrl_tag_side|n}
 ${css.ctrl_tag_index|n}
+${css.ctrl_tag_search|n}
 
 </%def>
 
 
 <div class="G">
-    <div class="com_wrap">
+    <div class="Zw">
         <div id="tag_cid"></div>
     </div>
-
-    <div class="com_side">
+    <div class="Zs">
         <form class="search" action="/q">
         <input type="text" class="c9" placeholder="搜索 标签 或 人物 ..." name="q" id="search" autocomplete="off"><input type="submit" class="search_btn" value="">
         </form>
     </div>
+
 </div>
 <script>
 _render_tag_cid('#tag_cid',ITEM_LIST);

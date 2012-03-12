@@ -176,9 +176,6 @@ padding: 7px 2px;
 .main_nav a{
 color:#999;
 }
-#feeds .readpad .split{
-margin:0 14px;
-}
 .main_nav2{
 margin-left:-12px;
 }
@@ -208,4 +205,11 @@ max-width:100%;
 display:block;
 margin:auto;
 }
-
+.broadcast{
+display:inline-block;
+width:22px;
+height:22px;
+background:url(/img/png/broadcast.png) no-repeat 0 0;
+margin-right:8px;
+vertical-align:-5px;
+}
