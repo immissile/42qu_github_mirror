@@ -1,5 +1,7 @@
 [ui]
-username = ~/.hgrc username你的用户名 <你的邮箱>
+
+USERNAME
+ 
 verbose = True
 ssh = ssh -i ~/.ssh/id_rsa -C
 ignore = ~/.hgignore

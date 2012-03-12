@@ -10,11 +10,15 @@ from model.event import event_joiner_user_id_list
 from model.user_mail import mail_by_user_id
 from model.mail import sendmail
 from mako.template import Template
-
+from model.zsite_url import url_or_id
 from os.path import abspath, dirname, join, normpath
 
+import socket
+host = socket.gethostname()
+gid = host[1:]
+GID = int(gid.isdigit())
 PREFIX = normpath(dirname(abspath(__file__)))
-TEMPLATE_VPS_SH_PATH = join(PREFIX, "vps.template")
+TEMPLATE_VPS_SH_PATH = join(PREFIX, 'vps.template')
 
 class Vps(Model):
     pass
@@ -29,7 +33,7 @@ STATE_VPS_OPENED = 20   #已经开通
 STATE_VPS_TO_CLOSE = 30 #等待关闭
 STATE_VPS_CLOSED = 40   #已经关闭
 
-USERNAME = "z%s"
+USERNAME = 'z%s'
 
 def next_id_by_group(group_id):
     r = Vps.raw_sql('select max(id_in_group) from vps where `group`=%s', group_id)
@@ -44,23 +48,25 @@ def vps_new(vps):
         vps.passwd = passwd()
     vps.state = STATE_VPS_OPENED
     vps.save()
+    user_mail = mail_by_user_id(vps.user_id)
     with open(TEMPLATE_VPS_SH_PATH) as template:
         print Template(template.read()).render(
-            username = username,
-            passwd = passwd(),
-            prefix = PREFIX,
+            username=username,
+            passwd=passwd(),
+            prefix=PREFIX,
+            user_mail=user_mail,
+            user_url=url_or_id(vps.user_id) ,
         )
 
-def vps_id_by_user_id(user_id, group=1):
-    vps = Vps.get(user_id=i)
+def vps_new_by_user_id(user_id, group=GID):
+    vps = Vps.get(user_id=user_id)
     if not vps:
-        passwd = password()
         vps = Vps(
             id_in_group=next_id_by_group(group),
-            passwd=passwd,
             group=group,
             state=STATE_VPS_TO_OPEN,
-            user_id=i
+            user_id=user_id,
+            passwd=""
         )
         vps.save()
         vps_new(vps)
@@ -68,11 +74,7 @@ def vps_id_by_user_id(user_id, group=1):
 import socket
 host = socket.gethostname()
 def vps_list_by_hostname():
-    import socket
-    host = socket.gethostname()
-    gid = host[1:]
-    if gid.isdigit():
-        return list(Vps.where(group=int(gid)))
+    return list(Vps.where(group=GID))
 
 def vps_open_all():
     from passwd import loadpw
@@ -82,9 +84,9 @@ def vps_open_all():
         if username not in exist:
             vps_new(i)
 
-if __name__ == "__main__":
-    vps_open_all()
-
+if __name__ == '__main__':
+#    vps_open_all()
+    vps_new_by_user_id(10000000, group=GID)
 
 #def main():
 #
