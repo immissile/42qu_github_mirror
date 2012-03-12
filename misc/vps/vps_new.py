@@ -8,7 +8,6 @@ from model._db import Model
 from uuid import uuid4
 from model.event import event_joiner_user_id_list
 from model.user_mail import mail_by_user_id
-from model.mail import sendmail
 from mako.template import Template
 from model.zsite_url import url_or_id
 from os.path import abspath, dirname, join, normpath
@@ -58,11 +57,11 @@ def vps_new(vps):
             user_mail=user_mail,
             user_url=url_or_id(vps.user_id) ,
         )
-        vps_open_mail(user_mail, vps.group, username, passwd)
+        vps_open_mail(user_mail, vps.group, username, vps.passwd)
 
 def vps_open_mail(mail, group, user, passwd):
-    host = "e%s.42qu.us"%group
-    subject = "[42qu.com] VPS已开通 : 帐号 %s 主机 %s"%( user, host)
+    host = 'e%s.42qu.us'%group
+    subject = 'VPS已开通 : 帐号 %s 主机 %s'%( user, host)
     txt = Template(u"""
 主机 : ${host}
 用户 : ${user}
@@ -72,11 +71,11 @@ def vps_open_mail(mail, group, user, passwd):
 用xshell登录服务器 http://book.42qu.com/linux/xshell.html
 
 """).render(
-host = host, 
-user = user,
-passwd = passwd
+host=host,
+user=user,
+passwd=passwd
 )
-    sendmail(mail, subject, txt) 
+    sendmail(subject, txt, mail)
 
 def vps_new_by_user_id(user_id, group=GID):
     vps = Vps.get(user_id=user_id)
@@ -86,7 +85,7 @@ def vps_new_by_user_id(user_id, group=GID):
             group=group,
             state=STATE_VPS_TO_OPEN,
             user_id=user_id,
-            passwd=""
+            passwd=''
         )
         vps.save()
     vps_new(vps)
