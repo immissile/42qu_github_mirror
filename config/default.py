@@ -277,6 +277,7 @@ def load(self, *args):
             mod = getattr(mod, i)
         prepare = getattr(mod, 'prepare', None)
 
+        #print mod, "prepare", prepare, dir(mod)
         if prepare:
             PREPARE.append(prepare)
 

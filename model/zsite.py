@@ -208,7 +208,7 @@ def zsite_name_id_dict(id_set):
 
 if __name__ == '__main__':
     pass
-    
+    print Zsite.where()[0].name    
     #zsite_name_rm(10017321)
     #print zsite_user_verify_count()
 #    from zweb.orm import ormiter
