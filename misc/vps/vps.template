@@ -1,4 +1,4 @@
 useradd -m ${username}
 echo ${username}:${passwd}| chpasswd
 sudo -u ${username} ${prefix}/vps.sh
-sudo -u ${username} sed -i 's/USERNAME/username = ${user_url} <${user_mail}>/' /home/${username}/.hgrc
+sudo -u ${username} sed -i 's/$USERNAME/username = ${user_url} <${user_mail}>/' /home/${username}/.hgrc

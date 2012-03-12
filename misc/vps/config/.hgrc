@@ -1,6 +1,6 @@
 [ui]
 
-USERNAME
+#USERNAME
  
 verbose = True
 ssh = ssh -i ~/.ssh/id_rsa -C
