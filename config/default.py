@@ -60,7 +60,7 @@ def prepare(o):
     o.ZSITE_DOUBAN_ID = 10216239
     o.ZSITE_UCD_CHINA_ID = 10109232 
 
-    o.SITE_DOMAIN = 'motionio.us'
+    o.SITE_DOMAIN = '42qu.test'
     o.SITE_NAME = '42区'
     o.PORT = 6666
 
@@ -74,7 +74,7 @@ def prepare(o):
     o.MYSQL_PORT = '3306'
     o.MYSQL_MAIN = 'zpage'
     o.MYSQL_USER = 'root'
-    o.MYSQL_PASSWD = 'bjcy200910'
+    o.MYSQL_PASSWD = '42qu'
 
 
     o.MQ_PORT = 11300

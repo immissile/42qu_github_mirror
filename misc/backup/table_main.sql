@@ -859,7 +859,6 @@ DROP TABLE IF EXISTS `po_show_channel`;
 CREATE TABLE `po_show_channel` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-<<<<<<< local
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `po_tag_log`;
@@ -873,8 +872,6 @@ CREATE TABLE `po_tag_log` (
   PRIMARY KEY (`id`),
   KEY `Index_2` (`po_id`),
   KEY `Index_3` (`admin_id`)
-=======
->>>>>>> other
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `po_zsite_tag`;
