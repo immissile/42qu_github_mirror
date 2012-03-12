@@ -1,0 +1,9 @@
+syntax: glob
+*.elc
+*.pyc
+*~
+*.swp
+*.bak
+.svn
+nohup.out
+

@@ -7,3 +7,7 @@ cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys;
 fi
 
 virtualenv .env
+source ~/.bash_profile
+pip install setuptools --upgrad
+
+
