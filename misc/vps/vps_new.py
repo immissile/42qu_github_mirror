@@ -12,6 +12,7 @@ from model.mail import sendmail
 from mako.template import Template
 from model.zsite_url import url_or_id
 from os.path import abspath, dirname, join, normpath
+from model.mail import sendmail
 
 import socket
 host = socket.gethostname()
@@ -52,11 +53,30 @@ def vps_new(vps):
     with open(TEMPLATE_VPS_SH_PATH) as template:
         print Template(template.read()).render(
             username=username,
-            passwd=passwd(),
+            passwd=vps.passwd,
             prefix=PREFIX,
             user_mail=user_mail,
             user_url=url_or_id(vps.user_id) ,
         )
+        vps_open_mail(user_mail, vps.group, username, passwd)
+
+def vps_open_mail(mail, group, user, passwd):
+    host = "e%s.42qu.us"%group
+    subject = "[42qu.com] VPS已开通 : 帐号 %s 主机 %s"%( user, host)
+    txt = Template(u"""
+主机 : ${host}
+用户 : ${user}
+密码 : ${passwd}
+
+相关文档 :
+用xshell登录服务器 http://book.42qu.com/linux/xshell.html
+
+""").render(
+host = host, 
+user = user,
+passwd = passwd
+)
+    sendmail(mail, subject, txt) 
 
 def vps_new_by_user_id(user_id, group=GID):
     vps = Vps.get(user_id=user_id)
