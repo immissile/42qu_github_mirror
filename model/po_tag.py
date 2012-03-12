@@ -91,7 +91,7 @@ def po_score(po):
 
 def _zsite_tag_po_new(zsite_id, po, cid, rank=1):
     po_id = po.id
-
+    cid = int(cid)
     tag_po = PoZsiteTag.get_or_create(po_id=po_id, cid=po.cid, zsite_id=zsite_id)
     tag_po.rank = rank
     tag_po.save()
@@ -109,6 +109,7 @@ def _zsite_tag_po_new(zsite_id, po, cid, rank=1):
 
     rec_read_new(po_id, zsite_id)
     if cid in REDIS_REC_CID_DICT:
+        #print zsite_id, po, cid
 
         p = redis.pipeline()
 
@@ -165,18 +166,23 @@ def tag_new(name):
     from model.autocomplete import  autocomplete_tag
     autocomplete_tag.append(name, id)
     #2. 更新别名库
-
-    for i in map(utf8_ftoj, map(str.strip, name.split('/'))):
-        _tag_alias_new(id, i)
+    if '/' in name:
+        for i in map(utf8_ftoj, map(str.strip, name.split('/'))):
+            _tag_alias_new(id, i)
 
     return id
 
 def _tag_alias_new(id, name):
     low = name.lower()
     redis.sadd(REDIS_ALIAS%id, low)
+    redis.hset(REDIS_ALIAS_NAME2ID, low, id)
+    from model.autocomplete import  autocomplete_tag
+    autocomplete_tag.append_alias(name, id)
 
 
 def tag_by_name(name):
+    if name.startswith('-'):
+        name = name[1:]
     low = name.lower()
     id = redis.hget(REDIS_ALIAS_NAME2ID, low)
     if not id:
@@ -200,8 +206,6 @@ def tag_alias_new(id, name):
 
     #print "!!!"
     _tag_alias_new(id, name)
-    redis.hset(REDIS_ALIAS_NAME2ID, name, id)
-    autocomplete_tag.append_alias(name, id)
 
 def tag_alias_rm(alias_id):
     from model.autocomplete import  autocomplete_tag
@@ -261,7 +265,7 @@ def tag_author_list(zsite_id, current_user_id):
 def po_tag_rm_by_po(po):
     po_id = po.id
     user_id = po.user_id
-    tag_id_list = tag_id_list_by_po_id(po_id) 
+    tag_id_list = tag_id_list_by_po_id(po_id)
     #tag_id_list = (10222295,)
     if tag_id_list:
         _tag_rm_by_user_id_list(po, user_id, tag_id_list)
@@ -302,8 +306,8 @@ def _tag_rm_by_user_id_list(po, user_id, id_list):
             for i in (REDIS_REC_TAG_NEW, REDIS_REC_TAG_OLD):
                 key = i%tag_id
                 p.zrem(key, po_id)
-            
-            p.hset(REDIS_TAG_CID_COUNT%tag_id, cid, count) 
+
+            p.hset(REDIS_TAG_CID_COUNT%tag_id, cid, count)
             p.execute()
 
 def _po_tag_id_cid_new(po, tag_id_list, cid):
@@ -346,24 +350,32 @@ def tag_list_by_po_id(po_id):
 
 def tag_name_id_list_by_po_id(po_id):
     return [
-        (i.name,i.id) for i in tag_list_by_po_id(po_id)
-    ] 
+        (i.name, i.id) for i in tag_list_by_po_id(po_id)
+    ]
 
 def tag_id_list_by_str_list(tag_list):
     tag_id_list = []
     for i in tag_list:
-        i_ = i.startswith('-')
-        if i_:
-            i = i[1:]
-        if i_ or not i.isdigit():
+        if i.isdigit():
+            tag_id_list.append(i)
+        else:
             for id in tag_by_str(i):
                 tag_id_list.append(id)
-        else:
-            tag_id_list.append(i)
     return unique(map(int, tag_id_list))
 
 class PoTagLog(Model):
     pass
+
+def po_tag_log_rollback(id):
+    log = PoTagLog.get(id)
+    if log:
+        po_id = log.po_id
+        po = Po.mc_get(po_id)
+        if po:
+            old = PoTagLog.where(po_id=po_id).where('id<%s', id).where('admin_id!=%s', log.admin_id).order_by('id desc')[0]
+            if old:
+                po_tag_id_list_new(po, filter(bool, old.tag_id_list.split()), 0)
+
 
 def po_tag_new_by_autocompelte(po, tag_list, cid=0, admin_id=0):
     id_list = tag_id_list_by_str_list(tag_list)
@@ -398,8 +410,24 @@ po_id, admin_id, ' '.join(map(str, id_list))
 
 def po_tag_id_list_new(po, tag_id_list, cid=0):
     cid = int(cid)
-
     po_id = po.id
+
+    if not cid:
+        cid = redis.hget(REDIS_PO_ID2TAG_CID, po_id) or 0
+        cid = int(cid)
+        if not cid:
+            if po.cid == CID_NOTE:
+                txt = po.txt
+                if len(txt) > 420:
+                    cid = REDIS_REC_CID_NOTE
+                else:
+                    cid = REDIS_REC_CID_TALK
+
+    elif cid and cid in REDIS_REC_CID_DICT:
+        #将po放在相应的po_id=>cid中
+        redis.hset(REDIS_PO_ID2TAG_CID, po_id, cid)
+
+
     new_tag_id_list = set(map(int, tag_id_list))
     old_tag_id_list = set(tag_id_list_by_po_id(po_id))
 
@@ -415,9 +443,6 @@ def po_tag_id_list_new(po, tag_id_list, cid=0):
     for tag_id in to_add:
         _zsite_tag_po_new(tag_id, po, cid)
 
-    if cid:
-        #将po放在相应的po_id=>cid中
-        redis.hset(REDIS_PO_ID2TAG_CID, po_id, cid)
 
 
 def tag_cid_count(tag_id, cid=None):
@@ -445,6 +470,36 @@ def po_tag_by_cid(cid, tag_id, user_id, limit=25, offset=0):
 
 
 if __name__ == '__main__':
+    pass
+    #tag_alias_new(10228176, 'Apple')
+
+#    for i in PoTagLog.where():
+#        if not i.tag_id_list:
+#            print i.id, i.admin_id
+#
+#    po_tag_log_rollback(217)
+# 
+#    print redis.hget(REDIS_ALIAS_NAME2ID, "黑客")
+#    po = Po.mc_get(10249420)
+#    tag_list = ['10227250', '10234173', ]
+#    po_tag_new_by_autocompelte(po, tag_list)
+#    tag_list = ['10227250', '10234173', '10231340']
+#    po_tag_new_by_autocompelte(po, tag_list)
+    #print po
+
+
+
+#    exist = set()
+#    for i in Zsite.where(cid=CID_TAG):
+#        name = i.name
+#        if name in exist or name.startswith("-"):
+#            i.name = ""
+#            i.save()
+#            print i.id, i.name
+#        else:
+#            exist.add(name)
+
+#        print 
     #print tag_id_list_by_po_id(10244973)
     #print tag_id_list_by_str_list(["是","12"])
     pass
@@ -452,7 +507,8 @@ if __name__ == '__main__':
     #from model.po import Po, po_rm
     #for  i in Po.where(user_id=10000101):
     #    po_tag_rm_by_po(i)
-    print tag_cid_count(10222295)
+    #print tag_cid_count(10222295)
+
 
 #oid = redis.hdel(REDIS_ALIAS_NAME2ID, name)
 #id = '10232898'
@@ -497,7 +553,7 @@ if __name__ == '__main__':
 
 
 #for tag_cid, count in tag_cid_count(10233568):
-        #print REDIS_REC_CID_DICT [tag_cid]
+#print REDIS_REC_CID_DICT [tag_cid]
 
 #from model.po import Po
 #po = Po.where()[1]

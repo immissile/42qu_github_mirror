@@ -19,7 +19,7 @@ function popreply(cid, title_html, href, counter){
                 count=0
             }
         }
-        textarea.ctrl_enter( function(){ button.click()});
+        textarea.ctrl_enter(button.click);
         reply_name.html(title_html).attr('href',href)
 
     button.click(function(){
@@ -46,28 +46,35 @@ function popreply(cid, title_html, href, counter){
         }
         _result(data.result,1)
     }
+    function _h0(){
+        cbody.css('height',0).removeClass('reply_reply_loading')
+    }
     function _result(result,i){
-        cbody.removeClass('reply_reply_loading').append(render_reply(result,i))
-        codesh()
-        var height = t.scrollHeight+2, 
-            winheight=$(window).height() - 260;
+        if(result.length){
+            cbody.removeClass('reply_reply_loading').append(render_reply(result,i))
+            codesh()
+            var height = t.scrollHeight+2, 
+                winheight=$(window).height() - 260;
 
-        if(height>winheight){
-            height = winheight;
+            if(height>winheight){
+                height = winheight;
+            }else{
+                cbody.css("padding","0")
+            }
+
+            cbody.css({
+                height:height
+            })
+            if(count===true){ //有count的就从第一个开始显示
+                t.scrollTop=t.scrollHeight-t.offsetHeight-5
+            }
         }else{
-            cbody.css("padding","0")
-        }
-
-        cbody.css({
-            height:height
-        })
-        if(count===true){ //有count的就从第一个开始显示
-            t.scrollTop=t.scrollHeight-t.offsetHeight-5
+            _h0()
         }
         fancybox.resize()
     }
     if(!count){
-        cbody.css('height',0).removeClass('reply_reply_loading')
+        _h0()
     }
     fancybox({
         content:content, 

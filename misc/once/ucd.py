@@ -31,16 +31,13 @@ with open('ucd.csv') as ucd:
 
             if zsite:
                 user_id = zsite.id
-                if pic_url(user_id):
-                    for i in FeedImport.where(po_meta_user_id=u.id):
-                        feed_import_user_new(user_id, i.id)
-                    print zsite.link
+                if not pic_url(user_id):
 #                    print count , zsite.id
-#                    print zsite.name, 'http:'+zsite.link
-#                    print u.name , u.link
+                    print zsite.name, 'http:'+zsite.link
+                    print u.name , u.link
 #                    print t[-3]
 #                    count += 1
-#                    print ''
+                    print ''
                     #u.user_id = zsite.id
                     #u.save()
 

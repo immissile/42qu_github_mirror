@@ -66,8 +66,8 @@ li.tag-token {
     color:#000;
     background:#fff;
     display:inline-block;
-    margin:2px 3px;
     cursor:default;
+    margin:3px 6px 2px 0;
     line-height:23px;
     height:24px;
 }
@@ -174,7 +174,9 @@ font-size: 12px;
 padding: 0 10px;
 line-height:22px;
 }
-
+.po_tagw{
+display:inline-block;
+}
 
 .po_tagw:hover .po_tag_pic{
 background:url(/img/png/label.png) no-repeat -17px 0;
@@ -185,7 +187,7 @@ color:#d20;
 }
 
 .tag_edit_btn{
-display:none;
+display:inline-block;
 height:24px;
 line-height:24px;
 margin:0;
@@ -254,12 +256,53 @@ margin-left:10px;
 .main_nav .tag_list_edit_a:hover{
 color:#d20;
 }
-.tag_list_add_a{
-margin-left:0px;
+.po_tag_list .tag_list_add_a{
+font-size:14px;
+margin-left:0;
+color:#070;
+}
+.po_tag_list .tag_list_add_a:hover{
+color:#d20
+}
+.main_nav_txt_fix{
+line-height:30px
 }
 .txt_title_a{
 color:#000;
 }
-.txt_title_a:hover{
+.readpad{
+border:1px solid #e9e9e9;
+box-shadow:2px 2px 1px #F3F3F3;
+position:relative;
+overflow:auto;
+padding-bottom:12px;
+margin-bottom:32px;
+}
+.readpad .fdbar{
+margin:14px 0 0 0;
+padding:9px 23px 10px 20px;
+}
+.readpad .fdbar .fdopt{
+margin-right:1px;
+}
+.readpad .zsite_reply{
+margin-left:14px;
+}
+#read_loading{
+padding:72px 0 71px;
+}
+#main_nav_in .readx{
+vertical-align:-5px;
+}
+#main_nav_in{
+padding:10px 20px;
+border-bottom:1px solid #eee;
+}
+.readl .readmore:hover{
+color:#d20;
+}
+#main_nav_title{
 color:#000;
+font-weight:bold;
+margin-bottom:7px;
 }

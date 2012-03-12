@@ -15,7 +15,10 @@ def fetch_pic(url, referer=None):
     if referer:
         headers['Referer'] = referer
     else:
-        headers['Referer'] = 'http://%s'%parts[1]
+        if "sina" in url:
+            headers['Referer'] = 'http://blog.sina.com.cn/'
+        else:
+            headers['Referer'] = 'http://%s'%parts[1]
 
     request = urllib2.Request(url, None, headers)
     raw = urlfetch(request)

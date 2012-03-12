@@ -33,16 +33,14 @@ jQuery.extend({
         var form = $('<form  action="" method="POST" name="' + formId + '" id="' + formId + '" enctype="multipart/form-data"></form>'); 
         var oldElement = $('#' + fileElementId);
         var newElement = $(oldElement).clone();
-        $(oldElement).attr('id', fileId);
-        $(oldElement).before(newElement);
-        $(oldElement).appendTo(form);
+        oldElement.attr('id', fileId).before(newElement);
+        oldElement.appendTo(form);
         if(extra != 'undefined'){
             for (var fieldName in extra){
                 $('<input value="'+extra[fieldName]+'" name="'+fieldName+'"/>') .appendTo(form);
             }
         }
-        $(form).css('position', 'absolute').css('top', '-1200px').css('left', '-1200px');
-        $(form).appendTo('body');   
+        $(form).css('position', 'absolute').css('top', '-1200px').css('left', '-1200px').appendTo('body');   
         return form;
     },
 
@@ -124,19 +122,7 @@ jQuery.extend({
         }
         try {
             var io = $('#' + frameId);
-            var form = $('#' + formId);
-            $(form).attr('action', s.url);
-            $(form).attr('method', 'POST');
-            $(form).attr('target', frameId);
-            if(form.encoding)
-            {
-                form.encoding = 'multipart/form-data';              
-            }
-            else
-            {               
-                form.enctype = 'multipart/form-data';
-            }           
-            $(form).submit();
+            var form = $('#' + formId).attr('action', s.url).attr('target', frameId).submit();
 
         } catch(e)
         {           

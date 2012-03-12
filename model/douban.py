@@ -136,7 +136,7 @@ def douban_user_by_feed_id(id):
         #print user, feed.user_id
         if user:
             return user
-    
+
 
 def user_id_by_url(url):
     return id_by_url(DoubanUser, url)
@@ -232,30 +232,36 @@ def douban_feed_to_review_iter():
 
 def is_rt_by_title(title):
     t = title_normal_sign(title)
-    return title_normal_rt(t)!=t
+    return title_normal_rt(t) != t
 
 def title_normal(title):
     return title_normal_rt(title_normal_sign(title))
 
 if __name__ == '__main__':
     pass
-    #txt='教你怎样成为K歌之王，几天改变你的嗓音!!!（附内部练习＋教学视频）'
-    #print is_rt_by_title(txt)
-    #kv_int.set(KV_IMPORT_DOUBAN,0)
-    #douban_feed_to_review_iter()
-    from zweb.orm import ormiter
-    count = 0
-    for i in ormiter(DoubanFeed):
-        total = i.rec + i.like
-    
-        if total > REC_MIN_RANK:
-            count += 1
-            i.state = DOUBAN_FEED_STATE_TO_REIVEW
-        else:
-            i.state = 0
-        print i.id
-        i.save()
 
+    for pos, i in enumerate(DoubanGroup.where().order_by('member desc')):
+        print pos, i.name, ' | ', i.member, '人'
+        print "http://www.douban.com/group/%s/"%(i.url or i.id)
+        print ''
+
+#txt='教你怎样成为K歌之王，几天改变你的嗓音!!!（附内部练习＋教学视频）'
+#print is_rt_by_title(txt)
+#kv_int.set(KV_IMPORT_DOUBAN,0)
+#douban_feed_to_review_iter()
+#    from zweb.orm import ormiter
+#    count = 0
+#    for i in ormiter(DoubanFeed):
+#        total = i.rec + i.like
+#    
+#        if total > REC_MIN_RANK:
+#            count += 1
+#            i.state = DOUBAN_FEED_STATE_TO_REIVEW
+#        else:
+#            i.state = 0
+#        print i.id
+#        i.save()
+#
 
 #        else:
 #            print title_normal_rt(i.title)
@@ -271,9 +277,9 @@ if __name__ == '__main__':
 #        else:
 #            print title_normal_rt(i.title)
 
-    #print douban_feed_to_review_iter()
-    #print 'DoubanUser.count()', DoubanUser.count()
-    #print 'DoubanFeed.count()', DoubanFeed.count()
+#print douban_feed_to_review_iter()
+#print 'DoubanUser.count()', DoubanUser.count()
+#print 'DoubanFeed.count()', DoubanFeed.count()
 
 #   # print DoubanUser.by_url('zuroc')
 #   #from zweb.orm import ormiter
@@ -284,8 +290,8 @@ if __name__ == '__main__':
 #   # print len("在非相对论系统中，粒子运动速度远小于光速，它们间的相互作用仍很频繁，参与相互作用的粒子数目较多")
 #   # raise
 #   # pass
-    #is_douban_count = 0
-    #not_douban_count = 0
+#is_douban_count = 0
+#not_douban_count = 0
 
 #    for i in sorted(DoubanFeed.where(state=DOUBAN_FEED_STATE_TO_REIVEW), key=lambda x:-x.rec-x.like):
 #        txt = '\n'.join([i.title, i.htm])
@@ -310,7 +316,7 @@ if __name__ == '__main__':
 #
 #            print '%60s %5s %5s %s %s'%( link, i.rec, i.like, title_normal_rt(i.title), len(i.htm))
 
-    #print is_douban_count, not_douban_count
+#print is_douban_count, not_douban_count
 
 #
 ##    print DoubanUser.by_url('zuroc')

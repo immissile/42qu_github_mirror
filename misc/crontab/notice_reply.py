@@ -25,7 +25,7 @@ def reply_notice_mail(po_id, li):
         return
 
     pos, state = po_pos_get(po.user_id, po_id)
-
+    #print pos
     if pos != -1:
         return
 
@@ -53,7 +53,7 @@ def reply_notice_mail(po_id, li):
 
             rendermail( '/mail/notice/notice_reply.htm', mail, zsite.name, format='html', subject=subject, reply_list=li, po=po, zsite=zsite)
 
-            mail = 'zsp007@gmail.com'
+            mail = 'zsp042@gmail.com'
 
             rendermail( '/mail/notice/notice_reply.htm', mail, zsite.name, format='html', subject=subject, reply_list=li, po=po, zsite=zsite)
 

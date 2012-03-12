@@ -27,6 +27,9 @@ class Index(LoginBase):
         else:
 #            zsite_id = 137110
 #            item_list = po_tag(zsite_id, current_user_id, 15, 0 )
+
+            if current_user_id!=zsite_id:
+                return self.redirect("%s/read"%current_user.link) 
             item_list = []
             po_id_list = rec_read_log_by_user_id_auto_more(
                 current_user_id, 14, 0

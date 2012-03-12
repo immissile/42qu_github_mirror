@@ -38,4 +38,4 @@ def upyun_fetch_pic(url):
     return upyun_url
 if __name__ == '__main__':
 
-    print upyun_fetch_pic('http://list.image.baidu.com/t/image_category/galleryimg/being/buru/jing_yu.jpg')
+    print upyun_fetch_pic('http://s7.sinaimg.cn/bmiddle/63fd45b8hb812cd486826&69')

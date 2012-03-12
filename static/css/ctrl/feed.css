@@ -137,11 +137,6 @@ padding:0;
 overflow:hidden;
 box-shadow:0 1px 1px #f3f3f3;
 }
-#main_nav_title{
-color:#000;
-font-weight:bold;
-margin-top:72px;
-}
 #main_nav_opt{
 float:right;
 }
@@ -190,22 +185,10 @@ color:#d20;
 .main_nav .now{
     color:#333;
 }
-.readpad{
-position:relative;
-overflow:auto;
-}
-.readpad .fdbar{
-margin-bottom:0;
-padding-top:7px;
-margin-top:14px;
-}
 .fdbar .readx{
     float:left;
     margin-left:1px;
     margin-top:11px;
-}
-.readpad .fdbar .fdopt{
-margin-right:1px;
 }
 #feeds .readauthor .split{
 margin:0 3px;

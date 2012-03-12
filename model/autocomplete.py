@@ -22,8 +22,8 @@ class AutoComplete:
 
     def __init__(self, name, alias_by_id_query):
         self.ZSET_CID = '%s%%s'%(REDIS_ZSET_CID%name)
-        self.ID2NAME = '%s'%(REDIS_ID2NAME%name)
-        self.NAME2ID = '%s'%(REDIS_NAME2ID%name)
+        self.ID2NAME = REDIS_ID2NAME%name
+        self.NAME2ID = REDIS_NAME2ID%name
         self.CACHE = '%s%%s'%(REDIS_CACHE%name)
         self.alias_by_id_query = alias_by_id_query
 
@@ -66,8 +66,14 @@ class AutoComplete:
             value_name, value_rank = value.rsplit('`', 1)
             if value_name != name:
                 ZSET_CID = self.ZSET_CID
-                for i in self._key(value):
-                    redis.zrem(ZSET_CID%i, id)
+                CACHE = self.CACHE
+                NAME2ID = self.NAME2ID
+                p = redis.pipeline()
+                for i in self._key(value_name):
+                    p.delete(CACHE%i)
+                    p.zrem(ZSET_CID%i, id)
+                p.hdel(NAME2ID, value_name)
+                p.execute()
                 _append = True
             elif int(rank) != int(value_rank):
                 _append = True
@@ -75,10 +81,11 @@ class AutoComplete:
             _append = True
 
         if _append:
-            self._append(name, id, rank)
-            tag_name = name.replace('`', "'").strip()
-            redis.hset(ID2NAME, id, '%s`%s'%(tag_name, rank))
-            self._name2id_set(name,id )
+            if name:
+                self._append(name, id, rank)
+                tag_name = name.replace('`', "'").strip()
+                redis.hset(ID2NAME, id, '%s`%s'%(tag_name, rank))
+                self._name2id_set(name,id )
 
     def _name2id_set(self, name, id):
         NAME2ID = self.NAME2ID
@@ -207,19 +214,52 @@ if __name__ == '__main__':
     from zweb.orm import ormiter
     from model.follow import follow_count_by_to_id
     from model.zsite_fav import zsite_fav_count_by_zsite
+    from model.po_tag import _tag_alias_new
 
-    for i in ormiter(Zsite, 'cid=%s'%CID_TAG):
-        count = zsite_fav_count_by_zsite(i)
-        print i.id
-        autocomplete_tag.rank_update(i.id, count)
-   
-    from model.autocomplete_user import autocomplete_user 
-    for i in ormiter(Zsite, 'cid=%s'%CID_USER):
-        count = follow_count_by_to_id(i.id)
-        print i.id
-        autocomplete_user.rank_update(i.id, count)
+        
+    #    redis.delete(i)
+ 
+   # for i in ormiter(Zsite, 'cid=%s'%CID_TAG):
+   #     for j in i.name.split("/"):
+   #         j = j.strip()
+   #         if j != i.name:
+   #             for k in Zsite.where(cid=CID_TAG, name=j):
+   #                 k.name = ""
+   #                 k.save()
 
-    print autocomplete_tag.id_rank_name_list_by_str('乔', 14)
+   # for i in ormiter(Zsite, 'cid=%s'%CID_TAG):
+   #     count = zsite_fav_count_by_zsite(i)
+   #     autocomplete_tag.rank_update(i.id, count)
+   #     for j in i.name.split("/"):
+   #         j = j.strip()
+   #         if j != i.name:
+   #             _tag_alias_new(i.id, j)
+                #autocomplete_tag.append_alias(j, i.id, count)
+    #i = Zsite.get(name="apple", cid=CID_TAG)
+    #print i.id
+    #i.name = ""
+    #i.save()
+    #autocomplete_tag.append('', i.id , rank=0)
+
+    #for  i in redis.keys("tag`*"):
+    #    for j in redis.zrevrange(i,0, -1):
+    #        from model.zsite import Zsite
+    #        zsite = Zsite.mc_get(j)
+    #        key = redis.hget(REDIS_ID2NAME%'tag',j)
+    #        if not zsite.name:
+    #            redis.zrem(i, j)
+    #            redis.hdel(REDIS_ID2NAME%'tag',j)
+ 
+    #for i in redis.keys(REDIS_CACHE%"*"):
+    #    redis.delete(i)
+
+    #from model.autocomplete_user import autocomplete_user 
+    #for i in ormiter(Zsite, 'cid=%s'%CID_USER):
+    #    count = follow_count_by_to_id(i.id)
+    #    print i.id
+    #    autocomplete_user.rank_update(i.id, count)
+
+    #print autocomplete_tag.id_rank_name_list_by_str('乔', 14)
 
     #autocomplete_tag = AutoComplete('tag')
     #autocomplete_tag.append('Facebook/F8', 76514)

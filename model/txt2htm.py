@@ -66,7 +66,7 @@ def replace_link(match):
     video = video_autoplay_link(g)
 
     if video:
-        return '<a onclick="return fdvideo(this);" class="fdvideo" href="%s">播放视频</a>'%video
+        return '<div class="c"><a onclick="return fdvideo(this);" class="L fdvideo" href="%s">播放视频</a></div>'%video
     elif g.endswith('.swf'):
         return _HTM_SWF%g
     else:

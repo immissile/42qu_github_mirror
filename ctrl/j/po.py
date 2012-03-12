@@ -5,7 +5,7 @@ from ctrl._urlmap.j import urlmap
 from model.zsite_url import zsite_by_domain
 from _handler import JLoginBase, Base
 from model.fs import fs_url_jpg
-from model.po import Po, CID_WORD, CID_NOTE, po_word_new
+from model.po import Po, CID_WORD, CID_NOTE, po_word_new, CID_REC
 from model.po_pic import pic_can_add, po_pic_new, po_pic_rm
 from model.po_question import answer_word2note
 from model.zsite import user_can_reply
@@ -85,10 +85,16 @@ class PoJsonBase(Base):
         r = {
             'cid':cid
         }
+        reply_list = []
         if cid == CID_WORD:
-            reply_list = [ po ] 
+            reply_list.append(po) 
+        elif cid == CID_REC:
+            if po.name_:
+                reply_list.append(po)
+                r['name'] = po.target.name
+            else: 
+                r['name'] = po.name
         else:
-            reply_list = []
             r['name'] = po.name
         r['result'] = _po_reply_result(self, po, id, reply_list)
         return self.finish(r)
