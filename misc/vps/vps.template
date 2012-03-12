@@ -1,0 +1,4 @@
+adduser -m ${username}
+echo ${username}:${passwd}| chpasswd
+sudo -u ${username} ${prefix}/vsp.sh
+

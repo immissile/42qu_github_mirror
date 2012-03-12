@@ -11,31 +11,45 @@ from model.user_mail import mail_by_user_id
 from model.mail import sendmail
 from mako.template import Template
 
-import socket
-host = socket.gethostname()
-print host
+from os.path import abspath, dirname, join, normpath
+
+PREFIX = normpath(dirname(abspath(__file__)))
+TEMPLATE_VPS_SH_PATH = join(PREFIX, "vps.template")
 
 class Vps(Model):
     pass
 
 
-def password():
+def passwd():
     passwd = uuid4().hex[-8:].replace('l', 'k')
     return passwd
 
-#STATE_VPS_TO_OPEN = 10  #等待开通
-#STATE_VPS_OPENED = 20   #已经开通
-#STATE_VPS_TO_CLOSE = 30 #等待关闭
-#STATE_VPS_CLOSED = 40   #已经关闭
+STATE_VPS_TO_OPEN = 10  #等待开通
+STATE_VPS_OPENED = 20   #已经开通
+STATE_VPS_TO_CLOSE = 30 #等待关闭
+STATE_VPS_CLOSED = 40   #已经关闭
+
+USERNAME = "z%s"
 
 def next_id_by_group(group_id):
     r = Vps.raw_sql('select max(id_in_group) from vps where `group`=%s', group_id)
     r = r.fetchone()[0] or 0
     return 1+r
 
-def vps_new(id):
-    vps = Vps.get(id) 
-    username = "z%s"%vps.id_in_group
+from mako.template import Template
+
+def vps_new(vps):
+    username = USERNAME%vps.id_in_group
+    if not vps.passwd:
+        vps.passwd = passwd()
+    vps.state = STATE_VPS_OPENED
+    vps.save()
+    with open(TEMPLATE_VPS_SH_PATH) as template:
+        print Template(template.read()).render(
+            username = username,
+            passwd = passwd(),
+            prefix = PREFIX,
+        )
 
 def vps_id_by_user_id(user_id, group=1):
     vps = Vps.get(user_id=i)
@@ -49,8 +63,27 @@ def vps_id_by_user_id(user_id, group=1):
             user_id=i
         )
         vps.save()
-        vps_new(vps.id)
+        vps_new(vps)
 
+import socket
+host = socket.gethostname()
+def vps_list_by_hostname():
+    import socket
+    host = socket.gethostname()
+    gid = host[1:]
+    if gid.isdigit():
+        return list(Vps.where(group=int(gid)))
+
+def vps_open_all():
+    from passwd import loadpw
+    exist = loadpw()
+    for i in vps_list_by_hostname():
+        username = USERNAME%i.id_in_group
+        if username not in exist:
+            vps_new(i)
+
+if __name__ == "__main__":
+    vps_open_all()
 
 
 #def main():
