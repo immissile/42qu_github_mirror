@@ -69,7 +69,7 @@ def vps_new_by_user_id(user_id, group=GID):
             passwd=""
         )
         vps.save()
-        vps_new(vps)
+    vps_new(vps)
 
 import socket
 host = socket.gethostname()
