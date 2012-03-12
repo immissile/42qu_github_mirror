@@ -174,7 +174,7 @@ class="mr3">${reply_count}</span>{{/if}}评论</a></span>
 target="_blank">${site_name}</a><span
 class="split">,</span>{{/if}}{{/if}}
 
-
+{{if rt_list.length  && rt_list[0].txt[2] == 0 }}<span class="broadcast" title="广播"></span>{{/if}}
 {{if cid==62}}
 <span class="tag_list_wrap">
 <input type="hidden" id="tag_search${id}">

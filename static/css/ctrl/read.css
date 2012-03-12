@@ -97,7 +97,7 @@ li.tag-selected-token p{
     color:#d20;
 }
 li.tag-selected-token span{
-    background-position:-70px ;
+    background-position:-70px 0;
 }
 
 li.tag-input-token {
