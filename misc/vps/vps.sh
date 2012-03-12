@@ -13,4 +13,5 @@ source ~/.bash_profile
 
 virtualenv .env
 pip install setuptools --upgrad
+rm ~/build -rf
 
