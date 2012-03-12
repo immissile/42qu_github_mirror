@@ -2,27 +2,28 @@ $.template(
     'note_li',
     '<div class="readl c">'+
         '<div id="reado${$data[0]}" class="reado">'+
-            '<a rel="${$data[0]}" href="javascript:void(0)" id="fav${$data[0]}" class="fav${$data[0]} fav{{if $data[5]}}ed{{/if}}"></a>'+
+            '<a rel="${$data[0]}" href="javascript:void(0)" id="fav${$data[0]}" class="fav${$data[0]} fav{{if $data[3]}}ed{{/if}}"></a>'+
             '<span class="reada">'+
                 '<span class="title">${$data[1]}</span>'+
                 '<span class="rtip">${$data[2]}</span>'+
             '</span>'+
         '</div>'+
+    '</div>'
+)
+/*
         '{{if $data[3]}}<div class="zname">'+
             '<a href="#" rel="${$data[3]}" class="TPH" target="_blank">${$data[4]}</a>'+
         '</div>{{/if}}'+
-    '</div>'
-)
-
+*/
 
 $.template(
     'tag_cid',
 '<div class="com_main" id="com_main_${$data[0]}">'+
     '<div id="feeds"><div id="feed_index">'+
         '<div class="main_nav">'+
-            '<a class="now" href="/cid/${$data[0]}">'+
+            '<span class="now">'+
                 '${$data[1]}'+
-            '</a>'+
+            '</span>'+
             '<span class="R">共 ${$data[2]} 篇</span>'+
         '</div>'+
         '<div id="item_list_${$data[0]}" class="tag_item_list"></div>'+
@@ -33,23 +34,27 @@ $.template(
 '</div>'
 )
 
+TAG_CID_URL = '/j/tag/'
 function tag_cid_page(cid, page){
     var tag_cid = $('#tag_cid_page'+cid).html('<div class="readloading"></div>'),
-    item_list_cid = $('#item_list_'+cid);
+    item_list_cid = $('#item_list_'+cid),
+    com_main_cid = '#com_main_'+cid;
 
-    $.get('/j/tag/'+cid+'-'+page,function(data){
+    $.get(TAG_CID_URL+cid+'-'+page,function(data){
 
 
         if(page>0){
             item_list_cid.html('')
         }
-        _render_note('#com_main_'+cid,'#item_list_'+cid, data.li);
+        _render_note(com_main_cid,'#item_list_'+cid, data.li);
         var p=data.page
         if(!p){
             tag_cid.css('border',0)
         };
         tag_cid.html(p||'')
-
+        if(page>0){
+            $(window).scrollTop($(com_main_cid).offset().top-6);
+        }
     })
 }
 
@@ -79,17 +84,18 @@ $.template(
     'note_txt',
     '<pre class="prebody">{{html txt}}'+
         '<div class="readauthor">'+
-            '<a target="_blank" href="/${link}">${time}</a>'+
+            '来自'+
             '{{if link}}'+
-            '<span class="split">,</span>'+
-            '{{html user_name}}'+
-            '<a class="aH" href="${link}" target="_blank"></a>'+
+            '<a class="TPH read_author" href="${link}" target="_blank">${user_name}</a>'+
+            '{{else}}'+
+            '<span class="read_author">银河系</span>'+
             '{{/if}}'+
+            '<a href="/po/${id}" class="zsite_reply" onclick="return recreply(this)"></a>'+
         '</div>'+
     '</pre>'+
     '<div class="fdbar">'+
-        '<a href="javascript:void(0)" class="readx"></a>'+
-        '<span><span class="fdopt">'+
+        '<a href="javascript:void(0)" class="readx" title="快捷键 ESC"></a>'+
+        '<span class="R"><span class="fdopt">'+
             '<a class="${fav} fav${id}" href="javascript:void(0)" rel="${id}"></a>'+
                 '<span class="split">-</span>'+
             '<a href="javascript:share(${id});void(0)" class="vote">推荐</a>'+
@@ -100,10 +106,33 @@ $.template(
             '</a>'+
         '</span></span>'+
     '</div>'
-)
-var READX;
+);
 
-function note_li(feed_index, result){
+(function(){
+var READPAD_NAV;
+function readpad_nav_resize(){
+    if(READPAD_NAV){
+        READPAD_NAV.width($(READPAD_NAV[0].parentNode).width())
+    }
+};
+$(window).resize(readpad_nav_resize);
+
+$.template(
+    'po_tag_list',
+    '<span class="po_tag_list">'+
+        '{{each tag_list}}'+
+            '<a class="po_tagw" target="_blank" href="http://${$value[1]}${HOST_SUFFIX}"><span class="po_tag_pic"></span><span class="po_tag_one" >${$value[0]}&#8204;</span></a>'+
+        '{{/each}}'+
+'<a rel="${id}" href="javascript:void(0)" class="tag_list_edit_a'+
+    '{{if tag_list.length}}">编辑'+
+    '{{else}}'+
+        ' tag_list_add_a">添加标签'+
+    '{{/if}}'+
+    '</a></span>'
+);
+
+
+note_li = function (feed_index, result){
     var feeds=$(feed_index[0].parentNode), 
         scrollTop,
         oldtop=-1,
@@ -114,6 +143,7 @@ function note_li(feed_index, result){
         '<div id="main_nav_in">'+
             '<div id="main_nav_opt"></div>'+
             '<a href="javascript:void(0)" title="快捷键 ESC" class="readx"></a>'+
+            '<span id="readtag"></span>'+
         '</div>'+
     '</div>'+
     '<div id="main_nav_title" class="readtitle"></div>'+
@@ -124,68 +154,120 @@ function note_li(feed_index, result){
         main_nav_txt=txt_loading.find('#main_nav_txt'),
         read_loading=txt_loading.find('#read_loading'),
         txt_opt=txt_loading.find('#main_nav_opt'),
-        txt_body;
+        txt_body,
+        readtag = txt_loading.find("#readtag");
 
-    function readx(noscroll){
+            //'<input id="search" type="hidden">'+
+            /*
+    function close_token(){
+        if($('.po_tag_list')[0])$('.po_tag_list').remove()
+        if($('.tag_edit_btn')[0])$('.tag_edit_btn').remove()
+        $('.main_nav').find('ul.token-input-list').remove()           
+    }*/
+
+
+    function readx(){
         if(oldtop<0)return;
         txt_loading.remove()
-        feed_index.show()
-        if(!noscroll){ 
-            winj.scrollTop(oldtop)
-        }
-        oldtop=-1
+        feeds.show()
+        //feed_index.show()
+        //$('.com_main').show()
         txt_body.replaceWith(read_loading)
+//console.info(oldtop)
+        winj.scrollTop(oldtop)
+        oldtop=-1
     }
 
 
     $(document).bind("keyup",function(e){
-        if(e.keyCode == 27){
-            READX()
+        if(e.keyCode == 27&&!$("#fancybox-wrap").is(':visible')){
+            readx()
         }
     })
-    $('.readx').live('click', function(){READX()})
+    $('.readx').live('click', readx)
 
-    READX = readx
 
     result.find('.reada').click(function(){
-        if(READX){
-            READX(1)
-        }
-        READX = readx
+
+        READPAD_NAV = txt_loading.find('#main_nav_txt');
+        oldtop=winj.scrollTop();
 
         scrollTop = feeds.offset().top-14
-        feed_index.hide();
+        feeds.hide()
+        //feed_index.hide();
+        //$('.com_main').hide()
         var p = this.parentNode,
             self=$(p), 
-            title=self.find('.title').addClass('c9'), 
             id=p.id.slice(5), 
+            title='<a class="txt_title_a" target="_blank"  href=/po/'+id+'>'+self.find('.title').text()+'</a>', 
             user=$(p.parentNode).find('.TPH'),
             user_link
             ;
-        feeds.append(txt_loading);
-        oldtop=winj.scrollTop();
-        winj.scrollTop(scrollTop);
-        txt_title.html(title.html())
 
+        self.addClass('c9')
+        //feeds.append(txt_loading);
+
+        readtag.html( '')
+        txt_title.html('')
+
+        feeds.after(txt_loading)
+        winj.scrollTop(scrollTop);
 
         $.get(
         "/j/po/json/"+id,
         function(r){
             r.id=id
+            /*
             if(user[0]){
                 user_link=user[0].href+id
             }else{
                 user_link = 0
             }
-            r.user_name=user.html()
-            r.link = user_link
+            */
+            //r.user_name=user.html()
+            //r.link = user_link
+
             r.time = $.timeago(r.create_time)
             r.fav = $('#fav'+id)[0].className
-            
+            readtag.html( $.tmpl('po_tag_list',r))
             txt_body = $.tmpl('note_txt',r)
             read_loading.replaceWith(txt_body)
-            txt_opt.html(txt_body.find('.fdopt').html());
+            txt_title.html(title).css('marginTop', main_nav_txt.height()+27)
+            var fdopt = txt_body.find('.fdopt'),
+                readauthor = txt_body.find('.readauthor')
+            txt_opt.html(fdopt.html())
+            fdopt.replaceWith(readauthor.html())
+            readauthor.remove()
+/*
+           var tags = r
+           function _(){
+                $('.po_tag_list').remove()
+                $('.tag_edit_btn').show().css('display','inline-block').click(function(){
+                    var tag_id_list=[]
+                    $("input[name='tag_id_list']").each(function(){
+                        tag_id_list.push($(this).val())
+                    })
+                    $.postJSON(
+                        '/j/tag/po/'+id,
+                        {tag_id_list:$.toJSON(tag_id_list)},
+                        function(data){
+                            readtag.html(
+                                $.tmpl('po_tag_list',data)
+                            )
+                            tags = data
+                            $('.tag_list_edit_a').click(_)
+                            //close_token()
+                        }
+                    )
+                })
+                autocomplete_tag('#tag_search', tags.tag_list||[],'tag')
+            }
+            $('.tag_list_edit_a').click(_)
+*/
             winj.scrollTop(scrollTop)
+            readpad_nav_resize()
+            scroll_to_fixed(READPAD_NAV,8,{position:'fixed',"top":0},{position:'absolute',marginTop:0})
+
         })
 
         return false; 
@@ -193,8 +275,54 @@ function note_li(feed_index, result){
 
 
 
-
+/*            var nav_txt =$('#main_nav_txt'), do_width = function(){
+                nav_txt.css('width',$('.readpad').width())
+            }
+            do_width()
+            nav_txt.resize(do_width)
+*/
 };
 
 
+})();
 
+$('.tag_list_edit_a').live('click',function(){
+    var self = $(this),
+        id=this.rel,
+        list_span=$(this.parentNode),
+        wrap=$(list_span[0].parentNode),
+        tags = {
+            tag_list:list_span.find('.po_tagw').map(function(){
+                return [[$(this).text(),this.href.split(".")[0].split("/")[2]]]
+            }).get()
+        },
+        search = $(
+            '<input type="hidden" id="tag_search'+id+
+            '"><a class="tag_edit_btn" href="javascript:void(0)">完成</a>'
+        );
+
+        list_span.replaceWith(search);
+
+        $(search[1]).click(function(){
+            $(this).text("稍等").unbind('click')
+            $.postJSON(
+                '/j/tag/po/'+id,
+                {
+                    tag_id_list:$.toJSON(
+                        wrap.find("input[name='tag_id_list']").map(function(){
+                            return this.value
+                        }).get()
+                    )
+                },
+                function(data){
+                    data.id=id
+                    wrap.html(
+                        $.tmpl('po_tag_list',data)
+                    )
+                    tags = data
+                }
+            )
+        })
+        autocomplete_tag('#'+search[0].id, tags.tag_list||[],'tag')
+        wrap.find("input:last").focus()
+})

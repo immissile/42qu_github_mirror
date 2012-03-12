@@ -102,7 +102,10 @@ def feed_new(feed):
     txt = txt_img_fetch(feed.txt)
     zsite_id = feed.zsite_id
     feed_user = user_by_feed_id_zsite_id(zsite_id, feed.rid)
-    user_id = feed_user.user_id
+    if feed_user:
+        user_id = feed_user.user_id
+    else:
+        user_id = 0
     id = feed.id
 
     if user_id:

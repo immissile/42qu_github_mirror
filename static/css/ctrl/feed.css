@@ -134,11 +134,8 @@ text-align:left;
 text-align:left;
 border-bottom:0;
 padding:0;
-}
-#main_nav_title{
-color:#000;
-font-weight:bold;
-margin-top:14px;
+overflow:hidden;
+box-shadow:0 1px 1px #f3f3f3;
 }
 #main_nav_opt{
 float:right;
@@ -177,7 +174,7 @@ color:#999;
 padding: 7px 2px;
 }
 .main_nav a{
-    color:#999;
+color:#999;
 }
 #feeds .readpad .split{
 margin:0 14px;
@@ -186,23 +183,29 @@ margin:0 14px;
 margin-left:-12px;
 }
 .main_nav a:hover{
-    color:#333;
+color:#d20;
 }
 .main_nav .now{
     color:#333;
-}
-.readpad .fdbar{
-margin-bottom:0;
-padding-top:7px;
 }
 .fdbar .readx{
     float:left;
     margin-left:1px;
     margin-top:11px;
 }
-.readpad .fdbar .fdopt{
-margin-right:1px;
-}
 #feeds .readauthor .split{
 margin:0 3px;
 }
+.fdbar .read_author{
+color:#222;
+margin-left:6px;
+}
+.fdbar .read_author:hover{
+color:#d20;
+}
+.prebody img{
+max-width:100%;
+display:block;
+margin:auto;
+}
+

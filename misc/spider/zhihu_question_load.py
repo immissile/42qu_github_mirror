@@ -23,16 +23,18 @@ def parse_content(txt):
 
 def zhihu_to_dump():
     with open('/home/zuroc/zpage/misc/spider/zhihu_question_to_dump.json') as zhihu_question_dump:
-        for line in zhihu_question_dump:
+        for line in reversed(list(zhihu_question_dump)):
             line = loads(line)
             key = line[1]
             filename = md5(key).hexdigest()
             #print filename
             path = '/tmp/www.zhihu.com/%s'%filename
             if exists(path):
-                yield line_parser(path, line)
+                r = line_parser(path, line)
             else:
-                pass
+                r = None
+            if not r:
+                yield line[-2], line[2], line[-1]
 
 def line_parser(path, line):
     if exists(path):
@@ -42,7 +44,6 @@ def line_parser(path, line):
                 s = parse_content(t)
                 return line[-2], line[2], s
 
-    return line[-2], line[2], line[-1]
 
 
 if __name__ == '__main__':

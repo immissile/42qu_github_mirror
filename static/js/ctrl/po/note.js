@@ -1,5 +1,5 @@
 $(function(){
-    var name=$("#name").focus();
+    var name=$("#name");
 
     $("#po_form").submit(function(){
         $("[placeholder]").each(function(){
@@ -20,7 +20,7 @@ $(function(){
     
     function txtresize() {
         var inpo = $("#po_btn"),
-        h = Math.max(win.height() - inpo.height() - txt.offset().top - 50, 250);
+        h = Math.max(win.height() - txt.offset().top - 37, 250);
         txt.height(h)
     }
     txtresize()
@@ -33,7 +33,37 @@ $(function(){
     }) 
 
     $("#txt").bind("keydown",insertTab);
+
+
+    autocomplete_tag('#search', window.TAG_LIST||[]);
+    function show_placeholder(){
+        if(!$('#token-input-search').val().length>0 && !$('.token-input-token').length>0){
+            $('.token-input-list').hide()
+            $('#search').val("").show()
+            $('#token-input-search').unbind('blur')
+        }
+        if(document.activeElement.id!='token-input-search'){
+            $('.token-input-dropdown').hide()
+        }
+    }
+    function show_token_input(){
+        $('#token-input-search').focus().blur(show_placeholder).focus(function(){
+            if($('#token-input-search').val().length>0)
+            $('.token-input-dropdown').show()}
+        )
+    }
+    show_placeholder()
+    function _(){
+        $(".token-input-list").show()
+        $(this).hide()
+        if(navigator.userAgent.indexOf("MSIE")>0) { 
+            setTimeout(show_token_input,10)
+        }else{
+            show_token_input()
+        }
+    }
+    $('#search').bind('click',_).show().click()
+
+    name.focus().select()
 })
-
-
 

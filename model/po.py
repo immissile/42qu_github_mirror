@@ -110,7 +110,8 @@ class Po(McModel, ReplyMixin):
 
     @attrcache
     def user(self):
-        return Zsite.mc_get(self.user_id)
+        if self.user_id:
+            return Zsite.mc_get(self.user_id)
 
     @attrcache
     def target(self):
@@ -250,7 +251,7 @@ class Po(McModel, ReplyMixin):
 
     def can_admin(self, user_id):
         if user_id is not None and self.user_id:
-            return self.user_id == user_id
+            return self.user_id == int(user_id)
 
     def reply_new(self, user, txt, state=STATE_ACTIVE):
         reply_id = super(Po, self).reply_new(user, txt, state)
@@ -307,9 +308,9 @@ def po_new(cid, user_id, name, state, rid=0, id=None, zsite_id=0):
     )
     m.save()
 
-    from po_pos import po_pos_set
-
-    po_pos_set(user_id, m)
+    if cid != CID_NOTE: #NOTE 可能是导入 , 通过po pos的状态判断是不是要发邮件
+        from po_pos import po_pos_set
+        po_pos_set(user_id, m)
 
     mc_flush(user_id, cid)
     m.tag_new()
@@ -373,11 +374,7 @@ def po_rm(user_id, id):
                 from model.po_recommend import po_recommend_rm_reply
                 po_recommend_rm_reply(id, user_id)
 
-            from model.po_recommend import mq_rm_rec_po_by_po_id
-            mq_rm_rec_po_by_po_id(user_id, id)
 
-            from po_tag  import tag_rm_by_po
-            tag_rm_by_po(po)
 
             return _po_rm(user_id, po)
 
@@ -387,6 +384,9 @@ def _po_rm(user_id, po):
     po.save()
     id = po.id
     feed_rm(id)
+
+    from model.po_recommend import mq_rm_rec_po_by_po_id
+    mq_rm_rec_po_by_po_id(user_id, id)
 
     from zsite_tag import zsite_tag_rm_by_po
     zsite_tag_rm_by_po(po)
@@ -515,6 +515,11 @@ def mc_flush_zsite_cid(zsite_id, cid):
 
 
 if __name__ == '__main__':
+    for i in Po.where(user_id=10078195, cid=CID_NOTE):
+        if "1.42qu.us" in i.txt:
+            print i.name
+            po_rm(i.user_id, i.id)
+    raise
     po = Po.mc_get(10236747)
     print  po.name_
 

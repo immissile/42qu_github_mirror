@@ -33,6 +33,7 @@ $(function(){
 })
 
 
+/*
 if(!IE6){
     $(function(){
         var st = $('#sT');
@@ -49,6 +50,14 @@ if(!IE6){
 
     })
 }
+*/
+
+$(function(){
+    var style1 = {'position':'fixed',"marginTop":"-56px"},style2 = {'position':'absolute',"marginTop":"36px"}
+  
+    scroll_to_fixed('#sT',-16,style1,style2)
+})
+
 $(function(){
     codesh()
     if($(window).width()<827){

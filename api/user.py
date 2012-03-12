@@ -37,11 +37,11 @@ class Login(OauthBase):
     def get(self):
         mail = self.get_argument('mail', None)
         passwd = self.get_argument('passwd', None)
-        auth = self.get_argument('client_secret', None)
+        client_secret = self.get_argument('client_secret', None)
         client_id = self.get_argument('client_id', None)
 
         if mail_password_verify(mail, passwd):
-            if oauth_secret_verify(client_id, auth):
+            if oauth_secret_verify(client_id, client_secret):
                 user_id = user_id_by_mail(mail)
                 id, access_token = oauth_access_token_new(client_id, user_id)
                 refresh_token = oauth_refresh_token_new(client_id, id)
@@ -52,6 +52,14 @@ class Login(OauthBase):
                         'expires_in': 87063,
                         'scope': 'basic'
                    })
+            else:
+                self.finish(
+                        {
+                            'error_code':2,
+                            'error': "oauth_secret_verify(client_id, client_secret) failed"
+                            }
+                        )
+            
         else:
             self.finish(
                     {

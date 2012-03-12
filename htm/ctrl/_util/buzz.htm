@@ -1,5 +1,5 @@
 <%!
-from model.cid import CID_BUZZ_SYS,  CID_BUZZ_FOLLOW,    CID_BUZZ_EVENT_JOIN,  CID_WORD, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_EVENT_NOTICE , CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_ZSITE_TUPLE_CN ,  CID_REVIEW
+from model.cid import CID_BUZZ_SYS,  CID_BUZZ_FOLLOW,    CID_BUZZ_EVENT_JOIN,  CID_WORD, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_EVENT_NOTICE , CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_ZSITE_TUPLE_CN ,  CID_REVIEW, CID_BUZZ_PO_FAV
 from config import SITE_DOMAIN, FS_DOMAIN
 from model.zsite import Zsite
 from model.buzz import buzz_show as _buzz_show, buzz_unread_count
@@ -31,6 +31,8 @@ ${user_link_list_with_career(from_list)} 关注了我
     % else:
 ${user_link_list(from_list)} 关注了 ${user_career_link(entry)}
     % endif
+% elif cid == CID_BUZZ_PO_FAV:
+${user_link_list(from_list)} 收藏 ${po_link(entry)} 
 % elif cid == CID_BUZZ_EVENT_JOIN:
 ${user_link_list(from_list)} 参加 ${po_link(entry)} 活动
 % elif cid == CID_BUZZ_EVENT_FEEDBACK_OWNER:

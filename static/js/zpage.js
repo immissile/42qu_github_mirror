@@ -1,4 +1,5 @@
 HOST_SUFFIX=location.host.slice(location.host.indexOf("."));
+HOST = HOST_SUFFIX.slice(1);
 
 (function( jQuery ){
 
@@ -102,12 +103,123 @@ jQuery.extend({
             }
         }
         return jQuery.isotime(timestamp)
-    }
+    },
 /*,
     getCss: function(url){
         $("head").append($('<link type="text/css" rel="stylesheet"/>').attr('href',url));
     }
 */
+
+    toJSON : function( o ) {
+
+        if ( o === null ) {
+            return 'null';
+        }
+
+        var type = typeof o;
+
+        if ( type === 'undefined' ) {
+            return undefined;
+        }
+        if ( type === 'number' || type === 'boolean' ) {
+            return '' + o;
+        }
+        if ( type === 'string') {
+            return $.quoteString( o );
+        }
+        if ( type === 'object' ) {
+            if ( typeof o.toJSON === 'function' ) {
+                return $.toJSON( o.toJSON() );
+            }
+            if ( o.constructor === Date ) {
+                var month = o.getUTCMonth() + 1,
+                    day = o.getUTCDate(),
+                    year = o.getUTCFullYear(),
+                    hours = o.getUTCHours(),
+                    minutes = o.getUTCMinutes(),
+                    seconds = o.getUTCSeconds(),
+                    milli = o.getUTCMilliseconds();
+
+                if ( month < 10 ) {
+                    month = '0' + month;
+                }
+                if ( day < 10 ) {
+                    day = '0' + day;
+                }
+                if ( hours < 10 ) {
+                    hours = '0' + hours;
+                }
+                if ( minutes < 10 ) {
+                    minutes = '0' + minutes;
+                }
+                if ( seconds < 10 ) {
+                    seconds = '0' + seconds;
+                }
+                if ( milli < 100 ) {
+                    milli = '0' + milli;
+                }
+                if ( milli < 10 ) {
+                    milli = '0' + milli;
+                }
+                return '"' + year + '-' + month + '-' + day + 'T' +
+                    hours + ':' + minutes + ':' + seconds +
+                    '.' + milli + 'Z"';
+            }
+            if ( o.constructor === Array ) {
+                var ret = [];
+                for ( var i = 0; i < o.length; i++ ) {
+                    ret.push( $.toJSON( o[i] ) || 'null' );
+                }
+                return '[' + ret.join(',') + ']';
+            }
+            var name,
+                val,
+                pairs = [];
+            for ( var k in o ) {
+                type = typeof k;
+                if ( type === 'number' ) {
+                    name = '"' + k + '"';
+                } else if (type === 'string') {
+                    name = $.quoteString(k);
+                } else {
+                    // Keys must be numerical or string. Skip others
+                    continue;
+                }
+                type = typeof o[k];
+
+                if ( type === 'function' || type === 'undefined' ) {
+                    // Invalid values like these return undefined
+                    // from toJSON, however those object members
+                    // shouldn't be included in the JSON string at all.
+                    continue;
+                }
+                val = $.toJSON( o[k] );
+                pairs.push( name + ':' + val );
+            }
+            return '{' + pairs.join( ',' ) + '}';
+        }
+    },
+
+    /**
+     * jQuery.quoteString
+     * Returns a string-repr of a string, escaping quotes intelligently.
+     * Mostly a support function for toJSON.
+     * Examples:
+     * >>> jQuery.quoteString('apple')
+     * "apple"
+     *
+     * >>> jQuery.quoteString('"Where are we going?", she asked.')
+     * "\"Where are we going?\", she asked."
+     */
+    quoteString :  function( string ) {
+        return '"' + string.replace(/\\/g, "\\\\")
+                          .replace(/\n/g, "\\n")
+                          .replace(/"/g, '\\"')
+                          .replace(/\r/g, "\\r")
+                          .replace(/\t/g, "\\t")
+                          .replace(/\f/g, "\\f") + '"';
+    }
+
 })
 })(jQuery);
 
@@ -535,3 +647,43 @@ function fdvideo(e){
 RegExp.escape = function(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 }
+
+function scroll_to_fixed(id, size, style1, style2){
+    if(!IE6){
+        var elem = $(id), fix_css=elem[0].id+"_fix"
+        if(elem[0]){
+            elem.css('position','absolute')
+            var wrap = elem.parent(),wraptop = wrap.offset().top,
+            top = elem.offset().top, win=$(window).scroll(function() {
+                var scroll = win.scrollTop(),
+                limit =  wraptop + wrap.height()
+                if((scroll >= top+size) && (scroll<limit-80)){
+                    elem.css(style1)
+                    elem.addClass(fix_css)
+                }else{
+                    elem.css(style2)
+                    elem.removeClass(fix_css)
+                }
+            })
+        }
+    }
+}
+
+function star_fav(id,type){
+    if(!islogin())return;
+    var num,url
+    if(type===0){
+        num = 1
+        url = ''
+    }else{
+        num = 0
+        url = 'rm/'
+    }
+    $.postJSON(
+        '/j/fav/' + url + id,
+        function(){
+            $("#star_fav"+id).attr('class','sitefav'+num).attr('href','javascript:star_fav('+id+','+num+');void(0)')
+        }
+    )
+}
+

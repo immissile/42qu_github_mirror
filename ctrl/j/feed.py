@@ -16,6 +16,7 @@ from operator import itemgetter
 from model.career import career_dict
 from model.zsite import Zsite
 from model.po_video import CID_VIDEO, video_link_autoplay
+from model.po_tag import tag_name_id_list_by_po_id
 from model.event import Event
 from zkit.time_format import friendly_time
 from model.fav import fav_new, fav_rm
@@ -27,6 +28,7 @@ from model.po_pos import po_pos_mark
 from model.event import EVENT_STATE_END , event_joiner_feedback_normal_count , event_joiner_feedback_good_count
 from model.zsite_site import zsite_id_list_by_user_id
 from model.site_feed import site_po_iter
+from model.career import career_current_str
 
 @urlmap('/j/site/feed/(\d+)')
 class SiteFeed(JLoginBase):
@@ -131,6 +133,8 @@ class Feed(JLoginBase):
 
                     if after:
                         i.extend(after)
+                    tag_list = tag_name_id_list_by_po_id(id)
+                    i.append(tag_list)
                     t.append(i[1:])
 
                 unit, title = c_dict[zsite_id]
@@ -162,11 +166,21 @@ class PoJson(Base):
         po = Po.mc_get(id)
         current_user_id = self.current_user_id
         if po.can_view(self.current_user_id):
+            tag_list = tag_name_id_list_by_po_id(id)
+
             result = {
                 'txt':po.htm,
                 'reply_count':po.reply_count,
-                'create_time':po.create_time
+                'create_time':po.create_time,
+                'tag_list':tag_list,
             }
+            user = po.user
+            if user:
+                result['link'] = user.link
+                result['user_name'] = " ".join((
+                    user.name,
+                    career_current_str(user.id)
+                ))
             po_pos_mark(current_user_id, po)
         else:
             result = {}

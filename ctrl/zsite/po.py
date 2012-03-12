@@ -17,7 +17,7 @@ from model.event import Event, event_init2to_review
 from model.po_event import event_joiner_state_set_by_good
 from model.zsite_url import link
 from model.zsite_site import zsite_id_by_zsite_user_id
-from model.po_tag import po_tag_new_by_autocompelte
+from model.po_tag import po_tag_new_by_autocompelte , REDIS_REC_CID_NOTE , REDIS_REC_CID_TALK 
 from json import loads
 
 def update_pic(form, user_id, po_id, id):
@@ -95,7 +95,6 @@ def po_post(self):
 
     arguments = self.request.arguments
 
-    tag_cid = None
     state = None
 
     if cid == CID_EVENT_FEEDBACK:
@@ -104,23 +103,15 @@ def po_post(self):
     else:
         zsite_id = zsite_id_by_zsite_user_id(zsite, user_id)
 
-        if cid == CID_NOTE:
-            tag_cid = int(self.get_argument('tag_cid', 0))
-            if tag_cid < 0:
-                tag_cid = None
+
+        if zsite_id:
+            state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
+        else:
+            secret = self.get_argument('secret', None)
+            if secret:
                 state = STATE_SECRET
             else:
                 state = STATE_ACTIVE
-        else:
-
-            if zsite_id:
-                state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
-            else:
-                secret = self.get_argument('secret', None)
-                if secret:
-                    state = STATE_SECRET
-                else:
-                    state = STATE_ACTIVE
 
     if state == STATE_SECRET:    
         from model.feed import feed_rm
@@ -141,10 +132,10 @@ def po_post(self):
             '%s_%s' % (user_id, self_id)
         )
 
-    if tag_cid:
-        tag_id_list = self.get_argument('tag_id_list', '[]')
-        tag_id_list = loads(tag_id_list)
-        po_tag_new_by_autocompelte(po, tag_id_list, tag_cid)
+    if cid == CID_NOTE and po:
+        tag_id_list = self.get_arguments('tag_id_list', [])
+
+        po_tag_new_by_autocompelte(po, tag_id_list, admin_id = user_id)
 
     return po
 
@@ -152,14 +143,13 @@ def po_post(self):
 class PoBase(LoginBase):
     id = 0
     cid = None
-    template = None
+    template = 'ctrl/zsite/po/po.htm'
     po_save = None
     po_post = po_post
 
     def get(self):
         user_id = self.current_user_id
         self.render(
-            'ctrl/zsite/po/po.htm',
             cid=self.cid,
             po=JsDict(),
             pic_list=pic_list_edit(user_id, 0),
@@ -183,6 +173,7 @@ class PoBase(LoginBase):
 class PoNote(PoBase):
     cid = CID_NOTE
     po_save = staticmethod(po_note_new)
+    template = "/ctrl/zsite/po/note.htm"
 
 
 @urlmap('/po/question')
@@ -220,12 +211,16 @@ class Edit(LoginBase):
             return self.redirect(
                 '%s/po/edit/%s'%(link(po_zsite_id), id)
             )
-
-        if po.cid == CID_EVENT_FEEDBACK:
+        cid = po.cid
+        if cid == CID_EVENT_FEEDBACK:
             self.event = Event.mc_get(po.rid)
 
+        if cid == CID_NOTE:
+            template = 'ctrl/zsite/po/note.htm'
+        else:
+            template = 'ctrl/zsite/po/po.htm'
         self.render(
-            'ctrl/zsite/po/po.htm',
+            template,
             po=po,
             cid=po.cid,
             pic_list=pic_list_edit(user_id, id)

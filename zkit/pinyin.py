@@ -291,9 +291,13 @@ def pinyin_list_by_str(text):
 
     pinyin_list = []
     for char in text:
-        pinyin = pinyin_by_char(char)
-        if pinyin:
-            pinyin_list.append(pinyin)
+        try:
+            pinyin = pinyin_by_char(char)
+        except IndexError:
+            continue
+        else:
+            if pinyin:
+                pinyin_list.append(pinyin)
     return pinyin_list
 
 def pinyin_by_str(text):

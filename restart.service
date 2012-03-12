@@ -1,5 +1,6 @@
 python static/make.py
 
+
 PROCESS="ps x -u work"
 
 $PROCESS|ack server_god\.py|ack python|awk '{print $1}'|xargs kill

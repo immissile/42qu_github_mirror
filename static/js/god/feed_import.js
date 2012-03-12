@@ -1,7 +1,8 @@
-function load_tag(id){ 
-    var data, prefix='/feed_import/'+id;
+function load_tag(id, prefix){ 
+    var data;
+    prefix+=id;
 
-    function refresh_data(r)
+    refresh_data = function(r)
     {
         if(data===0){
             alert("没有内容了")
@@ -12,7 +13,11 @@ function load_tag(id){
                 setTimeout(btn.show(1000),1500)
             });
             $("#editwrapper").html($("#render_txt").tmpl(data));
-            $("#author_rm").attr('checked',data.author_rm);
+
+if(data.author_rm){
+    $("#author_rm").attr('checked',data.author_rm);
+}
+
             autocomplete_tag("#tag_id_list", data.tag_id_list)
             //var txt=$("#txt")
 //            txt.height(txt[0].scrollHeight);
@@ -27,7 +32,7 @@ function load_tag(id){
 
     $("#nobtn").live('click',function(){
         $.postJSON(
-            prefix+'/rm/'+$("#feed_id").val(),
+            prefix+'/pass/'+$("#feed_id").val(),
             refresh_data
         );
         $("#editform").remove()

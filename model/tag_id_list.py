@@ -39,6 +39,15 @@ class Tag2IdList(object):
 
         self._flush_count(tag_id_set)
 
+
+    def tag_id_count_list(self):
+        return redis.zrangebyscore(
+            self.key_tag_count, 
+            "(0",'+inf', 
+            withscores = True,
+            score_cast_func = int
+        )
+
     def _flush_count(self, tag_id_set):
         key_tag_id_xid_list = self.key_tag_id_xid_list
         key_tag_count = self.key_tag_count
@@ -91,7 +100,7 @@ class Tag2IdList(object):
 if __name__ == "__main__":
     pass
 
-    t = Tag2IdList('T')
-    print t.id_list_by_tag_id(2)
+#    t = Tag2IdList('T')
+#    print t.id_list_by_tag_id(2)
 
 

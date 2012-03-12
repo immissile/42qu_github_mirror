@@ -8,6 +8,7 @@ from cid import CID_EVENT
 from model.po_pos import po_pos_get, po_pos_set, po_pos_state, STATE_BUZZ
 from zsite import Zsite
 from collections import defaultdict
+from model.buzz import mq_buzz_po_fav_new
 
 class Fav(Model):
     pass
@@ -48,6 +49,8 @@ def fav_new(user_id, po_id):
         from po_tag import po_score_incr
         po_score_incr(po, user_id, 7)
 
+        mq_buzz_po_fav_new(user_id, po_id)
+
 def fav_rm(user_id, po_id):
     cid = fav_cid(user_id, po_id)
     if cid:
@@ -55,6 +58,10 @@ def fav_rm(user_id, po_id):
         mc_fav_cid.set('%s_%s' % (user_id, po_id), 0)
         mc_flush_by_user_id(user_id, cid)
         mc_flush_by_po_id(po_id)
+        
+        po = Po.mc_get(po_id)
+        from po_tag import po_score_incr
+        po_score_incr(po, user_id, -7)
 
 def fav_rm_by_po(po):
     po_id = po.id

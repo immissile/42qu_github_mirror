@@ -47,8 +47,8 @@ def po_json(user_id, po_id_list, line_width):
             id,
             name,
             tip,
-            user_id,
-            user_name,
+#            user_id,
+#            user_name,
             fav_dict[id]
         ))
 # 0   1       2     3           4               5

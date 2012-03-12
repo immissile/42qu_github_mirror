@@ -3,8 +3,7 @@
 from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum
 from txt2htm import RE_AT
-from cid import CID_BUZZ_SYS, CID_BUZZ_FOLLOW, CID_BUZZ_EVENT_JOIN,  CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_USER, CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV
-
+from cid import CID_BUZZ_SYS, CID_BUZZ_FOLLOW, CID_BUZZ_EVENT_JOIN,  CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_USER, CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_BUZZ_PO_FAV
 from zsite import Zsite, ZSITE_STATE_ACTIVE
 from follow import Follow
 from po import Po
@@ -49,6 +48,7 @@ BUZZ_DIC = {
     CID_BUZZ_EVENT_JOIN: Po,
     CID_BUZZ_EVENT_FEEDBACK_OWNER: Po,
     CID_BUZZ_EVENT_FEEDBACK_JOINER: Po,
+    CID_BUZZ_PO_FAV: Po,
     CID_BUZZ_SITE_NEW : Zsite,
     CID_BUZZ_SITE_FAV : Zsite,
 }
@@ -64,6 +64,12 @@ def buzz_new(from_id, to_id, cid, rid):
     mc_flush(to_id)
     buzz_unread_update(to_id)
     return b
+
+def buzz_po_fav_new(from_id, po_id):
+    for i in ormiter(Follow, 'to_id=%s and from_id!=%s' % (from_id, from_id)):
+        buzz_new(from_id, i.from_id, CID_BUZZ_PO_FAV, po_id)
+    
+mq_buzz_po_fav_new = mq_client(buzz_po_fav_new)
 
 def buzz_sys_new(user_id, rid):
     buzz_new(0, user_id, CID_BUZZ_SYS, rid)

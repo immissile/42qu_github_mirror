@@ -12,6 +12,10 @@ json.load = yajl.load
 
 
 import _env
+from zkit.escape import json_encode 
+from tornado import escape
+escape.json_encode = json_encode
+
 from mysql import DB_MAIN_TABLE, DB_GOOGLE_TABLE
 import zkit.cookie_morsel 
 from hmako.lookup import TemplateLookup
