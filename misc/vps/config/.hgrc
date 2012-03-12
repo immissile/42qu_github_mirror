@@ -5,15 +5,8 @@ USERNAME
 verbose = True
 ssh = ssh -i ~/.ssh/id_rsa -C
 ignore = ~/.hgignore
-#merge = vimdiff
-#
-#[merge-tools]
-#vimdiff.executable = vim
-#vimdiff.args = -d $base $local $output $other +close +close
 
 
-[hooks]
-#commit.autopush = hg push
 
 
 [extensions]
@@ -24,6 +17,12 @@ hgext.graphlog =
 bookmarks =
 hggit =
 progress =
+hgsubversion =
+
+[web]
+cacerts = /etc/ssl/certs/ca-certificates.crt
+
+
 
 [color]
 status.modified = blue underline red_background
@@ -46,5 +45,3 @@ diff.trailingwhitespace = red_background
 [alias]
 blame = annotate --user --number
 
-[diff]
-git = True
