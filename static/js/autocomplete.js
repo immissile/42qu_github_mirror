@@ -44,8 +44,9 @@ function autocomplete_tag(id, default_tag_list, idPrefix){
                     }
                 }
                 if(ctrl){
-                    var input_val = $('#token-input-'+id.substring(1)).val()
-                }list.unshift({id:'-'+input_val,name:input_val,num:0})
+                    word = $('#token-input-'+id.substring(1)).val()
+                    list.unshift({id:'-'+word,name:word,num:0})
+                }
                 return list
             },
             hintText:'',
