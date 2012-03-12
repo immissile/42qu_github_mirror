@@ -29,20 +29,19 @@ DELETEURL = "/j/po/upload/rm${suffix}"
 <script src="${js.upload}"></script>
 <script src="${js.pic}"></script>
 
-${css.ctrl_zsite_com|n}
 ${css.ctrl_po_edit|n}
 ${css.ctrl_po_note|n}
 </%def>
 
 <%htm:form enctype="multipart/form-data" id="po_form">
-<div class="com_wrap">
-<div class="com_main">
+<div class="z_wrap">
+<div class="z_main">
 <input id="name" type="text" autocomplete="off" name="name" value="${po.name_}">\
 <textarea id="txt" name="txt">${po.txt}</textarea>
 </div>
 </div>
 
-<div class="com_side">
+<div class="z_side">
 %if po:
 <div class="po_btnw c">\
 <button type="submit" class="po_btn">保存</button>\

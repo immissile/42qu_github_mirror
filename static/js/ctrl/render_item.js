@@ -18,7 +18,7 @@ $.template(
 
 $.template(
     'tag_cid',
-'<div class="com_main" id="com_main_${$data[0]}">'+
+'<div class="z_main" id="z_main_${$data[0]}">'+
     '<div id="feeds"><div id="feed_index">'+
         '<div class="main_nav">'+
             '<span class="now">'+
@@ -38,7 +38,7 @@ TAG_CID_URL = '/j/tag/'
 function tag_cid_page(cid, page){
     var tag_cid = $('#tag_cid_page'+cid).html('<div class="readloading"></div>'),
     item_list_cid = $('#item_list_'+cid),
-    com_main_cid = '#com_main_'+cid;
+    z_main_cid = '#z_main_'+cid;
 
     $.get(TAG_CID_URL+cid+'-'+page,function(data){
 
@@ -46,14 +46,14 @@ function tag_cid_page(cid, page){
         if(page>0){
             item_list_cid.html('')
         }
-        _render_note(com_main_cid,'#item_list_'+cid, data.li);
+        _render_note(z_main_cid,'#item_list_'+cid, data.li);
         var p=data.page
         if(!p){
             tag_cid.css('border',0)
         };
         tag_cid.html(p||'')
         if(page>0){
-            $(window).scrollTop($(com_main_cid).offset().top-6);
+            $(window).scrollTop($(z_main_cid).offset().top-6);
         }
     })
 }
@@ -65,7 +65,7 @@ function _render_tag_cid(id, data){
         t = data[i]
         cid = t[0]
         item = t[3]
-        _render_note("#com_main_"+cid, "#item_list_"+cid, item)
+        _render_note("#z_main_"+cid, "#item_list_"+cid, item)
     }
 }
 
@@ -171,7 +171,7 @@ note_li = function (feed_index, result){
         txt_loading.remove()
         feeds.show()
         //feed_index.show()
-        //$('.com_main').show()
+        //$('.z_main').show()
         txt_body.replaceWith(read_loading)
 //console.info(oldtop)
         winj.scrollTop(oldtop)
@@ -195,7 +195,7 @@ note_li = function (feed_index, result){
         scrollTop = feeds.offset().top-14
         feeds.hide()
         //feed_index.hide();
-        //$('.com_main').hide()
+        //$('.z_main').hide()
         var p = this.parentNode,
             self=$(p), 
             id=p.id.slice(5), 
@@ -298,21 +298,26 @@ $('.tag_list_edit_a').live('click',function(){
         },
         search = $(
             '<input type="hidden" id="tag_search'+id+
-            '"><a class="tag_edit_btn" href="javascript:void(0)">完成</a>'
+            '"><a class="tag_edit_btn" href="javascript:void(0)" title="Ctrl + Enter 直接提交">完成</a>'
         );
 
         list_span.replaceWith(search);
 
         $(search[1]).click(function(){
+            var tag_id_list = wrap.find("input[name='tag_id_list']").map(function(){
+                return this.value
+            }).get()
+            if(tags.tag_list.length && !tag_id_list.length){
+                if(!confirm('删除所有标签 , 你确定 ???\n\n我们会在后台审核修改记录\n\n将瞎折腾的同学拉入小黑屋')){
+                    wrap.html(list_span)
+                    return
+                }
+            }
             $(this).text("稍等").unbind('click')
             $.postJSON(
                 '/j/tag/po/'+id,
                 {
-                    tag_id_list:$.toJSON(
-                        wrap.find("input[name='tag_id_list']").map(function(){
-                            return this.value
-                        }).get()
-                    )
+                    tag_id_list:$.toJSON(tag_id_list)
                 },
                 function(data){
                     data.id=id
@@ -324,5 +329,6 @@ $('.tag_list_edit_a').live('click',function(){
             )
         })
         autocomplete_tag('#'+search[0].id, tags.tag_list||[],'tag')
+        $('#token-input-'+search[0].id).ctrl_enter(function(){$('.tag_edit_btn').click()})
         wrap.find("input:last").focus()
 })

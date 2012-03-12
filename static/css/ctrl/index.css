@@ -79,14 +79,17 @@ margin:0 7px;
 #H .D_nav
 {
     margin:0;
+    position:relative;
+    right:-4px;
+    overflow:auto;
 }
 #H .H
 {
     width:auto;
-    max-width:1272px;
+    max-width:1296px;
 }
 #H .site{
-    margin-left:13px;
+    margin-left:12px;
 }
 #H .D_na
 {
@@ -242,7 +245,7 @@ padding-top:14px;
 .Rwp{
     float:left;
     width:250px;
-    margin:0 0 0 -174px;
+    margin:0 12px 0 -174px;
     _margin:0 0 0 -194px;
     font-size:12px;
     font-family:'Trebuchet MS', Helvetica, sans-serif;
@@ -459,20 +462,7 @@ padding:2px 12px;
 .feedtab a{
 padding:3px 14px;
 }
-.prebody{
-min-height:167px
-}
-.prebody, #main_nav_title{
-padding-left:20px;
-padding-right:20px;
-}
-#item_list{
-height:259px;
-background:url(/img/gif/loading_bar.gif) 50% 50% no-repeat;
-}
-#item_list .readl{
-background:#fff;
-}
+
 #rowrec .feedB{
 padding-bottom:16px;
 margin-bottom:16px;

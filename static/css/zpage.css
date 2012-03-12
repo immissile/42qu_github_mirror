@@ -557,3 +557,26 @@ background-position:-2px -47px;
 #feeds .fdopt{
 padding-left:2px;
 }
+.z_main{
+width:666px;
+float:left;
+padding:0 26px 26px;
+border:1px solid #f3f3f3;
+box-shadow:2px 2px 2px #f3f3f3;
+position:relative;
+}
+.z_side{
+width:250px;
+float:left;
+overflow:hidden;
+padding-left:32px;
+position:relative;
+min-height:100px;
+margin-top:32px;
+}
+.z_wrap{
+overflow:auto;
+width:722px;
+float:left;
+margin-top:32px;
+}
