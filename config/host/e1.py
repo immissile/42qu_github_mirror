@@ -1,9 +1,10 @@
 #coding:utf-8
 
 import getpass
+from socket import gethostname
 
 def prepare(o):
-    o.SITE_DOMAIN = '%squ.tk'%getpass.getuser()
+    o.SITE_DOMAIN = '%s%s.tk'%(getpass.getuser(),gethostname()) 
     o.FILE_DOMAIN = 'p.%s'%o.SITE_DOMAIN
     o.FS_DOMAIN = 's.%s'%o.SITE_DOMAIN
 
