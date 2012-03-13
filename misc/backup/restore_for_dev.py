@@ -14,14 +14,20 @@ if config.MYSQL_HOST != "127.0.0.1":
     raise
 
 
+from zweb.orm import ormiter
+
+from model.namecard import Namecard
+for i in ormiter(Namecard):
+    i.mail = ""
+    i.phone = ""
+    i.save()
+
+from zweb.orm import ormiter
+from model.user_mail import UserMail
+from model.vps import Vsfor i in ormiter(UserMail):
+    i.mail = "%s@42qu.com"%i.id 
+    i.save() 
+ 
 
 from model.txt import Txt
-from zweb.orm import ormiter
-print Txt.get(10098265).txt
-
-#for i in ormiter(Txt):
-#    if "测试数据" in i.txt:
-#        print i.txt 
-#Txt.where().update(txt="测试数据")
-#for i in ormiter(Txt):
-#    print i.txt
+Txt.where().update(txt = "测试数据")
