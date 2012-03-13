@@ -1,3 +1,5 @@
+#coding:utf-8
+import _env
 from glob import glob
 from os.path import exists
 from mako.template import Template
@@ -22,7 +24,9 @@ def prepare(o):
     o.SMTP_USERNAME = ''
     o.SMTP_PASSWORD = ''
     o.SENDER_MAIL = o.SMTP_USERNAME
-""")
+""",
+input_encoding='utf-8',
+)
 
 for id in USER:
     i = "z%s"%id
