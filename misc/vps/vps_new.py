@@ -10,7 +10,7 @@ from model.event import event_joiner_user_id_list
 from model.user_mail import mail_by_user_id
 from mako.template import Template
 from model.zsite_url import url_or_id
-from os.path import abspath, dirname, join, normpath
+from os.path import abspath, dirname, join, normpath, exists
 from model.mail import sendmail
 import envoy
 import socket
@@ -46,6 +46,9 @@ from mako.template import Template
 
 def vps_new(vps):
     username = USERNAME%vps.id_in_group
+    if exists("/home/%s"%username):
+        print username, "exist"
+        return
     if not vps.passwd:
         vps.passwd = passwd()
     vps.state = STATE_VPS_OPENED
@@ -105,6 +108,7 @@ def vps_new_by_user_id(user_id, group=GID):
         vps.save()
     vps_new(vps)
 
+
 import socket
 host = socket.gethostname()
 def vps_list_by_hostname():
@@ -121,8 +125,9 @@ def vps_open_all():
 if __name__ == '__main__':
 #    vps_open_all()
 #    vps_new_by_user_id(10000000, group=GID)
-
-    vps_new_by_user_id
+    
+    from model.zsite import zsite_by_query
+    vps_new_by_user_id(zsite_by_query("realfex"))
 
 #def main():
 #
