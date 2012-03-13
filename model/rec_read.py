@@ -363,38 +363,20 @@ def rec_read(user_id, limit):
 
 if __name__ == '__main__':
     pass
-    from model.po import Po, STATE_ACTIVE
 
-    REDIS_REC_TAG_NEW = 'Rec/%s'%'*'                  
-    REDIS_REC_TAG_OLD = 'Rec&%s'%'*'
 
-    for i in redis.keys(REDIS_REC_TAG_NEW):
-        for j in redis.smembers(i):
-            po = Po.mc_get(j)
-            if po.state < STATE_ACTIVE:
-                redis.srem(i, j)
-                print po.link
-                print i, j                 
+#print time_new_offset()
+#from model.po_tag import PoZsiteTag
+#for i in redis.zrange(REDIS_REC_TAG,0, -1):
+#    redis.zadd(REDIS_REC_TAG, i, PoZsiteTag.where(zsite_id=i).count()) 
+#redis.delete(REDIS_REC_TAG_ID_SCORE)
 
-    for i in redis.keys(REDIS_REC_TAG_OLD ):
-        for j in redis.zrange(i, 0, -1):
-            po = Po.mc_get(j)
-            if po.state < STATE_ACTIVE:
-                print po.link 
-                redis.zrem(i, j)
- 
-    #print time_new_offset()
-    #from model.po_tag import PoZsiteTag
-    #for i in redis.zrange(REDIS_REC_TAG,0, -1):
-    #    redis.zadd(REDIS_REC_TAG, i, PoZsiteTag.where(zsite_id=i).count()) 
-    #redis.delete(REDIS_REC_TAG_ID_SCORE)
-    
-    #user_id = 10000000 
-    #key = REDIS_REC_USER_TAG%user_id
-    #rec_read_user_topic_score_fav(user_id, 10225249)
-    #print redis.zrevrange(key, 0, 0, True, int)
-    #rec_read_user_topic_score_fav_rm(user_id, 10225249)
-    #print redis.zrevrange(key, 0, 0, True, int)
+#user_id = 10000000 
+#key = REDIS_REC_USER_TAG%user_id
+#rec_read_user_topic_score_fav(user_id, 10225249)
+#print redis.zrevrange(key, 0, 0, True, int)
+#rec_read_user_topic_score_fav_rm(user_id, 10225249)
+#print redis.zrevrange(key, 0, 0, True, int)
 #    from model.zsite import Zsite
 #    for i in Zsite.mc_get_list( redis.zrange(REDIS_REC_TAG,0,-1) ):
 #        print i.name
@@ -407,7 +389,7 @@ if __name__ == '__main__':
 #key = REDIS_REC_USER_TAG%user_id
 #redis.delete(key)
 #print rec_read_more(user_id, 7)
-    #limit = 7
-    #offset = 0
-    #print rec_read_log_by_user_id_auto_more(10000000, limit, offset)
-    #print rec_read_by_user_id_tag_id(10184264, 10227250)
+#limit = 7
+#offset = 0
+#print rec_read_log_by_user_id_auto_more(10000000, limit, offset)
+#print rec_read_by_user_id_tag_id(10184264, 10227250)
