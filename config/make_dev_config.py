@@ -19,7 +19,7 @@ def prepare(o):
 
 for i in USER:
     if not exists(i):
-        with open('user/z%s.py'%i, 'w') as user_z:
+        with open('user/%s.py'%i, 'w') as user_z:
             user_z.write(
                 template.render(hostname = gethostname(), user=i)
             )
