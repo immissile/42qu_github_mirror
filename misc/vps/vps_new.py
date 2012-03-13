@@ -59,14 +59,14 @@ def vps_new(vps):
             user_mail=user_mail,
             user_url=url_or_id(vps.user_id) ,
         )
-        _tmp = '%s/_tmp.sh'%PREFIX
-        with open(_tmp, 'w') as tmp:
+        tmp_sh = '%s/tmp_sh.sh'%PREFIX
+        with open(tmp_sh, 'w') as tmp:
             tmp.write(cmd)
-        sh = 'sudo sh %s'%_tmp
+        sh = 'sudo sh %s'%tmp_sh
         r = envoy.run(sh)
         print r.std_out
         print r.std_err
-        os.remove(_tmp)
+        os.remove(tmp_sh)
         vps_open_mail(user_mail, vps.group, username, vps.passwd)
 
 def vps_open_mail(mail, group, user, passwd):
