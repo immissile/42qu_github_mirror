@@ -363,7 +363,27 @@ def rec_read(user_id, limit):
 
 if __name__ == '__main__':
     pass
-    print time_new_offset()
+    from model.po import Po, STATE_ACTIVE
+
+    REDIS_REC_TAG_NEW = 'Rec/%s'%'*'                  
+    REDIS_REC_TAG_OLD = 'Rec&%s'%'*'
+
+    for i in redis.keys(REDIS_REC_TAG_NEW):
+        for j in redis.smembers(i):
+            po = Po.mc_get(j)
+            if po.state < STATE_ACTIVE:
+                redis.srem(i, j)
+                print po.link
+                print i, j                 
+
+    for i in redis.keys(REDIS_REC_TAG_OLD ):
+        for j in redis.zrange(i, 0, -1):
+            po = Po.mc_get(j)
+            if po.state < STATE_ACTIVE:
+                print po.link 
+                redis.zrem(i, j)
+ 
+    #print time_new_offset()
     #from model.po_tag import PoZsiteTag
     #for i in redis.zrange(REDIS_REC_TAG,0, -1):
     #    redis.zadd(REDIS_REC_TAG, i, PoZsiteTag.where(zsite_id=i).count()) 
