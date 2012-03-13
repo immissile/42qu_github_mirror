@@ -96,14 +96,14 @@ $.template(
     '<div class="fdbar">'+
         '<a href="javascript:void(0)" class="readx" title="快捷键 ESC"></a>'+
         '<span class="R"><span class="fdopt">'+
-            '<a class="${fav} fav${id}" href="javascript:void(0)" rel="${id}"></a>'+
-                '<span class="split">-</span>'+
-            '<a href="javascript:share(${id});void(0)" class="vote">推荐</a>'+
-                '<span class="split">-</span>'+
             '<a href="/po/${id}" target="_blank" class="fcma bzreply">'+
                 '<span class="count mr3">{{if reply_count}}${reply_count}{{/if}}</span>'+
                 '评论'+
             '</a>'+
+                '<span class="split">-</span>'+
+            '<a href="javascript:share(${id});void(0)" class="vote">推荐</a>'+
+                '<span class="split">-</span>'+
+            '<a class="${fav} fav${id}" href="javascript:void(0)" rel="${id}"></a>'+
         '</span></span>'+
     '</div>'
 );
