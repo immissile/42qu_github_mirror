@@ -183,13 +183,13 @@ def finish(o):
 
 
     if not o.GOD_PORT:
-        o.GOD_PORT = o.PORT + 20
+        o.GOD_PORT = o.PORT + 1
 
     if not o.API_PORT:
-        o.API_PORT = o.PORT + 30
+        o.API_PORT = o.PORT + 2
 
     if not o.RPC_PORT:
-        o.RPC_PORT = o.PORT + 40
+        o.RPC_PORT = o.PORT + 3
 
 
     o.FILE_URL = 'http://%s'%o.FILE_DOMAIN
