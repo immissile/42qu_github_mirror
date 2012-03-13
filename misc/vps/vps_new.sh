@@ -1,6 +1,5 @@
 
 cd ~/zpage/config/
-
 python make_dev_config.py
 python nginx.py
 
