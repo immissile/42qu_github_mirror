@@ -24,6 +24,7 @@ def prepare(o):
     o.SMTP_PASSWORD = ''
     o.SENDER_MAIL = o.SMTP_USERNAME
 
+    o.ZDATA_PATH = "/home/${user}/file/"
 """,
 input_encoding='utf-8',
 )
