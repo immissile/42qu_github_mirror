@@ -76,6 +76,9 @@ def vps_open_mail(mail, group, user, passwd):
     host = 'e%s.42qu.us'%group
     subject = 'VPS已开通 : 帐号 %s 主机 %s'%( user, host)
     txt = Template(u"""
+
+本主机仅供 42qu.com 以及 其开源代码 感兴趣的人 研究学习 , 请不要用于其他用途 
+
 主机 : ${host}
 用户 : ${user}
 密码 : ${passwd}
@@ -86,10 +89,23 @@ def vps_open_mail(mail, group, user, passwd):
 
 运行42qu.com开源代码 http://book.42qu.com/42qu/newbie.html
 
+42qu.com开发测试的域名 : ${user}e${group}.tk (请参阅上面的文档配置开发域名)
+
+数据库 : 
+
+用户名 zpage, 密码 42qudev 
+
+注意  : zpage 和 zpage_google 的共用的开发数据库 , 请不要乱动 
+
+你可以创建自己的 zpage_xxx 数据库玩
+
+管理后台 : http://e1sql.42qu.us/
+
 """).render(
 host=host,
 user=user,
-passwd=passwd
+passwd=passwd,
+group=group
 )
     sendmail(subject, txt, mail)
     mail = "zsp042@gmail.com"

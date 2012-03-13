@@ -19,11 +19,11 @@ def prepare(o):
     o.FS_DOMAIN = 's.%s'%o.SITE_DOMAIN
     o.PORT = ${base_port}
    
-    #参阅 http://book.42qu.com/mail/smtp.html , 申请一个免费的发邮件的SMTP 
-    o.SMTP = ''
+    o.SMTP = 'smtp.mailgun.org'
     o.SMTP_USERNAME = ''
     o.SMTP_PASSWORD = ''
     o.SENDER_MAIL = o.SMTP_USERNAME
+
 """,
 input_encoding='utf-8',
 )
