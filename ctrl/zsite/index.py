@@ -42,7 +42,7 @@ class Query(LoginBase):
                 from model.zsite import Zsite
                 site = Zsite.mc_get(id)
                 return self.redirect(site.link)
-        self.finish("TODO")        
+        self.render('ctrl/zsite/index/search.htm')        
 
 @urlmap('/feed')
 class Feed(LoginBase):

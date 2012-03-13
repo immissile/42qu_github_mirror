@@ -1,0 +1,35 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%def name="htm_head()">
+
+${css.ctrl_tag_index|n}
+${css.ctrl_tag_search|n}
+${css.ctrl_search|n}
+
+<script>
+ITEM_LIST = [[0,"推荐",4,[[10243194,"一个月瘦40斤的暴瘦法(绝对不是广告，有关节食))","如果你正心烦气躁，或是失恋的状态，那是更好不过了 ...",0],[10243145,"教你如何让360和QQ在你电脑上和平共处！！！！！！！！！！","老子三年前用KOMODO一扫就知道了！！！！ ...",0],[10243293,"我愿意为了吃饱战斗到死","我是个不折不扣的北方人，我现在在成都。\n\n第一周很开心，虽然听不懂四川话。 ...",0],[10242929,"等着等着就不会爱了","有一个女性朋友，87年的人，很有一些文艺范儿。生得容貌姣好、小巧可爱，在网上和 ...",0]]]]
+</script>
+<script src="${js.ctrl_read}"></script>
+</%def>
+<div class="G">
+    <div class="Zw">
+        <h1>"腾讯" 搜索结果</h1>
+        <div class="Zm hero_block"><a href="" target="_blank" class="hero_search_a">去看 "腾讯" 的人物搜索结果</a></div>
+        <div class="Zw" style="margin-top:0;"><div id="tag_cid"></div></div>
+        <div class="Zm">
+<div class="main_nav"><span class="now">相关标签</span><span class="R">共 18 个</span></div>
+<div class="search_tags">
+<a href="http://10222468.realfex.xxx" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">成都&zwnj;</span></a><a href="http://10227879.realfex.xxx" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">成都美食&zwnj;</span></a><a href="http://10233047.realfex.xxx" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">海外生活&zwnj;</span></a><a href="http://10222468.realfex.xxx" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">成都&zwnj;</span></a><a href="http://10227879.realfex.xxx" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">成都美食&zwnj;</span></a><a href="http://10233047.realfex.xxx" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">海外生活&zwnj;</span></a><a href="http://10222468.realfex.xxx" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">成都&zwnj;</span></a><a href="http://10227879.realfex.xxx" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">成都美食&zwnj;</span></a><a href="http://10233047.realfex.xxx" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">海外生活&zwnj;</span></a><a href="http://10222468.realfex.xxx" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">成都&zwnj;</span></a><a href="http://10227879.realfex.xxx" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">成都美食&zwnj;</span></a><a href="http://10233047.realfex.xxx" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">海外生活&zwnj;</span></a><a href="http://10222468.realfex.xxx" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">成都&zwnj;</span></a><a href="http://10227879.realfex.xxx" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">成都美食&zwnj;</span></a><a href="http://10233047.realfex.xxx" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">海外生活&zwnj;</span></a><a href="http://10222468.realfex.xxx" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">成都&zwnj;</span></a><a href="http://10227879.realfex.xxx" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">成都美食&zwnj;</span></a><a href="http://10233047.realfex.xxx" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">海外生活&zwnj;</span></a>
+        </div>
+        </div>
+    </div>
+    <div class="Zs">
+        <form class="search" action="/q">
+        <input type="text" class="c9" placeholder="搜索 标签 或 人物 ..." name="q" id="search" autocomplete="off"><input type="submit" class="search_btn" value="">
+        </form>
+    </div>
+
+</div>
+<script>
+_render_tag_cid('#tag_cid',ITEM_LIST);
+TAG_CID_URL = '/j/read/'
+</script>
