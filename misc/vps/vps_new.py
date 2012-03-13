@@ -12,8 +12,10 @@ from mako.template import Template
 from model.zsite_url import url_or_id
 from os.path import abspath, dirname, join, normpath
 from model.mail import sendmail
-
+import envoy
 import socket
+import os
+
 host = socket.gethostname()
 gid = host[1:]
 GID = int(gid.isdigit())
@@ -50,13 +52,21 @@ def vps_new(vps):
     vps.save()
     user_mail = mail_by_user_id(vps.user_id)
     with open(TEMPLATE_VPS_SH_PATH) as template:
-        print Template(template.read()).render(
+        cmd = Template(template.read()).render(
             username=username,
             passwd=vps.passwd,
             prefix=PREFIX,
             user_mail=user_mail,
             user_url=url_or_id(vps.user_id) ,
         )
+        _tmp = '%s/_tmp.sh'%PREFIX
+        with open(_tmp, 'w') as tmp:
+            tmp.write(cmd)
+        sh = 'sudo sh %s'%_tmp
+        r = envoy.run(sh)
+        print r.std_out
+        print r.std_err
+        os.remove(_tmp)
         vps_open_mail(user_mail, vps.group, username, vps.passwd)
 
 def vps_open_mail(mail, group, user, passwd):
