@@ -98,9 +98,13 @@ def vps_open_mail(mail, group, user, passwd):
 
 注意  : zpage 和 zpage_google 的共用的开发数据库 , 请不要乱动 
 
-你可以创建自己的 zpage_xxx 数据库玩
+你可以创建自己的 zpage_随便取名字 数据库玩
 
 管理后台 : http://e1sql.42qu.us/
+
+有任何问题请发邮件到 :
+
+https://groups.google.com/group/42qu-school
 
 """).render(
 host=host,
@@ -143,8 +147,9 @@ if __name__ == '__main__':
 #    vps_open_all()
 #    vps_new_by_user_id(10000000, group=GID)
     
-    from model.zsite import zsite_by_query
-    vps_new_by_user_id(zsite_by_query("realfex"))
+    #from model.zsite import zsite_by_query
+    #vps_new_by_user_id(zsite_by_query("realfex"))
+    vps_open_all()
 
 #def main():
 #
