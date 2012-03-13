@@ -56,3 +56,5 @@ def txt_property(self):
 
 if __name__ == '__main__':
     pass
+    for i in Txt.where():
+        print i.txt
