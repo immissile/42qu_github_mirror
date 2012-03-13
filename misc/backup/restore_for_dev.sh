@@ -14,4 +14,5 @@ mkdir -p ~/data
 cd ~/data
 #7za x $DB.7z 
 mysql -uzpage -p42qudev zpage < $DB
+rm $DB
  
