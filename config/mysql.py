@@ -109,6 +109,10 @@ DB_MAIN_TABLE = (
     'part_time_job',
     'tag_alias',
     'vps',
+    'po_tag_log',
+    'tag_exp',
+    'tag_exp_admin',
+
 )
 
 DB_GOOGLE_TABLE = (
