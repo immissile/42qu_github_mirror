@@ -201,7 +201,11 @@ margin-right:14px;
 margin-bottom:14px
 }
 #feeds .split{
-margin:0 7px
+margin:0 14px
+}
+
+#feeds .fdopt{
+float:right;
 }
 
 #feeds .fdopt a{
@@ -556,4 +560,27 @@ background-position:-2px -47px;
 }
 #feeds .fdopt{
 padding-left:2px;
+}
+.Zm{
+width:666px;
+float:left;
+padding:0 26px 26px;
+border:1px solid #f3f3f3;
+box-shadow:2px 2px 2px #f3f3f3;
+position:relative;
+}
+.Zs{
+width:250px;
+float:left;
+overflow:hidden;
+padding-left:32px;
+position:relative;
+min-height:100px;
+margin-top:32px;
+}
+.Zw{
+overflow:auto;
+width:722px;
+float:left;
+margin-top:32px;
 }

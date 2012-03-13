@@ -97,7 +97,7 @@ li.tag-selected-token p{
     color:#d20;
 }
 li.tag-selected-token span{
-    background-position:-70px ;
+    background-position:-70px 0;
 }
 
 li.tag-input-token {
@@ -305,4 +305,21 @@ color:#d20;
 color:#000;
 font-weight:bold;
 margin-bottom:7px;
+}
+.prebody{
+min-height:167px
+}
+.prebody, #main_nav_title{
+padding-left:20px;
+padding-right:20px;
+}
+#item_list{
+height:259px;
+background:url(/img/gif/loading_bar.gif) 50% 50% no-repeat;
+}
+#item_list .readl{
+background:#fff;
+}
+.split{
+margin:0 14px;
 }

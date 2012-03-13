@@ -43,7 +43,10 @@ function autocomplete_tag(id, default_tag_list, idPrefix){
                         list.push(t)
                     }
                 }
-                if(ctrl)list.unshift({id:'-'+word,name:$('#token-input-'+id.substring(1)).val(),num:0})
+                if(ctrl){
+                    word = $('#token-input-'+id.substring(1)).val()
+                    list.unshift({id:'-'+word,name:word,num:0})
+                }
                 return list
             },
             hintText:'',
