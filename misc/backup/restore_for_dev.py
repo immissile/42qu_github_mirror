@@ -15,6 +15,14 @@ if config.MYSQL_HOST != "127.0.0.1":
 
 
 from zweb.orm import ormiter
+
+from model.vps import Vps
+for i in ormiter(Vps):
+    #print i.passwd
+    i.passwd = ''
+    i.save()
+
+
 from model.user_info import UserInfo
 
 for i in ormiter(UserInfo):
@@ -38,3 +46,5 @@ for i in ormiter(UserMail):
 
 from model.txt import Txt
 Txt.where().update(txt = "测试数据")
+
+
