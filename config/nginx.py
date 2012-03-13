@@ -67,27 +67,36 @@ def render(name, host, user, port_list=None):
 
 
 def render_machine(host, name_list):
-    name_list = name_list.strip().split()
+    if type(name_list) is str:
+        name_list = name_list.strip().split()
+
     for name in name_list:
         config_name = '%s/%s.conf'%(host, name)
         render(config_name, host, name)
 
-render_machine('krios', """
-huhuchen
-zuroc
-wooparadog
-work
-realfex
-""")
 
-render_machine('nuva', """
-work
-""")
+import socket
+hostname = socket.gethostname()
 
-render_machine('potato', """
-work
-istarsea
-""")
+render_machine(hostname, __import__('host_user.%s'%hostname, fromlist=['host_user']).USER)
+
+
+#render_machine('krios', """
+#huhuchen
+#zuroc
+#wooparadog
+#work
+#realfex
+#""")
+#
+#render_machine('nuva', """
+#work
+#""")
+#
+#render_machine('potato', """
+#work
+#istarsea
+#""")
 #    render_conf(1)
 #@render_conf
 #class Work(ConfBase):
