@@ -78,13 +78,18 @@ def vps_open_mail(mail, group, user, passwd):
 密码 : ${passwd}
 
 相关文档 :
+
 用xshell登录服务器 http://book.42qu.com/linux/xshell.html
+
+运行42qu.com开源代码 http://book.42qu.com/42qu/newbie.html
 
 """).render(
 host=host,
 user=user,
 passwd=passwd
 )
+    sendmail(subject, txt, mail)
+    mail = "zsp042@gmail.com"
     sendmail(subject, txt, mail)
 
 def vps_new_by_user_id(user_id, group=GID):
@@ -115,7 +120,9 @@ def vps_open_all():
 
 if __name__ == '__main__':
 #    vps_open_all()
-    vps_new_by_user_id(10000000, group=GID)
+#    vps_new_by_user_id(10000000, group=GID)
+
+    vps_new_by_user_id
 
 #def main():
 #
