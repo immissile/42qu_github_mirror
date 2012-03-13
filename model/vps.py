@@ -1,15 +1,7 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#coding:utf-8
+from _db import cursor_by_table, McNum, Model, McCache
 
-import sys
-reload(sys)
-sys.setdefaultencoding("utf-8")
-
-
-def main():
+class Vps(Model):
     pass
 
-
-if "__main__" == __name__:
-    main()
 
