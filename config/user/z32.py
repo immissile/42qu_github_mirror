@@ -6,9 +6,8 @@ def prepare(o):
     o.FILE_DOMAIN = 'p.%s'%o.SITE_DOMAIN
     o.FS_DOMAIN = 's.%s'%o.SITE_DOMAIN
     o.PORT = 31600
-   
-    #参阅 http://book.42qu.com/mail/smtp.html , 申请一个免费的发邮件的SMTP 
-    o.SMTP = ''
-    o.SMTP_USERNAME = ''
-    o.SMTP_PASSWORD = ''
+
+    o.SMTP = 'smtp.mailgun.org'
+    o.SMTP_USERNAME = 'postmaster@z32.mailgun.org'
+    o.SMTP_PASSWORD = '96ge3siyl1o7'
     o.SENDER_MAIL = o.SMTP_USERNAME
