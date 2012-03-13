@@ -55,4 +55,6 @@ def txt_property(self):
 
 
 if __name__ == '__main__':
-    pass
+    from json import dumps
+    from zweb.orm import ormiter
+    print '测试数据' in Txt.get(10109584).txt
