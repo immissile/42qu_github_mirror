@@ -15,16 +15,23 @@ if config.MYSQL_HOST != "127.0.0.1":
 
 
 from zweb.orm import ormiter
+from model.user_info import UserInfo
+
+for i in ormiter(UserInfo):
+    i.birthday = 0
+    i.save()
+
 
 from model.namecard import Namecard
 for i in ormiter(Namecard):
     i.mail = ""
     i.phone = ""
+    i
     i.save()
 
-from zweb.orm import ormiter
 from model.user_mail import UserMail
-from model.vps import Vsfor i in ormiter(UserMail):
+
+for i in ormiter(UserMail):
     i.mail = "%s@42qu.com"%i.id 
     i.save() 
  
