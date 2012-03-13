@@ -102,7 +102,7 @@ def vps_open_mail(mail, group, user, passwd):
 
 管理后台 : http://e1sql.42qu.us/
 
-有任何问题请发邮件到 :
+有任何问题请到这里提问 :
 
 https://groups.google.com/group/42qu-school
 
