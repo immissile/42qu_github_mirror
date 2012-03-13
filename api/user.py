@@ -17,6 +17,16 @@ class InfoId(OauthBase):
         data = json_info(user_id)
         self.finish(data)
 
+@urlmap("/user/info/mail/id")
+class UserInfoMailId(OauthBase):
+    def get(self):
+        from model.user_mail import UserMail
+        mail = self.get_argument('mail','').strip().lower()
+        user_mail = UserMail.get(mail=mail)
+        if user_mail:
+            self.finish(str(user_mail.id))
+        else:
+            self.finish('0')
 
 @urlmap('/user/info/mail')
 class InfoMail(OauthBase):
