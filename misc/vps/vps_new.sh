@@ -7,4 +7,4 @@ cd ~/zpage/config/user
 hg add .
 hg commit -m"add user config"
 
-
+sudo /etc/init.d/nginx reload
