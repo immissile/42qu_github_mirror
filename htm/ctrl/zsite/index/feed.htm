@@ -158,16 +158,16 @@ class="TPH" target="_blank" href="${zsite_link}">${zsite_name} {{if unit||title}
         {{/if}}
     </div>
     <div class="fdbar">
-    <span class="R"><span class="fdopt"><a
-rel="${id}" href="javascript:void(0)"
-class="{{if fav}}faved{{else}}fav{{/if}} fav${id}"
-></a><span
+    <span class="R"><a
+class="fcma"
+href="javascript:fcm(${id},${reply_count});void(0)">{{if reply_count}}<span
+class="mr3">${reply_count}</span>{{/if}}评论</a><span class="fdopt"><span
 class="split">-</span><a
 class="vote" href="javascript:share(${id});void(0)">推荐</a><span
 class="split">-</span><a
-class="fcma"
-href="javascript:fcm(${id},${reply_count});void(0)">{{if reply_count}}<span
-class="mr3">${reply_count}</span>{{/if}}评论</a></span>
+rel="${id}" href="javascript:void(0)"
+class="{{if fav}}faved{{else}}fav{{/if}} fav${id}"
+></a></span>
     </span>
 
 {{if cid!=72}}{{if site_id}}<a href="//${site_url}"
