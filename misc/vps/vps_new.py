@@ -83,13 +83,14 @@ def vps_open_mail(mail, group, user, passwd):
 用户 : ${user}
 密码 : ${passwd}
 
-相关文档 :
+开发测试的域名 : ${user}e${group}.tk (请参阅 文档2 配置开发域名)
 
-用xshell登录服务器 http://book.42qu.com/linux/xshell.html
+文档 :
 
-运行42qu.com开源代码 http://book.42qu.com/42qu/newbie.html
+1 . 用xshell登录服务器 http://book.42qu.com/linux/xshell.html
 
-42qu.com开发测试的域名 : ${user}e${group}.tk (请参阅上面的文档配置开发域名)
+2 . 运行42qu.com开源代码 http://book.42qu.com/42qu/newbie.html
+
 
 数据库 : 
 
