@@ -8,7 +8,9 @@ def prepare(o):
     o.FILE_DOMAIN = 'p.%s'%o.SITE_DOMAIN
     o.FS_DOMAIN = 's.%s'%o.SITE_DOMAIN
 
+    o.MYSQL_HOST = '127.0.0.1'
     o.MYSQL_USER = 'zpage'
+    o.MYSQL_PORT = '3306'
     o.MYSQL_PASSWD = '42qudev'
 
     try:
