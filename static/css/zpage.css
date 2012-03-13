@@ -204,6 +204,10 @@ margin-bottom:14px
 margin:0 14px
 }
 
+#feeds .fdopt{
+float:right;
+}
+
 #feeds .fdopt a{
 color:#999;
 }
