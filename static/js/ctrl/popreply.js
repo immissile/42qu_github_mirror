@@ -36,7 +36,7 @@ function popreply(cid, title_html, href, counter){
             }
         })
     }
-    textarea.focus(ctrl_enter_hint.show).blur(ctrl_enter_hint.hide).ctrl_enter(btc);
+    textarea.focus(function(){ctrl_enter_hint.show()}).blur(function(){ctrl_enter_hint.hide()}).ctrl_enter(btc);
     reply_name.html(title_html).attr('href',href)
 
     button.click(btc)
