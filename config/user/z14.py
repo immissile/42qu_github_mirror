@@ -2,12 +2,14 @@
 #coding:utf-8
 
 def prepare(o):
-    o.SITE_DOMAIN = 'z32e1.tk' 
+    o.SITE_DOMAIN = 'z14e1.tk' 
     o.FILE_DOMAIN = 'p.%s'%o.SITE_DOMAIN
     o.FS_DOMAIN = 's.%s'%o.SITE_DOMAIN
-    o.PORT = 31600
-
+    o.PORT = 30700
+   
     o.SMTP = 'smtp.mailgun.org'
-    o.SMTP_USERNAME = 'postmaster@z32.mailgun.org'
-    o.SMTP_PASSWORD = '96ge3siyl1o7'
+    o.SMTP_USERNAME = ''
+    o.SMTP_PASSWORD = ''
     o.SENDER_MAIL = o.SMTP_USERNAME
+
+    o.ZDATA_PATH = "/home/z14/file/"

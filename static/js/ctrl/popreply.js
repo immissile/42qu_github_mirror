@@ -1,6 +1,6 @@
 function popreply(cid, title_html, href, counter){
     var content = $(
-        '<div class="fcmpop" id="reply_reply_pop"><a target="_blank" id="reply_name"></a><div id="reply_reply_body" class="reply_reply_loading"></div><textarea></textarea><div class="tr"><span class="btnw"><button type="submit" class="button" title="Ctrl + Enter 直接提交">回复</button></span></div></div>'
+        '<div class="fcmpop" id="reply_reply_pop"><a target="_blank" id="reply_name"></a><div id="reply_reply_body" class="reply_reply_loading"></div><textarea></textarea><div class="tr"><span class="pop_quick_hint">Ctrl + Enter 直接提交</span><span class="btnw"><button type="submit" class="button">回复</button></span></div></div>'
         ),
         cbody = content.find('#reply_reply_body'), 
         t=cbody[0],
@@ -19,7 +19,7 @@ function popreply(cid, title_html, href, counter){
                 count=0
             }
         }
-        textarea.ctrl_enter(button.click);
+        textarea.ctrl_enter(function(){button.click()});
         reply_name.html(title_html).attr('href',href)
 
     button.click(function(){

@@ -10,7 +10,7 @@ from model.event import event_joiner_user_id_list
 from model.user_mail import mail_by_user_id
 from mako.template import Template
 from model.zsite_url import url_or_id
-from os.path import abspath, dirname, join, normpath
+from os.path import abspath, dirname, join, normpath, exists
 from model.mail import sendmail
 import envoy
 import socket
@@ -46,6 +46,9 @@ from mako.template import Template
 
 def vps_new(vps):
     username = USERNAME%vps.id_in_group
+    if exists("/home/%s"%username):
+        print username, "exist"
+        return
     if not vps.passwd:
         vps.passwd = passwd()
     vps.state = STATE_VPS_OPENED
@@ -73,18 +76,44 @@ def vps_open_mail(mail, group, user, passwd):
     host = 'e%s.42qu.us'%group
     subject = 'VPS已开通 : 帐号 %s 主机 %s'%( user, host)
     txt = Template(u"""
+
+本主机仅供 42qu.com 以及 其开源代码 感兴趣的人 研究学习 , 请不要用于其他用途 
+
 主机 : ${host}
 用户 : ${user}
 密码 : ${passwd}
 
-相关文档 :
-用xshell登录服务器 http://book.42qu.com/linux/xshell.html
+开发测试的域名 : ${user}e${group}.tk (请参阅 文档2 配置开发域名)
+
+文档 :
+
+1 . 用xshell登录服务器 http://book.42qu.com/linux/xshell.html
+
+2 . 运行42qu.com开源代码 http://book.42qu.com/42qu/newbie.html
+
+
+数据库 : 
+
+用户名 zpage, 密码 42qudev 
+
+注意  : zpage 和 zpage_google 的共用的开发数据库 , 请不要乱动 
+
+你可以创建自己的 zpage_随便取名字 数据库玩
+
+管理后台 : http://e1sql.42qu.us/
+
+有任何问题请到这里提问 :
+
+https://groups.google.com/group/42qu-school
 
 """).render(
 host=host,
 user=user,
-passwd=passwd
+passwd=passwd,
+group=group
 )
+    sendmail(subject, txt, mail)
+    mail = "zsp042@gmail.com"
     sendmail(subject, txt, mail)
 
 def vps_new_by_user_id(user_id, group=GID):
@@ -99,6 +128,7 @@ def vps_new_by_user_id(user_id, group=GID):
         )
         vps.save()
     vps_new(vps)
+
 
 import socket
 host = socket.gethostname()
@@ -115,7 +145,13 @@ def vps_open_all():
 
 if __name__ == '__main__':
 #    vps_open_all()
-    vps_new_by_user_id(10000000, group=GID)
+#    vps_new_by_user_id(10000000, group=GID)
+    
+    
+    url = "http://chengjun.42qu.com/"
+    from model.zsite import zsite_by_query
+    vps_new_by_user_id(zsite_by_query(url))
+#    vps_open_all()
 
 #def main():
 #

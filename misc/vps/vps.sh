@@ -15,3 +15,6 @@ virtualenv .env
 pip install setuptools --upgrad
 rm ~/build -rf
 
+mkdir -p ~/file
+
+

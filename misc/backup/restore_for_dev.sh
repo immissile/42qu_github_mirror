@@ -21,3 +21,5 @@ scp work@42qu.com:/var/lib/redis/dump.rdb  $DBPATH/dump.rdb
 sudo mv  $DBPATH/dump.rdb /var/lib/redis/dump.rdb
 sudo chown redis:redis /var/lib/redis/dump.rdb
 sudo /etc/init.d/redis start
+
+python restore_for_dev.py

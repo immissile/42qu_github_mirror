@@ -4,22 +4,27 @@ from marshal import dumps, loads
 from decorator import decorator
 from config import MQ_PORT, MQ_USE
 import logging
+from config import DEBUG
 
 beanstalk = None
 NAME2FUNC = {}
 
-def mq_client(func, name=None):
-    name = name or func.__name__
-    NAME2FUNC[name] = func
-    def _func(func, *args, **kwds):
-        global beanstalk
-        if beanstalk is None:
-            beanstalk = beanstalkc.Connection(host='localhost', port=MQ_PORT, parse_yaml=True)
-            beanstalk.use(MQ_USE)
-        #print (name, args, kwds)
-        s = dumps((name, args, kwds))
-        beanstalk.put(s)
-    return decorator(_func, func)
+if DEBUG:
+    def mq_client(func, name=None):
+        return func
+else:
+    def mq_client(func, name=None):
+        name = name or func.__name__
+        NAME2FUNC[name] = func
+        def _func(func, *args, **kwds):
+            global beanstalk
+            if beanstalk is None:
+                beanstalk = beanstalkc.Connection(host='localhost', port=MQ_PORT, parse_yaml=True)
+                beanstalk.use(MQ_USE)
+            #print (name, args, kwds)
+            s = dumps((name, args, kwds))
+            beanstalk.put(s)
+        return decorator(_func, func)
 
 def mq_server():
     print 'mq_server on port %s' % MQ_PORT
