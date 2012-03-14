@@ -11,3 +11,5 @@ def prepare(o):
     o.SMTP_USERNAME = 'postmaster@z33.mailgun.org'
     o.SMTP_PASSWORD = '6a433suwib56'
     o.SENDER_MAIL = o.SMTP_USERNAME
+    
+    o.ZDATA_PATH = "/home/z33/file/"
