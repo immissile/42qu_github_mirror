@@ -126,7 +126,7 @@ def zsite_by_query(query):
         if Zsite.mc_get(query):
             user_id = query
     else:
-        query = query.replace('http://', '').split(".")[0]
+        query = query.replace('http://', '').split(".",1)[0]
         user_id = id_by_url(query)
 
     return user_id
