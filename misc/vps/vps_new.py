@@ -148,9 +148,11 @@ if __name__ == '__main__':
 #    vps_new_by_user_id(10000000, group=GID)
     
     
-    url = "http://chengjun.42qu.com/"
-    from model.zsite import zsite_by_query
-    vps_new_by_user_id(zsite_by_query(url))
+    url_list = [ "zjd" , "http://wooparadog.42qu.com/"]
+    for url in url_list:
+        from model.zsite import zsite_by_query
+        vps_new_by_user_id(zsite_by_query(url))
+
 #    vps_open_all()
 
 #def main():
