@@ -20,10 +20,7 @@ function popreply(cid, title_html, href, counter){
                 count=0
             }
         }
-        textarea.ctrl_enter(function(){button.click()}).focus(ctrl_enter_hint.show).blur(ctrl_enter_hint.hide);
-        reply_name.html(title_html).attr('href',href)
-
-    button.click(function(){
+    function btc(){
         var v=textarea.val(), 
             fancybox=$.fancybox;
         if(!v.length)return;
@@ -38,7 +35,11 @@ function popreply(cid, title_html, href, counter){
                 counter.html(count)
             }
         })
-    })
+    }
+    textarea.focus(ctrl_enter_hint.show).blur(ctrl_enter_hint.hide).ctrl_enter(btc);
+    reply_name.html(title_html).attr('href',href)
+
+    button.click(btc)
     function _(data){
         if(data.cid==61){
             reply_name.remove()
