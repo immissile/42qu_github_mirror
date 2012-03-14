@@ -117,6 +117,8 @@ group=group
     sendmail(subject, txt, mail)
 
 def vps_new_by_user_id(user_id, group=GID):
+    if not user_id:
+        return
     vps = Vps.get(user_id=user_id)
     if not vps:
         vps = Vps(
