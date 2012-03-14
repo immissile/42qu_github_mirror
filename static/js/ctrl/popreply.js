@@ -9,7 +9,8 @@ function popreply(cid, title_html, href, counter){
         button = content.find('button'),
         reply_name=content.find('#reply_name'),
         id = href.split("/")[4].split("#")[0],
-        count=true;
+        count=true,
+        pop_quick_hint=content.find(".pop_quick_hint");
 
         if(counter){
             count=counter.html()
@@ -19,7 +20,7 @@ function popreply(cid, title_html, href, counter){
                 count=0
             }
         }
-        textarea.ctrl_enter(function(){button.click()});
+        textarea.ctrl_enter(function(){button.click()}).focus(pop_quick_hint.show).blur(pop_quick_hint.hide);
         reply_name.html(title_html).attr('href',href)
 
     button.click(function(){
