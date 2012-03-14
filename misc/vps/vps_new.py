@@ -147,7 +147,6 @@ if __name__ == '__main__':
 #    vps_open_all()
 #    vps_new_by_user_id(10000000, group=GID)
     
-    from model.mail import user_id_by_mail
     
     url = "http://chengjun.42qu.com/"
     from model.zsite import zsite_by_query
