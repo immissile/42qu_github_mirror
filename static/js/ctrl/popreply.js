@@ -1,6 +1,6 @@
 function popreply(cid, title_html, href, counter){
     var content = $(
-        '<div class="fcmpop" id="reply_reply_pop"><a target="_blank" id="reply_name"></a><div id="reply_reply_body" class="reply_reply_loading"></div><textarea></textarea><div class="tr"><span class="pop_quick_hint">Ctrl + Enter 直接提交</span><span class="btnw"><button type="submit" class="button">回复</button></span></div></div>'
+        '<div class="fcmpop" id="reply_reply_pop"><a target="_blank" id="reply_name"></a><div id="reply_reply_body" class="reply_reply_loading"></div><textarea></textarea><div class="tr"><span class="ctrl_enter_hint">Ctrl + Enter 直接提交</span><span class="btnw"><button type="submit" class="button">回复</button></span></div></div>'
         ),
         cbody = content.find('#reply_reply_body'), 
         t=cbody[0],
@@ -10,7 +10,7 @@ function popreply(cid, title_html, href, counter){
         reply_name=content.find('#reply_name'),
         id = href.split("/")[4].split("#")[0],
         count=true,
-        pop_quick_hint=content.find(".pop_quick_hint");
+        ctrl_enter_hint=content.find(".ctrl_enter_hint");
 
         if(counter){
             count=counter.html()
@@ -20,7 +20,7 @@ function popreply(cid, title_html, href, counter){
                 count=0
             }
         }
-        textarea.ctrl_enter(function(){button.click()}).focus(pop_quick_hint.show).blur(pop_quick_hint.hide);
+        textarea.ctrl_enter(function(){button.click()}).focus(ctrl_enter_hint.show).blur(ctrl_enter_hint.hide);
         reply_name.html(title_html).attr('href',href)
 
     button.click(function(){
