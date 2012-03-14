@@ -148,7 +148,7 @@ if __name__ == '__main__':
 #    vps_new_by_user_id(10000000, group=GID)
     
     
-    url_list = [ "zjd" , "http://wooparadog.42qu.com/"]
+    url_list = [ "zjd" , "wooparadog"]
     for url in url_list:
         from model.zsite import zsite_by_query
         vps_new_by_user_id(zsite_by_query(url))
