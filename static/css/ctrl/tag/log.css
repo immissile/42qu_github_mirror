@@ -1,0 +1,45 @@
+.tag_log_title{
+padding:12px 0;
+}
+.tag_log_title a{
+color:#444;
+font-size:16px;
+}
+.tag_log_title a:hover{
+color:#d20;
+}
+.tag_log_item{
+overflow:auto;
+text-align:left;
+padding:4px 0;
+border-top:1px dotted #f3f3f3;
+}
+.tag_log_user{
+color:#00d;
+}
+.tag_log_do{
+color:#999;
+margin:0 22px;
+}
+.po_tag_one{
+color:#d20;
+background:#f3fcff;
+}
+.tag_log_rollback{
+float:right;
+color:#00d;
+padding:0 6px;
+}
+.tag_log_rollback:hover{
+color:#fff;
+background:#00d;
+}
+.tag_log_back{
+color:#444;
+}
+.po_tag_pic{
+background:url(/img/png/label.png) no-repeat -17px 0;
+}
+.Zm{
+margin-bottom:32px;
+}

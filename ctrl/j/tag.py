@@ -72,4 +72,7 @@ class TagPo(JLoginBase):
         
         self.finish(result)
 
-
+@urlmap('j/tag/rollback/(\d+)\/(\d+)')
+class TagRollback(JLoginBase):
+    def post(self):
+        self.finish() 

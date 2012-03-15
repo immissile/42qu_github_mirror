@@ -1,0 +1,74 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+
+<%def name="htm_head()">
+${css.ctrl_tag_index|n}
+${css.ctrl_tag_log|n}
+</%def>
+
+<script>
+$('.tag_log_rollback').live('click',function(){
+    var self = $(this),
+        rel = self.attr('rel')
+    self.text('回滚中...')
+    $.postJSON('/j/tag/rollback/'+rel,
+        {},
+        function(){
+            self.replaceWith('<span class="tag_log_back">已还原</span>')
+        }
+    )
+})
+</script>
+
+<div class="G">
+    <div class="Zw">
+        <div class="Zm">
+            <div class="tag_log_title"><a href="#">过早优化是万恶之源</a></div>
+            <div class="tag_log_item">
+                <a class="tag_log_rollback" href="javascript:void(0)" rel="12354/10331">回滚</a>
+                <a class="tag_log_user" href="#">张沈鹏</a>\
+                <span class="tag_log_do">[ 添加了 ]</span>
+                <span class="tag_log_tags">
+                    <a href="http://10229441.42qu.com" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">代码优化&zwnj;</span></a>
+                    <a href="http://10229441.42qu.com" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">javascript&zwnj;</span></a>           
+                </span>
+            </div>
+            <div class="tag_log_item">
+                <a class="tag_log_rollback" href="javascript:void(0)" rel="12351/10329">回滚</a>
+                <a class="tag_log_user" href="#">李嫣然</a>\
+                <span class="tag_log_do">[ 删除了 ]</span>
+                <span class="tag_log_tags">
+                    <a href="http://10229441.42qu.com" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">javascript&zwnj;</span></a>           
+                </span>
+            </div>
+
+        </div>
+
+        <div class="Zm">
+            <div class="tag_log_title"><a href="#">过早优化是万恶之源</a></div>
+            <div class="tag_log_item">
+                <a class="tag_log_rollback" href="javascript:void(0)" rel="12354/10331">回滚</a>
+                <a class="tag_log_user" href="#">张沈鹏</a>\
+                <span class="tag_log_do">[ 添加了 ]</span>
+                <span class="tag_log_tags">
+                    <a href="http://10229441.42qu.com" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">代码优化&zwnj;</span></a>
+                    <a href="http://10229441.42qu.com" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">javascript&zwnj;</span></a>           
+                </span>
+            </div>
+            <div class="tag_log_item">
+                <a class="tag_log_rollback" href="javascript:void(0)" rel="12351/10329">回滚</a>
+                <a class="tag_log_user" href="#">李嫣然</a>\
+                <span class="tag_log_do">[ 删除了 ]</span>
+                <span class="tag_log_tags">
+                    <a href="http://10229441.42qu.com" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">javascript&zwnj;</span></a>           
+                </span>
+            </div>
+
+        </div>
+
+
+    </div>
+    <div class="Zs">
+    </div>
+
+</div>
+
