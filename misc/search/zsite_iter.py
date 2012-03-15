@@ -99,6 +99,8 @@ def zsite_keyword(zsite, kw):
 
 
 if __name__ == '__main__':
-    for i in search_zsite_keyword_iter():
+#    for i in search_zsite_keyword_iter():
+#        print i
+    from model.zsite import Zsite
+    for i in zsite2keyword(Zsite.mc_get(10078835)):
         print i
-
