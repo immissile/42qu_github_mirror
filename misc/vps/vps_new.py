@@ -154,7 +154,9 @@ if __name__ == '__main__':
     for url in url_list:
         url = url.strip()
         from model.zsite import zsite_by_query
-        vps_new_by_user_id(zsite_by_query(url))
+        id = zsite_by_query(url)
+        print id
+        vps_new_by_user_id(id)
 
 #    vps_open_all()
 
