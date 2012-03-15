@@ -12,6 +12,6 @@ hg add .
 hg commit -m"add user config"
 hg push
 
-sudo /etc/init.d/nginx reload
+sudo /etc/init.d/nginx restart
 
 
