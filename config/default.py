@@ -16,7 +16,6 @@ from zkit.escape import json_encode
 from tornado import escape
 escape.json_encode = json_encode
 
-from mysql import DB_MAIN_TABLE, DB_GOOGLE_TABLE
 import zkit.cookie_morsel 
 from hmako.lookup import TemplateLookup
 import sys
@@ -232,6 +231,7 @@ def finish(o):
         o.MYSQL_HOST, o.MYSQL_PORT, '%s_google'%o.MYSQL_MAIN, o.MYSQL_USER, o.MYSQL_PASSWD
     )
 
+    from mysql import DB_MAIN_TABLE, DB_GOOGLE_TABLE
 
     o.DB_CONFIG = {
         'main': {
