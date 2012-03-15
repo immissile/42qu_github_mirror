@@ -21,50 +21,22 @@ $('.tag_log_rollback').live('click',function(){
 
 <div class="G">
     <div class="Zw">
+%for i in xrange(3):
         <div class="Zm">
             <div class="tag_log_title"><a href="#">过早优化是万恶之源</a></div>
+%for i in range(4):
             <div class="tag_log_item">
                 <a class="tag_log_rollback" href="javascript:void(0)" rel="12354/10331">回滚</a>
                 <a class="tag_log_user" href="#">张沈鹏</a>\
-                <span class="tag_log_do">[ 添加了 ]</span>
-                <span class="tag_log_tags">
+                <span class="po_tag_list">
                     <a href="http://10229441.42qu.com" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">代码优化&zwnj;</span></a>
                     <a href="http://10229441.42qu.com" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">javascript&zwnj;</span></a>           
                 </span>
             </div>
-            <div class="tag_log_item">
-                <a class="tag_log_rollback" href="javascript:void(0)" rel="12351/10329">回滚</a>
-                <a class="tag_log_user" href="#">李嫣然</a>\
-                <span class="tag_log_do">[ 删除了 ]</span>
-                <span class="tag_log_tags">
-                    <a href="http://10229441.42qu.com" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">javascript&zwnj;</span></a>           
-                </span>
-            </div>
-
+%endfor
         </div>
 
-        <div class="Zm">
-            <div class="tag_log_title"><a href="#">过早优化是万恶之源</a></div>
-            <div class="tag_log_item">
-                <a class="tag_log_rollback" href="javascript:void(0)" rel="12354/10331">回滚</a>
-                <a class="tag_log_user" href="#">张沈鹏</a>\
-                <span class="tag_log_do">[ 添加了 ]</span>
-                <span class="tag_log_tags">
-                    <a href="http://10229441.42qu.com" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">代码优化&zwnj;</span></a>
-                    <a href="http://10229441.42qu.com" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">javascript&zwnj;</span></a>           
-                </span>
-            </div>
-            <div class="tag_log_item">
-                <a class="tag_log_rollback" href="javascript:void(0)" rel="12351/10329">回滚</a>
-                <a class="tag_log_user" href="#">李嫣然</a>\
-                <span class="tag_log_do">[ 删除了 ]</span>
-                <span class="tag_log_tags">
-                    <a href="http://10229441.42qu.com" target="_blank" class="po_tagw"><span class="po_tag_pic"></span><span class="po_tag_one">javascript&zwnj;</span></a>           
-                </span>
-            </div>
-
-        </div>
-
+%endfor
 
     </div>
     <div class="Zs">
