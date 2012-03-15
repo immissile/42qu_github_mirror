@@ -1,0 +1,3 @@
+python static/make.py
+ps x -u $USER|ack server_ctrl_dev|ack python|awk  '{print $1}'|xargs kill
+./server_ctrl_dev.py

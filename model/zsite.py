@@ -126,7 +126,7 @@ def zsite_by_query(query):
         if Zsite.mc_get(query):
             user_id = query
     else:
-        query = query.replace('http://', '')
+        query = query.replace('http://', '').split(".",1)[0]
         user_id = id_by_url(query)
 
     return user_id
@@ -208,7 +208,8 @@ def zsite_name_id_dict(id_set):
 
 if __name__ == '__main__':
     pass
-    print Zsite.where()[0].name    
+    print zsite_by_query("http://wooparadog.42qu.com/")
+#    print Zsite.where()[0].name    
     #zsite_name_rm(10017321)
     #print zsite_user_verify_count()
 #    from zweb.orm import ormiter
