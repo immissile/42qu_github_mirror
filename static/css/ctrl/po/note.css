@@ -13,9 +13,6 @@ width:297px;
 padding-left:40px;
 border-color:#e9e9e9;
 }
-#name{
-background:#FeFeFF;
-}
 #txt{
 background:#FeFeFF;
 font-family:Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;
@@ -29,7 +26,8 @@ border:0;
 color:#444;
 }
 #name{
-font-size:16px;
+font-size:14px;
+background:#FeFeFF;
 margin:0 auto;
 padding:14px 7px;
 height:19px;
