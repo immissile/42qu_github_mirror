@@ -128,6 +128,8 @@ def ico_url_with_default(id):
 def ico_url_bind_with_default(zsite_list, func=ico_url_with_default):
     key = 'ico'
     for i in zsite_list:
+        if i is None:
+            continue
         setattr(
             i,
             key,

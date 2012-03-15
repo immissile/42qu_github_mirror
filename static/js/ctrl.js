@@ -46,7 +46,7 @@ jQuery.fn.extend({
 		return this.submit(islogin)
 	},
     ctrl_enter : function (callback){
-        $(this).keydown(function(event){
+        return $(this).keydown(function(event){
             event = event.originalEvent;
             if(event.keyCode == 13 && (event.metaKey||event.ctrlKey)) {
                 callback&&callback()

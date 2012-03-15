@@ -11,7 +11,7 @@ from model import reply
 from model.zsite import Zsite, user_can_reply
 from model.zsite_tag import zsite_tag_list_by_zsite_id, po_id_list_by_zsite_tag_id_cid, zsite_tag_cid_count
 from model.cid import CID_REVIEW, CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_REC,\
-CID_VIDEO, CID_AUDIO, CID_PO, CID_EVENT, CID_EVENT_FEEDBACK, CID_EVENT_NOTICE, CID_SITE
+CID_VIDEO, CID_AUDIO, CID_PO, CID_EVENT, CID_EVENT_FEEDBACK, CID_EVENT_NOTICE, CID_SITE, CID_PRODUCT
 from zkit.page import page_limit_offset
 from zkit.txt import cnenlen
 from model.zsite_tag import ZsiteTag , link_by_zsite_id_tag_id
@@ -289,7 +289,8 @@ class PoOne(Base):
             self.mark()
 
         cid = po.cid
-
+        if cid == CID_PRODUCT:
+            return self.redirect(po.user.link)
 
         if cid == CID_EVENT:
             zsite_tag_id = tag_name = None
