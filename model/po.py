@@ -385,6 +385,9 @@ def _po_rm(user_id, po):
     id = po.id
     feed_rm(id)
 
+    from model.po_show import po_show_rm
+    po_show_rm(id)
+
     from model.po_recommend import mq_rm_rec_po_by_po_id
     mq_rm_rec_po_by_po_id(user_id, id)
 
@@ -515,6 +518,10 @@ def mc_flush_zsite_cid(zsite_id, cid):
 
 
 if __name__ == '__main__':
+    po = Po.mc_get(10257675)
+
+    po_rm(po.user_id, po.id)
+    raise
     for i in Po.where(user_id=10078195, cid=CID_NOTE):
         if "1.42qu.us" in i.txt:
             print i.name

@@ -789,18 +789,21 @@ def event_joiner_by_owner_id(user_id):
 
 if __name__ == '__main__':
     pass
+
+   # 10257675
+
     #from model.user_mail import mail_by_user_id
-    class Vps(Model):
-        pass
+#    class Vps(Model):
+#        pass
     #id = 0
-    for i in event_joiner_user_id_list(10236239):
-        print  mail_by_user_id(i),",",
-        if not Vps.get(user_id=i) and i != 10027978:
-            print i, mail_by_user_id(i)
-            v = Vps(state=10, group=1, id_in_group=0, user_id=i)
-            v.save()
-            v.id_in_group = v.id
-            v.save()
+#    for i in event_joiner_user_id_list(10236239):
+#        print  mail_by_user_id(i),",",
+#        if not Vps.get(user_id=i) and i != 10027978:
+#            print i, mail_by_user_id(i)
+#            v = Vps(state=10, group=1, id_in_group=0, user_id=i)
+#            v.save()
+#            v.id_in_group = v.id
+#            v.save()
  
             
 #    id+=1
@@ -813,9 +816,9 @@ if __name__ == '__main__':
 #from base64 import b64encode
 #print
         
-    from uuid import uuid4
-    for i in Vps.where():
-        print i.id, i.user_id, i.passwd
+#    from uuid import uuid4
+#    for i in Vps.where():
+#        print i.id, i.user_id, i.passwd
         #for i in Vps.where(user_id=10239779):
         #    print i.id
         #    i.passwd = uuid4().hex[:8].replace("l","k")
