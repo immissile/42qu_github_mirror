@@ -84,7 +84,7 @@ def spider(url_list):
     debug = False
     debug = True
 
-    spider_runner = GSpider(spider, workers_count=20, debug=debug)
+    spider_runner = GSpider(spider, workers_count=40, debug=debug)
     spider_runner.start()
 
 
@@ -95,8 +95,8 @@ with open("wm_user.txt") as wm_user:
     for pos, i in enumerate(wm_user):
         i = i.strip()
         url_list.append((wm_parser, 'http://www.wumii.com/user/article/get?type=LIKED_ITEM&u=%s&m=9331724404885'%i) ,)
-        if pos > 10:
-            break
+        #if pos > 2:
+        #    break
 
 with open("wm_rec.txt","w") as output:
     spider(url_list)
