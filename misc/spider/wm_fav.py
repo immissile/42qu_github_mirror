@@ -41,19 +41,24 @@ def wm_txt_parser(html, url):
         '人喜欢</a>',
         html
     )
-    html = txt_wrap_by(
+    txt = txt_wrap_by(
         '<div class="content">',
        ' <p class="operating">',
         html 
     )
+
+    time = txt_wrap_by('<span class="time">','</span>',html)
+    #print time       
     data = dumps([
         like,
         title,
         source,
         link,
-        html
+        time,
+        txt,
     ])
-    print data
+    output.write(data)
+    output.write("\n")
         
 
 def spider(url_list):
@@ -78,9 +83,8 @@ def spider(url_list):
 url_list = [
     (wm_parser, 'http://www.wumii.com/user/article/get?type=LIKED_ITEM&u=zuroc&m=9331724404885') ,
 ]
-spider(url_list)
+with open("wm_rec.txt","w") as output:
+    spider(url_list)
+    
 
-with open('wm_user.txt', 'w') as wm_user:
-    for i in REAL_USER:
-        wm_user.write('%s\n'%i)
 

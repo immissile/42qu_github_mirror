@@ -33,7 +33,7 @@ def wm_parser(html, url):
             EXIST_USER.add(user_name)
             yield wm_parser , "http://www.wumii.com/user/list/followings?u=%s"%user_name
             yield wm_parser , "http://www.wumii.com/user/list/fans?u=%s"%user_name 
-            
+
 
 def spider(url_list):
     fetcher = NoCacheFetch(
@@ -52,6 +52,7 @@ def spider(url_list):
 
     spider_runner = GSpider(spider, workers_count=1, debug=debug)
     spider_runner.start()
+
 
     
 url_list = [
