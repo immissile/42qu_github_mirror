@@ -37,7 +37,7 @@ def wm_parser(html, url):
 
 def spider(url_list):
     fetcher = NoCacheFetch(
-        1,
+        0,
         {
             "Cookie": COOKIE
         }
