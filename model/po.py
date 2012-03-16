@@ -339,7 +339,7 @@ def po_state_set(po, state):
         mq_buzz_po_rm(id)
         from fav import fav_rm_by_po
         fav_rm_by_po(po)
-    elif old_state <= STATE_SECRET and state >= STATE_ACTIVE:
+    elif old_state < STATE_ACTIVE and state >= STATE_ACTIVE:
         po.feed_new()
         po.tag_new()
 
