@@ -87,3 +87,7 @@ if __name__ == '__main__':
     notice_reply()
     #print po_pos_get(10006891,10102798)
     pass
+    zsite = Zsite.mc_get('10006891')
+    mail = 'zsp007@gmail.com'
+    rendermail( '/mail/notice/weekly.htm', mail, 'realfex', format='html', subject='你猜')
+
