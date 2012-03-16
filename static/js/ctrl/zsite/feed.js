@@ -262,6 +262,9 @@ $.template(
     '<div class="side_pic_wrap">'+
         '<div class="side_pic_main">'+
             '<img width="226" class="side_pic_img" src="http://${$data[6]}/721/342/${$data[7]}.jpg" />'+
+            '<div class="side_pic_content">'+
+                '<a class="TPH c9" href="http://${$data[0]}${HOST_SUFFIX}" target="_blank">${$data[1]}</a> : ${$data[4]}'+
+            '</div>'+
         '</div>'+
         '<div class="side_pic_opt">'+
             '<a class="side_pic_a" href="javascript:fcm(${$data[0]},${$data[5]});void(0)">评论</a>'+
@@ -272,6 +275,7 @@ $.template(
 );
 
 (function(){
+
 var PICWALL_BUFF = []
 
 function picwall_get(){
@@ -315,3 +319,4 @@ $('.side_pic_img').live('click',function(){
         'content':'<img src='+self.attr('src')+' style="max-height:'+(Number(hei)-90)+'px;"/>'
     })
 })
+
