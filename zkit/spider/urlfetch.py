@@ -20,7 +20,7 @@ def retryOnURLError(self, trycnt=3):
     return funcwrapper
 
 class Fetch(object):
-    def __init__(self, cache, headers={}, sleep=0, cache_valid=bool):
+    def __init__(self, cache, headers={}, sleep=0, cache_valid=None):
         self.cache = cache
         self._headers = headers
         self._pos = 0
@@ -63,7 +63,11 @@ class Fetch(object):
         if path.exists(file_path):
             with open(file_path) as f:
                 data = f.read()
-                if self.cache_valid(key, data):
+                cache_valid = self.cache_valid
+                if cache_valid is None:
+                    #print data
+                    return data
+                if cache_valid(key, data):
                     print 'USE CACHE ', key
                     return data
 
@@ -77,6 +81,7 @@ class Fetch(object):
     @retryOnURLError(3)
     def __call__(self, url):
         data = self.cache_get(url)
+        #print data
         if data is None:
             key, _url = self._key(url)
             cache_dir = path.join(
