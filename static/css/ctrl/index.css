@@ -516,3 +516,18 @@ color: #444;
 .picwall_title{
 margin:12px 0;
 }
+.side_pic_rec_wrap{
+border-top:1px solid #e9e9e9;
+padding:12px;
+color:#444;
+}
+.side_pic_rec_wrap_in{
+border:1px solid #e9e9e9;
+padding:12px;
+line-height:22px;
+box-shadow:-1px 1px 2px #e9e9e9;
+}
+.side_pic_rec{
+margin-bottom:6px;
+}
+

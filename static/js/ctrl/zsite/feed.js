@@ -261,11 +261,11 @@ $.template(
     'side_pic',
     '<div class="side_pic_wrap">'+
         '<div class="side_pic_main">'+
-            '{{if data[5].length}}'+
+            '{{if $data[5].length}}'+
                 '<img width="226" class="side_pic_img" src="http://${$data[5][0]}/721/342/${$data[5][1]}.jpg" />'+
             '{{/if}}'+
             '<div class="side_pic_content">'+
-                '{{if data[6].length}}'+
+                '{{if $data[6].length}}'+
                 '<a class="TPH c9" href="http://${$data[6][0]}${HOST_SUFFIX}" target="_blank">${$data[6][1]}</a>'+
                 '{{/if}}'+
                 '  : ${$data[4]}'+
@@ -276,18 +276,22 @@ $.template(
             '<a class="side_pic_a" href="javascript:void(0)">收藏</a>'+
          '<a class="side_pic_a" href="javascript:share(${$data[0]});void(0)">推荐</a>'+
         '</div>'+
-        '{{each data[7]}}'+
+        '{{if $data[7].length && $data[8].length}}'+
+        '<div class="side_pic_rec_wrap"><div class="side_pic_rec_wrap_in">'+
+        '{{each $data[7]}}'+
             '<div class="side_pic_rec">'+
                 '<a href="http://${$value[0]}${HOST_SUFFIX}" class="c9">${$value[1]}</a> 推荐 : '+
-                '<span class="side_pic_rec_cont">${$value[2]}</span>'+
+                '<span class="side_pic_rec_cont">${$value[3]}</span>'+
             '</div>'+
         '{{/each}}'+
-        '{{if data[8].length}}'+
+        '{{if $data[8].length}}'+
             '<div class="side_pic_rec_short">'+
-            '{{each data[8]}}'+
-                '<a href="http://${$value[0]}${HOST_SUFFIX}" class="c9">${$value[1]}</a>'+
+            '{{each $data[8]}}'+
+                '<a href="http://${$value[0]}${HOST_SUFFIX}" class="c9" style="margin-right:6px;">${$value[1]}</a>'+
             '{{/each}}'+
             ' 等推荐</div>'+
+        '{{/if}}'+
+        '</div></div>'+
         '{{/if}}'+
     '</div>'
 );
