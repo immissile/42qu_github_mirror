@@ -134,6 +134,7 @@ $(".bzlive").live("click",function(){
 				}
 				prebottom = self.offset().top + this.offsetHeight;
 			})
+            picwall_render()
         }
     )
 
@@ -256,4 +257,61 @@ $(".buzzX").click(function(){
     $(this).parents('.buzz_box').hide() 
 })
 
+$.template(
+    'side_pic',
+    '<div class="side_pic_wrap">'+
+        '<div class="side_pic_main">'+
+            '<img width="226" class="side_pic_img" src="http://${$data[6]}/721/342/${$data[7]}.jpg" />'+
+        '</div>'+
+        '<div class="side_pic_opt">'+
+            '<a class="side_pic_a" href="javascript:fcm(${$data[0]},${$data[5]});void(0)">评论</a>'+
+            '<a class="side_pic_a" href="javascript:void(0)">收藏</a>'+
+         '<a class="side_pic_a" href="javascript:share(${$data[0]});void(0)">推荐</a>'+
+        '</div>'+
+    '</div>'
+);
 
+(function(){
+var PICWALL_BUFF = []
+
+function picwall_get(){
+    if(PICWALL_BUFF.length)return PICWALL_BUFF.shift()
+    $.getJSON(
+        '/j/feed/pic',
+        function(result){
+            PICWALL_BUFF = result
+            if(PICWALL_BUFF.length){
+                picwall_render()
+            }
+        }
+    ) 
+}
+
+function picwall_break(pic){
+    var ctrl = false,
+    buzz_height = $('#buzz_win_reply').height() + $('#buzz_win_at').height()
+    if(($('#picwall').height()+buzz_height+200>$('#feeds').height()) || !pic){
+        ctrl = true
+    }
+    return ctrl
+}
+
+picwall_render = function(){
+    while(1){
+        pic = picwall_get()
+        if(picwall_break(pic))break;
+        $('#picwall').append($.tmpl('side_pic',[pic]))
+    }
+}
+})();
+
+$('.side_pic_img').live('click',function(){
+    var self = $(this),
+        hei = $(window).height(),
+        fancybox = $.fancybox
+    
+    fancybox.showActivity()
+    fancybox({
+        'content':'<img src='+self.attr('src')+' style="max-height:'+(Number(hei)-90)+'px;"/>'
+    })
+})

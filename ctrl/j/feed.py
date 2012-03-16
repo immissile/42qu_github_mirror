@@ -262,4 +262,8 @@ class FdTxt(Base):
             result = ''
         self.finish(result)
 
-
+@urlmap('/j/feed/pic')
+class FeedPic(JLoginBase):
+    def get(self):
+        result = [[10002411 , 'realfex' ,10245025 , '玛娜法鲁岛' ,  '是休闲式度假村，拥有着马尔夫的传统，同时与朴素、高雅亚洲风情配合得天衣无缝。这个度假村让您在马尔代夫享受到宁静舒适的服务。' , 0 , 'p.realfex.xxx', 191830 , 440 , 658]]*20
+        self.finish(dumps(result))

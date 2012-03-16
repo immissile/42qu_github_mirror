@@ -1,7 +1,9 @@
 function popreply(cid, title_html, href, counter){
     var content = $(
-        '<div class="fcmpop" id="reply_reply_pop"><a target="_blank" id="reply_name"></a><div id="reply_reply_body" class="reply_reply_loading"></div><textarea></textarea><div class="tr"><span class="ctrl_enter_hint">Ctrl + Enter 直接提交</span><span class="btnw"><button type="submit" class="button">回复</button></span></div></div>'
+        '<div class="fcmpop" id="reply_reply_pop"><a target="_blank" id="reply_name"></a><div id="reply_reply_body" class="reply_reply_loading"></div><textarea></textarea><div class="tr"><span class="ctrl_enter_hint"></span><span class="btnw"><button type="submit" class="button">回复</button></span></div></div>'
         ),
+        link = '<a href="'+href+'" style="color:#999;">链接</a>',
+        hint = 'Ctrl + Enter 直接提交',
         cbody = content.find('#reply_reply_body'), 
         t=cbody[0],
         textarea = content.find('textarea'),
@@ -10,7 +12,7 @@ function popreply(cid, title_html, href, counter){
         reply_name=content.find('#reply_name'),
         id = href.split("/")[4].split("#")[0],
         count=true,
-        ctrl_enter_hint=content.find(".ctrl_enter_hint");
+        ctrl_enter_hint=content.find(".ctrl_enter_hint").html(link)
 
         if(counter){
             count=counter.html()
@@ -36,7 +38,7 @@ function popreply(cid, title_html, href, counter){
             }
         })
     }
-    textarea.focus(function(){ctrl_enter_hint.show()}).blur(function(){ctrl_enter_hint.hide()}).ctrl_enter(btc);
+    textarea.focus(function(){ctrl_enter_hint.html(hint)}).blur(function(){ctrl_enter_hint.html(link)}).ctrl_enter(btc);
     reply_name.html(title_html).attr('href',href)
 
     button.click(btc)
