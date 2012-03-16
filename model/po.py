@@ -313,7 +313,9 @@ def po_new(cid, user_id, name, state, rid=0, id=None, zsite_id=0):
         po_pos_set(user_id, m)
 
     mc_flush(user_id, cid)
-    m.tag_new()
+
+    if state >= STATE_ACTIVE:
+        m.tag_new()
 
     mc_flush_zsite_cid(zsite_id, cid)
     return m
