@@ -138,11 +138,11 @@ target="_blank" href="/{{if rid && (cid==61 || cid==64 || cid==63)}}${question_i
 {{/if}}
 <div class="fdtxt{{if !$index}}{{if !rt_list.length || (rt_list.length==1 && rt_list[0].txt[2]==0)}} fdtxt${$index}{{/if}}{{/if}}" id="fdtxt${id}">
         {{if cid==61 || cid == 66}}
+{{if cid == 66}}<div class="c"><a onclick="return fdvideo(this);" class="fdvideo L" href="${rid}">播放视频</a></div>{{/if}}
 <div class="fdtxtin">{{if txt_more}}${txt}{{else}}{{html txt}}{{/if}}{{if !$index && cid==61 &&  !rid}}<div 
     class="zname"><span></span><a 
-class="TPH" target="_blank" href="${zsite_link}">${zsite_name} {{if unit||title}}({{/if}} {{if unit}}${unit}{{/if}} {{if unit&&title}}.{{/if}} {{if title}}${title}{{/if}} {{if unit||title}}){{/if}}</a></div>{{/if}}{{if txt_more}}<a 
-    href="javascript:void(0)" class="fdext" onclick="fdtxt(this,${id});">浏览正文</a>{{/if}}</div>
-{{if cid == 66}}<a onclick="return fdvideo(this);" class="fdvideo" href="${rid}">播放视频</a>{{/if}}
+class="TPH" target="_blank" href="${zsite_link}">${zsite_name} {{if unit||title}}({{/if}} {{if unit}}${unit}{{/if}} {{if unit&&title}}.{{/if}} {{if title}}${title}{{/if}} {{if unit||title}}){{/if}}</a></div>{{/if}}{{if txt_more}}<div class="fdall"><a href="javascript:void(0)" class="fdext" onclick="fdtxt(this,${id});">显示全部</a></div>{{/if}}</div>
+
         {{else}}
             {{if cid==68}}
 <div class="fdtxtin">{{if txt_more}}${txt}{{else}}{{html txt}}{{/if}}</div>
