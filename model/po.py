@@ -520,38 +520,11 @@ def mc_flush_zsite_cid(zsite_id, cid):
 
 
 if __name__ == '__main__':
-    po = Po.mc_get(10257675)
-
-    po_rm(po.user_id, po.id)
-    raise
-    for i in Po.where(user_id=10078195, cid=CID_NOTE):
-        if "1.42qu.us" in i.txt:
+    for i in Po.where(cid=CID_NOTE):
+        txt = i.txt.rstrip().rstrip("\n").rstrip("*")
+        if txt != i.txt:
+            i.txt_set(txt)
             print i.name
-            po_rm(i.user_id, i.id)
-    raise
-    po = Po.mc_get(10236747)
-    print  po.name_
-
-    name = """第一日
-
-• HTML 与 模版
-• css与js
-
-预习材料
-
-
-1. 网页设计师 : 循序渐进
-2. html.chm
-3. css.htm
-4. Javascript教程 http://www.w3school.com.cn/js/index.asp
-5. 15天学会jquery
-6. jquery.chm
-
-下载地址 : https://bitbucket.org/zuroc/42qu-school/src/02ffbde7b7e4/book 
-"""
-
-    po.name_ = name
-    po.save()
 
     #rm_all_po_and_reply_and_tag_by_user_id(10001299)
     #pass
