@@ -31,6 +31,7 @@ def wm_parser(html, url):
                 USER_DICT[user] = set()
             USER_DICT[user].add(id)
             if id not in EXIST_ID:
+                EXIST_ID.add(id)
                 yield wm_txt_parser, "http://www.wumii.com/reader/article?id=%s"%id
 
 
