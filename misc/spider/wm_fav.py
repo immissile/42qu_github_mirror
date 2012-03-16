@@ -15,8 +15,11 @@ from zkit.htm2txt import unescape
 COOKIE = """auid=tpDh6RcYTnSzopBC64smkOG0wK6N%2B4hf; __utma=264742537.1854618108.1331049812.1331889152.1331919387.4; __utmz=264742537.1331049812.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); uid=ARSq0YH%2Fiaugt%2BRnLL7t6AbWY%2FOEOjsvPGq5H4oBArFO1Lg9deFTxm6vPgpm1XmFZA%3D%3D; JSESSIONID=B0F0E2108C1BC6F915C07E0B7CBF8F25.web-15; __utmb=264742537.31.10.1331919387; __utmc=264742537"""
 
 EXIST_ID = set()
+USER_DICT = dict()
 
 def wm_parser(html, url):
+    user= txt_wrap_by("&u=","&",url)
+    #print user
     time = txt_wrap_by('<li id="maxActionTimeInMs"  m="', '"', html)
     if time and 'm='+time not in url and int(time) > 0:
         yield wm_parser, url[:url.rfind('=')+1]+str(time)
@@ -24,11 +27,15 @@ def wm_parser(html, url):
     for i in txt_wrap_by_all(' itemid="', '<p class="operating">', html):
         if 'class="content"' in i:
             id = i[:i.find('"')]
+            if user not in USER_DICT:
+                USER_DICT[user] = set()
+            USER_DICT[user].add(id)
             if id not in EXIST_ID:
                 yield wm_txt_parser, "http://www.wumii.com/reader/article?id=%s"%id
 
 
 def wm_txt_parser(html, url):
+    id = url.rsplit("=")[-1]
     title =  txt_wrap_by('target="_blank">','</a></p>',html)
     source = txt_wrap_by('">来自：','<', html)
     link = txt_wrap_by(
@@ -50,6 +57,7 @@ def wm_txt_parser(html, url):
     time = txt_wrap_by('<span class="time">','</span>',html)
     #print time       
     data = dumps([
+        id,
         like,
         title,
         source,
@@ -85,6 +93,8 @@ url_list = [
 ]
 with open("wm_rec.txt","w") as output:
     spider(url_list)
-    
+
+with open("wm_user_rec.txt","w") as output:
+    output.write(dumps(tuple((k,tuple(v)) for k,v in USER_DICT.iteritems())))    
 
 
