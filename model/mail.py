@@ -128,5 +128,5 @@ mq_rendermail = mq_client(rendermail)
 
 if '__main__' == __name__:
     from time import time
-    sendmail('time %s'%time(), '2345', 'zsp042@gmail.com')
+    sendmail('time %s'%time(), '2345', 'i@realfex.com')
     print SENDER_MAIL
