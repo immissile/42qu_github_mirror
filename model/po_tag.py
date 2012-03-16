@@ -274,6 +274,7 @@ def po_tag_rm_by_po(po):
     mc_flush_by_po_id(po_id)
 
 def _tag_rm_by_user_id_list(po, user_id, id_list):
+    #print "_tag_rm_by_user_id_list", user_id
     po_id = po.id
     from model.rec_read import rec_read_po_tag_rm
     rec_read_po_tag_rm(po_id, id_list)
@@ -289,26 +290,31 @@ def _tag_rm_by_user_id_list(po, user_id, id_list):
             if user_rank.rank < 0:
                 user_rank.rank = 0
             user_rank.save()
-
-    cid = tag_cid_by_po_id(po_id)
-
-    if cid:
-
+    
+    def _(cid): 
         for tag_id in id_list:
             #将分数放到相应的ranged set里面
-
-
             key = REDIS_TAG_CID%(tag_id, cid)
             count = max(redis.zcard(key) - 1, 0)
 
             p = redis.pipeline()
             p.zrem(key, po_id)
+
             for i in (REDIS_REC_TAG_NEW, REDIS_REC_TAG_OLD):
                 key = i%tag_id
                 p.zrem(key, po_id)
 
             p.hset(REDIS_TAG_CID_COUNT%tag_id, cid, count)
             p.execute()
+
+    cid = tag_cid_by_po_id(po_id)
+
+    if cid:
+        _(cid)
+    else:
+        for cid in  REDIS_REC_CID_DICT:
+            _(cid)
+
 
 def _po_tag_id_cid_new(po, tag_id_list, cid):
     po_id = po.id
@@ -423,7 +429,7 @@ def po_tag_id_list_new(po, tag_id_list, cid=0):
                 else:
                     cid = REDIS_REC_CID_TALK
 
-    elif cid and cid in REDIS_REC_CID_DICT:
+    if cid and cid in REDIS_REC_CID_DICT:
         #将po放在相应的po_id=>cid中
         redis.hset(REDIS_PO_ID2TAG_CID, po_id, cid)
 
