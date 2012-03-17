@@ -50,4 +50,9 @@ def wm_save(id, like, name, author, link, create_time, txt):
 if __name__ == '__main__':
     pass
 
+    for i in SpiderWm.where().order_by("`like` desc")[:100]:
+        print i.like
+        print i.name
+        print "\t",i.link
+
 
