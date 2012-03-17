@@ -3,13 +3,19 @@ from json import loads
 from datetime import datetime
 import _env
 from model.days import time_by_string
+from model._db import Model
+
+
+class SpiderWm(Model):
+    pass
+
 
 now = datetime.today()
 
 with open('wm_rec.txt') as wm_rec:
     for line in wm_rec:
-        id, like, title, source, link, time, txt = loads(line)
-        if "前" in time:
+        id, like, name, source, link, time, txt = loads(line)
+        if '前' in time:
             time = now
         else:
             time = time_by_string(time)
