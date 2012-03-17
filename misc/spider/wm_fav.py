@@ -87,10 +87,7 @@ with open('wm_user.txt') as wm_user:
         #if pos > 2:
         #    break
 
-with open('wm_rec.txt', 'w') as output:
-    spider(url_list)
+spider(url_list)
 
-with open('wm_user_rec.txt', 'w') as output:
-    output.write(dumps(tuple((k, tuple(v)) for k, v in USER_DICT.iteritems())))
 
 
