@@ -17,6 +17,10 @@ SPAMMER_REDIS_KEY = "ZpageSpammer"
 #    10133407,
 #))
 
+def get_all_spamer_idlist():
+    id_list = redis.smembers(SPAMMER_REDIS_KEY)
+    return id_list
+
 def spammer_new(user_id):
     user_id = int(user_id)
     redis.sadd(SPAMMER_REDIS_KEY, user_id)
@@ -83,5 +87,5 @@ def spammer_reset(user_id):
 
 
 if __name__ == '__main__':
-
-    spammer_reset(10207348)
+    print get_all_spamer_idlist()
+    #spammer_reset(10207348)
