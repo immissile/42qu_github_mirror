@@ -11,38 +11,37 @@ from zkit.bot_txt import txt_wrap_by, txt_wrap_by_all
 from zkit.howlong import HowLong
 from zkit.htm2txt import unescape
 
+from wm_data import SpiderWm, wm_save, wm_fav, wm_user_id
 
 COOKIE = """auid=tpDh6RcYTnSzopBC64smkOG0wK6N%2B4hf; __utma=264742537.1854618108.1331049812.1331889152.1331919387.4; __utmz=264742537.1331049812.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); uid=ARSq0YH%2Fiaugt%2BRnLL7t6AbWY%2FOEOjsvPGq5H4oBArFO1Lg9deFTxm6vPgpm1XmFZA%3D%3D; JSESSIONID=B0F0E2108C1BC6F915C07E0B7CBF8F25.web-15; __utmb=264742537.31.10.1331919387; __utmc=264742537"""
 
-EXIST_ID = set()
-USER_DICT = dict()
 
 def wm_parser(html, url):
-    user= txt_wrap_by("&u=","&",url)
+    user = txt_wrap_by('&u=', '&', url)
     #print user
     time = txt_wrap_by('<li id="maxActionTimeInMs"  m="', '"', html)
     if time and 'm='+time not in url and int(time) > 0:
         yield wm_parser, url[:url.rfind('=')+1]+str(time)
 
+    user_id = wm_user_id(user)
     for i in txt_wrap_by_all(' itemid="', '<p class="operating">', html):
         if 'class="content"' in i:
             id = i[:i.find('"')]
-            if user not in USER_DICT:
-                USER_DICT[user] = set()
-            USER_DICT[user].add(id)
-            if id not in EXIST_ID:
-                EXIST_ID.add(id)
-                yield wm_txt_parser, "http://www.wumii.com/reader/article?id=%s"%id
 
+            wm = SpiderWm.get(wmid=id)
+            if wm is None:
+                yield wm_txt_parser, 'http://www.wumii.com/reader/article?id=%s'%id, user_id
+            else:
+                wm_fav(user_id, wm.id)
 
-def wm_txt_parser(html, url):
-    id = url.rsplit("=")[-1]
-    title =  txt_wrap_by('target="_blank">','</a></p>',html)
-    source = txt_wrap_by('">来自：','<', html)
+def wm_txt_parser(html, url, user_id):
+    id = url.rsplit('=')[-1]
+    name = txt_wrap_by('target="_blank">', '</a></p>', html)
+    author = txt_wrap_by('">来自：', '<', html)
     link = txt_wrap_by(
         'href="',
         '"',
-        txt_wrap_by('<p class="info','</p>', html)
+        txt_wrap_by('<p class="info', '</p>', html)
     )
     like = txt_wrap_by(
         'class="num-likeIt">',
@@ -52,23 +51,12 @@ def wm_txt_parser(html, url):
     txt = txt_wrap_by(
         '<div class="content">',
        ' <p class="operating">',
-        html 
+        html
     )
 
-    time = txt_wrap_by('<span class="time">','</span>',html)
-    #print time       
-    data = dumps([
-        id,
-        like,
-        title,
-        source,
-        link,
-        time,
-        txt,
-    ])
-    output.write(data)
-    output.write("\n")
-        
+    time = txt_wrap_by('<span class="time">', '</span>', html)
+    wm = wm_save(id, like, name, author, link, time, txt)
+    wm_fav(user_id, wm.id)
 
 def spider(url_list):
     fetcher = NoCacheFetch(
@@ -92,17 +80,17 @@ def spider(url_list):
 url_list = [
 ]
 
-with open("wm_user.txt") as wm_user:
+with open('wm_user.txt') as wm_user:
     for pos, i in enumerate(wm_user):
         i = i.strip()
-        url_list.append((wm_parser, 'http://www.wumii.com/user/article/get?type=LIKED_ITEM&u=%s&m=9331724404885'%i) ,)
+        url_list.append((wm_parser, 'http://www.wumii.com/user/article/get?type=LIKED_ITEM&u=%s&m=9331724404885'%i) , )
         #if pos > 2:
         #    break
 
-with open("wm_rec.txt","w") as output:
+with open('wm_rec.txt', 'w') as output:
     spider(url_list)
 
-with open("wm_user_rec.txt","w") as output:
-    output.write(dumps(tuple((k,tuple(v)) for k,v in USER_DICT.iteritems())))    
+with open('wm_user_rec.txt', 'w') as output:
+    output.write(dumps(tuple((k, tuple(v)) for k, v in USER_DICT.iteritems())))
 
 
