@@ -85,7 +85,7 @@ def spider(url_list):
     debug = False
     debug = True
 
-    spider_runner = GSpider(spider, workers_count=5, debug=debug)
+    spider_runner = GSpider(spider, workers_count=10, debug=debug)
     spider_runner.start()
 
 
