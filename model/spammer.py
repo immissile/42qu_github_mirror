@@ -6,7 +6,7 @@ from decorator import decorator
 
 
 # zhash
-SPAMMER_REDIS_KEY = "zpage:spammer"
+SPAMMER_REDIS_KEY = "ZpageSpammer"
 
 
 #SPAM_USER_ID = set((
