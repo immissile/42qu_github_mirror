@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from hashlib import md5
-from _db import McCache , Model
+from _db import McCache , Model, redis
 from decorator import decorator
 
 
-class Spammer(Model):
-    pass
+# zhash
+SPAMMER_REDIS_KEY = "zpage:spammer"
+
 
 #SPAM_USER_ID = set((
 #    10009078, #欲望清单 www.desirelist.nst
@@ -15,22 +16,17 @@ class Spammer(Model):
 #    10022520,
 #    10133407,
 #))
-SPAM_USER_ID = set(Spammer.where().col_list())
 
 def spammer_new(user_id):
     user_id = int(user_id)
-    Spammer.get_or_create(id=user_id).save() 
-    SPAM_USER_ID.add(user_id)
+    redis.sadd(SPAMMER_REDIS_KEY, user_id)
 
 def spammer_rm(user_id):
     user_id = int(user_id)
-    Spammer.where(id=user_id).delete()
-    if user_id in SPAM_USER_ID:
-        SPAM_USER_ID.remove(user_id)
+    redis.srem(SPAMMER_REDIS_KEY, user_id)
 
 def is_spammer(user_id):
-    if int(user_id) in SPAM_USER_ID:
-        return True
+    return redis.sismember(SPAMMER_REDIS_KEY, user_id)
 
 mc_lastest_hash = McCache('LastestHash:%s')
 
