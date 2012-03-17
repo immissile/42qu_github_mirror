@@ -9,10 +9,27 @@ from model._db import Model
 class SpiderWm(Model):
     pass
 
+class SpiderWmUser(Model):
+    pass
+
+class SpiderWmFav(Model):
+    pass
+
+def wm_user_id(user):
+    u = SpiderWmUser.get(name=user)
+    if u is None:
+        u = SpiderWmUser(name=user)
+        u.save()
+    return u.id
+
+def wm_fav(user_id, wm_id):
+    smu = SpiderWmUser.get_or_create(user_id=user_id, wm_id=wm_id)
+    smu.save()
 
 def wm_save(id, like, name, author, link, time, txt):
-    if SpiderWm.get(wmid=id):
-        return 
+    wm = SpiderWm.get(wmid=id)
+    if wm:
+        return wm 
 
     now = datetime.today()
 
@@ -29,7 +46,8 @@ def wm_save(id, like, name, author, link, time, txt):
         like=like, name=name, author=author, link=link, time=time, txt=txt
     )
     wm.save()
-
+    return wm
+    
 if __name__ == '__main__':
     pass
 

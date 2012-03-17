@@ -129,6 +129,8 @@ DB_GOOGLE_TABLE = (
     'douban_fetched',
     'feed_import',
     'spider_wm',
+    'spider_wm_user',
+    'spider_wm_fav',
 )
 
 
