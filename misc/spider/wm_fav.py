@@ -17,7 +17,7 @@ COOKIE = """auid=tpDh6RcYTnSzopBC64smkOG0wK6N%2B4hf; __utma=264742537.1854618108
 
 
 def wm_parser(html, url):
-    user= txt_wrap_by("&u=","&",url)
+    user = txt_wrap_by('&u=', '&', url)
     #print user
     time = txt_wrap_by('<li id="maxActionTimeInMs"  m="', '"', html)
     if time and 'm='+time not in url and int(time) > 0:
@@ -30,18 +30,18 @@ def wm_parser(html, url):
 
             wm = SpiderWm.get(wmid=id)
             if wm is None:
-                yield wm_txt_parser, "http://www.wumii.com/reader/article?id=%s"%id, user_id
+                yield wm_txt_parser, 'http://www.wumii.com/reader/article?id=%s'%id, user_id
             else:
                 wm_fav(user_id, wm.id)
 
 def wm_txt_parser(html, url, user_id):
-    id = url.rsplit("=")[-1]
-    name =  txt_wrap_by('target="_blank">','</a></p>',html)
-    author = txt_wrap_by('">来自：','<', html)
+    id = url.rsplit('=')[-1]
+    name = txt_wrap_by('target="_blank">', '</a></p>', html)
+    author = txt_wrap_by('">来自：', '<', html)
     link = txt_wrap_by(
         'href="',
         '"',
-        txt_wrap_by('<p class="info','</p>', html)
+        txt_wrap_by('<p class="info', '</p>', html)
     )
     like = txt_wrap_by(
         'class="num-likeIt">',
@@ -51,10 +51,10 @@ def wm_txt_parser(html, url, user_id):
     txt = txt_wrap_by(
         '<div class="content">',
        ' <p class="operating">',
-        html 
+        html
     )
 
-    time = txt_wrap_by('<span class="time">','</span>',html)
+    time = txt_wrap_by('<span class="time">', '</span>', html)
     wm = wm_save(id, like, name, author, link, time, txt)
     wm_fav(user_id, wm.id)
 
@@ -80,17 +80,17 @@ def spider(url_list):
 url_list = [
 ]
 
-with open("wm_user.txt") as wm_user:
+with open('wm_user.txt') as wm_user:
     for pos, i in enumerate(wm_user):
         i = i.strip()
-        url_list.append((wm_parser, 'http://www.wumii.com/user/article/get?type=LIKED_ITEM&u=%s&m=9331724404885'%i) ,)
+        url_list.append((wm_parser, 'http://www.wumii.com/user/article/get?type=LIKED_ITEM&u=%s&m=9331724404885'%i) , )
         #if pos > 2:
         #    break
 
-with open("wm_rec.txt","w") as output:
+with open('wm_rec.txt', 'w') as output:
     spider(url_list)
 
-with open("wm_user_rec.txt","w") as output:
-    output.write(dumps(tuple((k,tuple(v)) for k,v in USER_DICT.iteritems())))    
+with open('wm_user_rec.txt', 'w') as output:
+    output.write(dumps(tuple((k, tuple(v)) for k, v in USER_DICT.iteritems())))
 
 

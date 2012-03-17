@@ -23,7 +23,7 @@ def wm_user_id(user):
     return u.id
 
 def wm_fav(user_id, wm_id):
-    smu = SpiderWmUser.get_or_create(user_id=user_id, wm_id=wm_id)
+    smu = SpiderWmFav.get_or_create(user_id=user_id, wm_id=wm_id)
     smu.save()
 
 def wm_save(id, like, name, author, link, time, txt):
