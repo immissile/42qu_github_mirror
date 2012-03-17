@@ -50,7 +50,11 @@ def wm_save(id, like, name, author, link, create_time, txt):
 if __name__ == '__main__':
     pass
 
-    for i in SpiderWm.where().order_by("`like` desc")[:100]:
+    for pos, i in enumerate(SpiderWm.where().order_by("`like` desc")[:1000], 1):
+        if "wumii.com" in i.link or "无觅" in i.name:
+            continue
+        if pos > 100:
+            break
         print i.like
         print i.name
         print "\t",i.link
