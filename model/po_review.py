@@ -39,11 +39,12 @@ def po_review_new(zsite_id, user_id, name):
             state=state,
             zsite_id=zsite_id
         )
-        mc_po_review_id_get.set(
-            '%s_%s'%(zsite_id, user_id),
-            review.id
-        )
-        review.feed_new()
+        if review:
+            mc_po_review_id_get.set(
+                '%s_%s'%(zsite_id, user_id),
+                review.id
+            )
+            review.feed_new()
 
     if state == STATE_ACTIVE:
         mc_po_review_id_list_active_by_zsite_id.delete(zsite_id)

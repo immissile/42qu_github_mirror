@@ -18,10 +18,11 @@ def po_question_new(user_id, name, txt, state, zsite_id):
     name = name or time_title()
     if not is_same_post(user_id, name, txt, zsite_id):
         m = po_new(CID_QUESTION, user_id, name, state, zsite_id=zsite_id)
-        txt_new(m.id, txt)
-        if state > STATE_SECRET:
-            m.feed_new()
-        return m
+        if m:
+            txt_new(m.id, txt)
+            if state > STATE_SECRET:
+                m.feed_new()
+            return m
 
 mc_answer_id_get = McCache('AnswerIdGet.%s')
 answer_count = McNum(lambda id:Po.where(rid=id).where('state>%s', STATE_RM).count(), 'AnswerCount:%s')
@@ -66,10 +67,11 @@ def _po_answer_new(user_id, name, txt, state, rid):
         return
     if not is_same_post(user_id, name, txt):
         m = po_new(CID_ANSWER, user_id, name, state, rid)
-        txt_new(m.id, txt)
-        if state > STATE_SECRET:
-            m.feed_new()
-        return m
+        if m:
+            txt_new(m.id, txt)
+            if state > STATE_SECRET:
+                m.feed_new()
+            return m
 
 def po_user_id_list(question_id):
     question = Po.mc_get(question_id)

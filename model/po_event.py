@@ -51,19 +51,20 @@ def po_event_feedback_new(user_id, name, txt, good, event_id, event_user_id):
         m = Po.mc_get(id)
     else:
         m = po_new(CID_EVENT_FEEDBACK, user_id, name, STATE_ACTIVE, event_id)
-        id = m.id
-        mc_event_feedback_id_get.set('%s_%s' % (user_id, event_id), id)
-        m.feed_new()
+        if m:
+            id = m.id
+            mc_event_feedback_id_get.set('%s_%s' % (user_id, event_id), id)
+            m.feed_new()
 
-        from buzz import buzz_event_feedback_new , mq_buzz_event_feedback_owner_new
+            from buzz import buzz_event_feedback_new , mq_buzz_event_feedback_owner_new
 
-        if user_id != event_user_id:
-            rank_new(m, event_id, CID_EVENT_FEEDBACK)
-            buzz_event_feedback_new(user_id, id, event_user_id)
-        else:
-            mq_buzz_event_feedback_owner_new(user_id, id)
+            if user_id != event_user_id:
+                rank_new(m, event_id, CID_EVENT_FEEDBACK)
+                buzz_event_feedback_new(user_id, id, event_user_id)
+            else:
+                mq_buzz_event_feedback_owner_new(user_id, id)
 
-        event_joiner_state_set_by_good(user_id, event_id, good)
+            event_joiner_state_set_by_good(user_id, event_id, good)
     return m
 
 

@@ -20,13 +20,14 @@ def main():
             rid=vote.rid,
             id=vote.id
         )
-        mc_po_recommend_id_by_rid_user_id.set(
-            '%s_%s'%(vote.rid, vote.zsite_id),
-            recommend.id
-        )
-        vote.cid  =CID_REC
-        vote.rid = 0
-        vote.save()
+        if recommend:
+            mc_po_recommend_id_by_rid_user_id.set(
+                '%s_%s'%(vote.rid, vote.zsite_id),
+                recommend.id
+            )
+            vote.cid  =CID_REC
+            vote.rid = 0
+            vote.save()
 
 if __name__ == '__main__':
     main()

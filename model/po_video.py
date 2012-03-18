@@ -48,10 +48,11 @@ def po_video_new(user_id, name, txt, uri, video_site, state, zsite_id):
             CID_VIDEO, user_id, name, state, video_site,
             zsite_id=zsite_id
         )
-        video_new(m.id , uri)
-        m.txt_set(txt)
-        m.feed_new()
-        return m
+        if m:
+            video_new(m.id , uri)
+            m.txt_set(txt)
+            m.feed_new()
+            return m
 
 
 if __name__ == '__main__':
