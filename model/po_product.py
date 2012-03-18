@@ -23,9 +23,10 @@ def po_product_new(user_id, name, _info_json, zsite_id=0, state=STATE_ACTIVE):
     info_json = json.dumps(dict(iter(_info_json)))
     if not is_same_post(user_id, name, info_json, zsite_id):
         m = po_new(CID_PRODUCT, user_id, name, state, 0, None, zsite_id)
-        txt_new(m.id, info_json)
-        mc_product_id_list_by_com_id.delete(zsite_id)
-        return m
+        if m:
+            txt_new(m.id, info_json)
+            mc_product_id_list_by_com_id.delete(zsite_id)
+            return m
 
 def po_product_update(po_id, _info_json):
     po = Po.mc_get(po_id)

@@ -7,6 +7,10 @@ from decorator import decorator
 
 # zhash
 SPAMMER_REDIS_KEY = "ZpageSpammer"
+# is a set, contains reporters
+# %s is the id of the reported spammer
+SPAMMER_REPORT_KEY = "ReportedSpammer:%s" 
+MUTE_FOR_DURATION = "MutedFor:%s"
 
 
 #SPAM_USER_ID = set((
@@ -17,6 +21,29 @@ SPAMMER_REDIS_KEY = "ZpageSpammer"
 #    10133407,
 #))
 
+def report_spammer(reporter_id, reportee_id):
+    redis.sadd(SPAMMER_REPORT_KEY%reportee_id,reporter_id)
+
+def remove_report(spammer_id):
+    redis.delete(SPAMMER_REPORT_KEY%spammer_id)
+
+def confirm_spammer(spammer_id):
+    spammer_new(spammer_id)
+    remove_report(spammer_id)
+
+def get_all_reports():
+    keys = redis.keys(SPAMMER_REPORT_KEY%"*")
+    return ((key.replace(SPAMMER_REPORT_KEY%'',''), redis.smembers(key)) for key in keys) 
+
+def mute_for_duration(user_id, duration):
+    key = MUTE_FOR_DURATION%user_id
+    redis.set(key, duration)
+    redis.expire(key, duration)
+
+def get_all_spamer_idlist():
+    id_list = redis.smembers(SPAMMER_REDIS_KEY)
+    return id_list
+
 def spammer_new(user_id):
     user_id = int(user_id)
     redis.sadd(SPAMMER_REDIS_KEY, user_id)
@@ -26,7 +53,7 @@ def spammer_rm(user_id):
     redis.srem(SPAMMER_REDIS_KEY, user_id)
 
 def is_spammer(user_id):
-    return redis.sismember(SPAMMER_REDIS_KEY, user_id)
+    return redis.sismember(SPAMMER_REDIS_KEY, user_id) or redis.get(MUTE_FOR_DURATION%user_id)
 
 mc_lastest_hash = McCache('LastestHash:%s')
 
@@ -83,5 +110,5 @@ def spammer_reset(user_id):
 
 
 if __name__ == '__main__':
-
-    spammer_reset(10207348)
+    print get_all_spamer_idlist()
+    #spammer_reset(10207348)

@@ -41,23 +41,23 @@ def po_recommend_new(rid, user_id, name, reply_id=None):
         state=STATE_ACTIVE,
         rid=rid
     )
+    if recommend:
+        recommend.feed_new()
 
-    recommend.feed_new()
-
-    mc_po_recommend_id_by_rid_user_id.set(
-        '%s_%s'%(rid, user_id),
-        recommend.id
-    )
-
-    if reply_id:
-        rr = RecRep(
-            id=recommend.id,
-            reply_id=reply_id
+        mc_po_recommend_id_by_rid_user_id.set(
+            '%s_%s'%(rid, user_id),
+            recommend.id
         )
-        rr.save()
+
+        if reply_id:
+            rr = RecRep(
+                id=recommend.id,
+                reply_id=reply_id
+            )
+            rr.save()
 
 
-    return recommend
+        return recommend
 
 
 @mc_reply_id_by_recommend('{po_id}_{reply_id}')

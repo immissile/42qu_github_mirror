@@ -116,16 +116,17 @@ def save_event(self, phone, address, begin_time, end_time, title, intro, douban_
 
 
     po = po_new(CID_EVENT, self.user_id, '', STATE_SECRET , id=id, zsite_id=self.zsite_id)
-    po.name_ = title
-    po.txt_set(htm2txt(intro)[0])
-    po.save()
+    if po:
+        po.name_ = title
+        po.txt_set(htm2txt(intro)[0])
+        po.save()
 
-    event_init2to_review(id)
-    import_douban_event = ImportDoubanEvent.get_or_create(id=int(douban_event_id))
-    import_douban_event.event_id = id
-    import_douban_event.save()
+        event_init2to_review(id)
+        import_douban_event = ImportDoubanEvent.get_or_create(id=int(douban_event_id))
+        import_douban_event.event_id = id
+        import_douban_event.save()
 
-    return event
+        return event
 
 def save_pic(pic, pic_url, event):
     pic = picopen(pic)

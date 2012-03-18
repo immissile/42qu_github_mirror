@@ -24,6 +24,7 @@ from zkit.jsdict import JsDict
 from buzz_reply import mq_buzz_po_rm
 from buzz_at import mq_buzz_at_new
 from config import SITE_DOMAIN
+from spammer import spammer_new, is_spammer
 #from sync import mq_sync_po_by_zsite_id
 
 PO_CN_EN = (
@@ -289,6 +290,8 @@ class Po(McModel, ReplyMixin):
 
 
 def po_new(cid, user_id, name, state, rid=0, id=None, zsite_id=0):
+    if is_spammer(user_id):
+        return
     if state is None:
         if zsite_id and zsite_id != user_id:
             state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
@@ -421,8 +424,10 @@ def po_word_new(user_id, name, state=None, rid=0, zsite_id=0):
         m = po_new(CID_WORD, user_id, name, state, rid, zsite_id=zsite_id)
         if m and (state is None or state > STATE_SECRET):
             m.feed_new()
-        mq_buzz_at_new(user_id, name, m.id)
-        return m
+
+        if m:
+            mq_buzz_at_new(user_id, name, m.id)
+            return m
 
 
 def po_note_new(user_id, name, txt, state=STATE_ACTIVE, zsite_id=0):
@@ -431,10 +436,11 @@ def po_note_new(user_id, name, txt, state=STATE_ACTIVE, zsite_id=0):
     name = name or time_title()
     if not is_same_post(user_id, name, txt, zsite_id):
         m = po_new(CID_NOTE, user_id, name, state, zsite_id=zsite_id)
-        m.txt_set(txt)
-        if state > STATE_SECRET:
-            m.feed_new()
-        return m
+        if m:
+            m.txt_set(txt)
+            if state > STATE_SECRET:
+                m.feed_new()
+            return m
 
 
 PO_LIST_STATE = {

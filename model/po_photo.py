@@ -35,12 +35,13 @@ def po_photo_new(user_id, name, txt, img, state=STATE_ACTIVE, zsite_id=0):
     rid = photo_new(user_id, img)
 
     m = po_new(CID_PHOTO, user_id, name, state, rid, zsite_id=zsite_id)
-    id = m.id
-    m.txt_set(txt)
-    if state > STATE_SECRET:
-        m.feed_new()
+    if m:
+        id = m.id
+        m.txt_set(txt)
+        if state > STATE_SECRET:
+            m.feed_new()
 
-    return m
+        return m
 
 
 if __name__ == '__main__':
