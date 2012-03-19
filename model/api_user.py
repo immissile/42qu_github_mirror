@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 from model.zsite import Zsite
 from model.motto import motto
-from model.zsite_url import url_by_id
-from model.txt import txt_get
 from model.ico import ico96, ico, ico_url
 from model.namecard import namecard_get
 from model.follow import follow_count_by_to_id, follow_count_by_from_id

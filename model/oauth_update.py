@@ -1,11 +1,7 @@
 #coding:utf-8
 import urllib2
-from urllib2 import urlopen, HTTPError
-import urllib
+from urllib2 import urlopen
 from urllib import urlencode
-import _db
-import json
-import traceback
 import httplib
 import hashlib
 from zkit.txt import cnenoverflow

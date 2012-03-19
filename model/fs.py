@@ -1,6 +1,6 @@
 import _env
 from config import FILE_PATH, FILE_URL
-from cid import CID_PHOTO, CID_AUDIO
+from cid import CID_AUDIO
 from os.path import join, exists, dirname
 from os import remove, makedirs
 from cStringIO import StringIO

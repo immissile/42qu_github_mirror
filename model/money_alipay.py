@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from money import charge_new, charged, pay_new, CHARGE_TAX
+from money import charge_new, charged, CHARGE_TAX
 from cid import CID_PAY_ALIPAY
 from user_mail import mail_by_user_id
 from zkit.money import Alipay, alipay_url_parse

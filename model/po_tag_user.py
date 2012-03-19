@@ -1,5 +1,5 @@
 #coding:utf-8
-from _db import  McModel, Model, McLimitA, McNum, McCacheA, redis
+from _db import  McModel, Model, McNum, McCacheA, redis
 from model.tag_id_list import Tag2IdList
 from model.zsite import Zsite
 from operator import itemgetter

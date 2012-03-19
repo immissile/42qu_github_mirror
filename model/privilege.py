@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import _env
-from time import time
 from config import PRIVILEGE_ADMIN, PRIVILEGE_SUPER 
 from config.privilege import PRIVILEGE_FEED_IMPORT
 

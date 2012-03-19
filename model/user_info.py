@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel, McCache
+from _db import Model, McModel
 from zkit.earth import place_name
 from zkit.astrology import astrology
 from zkit.attrcache import attrcache

@@ -1,12 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel, McCache, McCacheA, McNum
-from time import time
-from state import STATE_RM, STATE_APPLY, STATE_ACTIVE
-from mail import rendermail, render_template, sendmail
-from mail_notice import mail_notice_state
-from user_mail import mail_by_user_id
-from zkit.attrcache import attrcache
+from _db import Model, McModel, McCache, McCacheA
+from state import STATE_APPLY, STATE_ACTIVE
+from mail import render_template, sendmail
 
 mc_top_notice_id_by_user_id = McCache('TopNoticeIdByUserId.%s')
 

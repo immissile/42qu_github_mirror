@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import McCache, McNum
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER
 from spammer import is_same_post
-from po import Po, po_new, po_word_new, po_note_new, po_rm, po_cid_set
+from po import Po, po_new, po_word_new, po_note_new, po_cid_set
 from rank import rank_po_id_list, rank_new
-from state import STATE_RM, STATE_SECRET, STATE_ACTIVE
-from txt import txt_new, txt_get
+from state import STATE_RM, STATE_SECRET
+from txt import txt_new
 from zkit.time_format import time_title
 from zsite import Zsite
 from model.notice import mq_notice_question

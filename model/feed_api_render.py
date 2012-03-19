@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from cid import CID_WORD, CID_NOTE, CID_ANSWER
+from cid import CID_WORD, CID_ANSWER
 from po import Po
 from feed_render import zsite_id_list_by_follow
 from feed import PAGE_LIMIT

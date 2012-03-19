@@ -1,12 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from collections import defaultdict
-from _db import McCacheM
-from collections import namedtuple
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_AUDIO, CID_VIDEO, CID_EVENT, CID_USER, CID_REC
-from operator import itemgetter
+from cid import CID_WORD, CID_NOTE, CID_ANSWER, CID_PHOTO, CID_AUDIO, CID_VIDEO, CID_EVENT, CID_USER, CID_REC
 from po import Po
-from po_question import answer_count
 from follow import follow_id_list_by_from_id
 #from vote import vote_count
 from feed import feed_merge_iter, MAXINT, Feed, mc_feed_tuple, PAGE_LIMIT, feed_rm

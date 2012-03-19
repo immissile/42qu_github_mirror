@@ -1,8 +1,7 @@
 #coding:utf-8
 
-from _db import cursor_by_table, McModel, McLimitA, McCache, McNum, McCacheA
-from po import po_new, Po, STATE_ACTIVE, STATE_SECRET, po_list_count
-from site_po import mc_flush_zsite_cid
+from _db import cursor_by_table, McModel, McCache, McNum, McCacheA
+from po import po_new, Po, STATE_ACTIVE, po_list_count
 from cid import CID_REVIEW
 from kv import Kv
 from array import array

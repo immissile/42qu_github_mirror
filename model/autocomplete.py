@@ -4,8 +4,6 @@
 from array import array
 
 from _db import redis
-from zkit.zitertools import lineiter
-from zkit.algorithm.unique import unique
 
 REDIS_ZSET_CID = '%s`'
 REDIS_ID2NAME = 'ACId2Name:%s'

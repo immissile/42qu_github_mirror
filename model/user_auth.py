@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel
+from _db import Model
 from hashlib import sha256
 from user_mail import user_mail_new, user_id_by_mail
 from zsite import zsite_new_user, Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_NO_PASSWORD

@@ -4,7 +4,7 @@ from career import career_bind
 from follow import follow_get_list
 from motto import motto
 from zkit.txt import cnenlen , cnenoverflow
-from cid import CID_NOTE, CID_TAG, CID_USER
+from cid import CID_TAG, CID_USER
 
 def zsite_json(zsite_id, zsite_list):
     ico_url_bind(zsite_list)
