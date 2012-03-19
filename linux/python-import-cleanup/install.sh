@@ -1,2 +1,4 @@
-sudo pip install pyflakes
-pyflakes <your package> > out.flakes
+sudo easy_install pyflakes
+cd ../../
+echo $PWD
+pyflakes . > out.flakes
