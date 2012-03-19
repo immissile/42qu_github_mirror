@@ -166,7 +166,8 @@ def tag_new(name):
     if '/' in name:
         for i in map(utf8_ftoj, map(str.strip, name.split('/'))):
             _tag_alias_new(id, i)
-
+    else:
+            _tag_alias_new(id, name)
     return id
 
 def _tag_alias_new(id, name):
