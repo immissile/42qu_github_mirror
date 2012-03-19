@@ -9,6 +9,7 @@ from model.po import Po
 for i in ormiter(RssPoId, "user_cid=%s"%CID_USER):
     po = Po.mc_get(i.po_id)
     rss_po = RssPo.get(i.rss_po_id)
+    print i.id,
     if po and rss_po:
         po.rid = rss_po.rss_id
         po.save()
