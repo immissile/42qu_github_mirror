@@ -54,8 +54,10 @@ for flakeline in fh.readlines():
         new_line = line
         new_line = new_line.replace(', '+name+'\n', '\n').replace(
             ' '+name+'\n', '\n').replace(' '+name+', ', ' ')
-        if new_line.strip().endswith(' import') or new_line.strip().endswith(' as'):
+        if new_line.strip().endswith('import') or new_line.strip().endswith('as'):
             new_line = ''
+        if new_line == line:
+            continue
         print('Before: ' + line.replace('\n', ''))
         print('After : ' + new_line.replace('\n', ''))
         print('----------------------------------------')
