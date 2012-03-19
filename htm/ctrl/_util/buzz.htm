@@ -178,22 +178,22 @@ ${_buzz_render_po( "at"     ,  "提到我" , user_id, po_list_by_buzz_at_user_id
 ${_buzz_render_po( "reply"  ,  "讨论区" , user_id, po_list_by_buzz_reply_user_id )}
 <div class="buzz_h1 picwall_title">图片墙</div>
 <div id="picwall"></div>
-##${rec_item_render(user_id)}
+${rec_item_render(user_id)}
 </%def>
 
-##<%def name="rec_item_render(user_id)">
-##<div class="buzz_h1">荐书单</div>\
-##<div class="buzz_win buzz_win_book">
-##%for id, link, name, txt in rec_item():
-##<div class="sdw">\
-##<div class="sd">\
-##<a href="${link|n}" target="_blank">\
-##<div class="bkname">${name}</div>\
-##<img class="bkimg" src="http://${FS_DOMAIN}/img/jpg/bk/${id}.jpg">\
-##<div class="bktxt">${txt}</div>\
-##</a>\
-##</div>\
-##</div>\
-##%endfor
-##</div>
-##</%def>
+<%def name="rec_item_render(user_id)">
+<div class="buzz_h1">荐书单</div>\
+<div class="buzz_win buzz_win_book">
+%for id, link, name, txt in rec_item():
+<div class="sdw">\
+<div class="sd">\
+<a href="${link|n}" target="_blank">\
+<div class="bkname">${name}</div>\
+<img class="bkimg" src="http://${FS_DOMAIN}/img/jpg/bk/${id}.jpg">\
+<div class="bktxt">${txt}</div>\
+</a>\
+</div>\
+</div>\
+%endfor
+</div>
+</%def>

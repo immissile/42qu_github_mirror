@@ -134,7 +134,8 @@ $(".bzlive").live("click",function(){
 				}
 				prebottom = self.offset().top + this.offsetHeight;
 			})
-            picwall_render()
+            //TODO ADD
+            //picwall_render()
         }
     )
 
@@ -255,7 +256,9 @@ $(".buzzX").click(function(){
         $.postJSON( '/j/buzz/'+rel+"/x")
     }
     $(this).parents('.buzz_box').hide() 
-})
+});
+
+(function(){
 
 $.template(
     'side_pic',
@@ -296,18 +299,22 @@ $.template(
     '</div>'
 );
 
-(function(){
-
-var PICWALL_BUFF = []
+var PICWALL_BUFF = [], pic_wall=$('#picwall');
 
 function picwall_get(){
-    if(PICWALL_BUFF.length)return PICWALL_BUFF.shift()
+    if(!PICWALL_BUFF)return;
+    if(PICWALL_BUFF.length){
+        return PICWALL_BUFF.shift()
+    }
+    PICWALL_BUFF=0
     $.getJSON(
         '/j/feed/pic',
         function(result){
             PICWALL_BUFF = result
             if(PICWALL_BUFF.length){
                 picwall_render()
+            }else{
+                PICWALL_BUFF = 0
             }
         }
     ) 
@@ -315,8 +322,9 @@ function picwall_get(){
 
 function picwall_break(pic){
     var ctrl = false,
-    buzz_height = $('#buzz_win_reply').height() + $('#buzz_win_at').height()
-    if(($('#picwall').height()+buzz_height+200>$('#feeds').height()) || !pic){
+        buzz_height = $('#buzz_win_reply').height() + $('#buzz_win_at').height();
+    //TODO fix with top + height
+    if((picwall.height()+buzz_height+200>$('#feeds').height()) || !pic){
         ctrl = true
     }
     return ctrl
@@ -326,19 +334,22 @@ picwall_render = function(){
     while(1){
         pic = picwall_get()
         if(picwall_break(pic))break;
-        $('#picwall').append($.tmpl('side_pic',[pic]))
+        picwall.append($.tmpl('side_pic',[pic]))
     }
 }
-})();
 
 $('.side_pic_img').live('click',function(){
     var self = $(this),
         hei = $(window).height(),
         fancybox = $.fancybox
-    
+   
+    //TODO 大图&小图
+   
     fancybox.showActivity()
     fancybox({
-        'content':'<img src='+self.attr('src')+' style="max-height:'+(Number(hei)-90)+'px;"/>'
+        'content':'<img src='+self.attr('src')+' style="max-height:'+(hei-90)+'px;"/>'
     })
 })
+
+})();
 
