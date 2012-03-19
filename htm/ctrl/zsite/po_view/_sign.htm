@@ -1,9 +1,10 @@
 <%!
 from model.zsite import Zsite
-from model.cid import CID_SITE, CID_NOTE
+from model.cid import CID_SITE, CID_NOTE, CID_USER
 from model.rss import rss_link_by_po_id
 from model.url_short import id2url
 from model.feed_import import PoMeta, PoMetaUser
+from model.rss import rss_name_by_rss_id, rss_link_by_po_id
 %>\
 %if po.zsite_id:
 <%
@@ -26,6 +27,9 @@ po_zsite = Zsite.mc_get(po.zsite_id)
 <%
 zsite_url = zsite.link
 %>\
+    %if po.cid == CID_NOTE and po.rid and zsite.cid == CID_USER:
+来自 <a href="${zsite_url}">${zsite.name}</a> 的 <a href="${rss_link_by_po_id(po.id)}" target="_blank">${rss_name_by_rss_id(po.rid)}</a>
+    %else:
 <a href="${zsite_url}">${zsite.name}</a>\
 % if zsite_tag_id:
  : \
@@ -33,7 +37,9 @@ zsite_url = zsite.link
 % elif po.state == STATE_SECRET:
  : 私密
 %endif
-%endif
+    %endif
+%else:
+
 %if po.cid == CID_NOTE and po.rid:
 <%
 ori_po = PoMeta.get(po.rid)
@@ -47,5 +53,6 @@ if ori_po:
     %if url:
     <a target="_blank" href="${url}">${po_zsite.name}</a> 
     %endif
+%endif
 
 %endif
