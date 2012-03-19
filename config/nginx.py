@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _env import PREFIX, join
+from _env import PREFIX
 from mako.template import Template
 import default
 import socket
 from zkit.jsdict import JsDict
 from os import makedirs
-from os.path import exists, dirname
+from os.path import exists, dirname, join
 
 CONFIG_DIR = join(PREFIX, 'config/nginx')
 
