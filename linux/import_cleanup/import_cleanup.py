@@ -61,13 +61,11 @@ for flakeline in fh.readlines():
         print('Before: ' + line.replace('\n', ''))
         print('After : ' + new_line.replace('\n', ''))
         print('----------------------------------------')
-        replace = raw_input("Do you want to remove this import? [y/N] ")
-        if replace.lower() == 'y':
 
-            if filename_pre and filename != filename_pre: 
-                for rep in replacements:
-                    print(rep)
-                commit_replace_line()
-            lazy_replace_line(filename, line, new_line)
+        if filename_pre and filename != filename_pre: 
+            for rep in replacements:
+                print(rep)
+            commit_replace_line()
+        lazy_replace_line(filename, line, new_line)
 
         filename_pre = filename
