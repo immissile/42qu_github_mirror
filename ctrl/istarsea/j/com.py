@@ -2,7 +2,7 @@
 from ctrl._urlmap_istarsea.j import urlmap
 from _handler import JLoginBase
 from model.zsite_member import zsite_member_can_admin, zsite_member_rm, zsite_id_count_by_member_admin
-from model.zsite_url import zsite_by_domain, url_by_digit_domain
+from model.zsite_url import zsite_by_domain
 from model.cid import CID_COM
 from model.po_review import po_review_show_new, po_review_show_rm
 from model.com_apply import com_apply_rm, com_apply_accept

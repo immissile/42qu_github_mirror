@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from _handler import Base, LoginBase, XsrfGetBase
+from _handler import Base, LoginBase
 from ctrl._urlmap.main import urlmap
 from model.zsite_tag import ZsiteTag
 from model.zsite import Zsite

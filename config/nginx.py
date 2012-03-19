@@ -5,7 +5,6 @@ from mako.template import Template
 import default
 import socket
 from zkit.jsdict import JsDict
-import glob
 from os import makedirs
 from os.path import exists, dirname
 
