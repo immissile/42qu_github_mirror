@@ -37,6 +37,9 @@ def commit_replace_line():
         replace_line(*rep)
 
 fh = open('out.flakes', 'r')
+
+filename_pre = None
+
 for flakeline in fh.readlines():
     match = re.match(unused_import, flakeline)
     if match:
@@ -60,10 +63,9 @@ for flakeline in fh.readlines():
         if replace.lower() == 'y':
             lazy_replace_line(filename, line, new_line)
 
-for rep in replacements:
-    print(rep)
+            if filename_pre and filename != filename_pre: 
+                for rep in replacements:
+                    print(rep)
+                commit_replace_line()
 
-replace = raw_input("Commit all these replacements [y/N] ")
-if replace.lower() == 'y':
-    commit_replace_line()
-
+        filename_pre = filename
