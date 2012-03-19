@@ -49,7 +49,7 @@ mc_rss_link_by_po_id = McCache('RssLinkByPoId:%s')
 def rss_link_by_po_id(id):
     rss_po = RssPoId.get(po_id=id)
     if rss_po:
-        rss_po = RssPo.mc_get(rss_po.id)
+        rss_po = RssPo.mc_get(rss_po.rss_po_id)
         if rss_po:
             return rss_po.link
 
