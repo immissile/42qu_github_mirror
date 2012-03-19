@@ -10,7 +10,7 @@ from zsite import Zsite
 SPAMMER_REDIS_KEY = 'ZpageSpammer'
 # is a set, contains reporters
 # %s is the id of the reported spammer
-SPAMMER_REPORT_KEY = 'ReportedSpammer:%s'
+#SPAMMER_REPORT_KEY = 'ReportedSpammer:%s'
 #MUTE_FOR_DURATION = 'MutedFor:%s'
 
 
