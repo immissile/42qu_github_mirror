@@ -144,9 +144,9 @@ if __name__ == '__main__':
 #    print rss.id, rss.gid
 
 
-#    for i in Rss.where("gid<0"):
-#        print ii
-    from model.cid import CID_USER
-    for i in RssPoId.where("user_cid=%s", CID_USER):
-        print i.id
+    for i in Rss.where():
+        print rss_name_by_rss_id(i.id)
+   #from model.cid import CID_USER
+    #for i in RssPoId.where("user_cid=%s", CID_USER):
+    #    print i.id
     #RSS_PO_ID_STATE_NOTAG 
