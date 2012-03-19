@@ -63,8 +63,8 @@ for flakeline in fh.readlines():
         print('----------------------------------------')
 
         if filename_pre and filename != filename_pre: 
-            for rep in replacements:
-                print(rep)
+        #    for rep in replacements:
+        #        print(rep)
             commit_replace_line()
         lazy_replace_line(filename, line, new_line)
 
