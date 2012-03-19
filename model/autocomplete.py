@@ -237,7 +237,7 @@ if __name__ == '__main__':
     #print i.id
     #i.name = ""
     #i.save()
-    #autocomplete_tag.append('', i.id , rank=0)
+    autocomplete_tag.append('', 10259879 , rank=0)
 
     #for  i in redis.keys("tag`*"):
     #    for j in redis.zrevrange(i,0, -1):
