@@ -14,6 +14,7 @@ _url
 _istarsea
 _zpage
 _db
+shortcut
 """.strip().split("\n"))))
 
 from os.path import basename
