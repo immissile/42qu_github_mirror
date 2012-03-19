@@ -49,11 +49,18 @@ mc_rss_link_by_po_id = McCache('RssLinkByPoId:%s')
 def rss_link_by_po_id(id):
     rss_po = RssPoId.get(po_id=id)
     if rss_po:
-        rss_po = RssPo.mc_get(rss_po.id)
+        rss_po = RssPo.mc_get(rss_po.rss_po_id)
         if rss_po:
             return rss_po.link
 
+mc_rss_name = McCache("RssName:%s")
 
+@mc_rss_name("{id}")
+def rss_name_by_rss_id(id):
+    rss = Rss.mc_get(id)
+    if rss:
+        return rss.name
+    return ""
 
 class Rss(McModel):
     pass
@@ -137,9 +144,9 @@ if __name__ == '__main__':
 #    print rss.id, rss.gid
 
 
-#    for i in Rss.where("gid<0"):
-#        print ii
-    from model.cid import CID_USER
-    for i in RssPoId.where("user_cid=%s", CID_USER):
-        print i.id
+    for i in Rss.where():
+        print rss_name_by_rss_id(i.id)
+   #from model.cid import CID_USER
+    #for i in RssPoId.where("user_cid=%s", CID_USER):
+    #    print i.id
     #RSS_PO_ID_STATE_NOTAG 

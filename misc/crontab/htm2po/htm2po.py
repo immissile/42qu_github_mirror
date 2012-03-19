@@ -10,7 +10,7 @@ from model.state import STATE_RM, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from model.rss import rss_po_id_new, RSS_RT_PO, RssPoId
 from model.po_show import po_show_new
 from model.zsite import Zsite
-from model.cid import CID_SITE
+from model.cid import CID_SITE, CID_USER
 from model.zsite_tag import zsite_tag_new_by_tag_id
 from model.po_prev_next import mc_flush
 from model.txt_img_fetch import txt_img_fetch
@@ -38,9 +38,11 @@ def htm2po_by_po(pre):
             po.save()
     else:
         po = po_note_new(
-            pre.user_id, 
-            pre.title, '', STATE_RM, group_id
+            pre.user_id, pre.title, '', STATE_RM, group_id
         )
+        if po and zsite.cid == CID_USER:
+            po.rid = pre.rss_id 
+            po.save()
 
     if not po:
         return
