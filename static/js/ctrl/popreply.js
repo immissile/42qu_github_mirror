@@ -2,7 +2,7 @@ function popreply(cid, title_html, href, counter){
     var content = $(
         '<div class="fcmpop" id="reply_reply_pop"><a target="_blank" id="reply_name"></a><div id="reply_reply_body" class="reply_reply_loading"></div><textarea></textarea><div class="tr"><span class="ctrl_enter_hint"></span><span class="btnw"><button type="submit" class="button">回复</button></span></div></div>'
         ),
-        link = '<a href="'+href+'" style="color:#999;">链接</a>',
+        link = '<a href="'+href+'" class="pop_reply_po_link" target="_blank"></a>',
         hint = 'Ctrl + Enter 直接提交',
         cbody = content.find('#reply_reply_body'), 
         t=cbody[0],

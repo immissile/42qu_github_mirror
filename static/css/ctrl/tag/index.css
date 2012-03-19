@@ -120,8 +120,11 @@ font-weight:bold;
 padding-bottom:25px;
 text-align:left;
 }
-.Zw{
-margin-top:23px;
+.Zw, .Zs{
+margin-top:21px;
+}
+.Zm{
+margin-bottom:32px;
 }
 .tagtxt{
     display:inline;
