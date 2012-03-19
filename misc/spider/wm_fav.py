@@ -83,14 +83,12 @@ url_list = [
 with open('wm_user.txt') as wm_user:
     for pos, i in enumerate(wm_user):
         i = i.strip()
-        url_list.append((wm_parser, 'http://www.wumii.com/user/article/get?type=LIKED_ITEM&u=%s&m=9331724404885'%i) , )
+        if i:
+            url_list.append((wm_parser, 'http://www.wumii.com/user/article/get?type=LIKED_ITEM&u=%s&m=9331724404885'%i) , )
         #if pos > 2:
         #    break
 
-with open('wm_rec.txt', 'w') as output:
-    spider(url_list)
-
-with open('wm_user_rec.txt', 'w') as output:
-    output.write(dumps(tuple((k, tuple(v)) for k, v in USER_DICT.iteritems())))
+spider(url_list)
 
 
+print "over"
