@@ -1,4 +1,3 @@
-from urllib import urlopen
 URL = "http://huaban.com/boards/%s/?limit=999999"
 BEGIN = 0 
 MAX = 399999

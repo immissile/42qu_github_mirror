@@ -1,12 +1,11 @@
 #coding:utf-8
 import urllib2
-from urllib2 import urlopen
 from urllib import urlencode
 import httplib
 import hashlib
 from zkit.txt import cnenoverflow
-from xml.sax.saxutils import escape, quoteattr
-from oauth_util import oauth_url, oauth_request_parameters, oauth_header, _oauth_escape
+from xml.sax.saxutils import escape
+from oauth_util import oauth_url, oauth_request_parameters, oauth_header
 from url_short import url_short
 from config import DOUBAN_CONSUMER_SECRET, DOUBAN_CONSUMER_KEY,\
 SINA_CONSUMER_SECRET, SINA_CONSUMER_KEY,\

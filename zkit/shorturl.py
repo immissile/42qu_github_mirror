@@ -3,10 +3,8 @@
 import urllib
 import urllib2
 from urllib2 import urlopen
-import httplib
 from yajl import loads
 import traceback
-import time
 import sys
 from urllib import  urlencode
 from urlfetch import urlfetch

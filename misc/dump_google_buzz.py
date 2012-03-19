@@ -4,7 +4,6 @@ import traceback
 import sys
 import time
 from time import sleep
-from random import choice
 from yajl import loads
 
 def retry(func):

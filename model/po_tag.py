@@ -1,12 +1,9 @@
 #coding:utf-8
 from _db import  McModel, Model, McLimitA, McNum, McCacheA, redis
 from model.po_json import po_json, Po
-from cid import CID_NOTE, CID_TAG, CID_USER
+from cid import CID_NOTE, CID_TAG
 from zsite import Zsite , zsite_new
-from model.ico import ico_url_bind
-from txt import txt_bind
-from zkit.txt import cnenlen , cnenoverflow
-from fav import fav_cid_dict
+from zkit.txt import cnenlen 
 from model.motto import motto
 from model.follow import follow_get_list
 from model.career import career_bind

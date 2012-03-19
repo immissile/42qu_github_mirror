@@ -5,7 +5,7 @@ from config import ZDATA_PATH
 from os.path import join, exists
 from glob import glob
 from idf import idf_dumps
-from zkit.tofromfile import tofile, fromfile
+from zkit.tofromfile import tofile
 from os import makedirs
 
 ZDATA_PATH_TRAIN_IDF = join(ZDATA_PATH, "train/df")

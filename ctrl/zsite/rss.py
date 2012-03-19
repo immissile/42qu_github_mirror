@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 from model.zsite import Zsite
 from model.po import po_view_list, Po
-from model.user_mail import mail_by_user_id
 from model.zsite_tag import tag_by_po_id
 from model.career import career_current
-from model.po_pic import pic_list
 from model.cid import CID_NOTE
 from model.ico import ico_url
 from config import SITE_DOMAIN

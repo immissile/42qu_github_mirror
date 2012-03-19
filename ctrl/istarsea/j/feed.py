@@ -5,7 +5,7 @@ from ctrl._urlmap_istarsea.j import urlmap
 from model.po_recommend import po_recommend_new
 from model.po import Po, PO_SHARE_FAV_CID
 from yajl import dumps
-from model.vote import vote_down_x, vote_down, vote_up
+from model.vote import vote_down_x, vote_up
 from model.feed_render import MAXINT, PAGE_LIMIT, render_feed_by_zsite_id, FEED_TUPLE_DEFAULT_LEN
 from model.feed import feed_rm
 from model.ico import pic_url_with_default

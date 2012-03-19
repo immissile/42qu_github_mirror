@@ -1,7 +1,6 @@
 pre_last_time = 0
 pre_line = 0
 from collections import defaultdict
-import datetime
 import lzma
 
 min_count = defaultdict(int)

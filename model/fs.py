@@ -1,8 +1,7 @@
 import _env
 from config import FILE_PATH, FILE_URL
-from cid import CID_AUDIO
 from os.path import join, exists, dirname
-from os import remove, makedirs
+from os import makedirs
 from cStringIO import StringIO
 from config import SITE_URL
 import traceback

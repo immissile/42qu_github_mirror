@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
+from _handler import ZsiteBase, LoginBase, login
 from ctrl._urlmap.zsite import urlmap
 from model.fav import fav_po_list_by_user_id_cid, fav_po_count_by_user_id_cid
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_SITE
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT
 from zkit.page import page_limit_offset
 from model.po import Po
 from model.zsite import Zsite

@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 #coding:utf-8
-from MySQLdb.times import mysql_timestamp_converter as timestamp_converter
-from datetime import datetime, timedelta, date
+from datetime import datetime, timedelta
 
 def friendly_hour(hour, minute=None, second=None):
     if 0 <= hour < 6:

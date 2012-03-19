@@ -1,12 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import _db
-from collections import defaultdict
 from config import SEARCH_DB_PATH
-from mmseg.search import seg_txt_search, seg_title_search, seg_txt_2_dict
+from mmseg.search import seg_title_search, seg_txt_2_dict
 from model.zsite import Zsite
-from model.txt import txt_get
-from model.motto import motto_get
 from os.path import join
 from time import sleep
 import xapian

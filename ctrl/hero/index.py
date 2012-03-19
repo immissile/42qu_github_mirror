@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-from _handler import Base, LoginBase, XsrfGetBase
+from _handler import Base, LoginBase
 from ctrl._urlmap.hero import urlmap
 from model.zsite_show import zsite_show_list, zsite_show_count
 from model.cid import CID_USER
 from zkit.page import page_limit_offset
-from model.zsite import Zsite
 from config import SITE_DOMAIN
 from model.user_school import user_school_tuple, user_school_new, user_school_search, user_school_count
 

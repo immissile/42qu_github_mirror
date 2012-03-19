@@ -2,8 +2,6 @@
 
 import _env
 from collections import defaultdict
-from mmseg import seg_txt
-from yajl import loads
 from zdata.tfidf.idf import idf_zhihu
 from zdata.bayes.train import TAG2ID, WORD2ID 
 from zdata.bayes.kyoto_db import DbKyoto

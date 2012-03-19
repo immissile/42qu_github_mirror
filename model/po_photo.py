@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import re
 from _db import Model, McModel, McCache, McCacheA, McNum, McCacheM
-from cgi import escape
 from zkit.pic import pic_fit_width_cut_height_if_large
-from pic import pic_new, pic_save, PicMixin
+from pic import pic_new, pic_save
 from cid import CID_PHOTO
-from fs import fs_set_jpg, fs_url_jpg
+from fs import fs_set_jpg
 from model.po import po_new , txt_new , is_same_post , STATE_SECRET, STATE_ACTIVE, time_title
 from po_pic import PoPic
 

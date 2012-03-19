@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 import _env
 from model.zsite_site import site_new
-from model.oauth import linkify
 from model.motto import motto_set
 from model.ico import site_ico_new, site_ico_bind
 from model.zsite_link import ZsiteLink, mc_flush

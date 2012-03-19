@@ -3,7 +3,7 @@
 
 from _db import cursor_by_table, McModel, McCache, McNum, McCacheA
 from cid import CID_PRODUCT, CID_PRODUCT_PIC
-from state import STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
+from state import STATE_SECRET, STATE_ACTIVE
 from spammer import is_same_post
 from po import Po, _po_rm, po_new, po_id_list, po_list_count, po_view_list
 import json

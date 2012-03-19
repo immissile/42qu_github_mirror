@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from ctrl.zsite._handler import ZsiteBase, LoginBase, XsrfGetBase
+from ctrl.zsite._handler import ZsiteBase, LoginBase
 from ctrl._urlmap.zsite import urlmap
 from _handler import AdminBase
 from model.zsite_member import zsite_member_can_admin, zsite_member_is_invite, zsite_member_new, ZSITE_MEMBER_STATE_ACTIVE

@@ -2,7 +2,7 @@
 from ctrl._urlmap_istarsea.i import urlmap
 
 from _handler import LoginBase 
-from model.user_auth import user_password_verify, UserPassword
+from model.user_auth import user_password_verify
 
 
 @urlmap('/me/search')

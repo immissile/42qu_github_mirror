@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from ctrl.zsite._handler import ZsiteBase, LoginBase, XsrfGetBase
+from ctrl.zsite._handler import ZsiteBase, LoginBase
 from ctrl._urlmap.zsite import urlmap
 from _handler import AdminBase
 from ctrl._util.search import search_get
 from model.search import search_user
 from model.zsite import Zsite
-from model.cid import CID_USER
 from zkit.txt import EMAIL_VALID
 from model.user_mail import user_id_by_mail
 from model.user_auth import user_new_by_mail

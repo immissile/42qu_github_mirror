@@ -1,12 +1,9 @@
 #coding:utf-8
 import _env
-from os.path import abspath, dirname, join
-from json import loads
-from urllib import quote
-from zkit.pprint import pformat, pprint
-from operator import itemgetter
-from zkit.spider import Rolling, Fetch, MultiHeadersFetch, GSpider, NoCacheFetch
-from zkit.bot_txt import txt_wrap_by, txt_wrap_by_all
+from os.path import abspath, join
+from zkit.pprint import pformat
+from zkit.spider import Rolling, Fetch, GSpider, NoCacheFetch
+from zkit.bot_txt import txt_wrap_by_all
 from zkit.howlong import HowLong
 from zkit.htm2txt import unescape 
 

@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
+from _handler import LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
 from model.zsite_site import zsite_id_by_zsite_user_id
-from model.fs import fs_url_jpg
 from model.po_photo import po_photo_new
 from model.po import Po
 from model.cid import CID_PHOTO

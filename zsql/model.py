@@ -1,6 +1,6 @@
 #coding:utf-8
 from zsql.db.query import Query, escape
-from zsql.metamodel import cache, lower_name, ModelBase, get_or_create, save, get, __eq__, __ne__, max_id
+from zsql.metamodel import lower_name, ModelBase, get_or_create, save, get, __eq__, __ne__, max_id
 
 class Model(object):
     '''

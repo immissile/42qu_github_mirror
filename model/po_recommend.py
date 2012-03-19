@@ -2,10 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum, McCacheA
-from state import STATE_RM, STATE_APPLY, STATE_SECRET, STATE_ACTIVE
-from po import po_new, Po, STATE_ACTIVE, STATE_SECRET, po_list_count
-from state import STATE_PO_ZSITE_SHOW_THEN_REVIEW
-from model.zsite import Zsite
+from state import STATE_APPLY, STATE_SECRET, STATE_ACTIVE
+from po import po_new, Po, STATE_ACTIVE, po_list_count
 from model.po import po_rm, reply_rm_if_can
 from model.reply import Reply
 from cid import CID_REC

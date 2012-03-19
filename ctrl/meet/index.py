@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from _handler import Base, LoginBase, XsrfGetBase
+from _handler import Base, LoginBase
 from ctrl._urlmap.meet import urlmap
 from model.namecard import namecard_get
 from zkit.earth import pid_city

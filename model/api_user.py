@@ -5,7 +5,6 @@ from model.motto import motto
 from model.ico import ico96, ico, ico_url
 from model.namecard import namecard_get
 from model.follow import follow_count_by_to_id, follow_count_by_from_id
-from zkit.earth import place_name
 from model.user_info import UserInfo
 
 def json_info(user_id):

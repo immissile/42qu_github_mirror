@@ -4,7 +4,6 @@
 import _env
 from model.zsite import Zsite
 from model.autocomplete import autocomplete_tag
-from zweb.orm import ormiter
 from model.cid import CID_TAG
 from model._db import redis
 from model.zsite_fav import zsite_fav_count_by_zsite

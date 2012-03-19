@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from ctrl.zsite._handler import ZsiteBase, LoginBase, XsrfGetBase
+from ctrl.zsite._handler import ZsiteBase, LoginBase
 from ctrl._urlmap.zsite import urlmap
 from model.job_mail import  job_mail_new, JOB_MAIL_STATE_VERIFIED, job_mail_by_com_id, job_mail_new_with_verify_mail
 from model.zsite import Zsite
-import json
-from model.job import job_type_set, job_pid_default_new, job_pid_new, job_pid_default_by_com_id, job_kind_set, job_kind_by_job_id, job_type_by_job_id, job_pid_by_job_id, job_new,\
+from model.job import job_pid_default_new, job_pid_new, job_pid_default_by_com_id, job_kind_set, job_kind_by_job_id, job_type_by_job_id, job_pid_by_job_id, job_new,\
 ComJob, JOB_RM, JOB_ACTIVE, JOB_CLOSE, com_job_by_com_id_state, com_department_new, com_department_rm_by_id, com_department_edit, com_job_close
 from model.days import today_days
 from model.zsite_member import zsite_member_can_admin

@@ -1,7 +1,7 @@
 #coding:utf-8
 import _env
 from model.douban import DoubanGroup, DoubanFeedOwner, DoubanFeed, CID_DOUBAN_FEED_TOPIC, DoubanUser
-from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
+from zkit.bot_txt import txt_wrap_by
 from zkit.htm2txt import htm2txt, unescape
 
 class ParseGroupHtm(object):

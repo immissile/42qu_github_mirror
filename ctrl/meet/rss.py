@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from ctrl._urlmap.meet import urlmap
-from _handler import Base, LoginBase, XsrfGetBase
-from model.zsite import Zsite
-from model.po import Po
+from _handler import Base, LoginBase
 from model.event import event_all_list
 
 @urlmap('/rss')

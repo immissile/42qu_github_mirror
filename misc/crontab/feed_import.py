@@ -5,7 +5,6 @@ import _env
 from model.feed_import import FeedImport, FEED_IMPORT_STATE_WITHOUT_TAG, FEED_IMPORT_STATE_INIT, FEED_IMPORT_STATE_POED, FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC, FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR, FEED_IMPORT_STATE_REVIEWED_SYNC, PoMetaUser, PoMeta
 from config import ZSITE_DOUBAN_ID, ZSITE_UCD_CHINA_ID
 from model.duplicate import Duplicator
-from model.zsite import Zsite
 from zkit.txt import format_txt
 from config import DUMPLICATE_DB_PREFIX
 from zkit.htm2txt import htm2txt

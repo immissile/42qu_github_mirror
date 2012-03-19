@@ -4,8 +4,7 @@
 from threading import local as threading_local
 
 # Autumn ORM
-from zsql.model import Model
-from zsql.db.relations import ForeignKey, OneToMany
+from zsql.db.relations import OneToMany
 from zsql.db.query import Query
 from zsql.db.connection import Database
 

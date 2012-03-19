@@ -1,5 +1,4 @@
-import sys, os
-import marshal
+import os
 from decorator import decorator
 import inspect
 from array import array

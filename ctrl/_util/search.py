@@ -1,6 +1,4 @@
 from urllib import quote
-from urlparse import parse_qs
-from model.zsite import Zsite
 from zkit.page import limit_offset, Page
 
 PAGE_LIMIT = 64

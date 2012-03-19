@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McCacheA
-from state import STATE_APPLY, STATE_ACTIVE
-from mail import render_template, sendmail
+from state import STATE_APPLY
+from mail import render_template
 
 mc_top_notice_id_by_user_id = McCache('TopNoticeIdByUserId.%s')
 

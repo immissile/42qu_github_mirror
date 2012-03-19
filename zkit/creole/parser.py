@@ -1,8 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import re
-import sys
 
 from rules import Rules
 from document import DocNode

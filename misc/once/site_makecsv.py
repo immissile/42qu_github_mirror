@@ -6,7 +6,7 @@ sys.setdefaultencoding('utf-8')
 
 import _env
 import csv
-from model.cid import CID_SITE, CID_NOTE, CID_USER
+from model.cid import CID_SITE, CID_NOTE
 from zweb.orm import ormiter
 from model.zsite import Zsite
 from model.site_po import po_cid_count_by_zsite_id

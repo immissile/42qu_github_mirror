@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _handler import ZsiteBase, LoginBase, XsrfGetBase
+from _handler import ZsiteBase, LoginBase
 from model.motto import motto
 from ctrl._urlmap.zsite import urlmap
 from model.zsite_link import link_by_id
-from model.cid import CID_USER, CID_SITE, CID_COM, CID_TAG
+from model.cid import CID_SITE, CID_COM, CID_TAG
 from model.site_po import feed_po_list_by_zsite_id, po_cid_count_by_zsite_id, PAGE_LIMIT
 from zkit.page import page_limit_offset
 from model.zsite_fav import zsite_fav_get_and_touch

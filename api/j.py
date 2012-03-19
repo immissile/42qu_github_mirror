@@ -4,8 +4,7 @@ from _handler import Base
 from _urlmap import urlmap
 
 from yajl import dumps
-from model.zsite_url import zsite_by_domain
-from model.zsite_url import url_or_id, name_dict_url_dict_by_zsite_id_list
+from model.zsite_url import url_or_id
 from model.follow import follow_name_dict_url_dict_by_from_id_cid, follow_reply_name_dict_url_dict_by_from_id_cid
 from zkit.at_match import zsite_by_key
 from model.ico import ico_url_bind_with_default

@@ -5,7 +5,6 @@ from config import ZDATA_PATH
 from os.path import join, exists
 from yajl import loads
 from glob import glob
-from os import mkdir
 #import envoy
 
 ZDATA_PATH_TRAIN_IDF = join(ZDATA_PATH, "train/df")

@@ -3,7 +3,7 @@
 import _env
 from zkit.single_process import single_process
 from model.kv_misc import kv_int, KV_INVITE_MESSAGE
-from model.invite_email import InviteMessage, InviteEmail
+from model.invite_email import InviteMessage
 from model.mail import rendermail
 from model.zsite import Zsite
 from model.invite_email import INVITE_CID2CN

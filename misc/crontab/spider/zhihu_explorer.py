@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import _env
-from random import choice
-from yajl import loads, dumps
+from yajl import loads
 from zkit.htm2txt import htm2txt
 import urllib2
-from urllib import urlencode
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
 import  time
 from writer import Spider

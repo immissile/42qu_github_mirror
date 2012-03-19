@@ -2,9 +2,8 @@
 # -*- coding: utf-8 -*-
 import _env
 from model.po import Po
-from model.fs import fs_file_audio, fs_set_audio
-from os.path import exists, dirname, isdir, join
-import os
+from model.fs import fs_file_audio
+from os.path import exists, dirname, join
 import shutil
 from model.cid import CID_AUDIO
 from zweb.orm import ormiter

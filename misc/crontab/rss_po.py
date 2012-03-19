@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import _env
 from htm2po.htm2po import htm2po_by_po
-from model.rss import RssPo, RSS_PRE_PO, RSS_POED, RSS_RT_PO, RSS_SYNC
+from model.rss import RssPo, RSS_PRE_PO, RSS_POED, RSS_RT_PO
 from zkit.single_process import single_process
 from model.feed import feed_rt
 from model.po_pos import po_pos_set

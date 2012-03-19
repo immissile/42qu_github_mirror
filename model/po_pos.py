@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from time import time
 from _db import cursor_by_table, Model, McModel, McLimitA, McCache, McCacheA, McCacheM, redis
 from po import Po
 

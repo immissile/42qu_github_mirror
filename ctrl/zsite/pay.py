@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _handler import ZsiteBase, LoginBase
+from _handler import ZsiteBase
 from ctrl._urlmap.zsite import urlmap
 from zkit.errtip import Errtip
-from model.zsite import Zsite
 from config import SITE_HTTP, RPC_HTTP
-from model.money_alipay import alipay_payurl, alipay_payurl_with_tax
-from model.user_mail import mail_by_user_id, user_by_mail
+from model.money_alipay import alipay_payurl_with_tax
+from model.user_mail import user_by_mail
 from model.money import pay_new, TRADE_STATE_NEW, TRADE_STATE_ONWAY, TRADE_STATE_FINISH, pay_account_get, bank, Trade, trade_log, pay_notice
 from model.zsite import zsite_new, ZSITE_STATE_NO_PASSWORD, ZSITE_STATE_ACTIVE, ZSITE_STATE_APPLY
 from zkit.txt import EMAIL_VALID

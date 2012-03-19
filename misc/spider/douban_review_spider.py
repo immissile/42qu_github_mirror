@@ -3,7 +3,6 @@ import _env
 from zkit.google.greader import Reader
 from config import GREADER_USERNAME, GREADER_PASSWORD
 from zkit.pprint import pprint
-from json import loads
 
 reader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
 

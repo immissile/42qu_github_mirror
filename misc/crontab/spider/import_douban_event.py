@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import _env
-from zkit.spider import Rolling, Fetch, NoCacheFetch, GSpider
-from model._db import Model, McModel, McCache, McNum
-from model.po import po_new, STATE_RM
+from zkit.spider import Rolling, NoCacheFetch, GSpider
+from model._db import Model, McModel, McNum
+from model.po import po_new
 from datetime import datetime
 from model.po_event import po_event_pic_new , EVENT_CID, po_event_feedback_new
 from model.event import Event, event_init2to_review

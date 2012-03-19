@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from config import render
 import model._db
-from __init__ import Base as _Base, _login_redirect, login
+from __init__ import Base as _Base, _login_redirect
 
 
 class Base(_Base):

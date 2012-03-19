@@ -5,7 +5,7 @@ reload(sys);
 sys.setdefaultencoding('utf-8')
 
 
-from yajl import loads, dumps
+from yajl import loads
 
 def main():
     with open('relations/topic_dict')as f:

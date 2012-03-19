@@ -5,7 +5,6 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 import _env
-from model.rss import Rss
 #
 #def get_uid():
 #    with open('uid_url') as x:

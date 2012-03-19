@@ -4,7 +4,6 @@ from hashlib import md5
 import  time
 import urllib2
 import urlparse
-from urllib import urlencode
 
 def retryOnURLError(self, trycnt=3):
     def funcwrapper(fn):

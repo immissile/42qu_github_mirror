@@ -5,7 +5,7 @@ from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
 from model.douban import douban_feed_new, id_by_douban_feed, douban_user_feed_new,\
 DOUBAN_USER_FEED_VOTE_REC, CID_DOUBAN_FEED_TOPIC, CID_DOUBAN_FEED_NOTE,\
 DOUBAN_REC_CID, DoubanUser, DOUBAN_USER_FEED_VOTE_LIKE, DoubanFeedOwner
-from douban_recommendation import douban_recommendation_begin_tuple, URL_LIKE, user_id_by_txt
+from douban_recommendation import URL_LIKE, user_id_by_txt
 from model.days import int_by_string
 
 def parse_like(data, url, cid, rid):

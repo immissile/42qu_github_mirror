@@ -3,7 +3,7 @@
 import _env
 from zkit.single_process import single_process
 from model.kv_misc import kv_int, KV_NOTICE_POS
-from model.cid import CID_NOTICE_WALL, CID_NOTICE_WALL_REPLY, CID_MAIL_DAY
+from model.cid import CID_NOTICE_WALL, CID_MAIL_DAY
 from model.state import STATE_APPLY
 from model.notice import Notice, notice_mail_day, NOTICE_MAIL_DAY
 from model.mail_notice import mail_notice_state

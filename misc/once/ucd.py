@@ -1,10 +1,9 @@
 #coding:utf-8
 import _env
-from model.feed_import import PoMetaUser, FeedImport
+from model.feed_import import PoMetaUser
 from model.zsite import zsite_by_query , Zsite
 from model.user_mail import user_by_mail
 from model.ico import pic_url
-from model.feed_import_user import feed_import_user_new
 
 count = 0
 with open('ucd.csv') as ucd:

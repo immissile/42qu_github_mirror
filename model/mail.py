@@ -4,7 +4,6 @@ from config import render, SMTP, SMTP_USERNAME, SMTP_PASSWORD, SENDER_MAIL, SEND
 from email.MIMEText import MIMEText
 from email.Header import Header
 from email.Utils import formataddr
-from base64 import encodestring
 import smtplib
 
 NOT_SUPPORT_UTF8_DOMAIN = set(['tom.com', 'hotmail.com', 'msn.com', 'yahoo.com'])

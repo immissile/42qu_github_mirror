@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #coding:utf-8
 from heapq import heappop, _siftup, heapify
-from bisect import bisect, insort
+from bisect import insort
 
 def imerge_reversed(*iterables):
     """Merge multiple reversedly sorted inputs into a single reversed sorted

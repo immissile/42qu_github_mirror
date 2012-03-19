@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from urllib import quote_plus, unquote
+from urllib import quote_plus
 from urlparse import parse_qsl
 from hashlib import md5
 

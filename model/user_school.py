@@ -2,11 +2,8 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM, McCacheA
 from zkit.job import JOBKIND2CN
-from zsite_com import pid_by_com_id
-from zkit.attrcache import attrcache
-from zkit.school_university import SCHOOL_UNIVERSITY, SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME, SCHOOL_UNIVERSITY_DEPARTMENT_ID, SCHOOL_DEGREE
+from zkit.school_university import SCHOOL_UNIVERSITY, SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME, SCHOOL_DEGREE
 from json import dumps
-from zkit.algorithm.unique import unique
 from model.zsite import Zsite
 from zkit.mc_func import mc_func_get_list
 from model.zsite_rank import zsite_rank

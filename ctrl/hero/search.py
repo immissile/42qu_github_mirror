@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from _handler import Base, LoginBase, XsrfGetBase
+from _handler import Base, LoginBase
 from ctrl._urlmap.hero import urlmap
 from model.search import search_user
 from ctrl._util.search import search_get

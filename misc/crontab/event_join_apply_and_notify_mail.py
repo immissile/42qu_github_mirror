@@ -6,7 +6,7 @@ from time import time, timezone, sleep
 from model.kv_misc import kv_int_call, KV_EVENT_READY, KV_EVENT_PAY
 from zkit.single_process import single_process
 from zweb.orm import ormiter
-from model.days import today_days, ONE_DAY_MINUTE, ONE_DAY
+from model.days import today_days, ONE_DAY_MINUTE
 from model.mail import rendermail
 from model.mail_notice import mail_notice_state
 from model.money import pay_event_get

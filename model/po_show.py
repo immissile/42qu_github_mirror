@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import McCache
-from feed import feed_rt, feed_rt_rm, feed_rt_list, feed_rt_count, feed_rt_id
-from po import Po, po_new, po_word_new, po_note_new, po_rm, CID_QUESTION
-from state import STATE_RM, STATE_SECRET, STATE_ACTIVE
+from feed import feed_rt, feed_rt_rm, feed_rt_list, feed_rt_count
+from po import Po, po_new, po_word_new, po_note_new, po_rm
+from state import STATE_RM, STATE_ACTIVE
 from zsite import Zsite
 #from rank import Rank, rank_po_id_list, rank_new, rank_rm, rank_po_id_count, rank_id_by_po_id_to_id, _rank_mv
 from _db import cursor_by_table

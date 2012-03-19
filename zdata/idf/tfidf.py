@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import _env
 from config import ZDATA_PATH
-from zkit.tofromfile import tofile, fromfile
+from zkit.tofromfile import fromfile
 from idf import tf_idf as _tf_idf
 from os.path import join
 from mmseg import seg_txt

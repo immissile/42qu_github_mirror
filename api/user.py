@@ -2,7 +2,7 @@
 #coding:utf-8
 from _handler import OauthBase, OauthAccessBase
 from _urlmap import urlmap
-from model.user_mail import user_id_by_mail, mail_by_user_id
+from model.user_mail import user_id_by_mail
 from model.user_auth import mail_password_verify
 from model.api_user import json_info
 from model.follow import follow_id_list_by_from_id, follow_id_list_by_to_id, follow_count_by_to_id, follow_count_by_from_id, follow_rm, follow_new

@@ -6,7 +6,7 @@ import _env
 from model.follow import follow_id_list_by_from_id
 from model.zsite import Zsite
 from zweb.orm import ormiter
-from model.cid import CID_INVITE_QUESTION, CID_MAIL_DAY, CID_MAIL_MONTH, CID_MAIL_YEAR, CID_BUZZ_FOLLOW, CID_MAIL_WEEK
+from model.cid import CID_MAIL_DAY, CID_MAIL_MONTH, CID_MAIL_YEAR, CID_BUZZ_FOLLOW, CID_MAIL_WEEK
 from collections import defaultdict
 import heapq
 

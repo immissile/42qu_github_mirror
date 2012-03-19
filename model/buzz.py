@@ -6,7 +6,7 @@ from cid import CID_BUZZ_SYS, CID_BUZZ_FOLLOW, CID_BUZZ_EVENT_JOIN,  CID_BUZZ_EV
 from zsite import Zsite, ZSITE_STATE_ACTIVE
 from follow import Follow
 from po import Po
-from po_pos import PoPos, STATE_BUZZ
+from po_pos import STATE_BUZZ
 from buzz_sys import BuzzSys
 from wall import Wall
 from kv import Kv

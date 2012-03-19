@@ -5,8 +5,7 @@ from model.days import time_new_offset
 from zkit.algorithm.wrandom import wsample2
 from zkit.zitertools import lineiter, chunkiter
 from array import array
-from model.zsite_list import zsite_list, ZsiteList
-from model.cid import CID_TAG
+from model.zsite_list import zsite_list
 from math import log
 from time import time
 from mq import mq_client

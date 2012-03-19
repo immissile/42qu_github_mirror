@@ -3,7 +3,7 @@
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
 from tag import tag_new, tag_get
 from zkit.attrcache import attrcache
-from zkit.mc_func import mc_func_get_list, mc_func_get_dict
+from zkit.mc_func import mc_func_get_dict
 from spammer import anti_same_post
 from zkit.school_university import SCHOOL_UNIVERSITY, SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME
 

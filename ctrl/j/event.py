@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 from ctrl._urlmap.j import urlmap
 from _handler import JLoginBase
-from model.event import Event, EventJoiner, event_joiner_yes, event_joiner_no, event_joiner_state, event_kill
+from model.event import Event, EventJoiner, event_joiner_yes, event_joiner_no, event_kill
 from model.po_event import po_event_notice_new
-from model.event import EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END
+from model.event import EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END
 
 @urlmap('/j/event/check/(\d+)/(0|1)')
 class EventCheck(JLoginBase):

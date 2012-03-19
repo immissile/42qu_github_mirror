@@ -2,9 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import _env
-import json
 from zkit.htm2txt import htm2txt
-from model.po import po_note_new, Po
+from model.po import po_note_new
 from model.po_pic import po_pic_new
 from model.state import STATE_RM, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from model.rss import  RSS_RT_PO

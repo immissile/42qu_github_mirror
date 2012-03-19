@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from ctrl.zsite._handler import ZsiteBase, LoginBase, XsrfGetBase
+from ctrl.zsite._handler import ZsiteBase, LoginBase
 from ctrl._urlmap.zsite import urlmap
 from _handler import AdminBase
 from model.zsite_com import com_pic_new, zsite_com_new, pid_by_com_id, ZsiteCom, zsite_com_place_new
-from model.po_video import video_new, video_filter
+from model.po_video import video_new
+from model.video_swf import video_filter
 from zkit.pic import picopen
 from zkit.errtip import Errtip
 from model.ico import ico96

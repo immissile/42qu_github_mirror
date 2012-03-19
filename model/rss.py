@@ -1,11 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache
-from zkit.google.greader import Reader
-import json
-import sys
 from config import GREADER_USERNAME, GREADER_PASSWORD, ADMIN_MAIL
-import traceback
 from model.mail import rendermail
 from model.user_mail import mail_by_user_id
 from model.zsite import Zsite

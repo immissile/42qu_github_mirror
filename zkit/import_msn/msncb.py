@@ -1,6 +1,5 @@
 
 
-import string
 import urllib
 import socket
 

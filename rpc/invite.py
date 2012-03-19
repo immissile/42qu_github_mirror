@@ -3,7 +3,7 @@
 from _handler import LoginBase
 from _urlmap import urlmap
 from config import SITE_URL, SITE_DOMAIN
-from model.invite_email import CID_GOOGLE, CID_QQ, CID_MSN, invite_email_new, invite_email_list_by_cid, msn_friend_get, invite_user_id_by_cid
+from model.invite_email import CID_GOOGLE, CID_QQ, CID_MSN, invite_email_new, msn_friend_get, invite_user_id_by_cid
 import tornado.web
 import thread
 from zweb.json import jsonp

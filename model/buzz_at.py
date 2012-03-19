@@ -2,10 +2,8 @@
 # -*- coding: utf-8 -*-
 from _db import cursor_by_table, McModel, McLimitA, McCache, McCacheA, Model, McNum, McCacheM
 from txt2htm import RE_AT
-from txt import txt_bind, txt_get, txt_new
-from kv import Kv
+from txt import txt_get, txt_new
 from zsite_url import id_by_url
-from zkit.algorithm.unique import unique
 from collections import defaultdict
 from mq import mq_client
 from model.buzz_po_bind_user import buzz_po_bind_user

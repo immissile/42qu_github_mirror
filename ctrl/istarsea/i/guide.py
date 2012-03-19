@@ -5,7 +5,7 @@ from _handler import LoginBase
 from model.zsite import Zsite
 from zkit.errtip import Errtip
 from model.zsite_show import SHOW_LIST
-from model.user_auth import user_password_verify, UserPassword
+from model.user_auth import UserPassword
 from ctrl.me.i import PicEdit
 
 @urlmap('/i/guide')

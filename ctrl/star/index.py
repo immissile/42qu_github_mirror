@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from _handler import Base, XsrfGetBase
+from _handler import Base
 from ctrl._urlmap.star import urlmap
 
 @urlmap('/')

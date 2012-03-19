@@ -3,8 +3,6 @@
 from _db import cursor_by_table, McModel, McCache, McNum, Model, McCacheM, McCacheA
 from model.zsite import Zsite
 from kv import Kv
-from model.zsite import  Zsite
-from model.cid import CID_SITE
 
 TopRec = Kv('top_rec', 0)
 

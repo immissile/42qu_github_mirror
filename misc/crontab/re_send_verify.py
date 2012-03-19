@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import _env
-from time import time
 from model.mail import rendermail
 from model.user_mail import mail_by_user_id
 from model.verify import Verify

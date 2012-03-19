@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
+from _handler import ZsiteBase, LoginBase, login
 from ctrl._urlmap.zsite import urlmap
 from model.reply import STATE_SECRET, STATE_ACTIVE
 from model.wall import Wall

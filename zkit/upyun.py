@@ -3,7 +3,6 @@
 
 import _env
 import base64
-from urllib2 import urlopen
 import httplib
 import os
 from cStringIO import StringIO

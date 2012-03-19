@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from pic import Pic
-from cid import CID_ICO, CID_ICO96, CID_PIC
+from cid import CID_ICO, CID_ICO96
 
 
 def _pic_list_to_review_by_cid(cid, start_id, limit):

@@ -4,7 +4,7 @@
 from ctrl._urlmap.j import urlmap
 from model.rec_read import rec_read_log_by_user_id, rec_read_log_count_by_user_id
 from model.po_json import po_json
-from _handler import JLoginBase, JLoginZsiteBase
+from _handler import JLoginZsiteBase
 from zkit.page import page_limit_offset
 
 PAGE_LIMIT = 50 

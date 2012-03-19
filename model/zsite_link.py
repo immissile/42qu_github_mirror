@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import re
 from _db import Model, McModel, McCache
 from hashlib import sha256
-from zsite import zsite_new_user, Zsite
+from zsite import Zsite
 from config import SITE_DOMAIN, SITE_DOMAIN_SUFFIX
 from oauth import OAUTH2NAME_DICT, OAUTH_DOUBAN, OAUTH_SINA,\
 OAUTH_QQ, OAUTH_TWITTER, OAUTH_MY, OAUTH_RENREN

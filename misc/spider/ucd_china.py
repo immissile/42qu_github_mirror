@@ -5,7 +5,6 @@ import _env
 from config import GREADER_USERNAME, GREADER_PASSWORD
 from zkit.google.greader import Reader
 from urllib import quote
-from zkit.pprint import pprint
 from json import dumps
 
 TEMPLATE_UCD_CHINA_RSS = 'http://ucdchina.com/rss/category?id=%s'

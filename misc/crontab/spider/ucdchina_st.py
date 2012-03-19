@@ -3,8 +3,6 @@
 
 import _env
 from yajl import loads
-from collections import defaultdict
-from urlparse import urlparse
 from zkit.htm2txt import htm2txt
 
 def main():

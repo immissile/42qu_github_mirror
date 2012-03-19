@@ -3,9 +3,9 @@
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from po import Po, PO_SHARE_FAV_CID
 from event import Event
-from state import STATE_RM, STATE_SECRET, STATE_ACTIVE
+from state import STATE_SECRET, STATE_ACTIVE
 from cid import CID_EVENT
-from model.po_pos import po_pos_get, po_pos_set, po_pos_state, STATE_BUZZ
+from model.po_pos import po_pos_get, po_pos_set, STATE_BUZZ
 from zsite import Zsite
 from collections import defaultdict
 from model.buzz import mq_buzz_po_fav_new

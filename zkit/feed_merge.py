@@ -1,6 +1,6 @@
 #coding:utf-8
 import sys
-from algorithm.merge import imerge, imerge_reversed
+from algorithm.merge import imerge_reversed
 MAXINT = sys.maxint
 
 def merge_iter(

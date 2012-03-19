@@ -1,8 +1,6 @@
 #coding:utf-8
-import math
 from cStringIO import StringIO
 import Image
-import ImageEnhance
 
 def picopen(image):
     if not image:return

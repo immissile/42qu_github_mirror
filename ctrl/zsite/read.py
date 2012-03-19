@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _handler import ZsiteBase, LoginBase, XsrfGetBase
+from _handler import LoginBase, XsrfGetBase
 from ctrl._urlmap.zsite import urlmap
 from model.cid import CID_SITE
 from model.zsite_fav import zsite_fav_get_and_touch

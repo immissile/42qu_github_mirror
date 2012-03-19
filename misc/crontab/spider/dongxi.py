@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 import _env
 import urllib2
-from urllib2 import urlopen
 from urllib import urlencode 
 from zkit.pic import picopen 
 from json import loads

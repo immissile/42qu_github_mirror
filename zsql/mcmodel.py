@@ -2,7 +2,7 @@
 from zsql.db.query import Query, escape
 from zsql.db.mc_connection import mc
 from marshal import dumps, loads
-from zsql.metamodel import cache, lower_name, ModelBase, get_or_create, save, get, __eq__, __ne__, max_id
+from zsql.metamodel import lower_name, ModelBase, get_or_create, save, get, __eq__, __ne__, max_id
 from array import array
 from datetime import datetime
 
