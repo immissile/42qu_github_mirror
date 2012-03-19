@@ -3,9 +3,9 @@
 from base64 import urlsafe_b64encode, urlsafe_b64decode
 from os import urandom
 from time import time
-from _db import Model, McModel, McCache, mc, cursor_by_table
+from _db import Model, McModel, McCache, mc
 from mail import mq_rendermail
-from cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD, CID_VERIFY_MONEY, CID_VERIFY_COM_HR, CID_VERIFY_LOGIN_MAIL
+from cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD, CID_VERIFY_COM_HR, CID_VERIFY_LOGIN_MAIL
 
 from config import SITE_DOMAIN
 

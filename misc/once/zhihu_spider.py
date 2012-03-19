@@ -1,10 +1,9 @@
 #!/usr/bin/env python 
 # -*- coding: utf-8 -*- 
 import _env
-from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
+from zkit.bot_txt import txt_wrap_by_all
 from zkit.htm2txt import htm2txt
 from json import loads,dumps
-from zhihu_page import page_fetch
 import os
 
 SOURCE_ROOT = './'

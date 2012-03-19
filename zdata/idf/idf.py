@@ -3,7 +3,7 @@
 
 import _env
 from math import log
-from zkit.tofromfile import tofile, fromfile
+from zkit.tofromfile import fromfile
 from collections import defaultdict
 from operator import itemgetter
 

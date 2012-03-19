@@ -2,10 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import _env
-from zkit.spider import Rolling, Fetch, NoCacheFetch, GSpider
-from dongxi import Dongxi
+from zkit.spider import Rolling, NoCacheFetch, GSpider
 from ucdchina import UCDchina
-from yeeyan import Yeeyan
 from hashlib import md5
 
 def pagelister():

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from config import render
 import model._db
-from ctrl.zsite._handler import LoginBase as _LoginBase, XsrfGetBase
+from ctrl.zsite._handler import LoginBase as _LoginBase
 
 class LoginBase(_LoginBase):
     def prepare(self):

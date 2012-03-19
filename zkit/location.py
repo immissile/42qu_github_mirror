@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import earth
 from earth import PID2NAME
 from lcs import  ordered_LSS_list
 

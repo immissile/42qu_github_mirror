@@ -4,7 +4,7 @@ from _db import Model, McModel, McCache
 from state import STATE_RM, STATE_ACTIVE
 from zkit.earth import place_name
 from zkit.attrcache import attrcache
-from zkit.mc_func import mc_func_get_list, mc_func_get_dict
+from zkit.mc_func import mc_func_get_dict
 
 
 class Namecard(McModel):

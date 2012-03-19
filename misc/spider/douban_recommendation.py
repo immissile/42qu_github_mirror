@@ -4,7 +4,7 @@
 import _env
 from model.douban import DOUBAN_REC_CID, douban_rec_new, DoubanUser, Model
 from json import loads
-from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
+from zkit.bot_txt import txt_wrap_by_all
 from model.days import int_by_string
 
 API_KEY = '0b28ac78faf4254c217a056af0dc6fe4'

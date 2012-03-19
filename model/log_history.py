@@ -5,7 +5,6 @@ from zsite import Zsite
 from po import Po
 from reply import Reply
 from model.days import today_days
-import time
 from model.cid import CID_USER
 from operator import itemgetter
 from follow import Follow

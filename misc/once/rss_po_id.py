@@ -3,7 +3,6 @@ import _env
 from model.rss import RssPoId
 from model.po import Po
 from model.zsite import Zsite
-from zweb.orm import ormiter
 
 for i in RssPoId.where(rss_po_id=0):
     po = Po.get(i.po_id)

@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
-from mail import rendermail
+from _db import Model, McModel, McCache, McNum, McCacheA, McCacheM
 from model.days import today_seconds
 from model.zsite_member import zsite_member_new, ZSITE_MEMBER_STATE_ACTIVE, zsite_member_can_admin
 

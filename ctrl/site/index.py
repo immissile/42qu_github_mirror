@@ -3,8 +3,7 @@
 from _handler import Base, LoginBase
 from ctrl._urlmap.site import urlmap
 from zkit.jsdict import JsDict
-from urlparse import parse_qs, urlparse
-from zkit.page import page_limit_offset
+from urlparse import urlparse
 from model.oauth import linkify
 from model.zsite_link import SITE_LINK_NAME, SITE_LINK_ZSITE_DICT,\
 OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT

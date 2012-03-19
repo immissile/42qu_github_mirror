@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import cursor_by_table, McModel, McCache, McNum, McCacheA
+from _db import McModel, McCache, McNum, McCacheA
 from zsite_tag import ZsiteTagPo
-from model.state import STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
+from model.state import STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from model.cid import CID_EVENT_NOTICE
 from model.po import Po
 

@@ -2,10 +2,7 @@
 # -*- coding: utf-8 -*-
 from _handler import Base
 from _urlmap import urlmap
-from model.zsite import Zsite
-from model.user_mail import mail_by_user_id
-from model.mail import sendmail
-from model.cid import CID_PO, CID_WORD, CID_NOTE, CID_QUESTION, CID_CHANNEL, CID_REC
+from model.cid import CID_PO, CID_WORD, CID_NOTE, CID_CHANNEL, CID_REC
 from model.po import Po, po_state_set, po_rm
 from model.po_show import po_show_new, po_show_count, po_show_list, po_show_rm
 from model.state import STATE_RM, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW

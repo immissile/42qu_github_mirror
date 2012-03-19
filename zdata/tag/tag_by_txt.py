@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 import _env
 from zdata.idf.tfidf import tf_idf_seg_txt
-from zkit.pprint import pprint
 from collections import defaultdict
 
 

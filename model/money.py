@@ -3,7 +3,7 @@
 from yajl import dumps, loads
 from time import time
 from mail import rendermail
-from _db import Model, McModel, McCache, McCacheA, McNum
+from _db import Model, McModel, McCache, McNum
 from kv import Kv
 from cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_PAY, CID_TRADE_DEAL, CID_TRADE_EVENT, CID_VERIFY_MONEY, CID_PAY_ALIPAY, CID_NOTICE_PAY
 from zsite import Zsite

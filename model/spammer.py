@@ -1,12 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from hashlib import md5
-from _db import McCache , Model
+from _db import McCache , Model, redis
 from decorator import decorator
+from zsite import Zsite
 
 
-class Spammer(Model):
-    pass
+# zhash
+SPAMMER_REDIS_KEY = 'ZpageSpammer'
+# is a set, contains reporters
+# %s is the id of the reported spammer
+#SPAMMER_REPORT_KEY = 'ReportedSpammer:%s'
+#MUTE_FOR_DURATION = 'MutedFor:%s'
+
 
 #SPAM_USER_ID = set((
 #    10009078, #欲望清单 www.desirelist.nst
@@ -15,22 +21,41 @@ class Spammer(Model):
 #    10022520,
 #    10133407,
 #))
-SPAM_USER_ID = set(Spammer.where().col_list())
+
+#def report_spammer(reporter_id, reportee_id):
+#    redis.sadd(SPAMMER_REPORT_KEY%reportee_id, reporter_id)
+#
+#def remove_report(spammer_id):
+#    redis.delete(SPAMMER_REPORT_KEY%spammer_id)
+#
+#def confirm_spammer(spammer_id):
+#    spammer_new(spammer_id)
+#    remove_report(spammer_id)
+#
+#def get_all_reports():
+#    keys = redis.keys(SPAMMER_REPORT_KEY%'*')
+#    return ((key.replace(SPAMMER_REPORT_KEY%'', ''), redis.smembers(key)) for key in keys)
+
+#def mute_for_duration(user_id, duration):
+#    key = MUTE_FOR_DURATION%user_id
+#    redis.set(key, duration)
+#    redis.expire(key, duration)
+
+def spamer_id_list():
+    id_list = redis.smembers(SPAMMER_REDIS_KEY)
+    return id_list
 
 def spammer_new(user_id):
     user_id = int(user_id)
-    Spammer.get_or_create(id=user_id).save() 
-    SPAM_USER_ID.add(user_id)
+    redis.sadd(SPAMMER_REDIS_KEY, user_id)
 
 def spammer_rm(user_id):
     user_id = int(user_id)
-    Spammer.where(id=user_id).delete()
-    if user_id in SPAM_USER_ID:
-        SPAM_USER_ID.remove(user_id)
+    redis.srem(SPAMMER_REDIS_KEY, user_id)
 
 def is_spammer(user_id):
-    if int(user_id) in SPAM_USER_ID:
-        return True
+    return redis.sismember(SPAMMER_REDIS_KEY, user_id) 
+    #or redis.get(MUTE_FOR_DURATION%user_id)
 
 mc_lastest_hash = McCache('LastestHash:%s')
 
@@ -65,27 +90,25 @@ def spammer_reset(user_id):
     from model.reply import Reply
     for i in Reply.where(user_id=user_id):
         reply_rm_if_can(user_id, i.id)
-    
-    
-    
+
+
+
     from model.wall import Wall
     from model.zsite import Zsite
     z = Zsite.mc_get(user_id)
     total = z.reply_count
     if total:
-        reply_list = z.reply_list_reversed(total,0)
+        reply_list = z.reply_list_reversed(total, 0)
         for reply in reply_list:
             wall = Wall.mc_get(reply.rid)
             if wall:
                 wall.reply_rm(reply)
-    
+
 
     spammer_new(user_id)
-        
-
-
-
 
 if __name__ == '__main__':
-
-    spammer_reset(10207348)
+    for id in get_all_spamer_idlist():
+        spammer =  Zsite.get(id)
+        print spammer.id, spammer.name, spammer.link
+#spammer_reset(10207348)

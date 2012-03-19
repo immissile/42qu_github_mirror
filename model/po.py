@@ -24,6 +24,7 @@ from zkit.jsdict import JsDict
 from buzz_reply import mq_buzz_po_rm
 from buzz_at import mq_buzz_at_new
 from config import SITE_DOMAIN
+from spammer import spammer_new, is_spammer
 #from sync import mq_sync_po_by_zsite_id
 
 PO_CN_EN = (
@@ -289,6 +290,8 @@ class Po(McModel, ReplyMixin):
 
 
 def po_new(cid, user_id, name, state, rid=0, id=None, zsite_id=0):
+    if is_spammer(user_id):
+        return
     if state is None:
         if zsite_id and zsite_id != user_id:
             state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
@@ -421,8 +424,10 @@ def po_word_new(user_id, name, state=None, rid=0, zsite_id=0):
         m = po_new(CID_WORD, user_id, name, state, rid, zsite_id=zsite_id)
         if m and (state is None or state > STATE_SECRET):
             m.feed_new()
-        mq_buzz_at_new(user_id, name, m.id)
-        return m
+
+        if m:
+            mq_buzz_at_new(user_id, name, m.id)
+            return m
 
 
 def po_note_new(user_id, name, txt, state=STATE_ACTIVE, zsite_id=0):
@@ -431,10 +436,11 @@ def po_note_new(user_id, name, txt, state=STATE_ACTIVE, zsite_id=0):
     name = name or time_title()
     if not is_same_post(user_id, name, txt, zsite_id):
         m = po_new(CID_NOTE, user_id, name, state, zsite_id=zsite_id)
-        m.txt_set(txt)
-        if state > STATE_SECRET:
-            m.feed_new()
-        return m
+        if m:
+            m.txt_set(txt)
+            if state > STATE_SECRET:
+                m.feed_new()
+            return m
 
 
 PO_LIST_STATE = {
@@ -520,38 +526,11 @@ def mc_flush_zsite_cid(zsite_id, cid):
 
 
 if __name__ == '__main__':
-    po = Po.mc_get(10257675)
-
-    po_rm(po.user_id, po.id)
-    raise
-    for i in Po.where(user_id=10078195, cid=CID_NOTE):
-        if "1.42qu.us" in i.txt:
+    for i in Po.where(cid=CID_NOTE):
+        txt = i.txt.rstrip().rstrip("\n").rstrip("*")
+        if txt != i.txt:
+            i.txt_set(txt)
             print i.name
-            po_rm(i.user_id, i.id)
-    raise
-    po = Po.mc_get(10236747)
-    print  po.name_
-
-    name = """第一日
-
-• HTML 与 模版
-• css与js
-
-预习材料
-
-
-1. 网页设计师 : 循序渐进
-2. html.chm
-3. css.htm
-4. Javascript教程 http://www.w3school.com.cn/js/index.asp
-5. 15天学会jquery
-6. jquery.chm
-
-下载地址 : https://bitbucket.org/zuroc/42qu-school/src/02ffbde7b7e4/book 
-"""
-
-    po.name_ = name
-    po.save()
 
     #rm_all_po_and_reply_and_tag_by_user_id(10001299)
     #pass

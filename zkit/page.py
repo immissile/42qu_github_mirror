@@ -1,5 +1,4 @@
 #coding:utf-8
-from cgi import escape
 
 PAGE_LIMIT = 42
 

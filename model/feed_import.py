@@ -3,10 +3,7 @@
 
 import _env
 from _db import Model, McModel, redis
-from po import po_note_new
-from kv import Kv
 from part_time_job import part_time_job_new, PART_TIME_JOB_CID_FEED_IMPORT, id_list_by_part_time_job_cid, part_time_job_count_by_cid
-from zrank.sorts import hot
 from model.tag_admin import tag_admin_rm
 from po_tag import REDIS_REC_CID_DICT, tag_id_list_by_str_list
 from operator import itemgetter

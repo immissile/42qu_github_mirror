@@ -1,5 +1,4 @@
 #coding:utf-8
-from collections import defaultdict
 
 CN_CHAR = 1
 EN_CHAR = 2

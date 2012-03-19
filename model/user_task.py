@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel, McCache
+from _db import McModel, McCache
 
 #USER_TASK_CID_MAIL = 1
 

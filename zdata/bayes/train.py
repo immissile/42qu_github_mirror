@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import _env
-from yajl import loads, dumps
+from yajl import loads
 from collections import defaultdict
 from glob import glob
 from mmseg import seg_txt
 import os
-from os.path import join, dirname
+from os.path import join
 from zkit.tofromfile import tofile, fromfile
 
 from parent_tag import ParentTagger

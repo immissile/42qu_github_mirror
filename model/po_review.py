@@ -1,8 +1,7 @@
 #coding:utf-8
 
-from _db import cursor_by_table, McModel, McLimitA, McCache, McNum, McCacheA
-from po import po_new, Po, STATE_ACTIVE, STATE_SECRET, po_list_count
-from site_po import mc_flush_zsite_cid
+from _db import cursor_by_table, McModel, McCache, McNum, McCacheA
+from po import po_new, Po, STATE_ACTIVE
 from cid import CID_REVIEW
 from kv import Kv
 from array import array
@@ -39,11 +38,12 @@ def po_review_new(zsite_id, user_id, name):
             state=state,
             zsite_id=zsite_id
         )
-        mc_po_review_id_get.set(
-            '%s_%s'%(zsite_id, user_id),
-            review.id
-        )
-        review.feed_new()
+        if review:
+            mc_po_review_id_get.set(
+                '%s_%s'%(zsite_id, user_id),
+                review.id
+            )
+            review.feed_new()
 
     if state == STATE_ACTIVE:
         mc_po_review_id_list_active_by_zsite_id.delete(zsite_id)

@@ -6,7 +6,6 @@
 import _env
 from model._db import Model
 from uuid import uuid4
-from model.event import event_joiner_user_id_list
 from model.user_mail import mail_by_user_id
 from mako.template import Template
 from model.zsite_url import url_or_id

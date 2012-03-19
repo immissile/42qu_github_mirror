@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import _env
-from time import time, sleep
+from time import time
 from collections import defaultdict
 from model.buzz import Buzz, buzz_pos
 from model.cid import CID_BUZZ_FOLLOW

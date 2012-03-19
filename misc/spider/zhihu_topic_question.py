@@ -1,12 +1,10 @@
 #coding:utf-8
 import _env
-import mmseg
-from os.path import abspath, dirname, join
+from os.path import abspath, join
 from json import loads
 from urllib import quote
-from zkit.pprint import pformat, pprint
+from zkit.pprint import pformat
 from zhihu_topic_id_rank import ID2RANK
-from operator import itemgetter
 from zkit.spider import Rolling, Fetch, MultiHeadersFetch, GSpider, NoCacheFetch
 from zkit.bot_txt import txt_wrap_by, txt_wrap_by_all
 from zhihu_topic_url2id_data import URL2ID

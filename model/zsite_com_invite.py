@@ -6,7 +6,6 @@ from model.zsite_member import zsite_member_new
 from user_mail import mail_by_user_id
 from config import SITE_HTTP
 from model.career import career_current
-from user_mail import user_id_by_mail
 from model.cid import CID_USER, CID_VERIFY_MAIL
 from model.mail import mq_rendermail, rendermail
 

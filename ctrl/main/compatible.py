@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from _handler import Base, LoginBase, XsrfGetBase
+from _handler import Base
 from ctrl._urlmap.main import urlmap
 from config import SITE_DOMAIN
 

@@ -6,7 +6,7 @@ from cgi import escape
 from zkit.pic import pic_fit_width_cut_height_if_large
 from pic import pic_new, pic_save, PicMixin
 from cid import CID_PO_PIC
-from fs import fs_set_jpg, fs_url_jpg
+from fs import fs_set_jpg
 import traceback
 
 PIC_HTM = '<div class="PIC%s"><img src="%s"%s>%s</div>'

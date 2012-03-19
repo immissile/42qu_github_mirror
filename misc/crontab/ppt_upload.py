@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import _env
 
-from model.ppt import Ppt, ppt_file
+from model.ppt import Ppt
 from zkit.single_process import single_process
 from time import time
 

@@ -1,5 +1,5 @@
 #coding:utf-8
-from _db import McModel, McCache, cursor_by_table, McCacheA, McCacheM
+from _db import McModel, McCache, cursor_by_table, McCacheM
 from feed import PAGE_LIMIT
 from model.site_po import po_id_list_by_zsite_id
 from model.state import STATE_PO_ZSITE_SHOW_THEN_REVIEW

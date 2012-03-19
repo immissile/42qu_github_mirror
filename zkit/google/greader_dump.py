@@ -6,7 +6,7 @@ sys.setdefaultencoding('utf-8')
 from urlparse import urlparse
 from greader import Reader
 from private import password
-from os.path import exists, abspath, dirname, join
+from os.path import exists, abspath, join
 from os import makedirs as _makedirs
 
 DUMP_DIR = join('/mnt/share', 'zsp_google_reader')

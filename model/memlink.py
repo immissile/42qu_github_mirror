@@ -1,4 +1,4 @@
-import os, sys
+import sys
 import time
 #print dir(memlink)
 

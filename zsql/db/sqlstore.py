@@ -1,8 +1,8 @@
 # -*- coding: UTF-8 -*-
-import sys, time
+import time
 from warnings import warn
 import MySQLdb
-from _mysql_exceptions import Warning, Error, InterfaceError, DataError,\
+from _mysql_exceptions import Warning, InterfaceError, DataError,\
      DatabaseError, OperationalError, IntegrityError, InternalError,\
      NotSupportedError, ProgrammingError
 from MySQLdb.converters import FIELD_TYPE, conversions

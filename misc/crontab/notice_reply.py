@@ -6,7 +6,6 @@ from model.kv_misc import kv_int, KV_REPLY_NUM
 from model.reply import  Reply
 from model.cid import CID_NOTE, CID_USER
 from collections import defaultdict
-from time import sleep
 from model.po_pos import po_pos_get
 from model.po import Po
 from model.zsite import Zsite

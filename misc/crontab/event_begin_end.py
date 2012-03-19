@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import _env
-from time import time, timezone
+from time import time
 from zkit.single_process import single_process
 from zweb.orm import ormiter
 from model.event import Event, event_begin2now, event_end, EVENT_STATE_NOW, EVENT_STATE_BEGIN

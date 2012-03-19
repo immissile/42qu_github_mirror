@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel, McCache
+from _db import Model, McCache
 from model.zsite import Zsite
 from model.cid import CID_USER
 

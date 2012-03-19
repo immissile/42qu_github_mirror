@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import subprocess
-from os.path import dirname, abspath, join
+from os.path import dirname, abspath
 import sys
 
 PREFIX = dirname(abspath(__file__))

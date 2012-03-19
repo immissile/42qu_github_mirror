@@ -3,9 +3,8 @@
 import _env
 from hashlib import md5
 from yajl import loads
-from glob import glob
-from zkit.bot_txt import txt_wrap_by, txt_wrap_by_all
-from zkit.htm2txt import unescape, htm2txt
+from zkit.bot_txt import txt_wrap_by_all
+from zkit.htm2txt import htm2txt
 from os.path import exists
 
 def parse_content(txt):

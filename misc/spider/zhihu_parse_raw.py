@@ -4,8 +4,6 @@
 import _env
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
 from zkit.htm2txt import htm2txt
-from yajl import dumps
-import os
 import glob
 
 HTML_LIST = glob.glob('/mnt/zdata/zhihu_full/*.html')

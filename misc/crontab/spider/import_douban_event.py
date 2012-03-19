@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import _env
-from zkit.spider import Rolling, Fetch, NoCacheFetch, GSpider
-from model._db import Model, McModel, McCache, McNum
-from model.po import po_new, STATE_RM
+from zkit.spider import Rolling, NoCacheFetch, GSpider
+from model._db import Model, McModel, McNum
+from model.po import po_new
 from datetime import datetime
 from model.po_event import po_event_pic_new , EVENT_CID, po_event_feedback_new
 from model.event import Event, event_init2to_review
@@ -116,16 +116,17 @@ def save_event(self, phone, address, begin_time, end_time, title, intro, douban_
 
 
     po = po_new(CID_EVENT, self.user_id, '', STATE_SECRET , id=id, zsite_id=self.zsite_id)
-    po.name_ = title
-    po.txt_set(htm2txt(intro)[0])
-    po.save()
+    if po:
+        po.name_ = title
+        po.txt_set(htm2txt(intro)[0])
+        po.save()
 
-    event_init2to_review(id)
-    import_douban_event = ImportDoubanEvent.get_or_create(id=int(douban_event_id))
-    import_douban_event.event_id = id
-    import_douban_event.save()
+        event_init2to_review(id)
+        import_douban_event = ImportDoubanEvent.get_or_create(id=int(douban_event_id))
+        import_douban_event.event_id = id
+        import_douban_event.save()
 
-    return event
+        return event
 
 def save_pic(pic, pic_url, event):
     pic = picopen(pic)

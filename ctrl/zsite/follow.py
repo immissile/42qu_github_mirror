@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _handler import ZsiteBase, LoginBase, XsrfGetBase
+from _handler import ZsiteBase, LoginBase
 from zkit.page import page_limit_offset
 from ctrl._urlmap.zsite import urlmap
 from model.cid import CID_ZSITE_TUPLE, CID_SITE

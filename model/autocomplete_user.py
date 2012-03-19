@@ -2,8 +2,8 @@
 # coding: utf-8 
 
 from _db import redis
-from model.zsite import Zsite , CID_USER
-from model.autocomplete import AutoComplete, redis
+from model.zsite import Zsite 
+from model.autocomplete import AutoComplete
 from model.zsite_url import url_by_id
 from model.user_mail import mail_by_user_id
 from model.follow import follow_count_by_to_id

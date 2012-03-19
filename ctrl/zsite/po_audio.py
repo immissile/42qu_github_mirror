@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
+from _handler import LoginBase, XsrfGetBase, login
 from model.zsite_site import zsite_id_by_zsite_user_id
 from ctrl._urlmap.zsite import urlmap
 from model.state import STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from model.po import Po
 from model.po_audio import po_audio_new
-from model.zsite_tag import zsite_tag_new_by_tag_id
 from model.cid import CID_AUDIO
 
 @urlmap('/po/audio')

@@ -1,13 +1,9 @@
 #coding:utf-8
-from _db import McCache
 from config import render, SMTP, SMTP_USERNAME, SMTP_PASSWORD, SENDER_MAIL, SENDER_NAME, SITE_HTTP, SITE_NAME, SITE_DOMAIN
 
 from email.MIMEText import MIMEText
 from email.Header import Header
-from os.path import join
-from decorator import decorator
-from email.Utils import parseaddr, formataddr
-from base64 import encodestring
+from email.Utils import formataddr
 import smtplib
 
 NOT_SUPPORT_UTF8_DOMAIN = set(['tom.com', 'hotmail.com', 'msn.com', 'yahoo.com'])

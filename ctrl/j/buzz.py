@@ -2,9 +2,8 @@
 # -*- coding: utf-8 
 
 from ctrl._urlmap.j import urlmap
-from _handler import JLoginBase, Base
-from model.po import Po, PO_SHARE_FAV_CID
-from json import dumps
+from _handler import JLoginBase
+from model.po import Po
 from model.buzz_reply import buzz_reply_hide_or_rm, buzz_reply_hide_or_rm_by_user_id
 from model.buzz_at import buzz_at_hide
 

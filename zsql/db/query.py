@@ -1,5 +1,4 @@
 #coding:utf-8
-import sys
 from config import DEBUG
 from time import time
 import logging

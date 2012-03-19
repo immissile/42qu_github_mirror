@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import McCacheA, McCache, McNum
+from _db import McCacheA, McCache
 from cid import CID_EVENT
-from po import Po, po_new, po_word_new, po_note_new, po_rm, po_cid_set
-from state import STATE_RM, STATE_SECRET, STATE_ACTIVE
-from txt import txt_new, txt_get
-from zkit.time_format import time_title
+from po import Po, po_new, po_note_new, po_cid_set
+from state import STATE_RM, STATE_ACTIVE
 from zsite import Zsite
 from model.cid import CID_EVENT, CID_EVENT_FEEDBACK, CID_EVENT_NOTICE
 from model.pic import pic_new_save , fs_url_jpg , fs_set_jpg
@@ -51,19 +49,20 @@ def po_event_feedback_new(user_id, name, txt, good, event_id, event_user_id):
         m = Po.mc_get(id)
     else:
         m = po_new(CID_EVENT_FEEDBACK, user_id, name, STATE_ACTIVE, event_id)
-        id = m.id
-        mc_event_feedback_id_get.set('%s_%s' % (user_id, event_id), id)
-        m.feed_new()
+        if m:
+            id = m.id
+            mc_event_feedback_id_get.set('%s_%s' % (user_id, event_id), id)
+            m.feed_new()
 
-        from buzz import buzz_event_feedback_new , mq_buzz_event_feedback_owner_new
+            from buzz import buzz_event_feedback_new , mq_buzz_event_feedback_owner_new
 
-        if user_id != event_user_id:
-            rank_new(m, event_id, CID_EVENT_FEEDBACK)
-            buzz_event_feedback_new(user_id, id, event_user_id)
-        else:
-            mq_buzz_event_feedback_owner_new(user_id, id)
+            if user_id != event_user_id:
+                rank_new(m, event_id, CID_EVENT_FEEDBACK)
+                buzz_event_feedback_new(user_id, id, event_user_id)
+            else:
+                mq_buzz_event_feedback_owner_new(user_id, id)
 
-        event_joiner_state_set_by_good(user_id, event_id, good)
+            event_joiner_state_set_by_good(user_id, event_id, good)
     return m
 
 

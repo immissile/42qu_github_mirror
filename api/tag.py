@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from _handler import Base, LoginBase, XsrfGetBase
+from _handler import Base, LoginBase
 from _urlmap import urlmap
 from model.autocomplete import autocomplete_tag
 from yajl import dumps

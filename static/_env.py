@@ -1,5 +1,5 @@
 
-from os.path import abspath, dirname, join, normpath
+from os.path import abspath, dirname, normpath
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')

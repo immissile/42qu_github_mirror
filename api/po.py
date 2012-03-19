@@ -3,7 +3,7 @@
 import _handler
 from _urlmap import urlmap
 from model.po import po_word_new, Po, po_rm
-from model.zsite import user_can_reply, Zsite
+from model.zsite import user_can_reply
 from model import reply
 
 

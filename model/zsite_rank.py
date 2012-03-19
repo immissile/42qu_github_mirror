@@ -4,9 +4,8 @@ from _db import Model, McCache
 from kv import Kv
 from zweb.orm import ormiter
 from zsite_uv_daily import ZsiteUvDaily
-from days import today_days
 from kv_misc import kv_int, KV_ZSITE_RANK_POWER
-from model.zsite import Zsite, CID_USER, ZSITE_STATE_CAN_REPLY
+from model.zsite import Zsite, ZSITE_STATE_CAN_REPLY
 from model.career import career_current
 from model.ico import ico
 

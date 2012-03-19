@@ -1,14 +1,12 @@
 #coding:utf-8
-from zkit.bot_txt import txt_wrap_by
 from ctrl._urlmap_istarsea.j import urlmap
 from _handler import Base
 from yajl import dumps
 from model.ico import ico_url_bind_with_default , ico_url_with_default
-from model.career import career_bind, career_current
+from model.career import career_current
 from model.zsite import Zsite
-from logging import info
-from model.zsite_url import id_by_url, url_or_id
-from model.follow import follow_count_by_to_id, follow_get
+from model.zsite_url import id_by_url
+from model.follow import follow_get
 from model.cid import CID_USER
 from model.motto import motto_get
 

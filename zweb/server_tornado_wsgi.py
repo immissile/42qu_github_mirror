@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 #coding:utf-8
-import sys
 import tornado.httpserver
 import tornado.ioloop
 from tornado.wsgi import WSGIContainer

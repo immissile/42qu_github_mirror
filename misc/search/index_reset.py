@@ -2,10 +2,8 @@
 # -*- coding: utf-8 -*-
 import _env
 from zkit.single_process import single_process
-from index import index, PATH
+from index import index
 from zsite_iter import zsite_keyword_iter
-from os import makedirs
-from shutil import rmtree
 
 @single_process
 def main():

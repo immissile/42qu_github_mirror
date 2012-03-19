@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #coding:utf-8
 import pyclbr
-from os.path import isdir, abspath
+from os.path import isdir
 
 def print_urlmap(module):
     mod = __import__(module, globals(), locals(), ['_urlmap'], -1)

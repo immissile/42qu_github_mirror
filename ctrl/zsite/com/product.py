@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from ctrl.zsite._handler import ZsiteBase, LoginBase, XsrfGetBase
+from ctrl.zsite._handler import ZsiteBase, LoginBase
 from ctrl._urlmap.zsite import urlmap
 from _handler import AdminBase
 import json
 from zkit.jsdict import JsDict
 from zkit.pic import picopen
-from model.ico import site_ico_new, site_ico_bind
+from model.ico import site_ico_bind
 from zkit.pic import pic_fit_width_cut_height_if_large
 from urlparse import urlparse
 from model.po_product import Po, po_product_new, po_product_update, product_id_list_by_com_id, product_rm, product_list_by_com_id, product_pic_new

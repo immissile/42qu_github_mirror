@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from _handler import Base, LoginBase, XsrfGetBase
+from _handler import Base, LoginBase
 from ctrl._urlmap.com import urlmap
-from ctrl._util.site import _SiteListBase as _ComListBase, FavBase, MyBase
+from ctrl._util.site import _SiteListBase as _ComListBase, MyBase
 from model.cid import CID_COM
-from model.zsite_com import zsite_com_count, zsite_com_list, com_new, zsite_com_place_new
+from model.zsite_com import zsite_com_count, com_new, zsite_com_place_new
 from model.ico import site_ico_new, site_ico_bind
 from zkit.jsdict import JsDict
 from model.motto import motto_set

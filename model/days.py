@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from time import time, mktime, strptime, strftime, timezone
+from time import time, mktime, strptime, timezone
 import datetime
 import  re
 

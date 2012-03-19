@@ -591,3 +591,13 @@ margin-right:14px;
 display:inline-block;
 vertical-align:10px;
 }
+.pop_reply_po_link{
+display:inline-block;
+width:16px;
+height:16px;
+vertical-align:-1px;
+background:url(/img/png/permalink_light.png) no-repeat 0 0;
+}
+.pop_reply_po_link:hover{
+background:url(/img/png/permalink_dark.png) no-repeat 0 0;
+}

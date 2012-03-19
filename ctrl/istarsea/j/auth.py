@@ -1,11 +1,9 @@
 #coding:utf-8
 from ctrl._urlmap_istarsea.j import urlmap
 from _handler import JLoginBase
-from zkit.errtip import Errtip
-from model.user_auth import user_password_verify, UserPassword, user_password_new
+from model.user_auth import UserPassword, user_password_new
 from model.user_info import user_info_new, UserInfo as _UserInfo
-from zkit.escape import utf8, native_str, parse_qs_bytes
-from model.user_school import user_school_new
+from zkit.escape import utf8
 from ctrl.me.i import save_school, save_career, save_user_info, save_link
 
 @urlmap('/j/auth/guide/1')

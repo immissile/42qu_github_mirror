@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum
 from zkit.import_msn.get_friend_list import get_friend_list as msn_friend_get
 #from zkit.google.ginvite import load_friend

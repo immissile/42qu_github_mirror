@@ -4,9 +4,7 @@
 import _env
 import urllib2
 from zkit.htm2txt import htm2txt
-from urllib2 import urlopen
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
-import os.path as path
 from zkit.spider import Rolling, Fetch, NoCacheFetch, GSpider
 from time import sleep
 from os.path import exists

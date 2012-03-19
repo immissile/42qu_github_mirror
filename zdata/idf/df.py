@@ -2,11 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import _env
-import os
 from collections import defaultdict
-from math import log
 from mmseg import seg_txt
-from yajl import loads
 
 from os.path import join
 from zkit.tofromfile import tofile, fromfile

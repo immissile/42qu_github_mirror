@@ -3,7 +3,6 @@
 from autocomplete import autocomplete_tag
 from autocomplete_user import autocomplete_user
 from cid import CID_USER, CID_TAG
-from itertools import izip_longest
 from collections import defaultdict
 from zkit.zitertools import roundrobin
 

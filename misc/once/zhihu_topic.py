@@ -1,5 +1,4 @@
 import urllib2
-from urllib2 import urlopen
 from urllib import urlencode
 from json import loads
 import _env

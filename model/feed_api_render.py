@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER
+from cid import CID_WORD, CID_ANSWER
 from po import Po
 from feed_render import zsite_id_list_by_follow
-from feed import MAXINT, PAGE_LIMIT
+from feed import PAGE_LIMIT
 from feed_po import feed_po_iter, FeedPoMerge, mc_feed_po_dict, mc_feed_user_dict
 from zsite import Zsite
-from model.txt2htm import txt_withlink
 from zkit.mc_func import mc_func_get_list, mc_func_get_dict
 from txt import txt_get
 

@@ -1,9 +1,7 @@
 #coding:utf-8
 import _env
-import mmseg
-from os.path import abspath, dirname, join
+from os.path import abspath, join
 from json import loads
-from urllib import quote
 from zkit.pprint import pformat
 from zhihu_topic_data import ZHIHU_TOPIC
 

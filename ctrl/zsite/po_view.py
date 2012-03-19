@@ -4,9 +4,9 @@ from _handler import ZsiteBase, LoginBase, XsrfGetBase, login,Base
 from ctrl._urlmap.zsite import urlmap
 from model.po_prev_next import po_prev_next
 from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
-from model.po import po_rm, po_word_new, Po, STATE_SECRET, STATE_ACTIVE, po_list_count, po_view_list, CID_QUESTION, PO_EN, PO_SHARE_FAV_CID, reply_rm_if_can
+from model.po import po_rm, Po, STATE_SECRET, STATE_ACTIVE, po_list_count, po_view_list, CID_QUESTION, PO_EN, PO_SHARE_FAV_CID, reply_rm_if_can
 from model.po_question import po_answer_new
-from model.po_pos import po_pos_get, po_pos_mark, po_pos_state, STATE_BUZZ, po_pos_state_buzz
+from model.po_pos import po_pos_get, po_pos_state, STATE_BUZZ, po_pos_state_buzz
 from model import reply
 from model.zsite import Zsite, user_can_reply
 from model.zsite_tag import zsite_tag_list_by_zsite_id, po_id_list_by_zsite_tag_id_cid, zsite_tag_cid_count

@@ -1,5 +1,5 @@
 #coding:utf-8
-from os.path import abspath, dirname, join, normpath
+from os.path import abspath, dirname, normpath
 import sys
 
 #初始化python的查找路径

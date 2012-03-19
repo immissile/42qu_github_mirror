@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import sys
 from _db import McModel, McCache, cursor_by_table, McCacheA, McCacheM
 from oauth_update import sync_by_oauth_id
-from oauth import OauthToken
 from config import SITE_DOMAIN
 from cid import CID_EVENT, CID_NOTE, CID_WORD, CID_AUDIO, CID_VIDEO, CID_PHOTO, CID_REVIEW
 from zkit.txt import cnencut

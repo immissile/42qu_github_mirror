@@ -3,10 +3,9 @@
 
 import _env
 import datetime
-from model.kv_misc import kv_int_call, KV_EVENT_STATE
+from model.kv_misc import KV_EVENT_STATE
 from model._db import cursor_by_table
 from model.mail import sendmail
-import time
 from config import MQ_FAIL_MAIL_ADDR
 
 def main():

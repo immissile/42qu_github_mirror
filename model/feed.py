@@ -1,12 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sys
-from state import STATE_RM, STATE_SECRET, STATE_ACTIVE
+from state import STATE_RM, STATE_ACTIVE
 from _db import McModel, McCache, cursor_by_table, McCacheA, McCacheM
 from mq import mq_client
-from zkit.algorithm.merge import imerge
-from gid import gid
 from zkit.feed_merge import MAXINT, merge_iter as _merge_iter
 from cid import CID_REC
 

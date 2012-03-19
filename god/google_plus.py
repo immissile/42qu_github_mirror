@@ -2,11 +2,10 @@
 # -*- coding: utf-8 -*-
 from _handler import Base
 from _urlmap import urlmap
-from model.google_plus import google_uid_by_link, GOOGLE_PLUS_URL, google_rank_new_by_html, google_rank_by_uid, GoogleRank, GOOGLE_PLUS_URL_PROXY
+from model.google_plus import google_uid_by_link, google_rank_new_by_html, google_rank_by_uid, GoogleRank, GOOGLE_PLUS_URL_PROXY
 from zkit.page import page_limit_offset
 from tornado import httpclient
 import tornado.web
-import logging
 
 
 @urlmap('/google_plus')

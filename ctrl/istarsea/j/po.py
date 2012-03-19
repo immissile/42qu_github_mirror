@@ -5,7 +5,7 @@ from ctrl._urlmap_istarsea.j import urlmap
 from model.zsite_url import zsite_by_domain
 from _handler import JLoginBase
 from model.fs import fs_url_jpg
-from model.po import Po, CID_WORD, CID_NOTE, po_word_new
+from model.po import Po, CID_WORD, po_word_new
 from model.po_pic import pic_can_add, po_pic_new, po_pic_rm
 from model.po_question import answer_word2note
 from model.zsite import user_can_reply

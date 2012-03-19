@@ -3,7 +3,7 @@
 from _db import McModel, McCache, cursor_by_table, McCacheA, McCacheM
 from zkit.algorithm.merge import imerge
 from state import STATE_ACTIVE
-from feed import MAXINT, PAGE_LIMIT
+from feed import PAGE_LIMIT
 
 mc_feed_user_dict = McCacheM('FeedUserDict.%s')
 mc_feed_po_iter = McCacheA('FeedPoIter.%s')

@@ -3,10 +3,9 @@
 
 import _db
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM, McCacheA, McLimitA
-from model.zsite import zsite_new, ZSITE_STATE_ACTIVE, Zsite, ZSITE_STATE_VERIFY
+from model.zsite import zsite_new, Zsite, ZSITE_STATE_VERIFY
 from model.cid import CID_COM
-from model.zsite_admin import zsite_admin_new, zsite_user_state, zsite_id_list_by_admin_id_sample, zsite_by_admin_id_count, zsite_id_list_by_admin_id
-from model.zsite_show import zsite_show_new
+from model.zsite_admin import zsite_user_state, zsite_id_list_by_admin_id_sample, zsite_by_admin_id_count, zsite_id_list_by_admin_id
 from model.buzz import mq_buzz_site_new
 from model.search_zsite import search_new
 from model.zsite_list import ZsiteList, zsite_list_new

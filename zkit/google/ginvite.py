@@ -1,7 +1,6 @@
 import gdata.contacts
 import gdata.contacts.service
 import gdata.auth
-from gdata.service import RequestError
 
 SIG_METHOD = gdata.auth.OAuthSignatureMethod.HMAC_SHA1
 #try:

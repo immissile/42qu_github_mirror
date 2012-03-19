@@ -1,4 +1,4 @@
-import sys, os
+import os
 import marshal
 class SimpleCached:
     ' cache obj in local process, wrapper for memcache '

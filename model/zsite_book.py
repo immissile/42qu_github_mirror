@@ -3,10 +3,9 @@
 
 import _db
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM, McCacheA, McLimitA
-from model.zsite import zsite_new, ZSITE_STATE_ACTIVE, Zsite, ZSITE_STATE_VERIFY
+from model.zsite import zsite_new, Zsite, ZSITE_STATE_VERIFY
 from model.cid import CID_BOOK
 from txt import txt_new
-from time import time
 from model.days import today_days, days2today
 
 # DROP TABLE IF EXISTS `zpage`.`zsite_book_lib`;

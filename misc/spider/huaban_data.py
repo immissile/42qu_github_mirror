@@ -1,7 +1,6 @@
 #coding:utf-8
 import _env
-from zkit.pprint import pprint
-from yajl import loads, dumps
+from yajl import loads
 #{
 #  u'board_id': 5,
 #  u'comment_count': 0,

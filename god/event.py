@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 from _handler import Base
 from _urlmap import urlmap
-from model.user_mail import mail_by_user_id
-from model.mail import sendmail
 from model.event import Event, event_review_yes, event_review_no, EVENT_STATE_TO_REVIEW, event_new
 from model.po import Po
 from zkit.page import page_limit_offset

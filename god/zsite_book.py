@@ -2,9 +2,7 @@
 # -*- coding: utf-8 -*-
 from _handler import Base
 from _urlmap import urlmap
-from tornado import httpclient
 import tornado.web
-import logging
 from model.zsite_book import zsite_book_new, zsite_book_id_by_isbn, ZsiteBook, Zsite, zsite_book_lib_new, zsite_book_lib, ZsiteBookLib, zsite_book_lib_browse, zsite_book_lib_return, ZSITE_BOOK_LIB_STATE_EXIST, zsite_book_lib_rm
 from model.user_mail import user_id_by_mail
 from model.user_new import user_new

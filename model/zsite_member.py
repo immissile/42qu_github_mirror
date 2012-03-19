@@ -1,10 +1,8 @@
 #coding:utf-8
-from _db import Model
 from config import SITE_HTTP
-from model.mail import mq_rendermail, rendermail
-from model.zsite_list import zsite_list, zsite_list_new, STATE_RM, STATE_ACTIVE, zsite_list_get, zsite_list_id_get, zsite_list_rm, zsite_list_count_by_zsite_id , zsite_list_id_state, ZsiteList, zsite_id_list_by_zsite_id, STATE_ADMIN , STATE_OWNER, zsite_list_by_zsite_id_state, STATE_INVITE, zsite_id_list_order_id_desc, ZsiteList
-from model.zsite import Zsite, ZSITE_STATE_APPLY
-from model.cid import CID_ZSITE_TUPLE_LIST_MEMBER, CID_VERIFY_MAIL, CID_USER
+from model.zsite_list import zsite_list, zsite_list_new, STATE_RM, STATE_ACTIVE, zsite_list_rm, zsite_list_count_by_zsite_id , zsite_list_id_state, ZsiteList, zsite_id_list_by_zsite_id, STATE_ADMIN , STATE_OWNER, zsite_list_by_zsite_id_state, STATE_INVITE, zsite_id_list_order_id_desc, ZsiteList
+from model.zsite import Zsite
+from model.cid import CID_ZSITE_TUPLE_LIST_MEMBER
 from model.po_review import po_review_state_set, po_review_list_active_by_zsite_id
 from career import career_bind
 

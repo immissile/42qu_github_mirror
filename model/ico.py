@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from fs import fs_set_jpg, fs_url_jpg, fs_file_jpg, fs_get_jpg
+from fs import fs_set_jpg, fs_url_jpg, fs_get_jpg
 from kv import Kv
 from cid import CID_ICO, CID_ICO96, CID_SITE_ICO
-from zkit.pic import pic_square, picopen, pic_zoom_inner, pic_fit_height_if_high, pic_resize_width_cut_height_if_large
-from pic import pic_new, pic_save, pic_new_save, Pic
-import Image
+from zkit.pic import pic_square, picopen, pic_fit_height_if_high, pic_resize_width_cut_height_if_large
+from pic import pic_new, pic_new_save, Pic
 from config import FS_URL
 
 ico = Kv('ico', 0)

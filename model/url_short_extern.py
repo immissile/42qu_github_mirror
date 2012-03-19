@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _db import Model
 from zsql.hash import by_hash, save_hash
-from zkit.shorturl import t_cn, dwz_cn, curt_cc, xrl_us
+from zkit.shorturl import t_cn, dwz_cn, curt_cc
 
 
 SHORTURL_CID_SINA = 1

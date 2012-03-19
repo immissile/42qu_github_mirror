@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM, McCacheA
+from _db import Model, McModel, McCache, McNum, McCacheA, McCacheM, McCacheA
 from zkit.job import JOBKIND2CN
 from zsite_com import pid_by_com_id
 from zkit.attrcache import attrcache

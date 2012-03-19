@@ -1,9 +1,8 @@
 #coding:utf-8
 
 import _env
-from json import dumps, loads
+from json import loads
 from zhihu_topic_data_with_follow import ZHIHU_TOPIC
-from zkit.pprint import pprint
 from name2id import NAME2ID
 from zdata.tag.name_tidy import name_tidy
 from zhihu_topic_url2id import ID2MY

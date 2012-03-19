@@ -5,8 +5,8 @@ from ctrl._urlmap.j import urlmap
 from model.po_recommend import po_recommend_new
 from model.po import Po, PO_SHARE_FAV_CID
 from yajl import dumps
-from model.vote import vote_down_x, vote_down, vote_up_x, vote_up
-from model.feed_render import MAXINT, PAGE_LIMIT, render_feed_by_zsite_id, FEED_TUPLE_DEFAULT_LEN, dump_zsite
+from model.vote import vote_down_x, vote_down, vote_up
+from model.feed_render import MAXINT, PAGE_LIMIT, render_feed_by_zsite_id, FEED_TUPLE_DEFAULT_LEN
 from model.feed import feed_rm
 from model.ico import pic_url_with_default
 from model.cid import CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_WORD, CID_EVENT
@@ -262,4 +262,8 @@ class FdTxt(Base):
             result = ''
         self.finish(result)
 
-
+@urlmap('/j/feed/pic')
+class FeedPic(JLoginBase):
+    def get(self):
+        result = [[65 , 0 , 10002411 , '玛娜法鲁岛' ,'是休闲式度假村，拥有着马尔夫的传统，同时与朴素、高雅亚洲风情配合得天衣无缝。这个度假村让您在马尔代夫享受到宁静舒适的服务。' ,['p.realfex.xxx',191830 , 440, 658 ],[ 'realfex' ,10245025],[[10000001,'张沈鹏',10003201,'美得让人颤抖。。'],[10000002,'subdragen',10003292,'不错不错，很好看，剩余的内容呢，还是算了。']],[[1000003,'金正日'],[10000004,'东方不败2000']]]]*20
+        self.finish(dumps(result))

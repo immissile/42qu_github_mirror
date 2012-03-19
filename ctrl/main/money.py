@@ -4,9 +4,9 @@ from _handler import Base
 from ctrl._urlmap.main import urlmap
 from config import SITE_URL
 from model.money_alipay import alipay_url_recall
-from model.money import pay_new, TRADE_STATE_NEW, TRADE_STATE_ONWAY, TRADE_STATE_FINISH, pay_account_get, bank, Trade, trade_log, pay_notice
+from model.money import pay_new, TRADE_STATE_ONWAY, TRADE_STATE_FINISH, pay_account_get, bank, Trade, trade_log
 from model.zsite import Zsite
-from model.cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_PAY, CID_TRADE_DEAL, CID_TRADE_EVENT
+from model.cid import CID_TRADE_CHARDE, CID_TRADE_DEAL, CID_TRADE_EVENT
 from model.zsite import Zsite
 from model.money import Trade
 from model.po import Po

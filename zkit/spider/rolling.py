@@ -4,9 +4,7 @@
 
 import _env
 from gspider import GSpider
-from collections import  defaultdict
-import os
-from gevent import monkey, queue
+from gevent import queue
 import Queue
 from urlfetch import Fetch, fetch
 

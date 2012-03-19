@@ -3,7 +3,7 @@
 from _db import Model, McModel, McCache
 from time import time
 from fs import fs_set_jpg, fs_url_jpg
-from cid import CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
+from cid import CID_ICO, CID_ICO96, CID_PIC
 from mail import rendermail
 
 

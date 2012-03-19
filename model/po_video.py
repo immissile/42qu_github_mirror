@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import re
 from _db import Model, McModel, McCache, McCacheA, McNum, McCacheM
 from cid import CID_VIDEO
-from model.po import po_new , txt_new , is_same_post , STATE_SECRET, STATE_ACTIVE, time_title
-from video_swf import video_filter, video_link_by_cid_uri, VIDEO_CID2LINK_AUTOPLAY, _HTM_SWF
+from model.po import po_new , txt_new , is_same_post , STATE_SECRET, time_title
+from video_swf import video_link_by_cid_uri, VIDEO_CID2LINK_AUTOPLAY, _HTM_SWF
 
 mc_video_uri = McCache('VideoUri:%s')
 
@@ -48,10 +47,11 @@ def po_video_new(user_id, name, txt, uri, video_site, state, zsite_id):
             CID_VIDEO, user_id, name, state, video_site,
             zsite_id=zsite_id
         )
-        video_new(m.id , uri)
-        m.txt_set(txt)
-        m.feed_new()
-        return m
+        if m:
+            video_new(m.id , uri)
+            m.txt_set(txt)
+            m.feed_new()
+            return m
 
 
 if __name__ == '__main__':

@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 #coding:utf-8
 
-import urllib
 import urllib2
-import httplib
 import traceback
 import time
 import sys

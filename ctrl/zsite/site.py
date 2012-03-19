@@ -4,7 +4,6 @@
 from ctrl._urlmap.zsite import urlmap
 from model.motto import motto_get
 from _handler_site import SiteBase, LoginBase, XsrfGetBase, AdminBase
-from model.zsite_admin import admin_id_list_by_zsite_id
 from model.zsite_site import site_can_admin
 from zkit.jsdict import JsDict
 from model.zsite_link import link_list_cid_by_zsite_id, SITE_LINK_ZSITE_DICT, link_list_save

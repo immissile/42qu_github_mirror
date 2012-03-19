@@ -134,6 +134,8 @@ $(".bzlive").live("click",function(){
 				}
 				prebottom = self.offset().top + this.offsetHeight;
 			})
+            //TODO ADD
+            //picwall_render()
         }
     )
 
@@ -254,6 +256,100 @@ $(".buzzX").click(function(){
         $.postJSON( '/j/buzz/'+rel+"/x")
     }
     $(this).parents('.buzz_box').hide() 
+});
+
+(function(){
+
+$.template(
+    'side_pic',
+    '<div class="side_pic_wrap">'+
+        '<div class="side_pic_main">'+
+            '{{if $data[5].length}}'+
+                '<img width="226" class="side_pic_img" src="http://${$data[5][0]}/721/342/${$data[5][1]}.jpg" />'+
+            '{{/if}}'+
+            '<div class="side_pic_content">'+
+                '{{if $data[6].length}}'+
+                '<a class="TPH c9" href="http://${$data[6][0]}${HOST_SUFFIX}" target="_blank">${$data[6][1]}</a>'+
+                '{{/if}}'+
+                '  : ${$data[4]}'+
+            '</div>'+
+        '</div>'+
+        '<div class="side_pic_opt">'+
+            '<a class="side_pic_a" href="javascript:fcm(${$data[0]},${$data[5]});void(0)">评论</a>'+
+            '<a class="side_pic_a" href="javascript:void(0)">收藏</a>'+
+         '<a class="side_pic_a" href="javascript:share(${$data[0]});void(0)">推荐</a>'+
+        '</div>'+
+        '{{if $data[7].length && $data[8].length}}'+
+        '<div class="side_pic_rec_wrap"><div class="side_pic_rec_wrap_in">'+
+        '{{each $data[7]}}'+
+            '<div class="side_pic_rec">'+
+                '<a href="http://${$value[0]}${HOST_SUFFIX}" class="c9">${$value[1]}</a> 推荐 : '+
+                '<span class="side_pic_rec_cont">${$value[3]}</span>'+
+            '</div>'+
+        '{{/each}}'+
+        '{{if $data[8].length}}'+
+            '<div class="side_pic_rec_short">'+
+            '{{each $data[8]}}'+
+                '<a href="http://${$value[0]}${HOST_SUFFIX}" class="c9" style="margin-right:6px;">${$value[1]}</a>'+
+            '{{/each}}'+
+            ' 等推荐</div>'+
+        '{{/if}}'+
+        '</div></div>'+
+        '{{/if}}'+
+    '</div>'
+);
+
+var PICWALL_BUFF = [], pic_wall=$('#picwall');
+
+function picwall_get(){
+    if(!PICWALL_BUFF)return;
+    if(PICWALL_BUFF.length){
+        return PICWALL_BUFF.shift()
+    }
+    PICWALL_BUFF=0
+    $.getJSON(
+        '/j/feed/pic',
+        function(result){
+            PICWALL_BUFF = result
+            if(PICWALL_BUFF.length){
+                picwall_render()
+            }else{
+                PICWALL_BUFF = 0
+            }
+        }
+    ) 
+}
+
+function picwall_break(pic){
+    var ctrl = false,
+        buzz_height = $('#buzz_win_reply').height() + $('#buzz_win_at').height();
+    //TODO fix with top + height
+    if((picwall.height()+buzz_height+200>$('#feeds').height()) || !pic){
+        ctrl = true
+    }
+    return ctrl
+}
+
+picwall_render = function(){
+    while(1){
+        pic = picwall_get()
+        if(picwall_break(pic))break;
+        picwall.append($.tmpl('side_pic',[pic]))
+    }
+}
+
+$('.side_pic_img').live('click',function(){
+    var self = $(this),
+        hei = $(window).height(),
+        fancybox = $.fancybox
+   
+    //TODO 大图&小图
+   
+    fancybox.showActivity()
+    fancybox({
+        'content':'<img src='+self.attr('src')+' style="max-height:'+(hei-90)+'px;"/>'
+    })
 })
 
+})();
 

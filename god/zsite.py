@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import urllib
 from _handler import Base
 from _urlmap import urlmap
 from model.zsite import Zsite,   zsite_name_rm, ZSITE_STATE_ACTIVE 
 from model.zsite_show import zsite_show_new, zsite_show_rm
-from model.zsite_url import url_new
 from model.user_mail import mail_by_user_id
 from model.mail import sendmail
 from model.cid import CID_ZSITE_TUPLE, CID_USER

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import _env
-from model.zsite import Zsite, ZSITE_STATE_VERIFY, ZSITE_STATE_CAN_REPLY, ZSITE_STATE_APPLY
-from model.user_mail import UserMail, MAIL_LOGIN, MAIL_VERIFIED, MAIL_UNVERIFY
+from model.zsite import Zsite, ZSITE_STATE_VERIFY, ZSITE_STATE_APPLY
+from model.user_mail import UserMail, MAIL_LOGIN, MAIL_UNVERIFY
 
 
 def check():

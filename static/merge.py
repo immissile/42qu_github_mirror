@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from base64 import urlsafe_b64encode
-from glob import glob
 from hashlib import md5
-from os import makedirs, walk
+from os import walk
 from os.path import dirname, join, abspath, basename, exists
 from shutil  import copyfile
-from struct import pack, unpack
+from struct import pack
 from zlib import crc32
 import re
 import subprocess

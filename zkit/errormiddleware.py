@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 #coding:utf-8
 import sys
-from cgi import escape
 from traceback import format_exc
 import logging
 from tornado.web import HTTPError, httplib

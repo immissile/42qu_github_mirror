@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCacheA, McCache, McCacheM, McLimitA, McNum
 from tag import Tag, tag_new
-from model.cid import CID_PHOTO, CID_PO
+from model.cid import CID_PO
 from zweb.orm import ormiter
 from po import Po, po_id_list
 
