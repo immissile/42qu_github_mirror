@@ -46,7 +46,7 @@ zsite_tag_po_count = McNum(
 )
 
 REDIS_ALIAS = 'TagAlias:%s'
-EDIS_ALIAS_NAME2IDD = 'AliasName2Id'
+REDIS_ALIAS_NAME2ID = 'AliasName2Id'
 
 REDIS_TAG_CID = 'TagCid:%s:%s'
 REDIS_TAG_CID_COUNT = 'TagCid=%s'
