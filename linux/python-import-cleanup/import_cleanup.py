@@ -47,7 +47,7 @@ for flakeline in fh.readlines():
         fname = flakeline.strip()
         rfh = open(filename, 'r')
         line = rfh.readlines()[int(linenumber)-1]
-        if import_ignore(line):
+        if import_ignore(filename, line):
             continue
         print('----------------------------------------')
         print(fname)
