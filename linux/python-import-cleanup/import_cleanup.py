@@ -44,13 +44,13 @@ for flakeline in fh.readlines():
     match = re.match(unused_import, flakeline)
     if match:
         filename, linenumber, name = match.groups(1)
-        name = flakeline.strip()
+        fname = flakeline.strip()
         rfh = open(filename, 'r')
         line = rfh.readlines()[int(linenumber)-1]
         if import_ignore(line):
             continue
         print('----------------------------------------')
-        print(name)
+        print(fname)
         new_line = line
         new_line = new_line.replace(', '+name+'\n', '\n').replace(
             ' '+name+'\n', '\n').replace(' '+name+', ', ' ')
@@ -61,8 +61,11 @@ for flakeline in fh.readlines():
         print('----------------------------------------')
         replace = raw_input("Do you want to remove this import? [y/N] ")
         if replace.lower() == 'y':
-            lazy_replace_line(filename, line, new_line)
 
-            commit_replace_line()
+            if filename_pre and filename != filename_pre: 
+                for rep in replacements:
+                    print(rep)
+                commit_replace_line()
+            lazy_replace_line(filename, line, new_line)
 
         filename_pre = filename
