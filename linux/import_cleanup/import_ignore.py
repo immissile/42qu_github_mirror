@@ -2,6 +2,8 @@
 IMPORT_IGNORE = set(filter(bool,map(str.strip,"""
 config
 config.dev
+_db
+_url
 _env
 """.strip().split("\n"))))
 
