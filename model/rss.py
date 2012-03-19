@@ -53,7 +53,14 @@ def rss_link_by_po_id(id):
         if rss_po:
             return rss_po.link
 
+mc_rss_name = McCache("RssName:%s")
 
+@mc_rss_name("{id}")
+def rss_name_by_rss_id(id):
+    rss = Rss.mc_get(id)
+    if rss:
+        return rss.name
+    return ""
 
 class Rss(McModel):
     pass
